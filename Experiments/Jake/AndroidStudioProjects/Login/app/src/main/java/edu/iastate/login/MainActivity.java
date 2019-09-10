@@ -40,23 +40,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void validate(String userName, String userPassword){
-        if((userName == "Admin") && (userPassword == "pass")){
+        if((userName == "User") && (userPassword == "password")){
 
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
+            Intent i = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(i);
+
         }else{
 
             loginAttemps--;
             loginAttempsTextView.setText("Incorrect User Name or Password" + "\n" +
-                    "Login Attemps Left: " + loginAttemps);
+                    "Login Attemps Left: " + loginAttemps
+                    + "\n" + userName + " " + userPassword);
 
             if (loginAttemps == 0){
                 loginbtn.setEnabled(false);
-                int i = 0;
-                while(i < 1000000){
-                    i++;
-                }
-                loginbtn.setEnabled(true);
 
             }
         }
