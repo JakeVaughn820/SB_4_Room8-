@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D39EDB"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textOutput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="100dp"
+        android:text="0"
+        android:textSize="80dp" />
+
+    <Button
+        android:id="@+id/buttonCalculate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textToDecimal"
+        android:layout_centerHorizontal="true"
+        android:background="#1778C7"
+        android:text="Calculate"
+        android:textSize="50dp" />
+
+    <TextView
+        android:id="@+id/textConvert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textOutput"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="-50dp"
+        android:text="Convert"
+        android:textSize="60dp" />
+
+    <TextView
+        android:id="@+id/textToDecimal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textConvert"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="80dp"
+        android:text="To Decimal"
+        android:textSize="49dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="400dp"
+        android:ems="10"
+        android:hint="Enter Binary Number"
+        android:inputType="number"
+        android:textSize="30dp" />
+
+</RelativeLayout>
