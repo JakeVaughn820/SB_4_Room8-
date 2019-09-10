@@ -27,7 +27,12 @@ public class MainActivity extends AppCompatActivity {
         calculate.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-
+                int binaryTotal = 0;
+                binaryTotal += Character.getNumericValue(binaryInput.getText().toString().charAt(3));
+                binaryTotal += Character.getNumericValue(binaryInput.getText().toString().charAt(2))*2;
+                binaryTotal += Character.getNumericValue(binaryInput.getText().toString().charAt(1))*4;
+                binaryTotal += Character.getNumericValue(binaryInput.getText().toString().charAt(0))*8;
+                total.setText(Integer.toString(binaryTotal));
             }
         });
     }
