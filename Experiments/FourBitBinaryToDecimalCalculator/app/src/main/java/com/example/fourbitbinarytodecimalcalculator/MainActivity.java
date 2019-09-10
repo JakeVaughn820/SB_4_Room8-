@@ -28,11 +28,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 int binaryTotal = 0;
-                binaryTotal += Character.getNumericValue(binaryInput.getText().toString().charAt(3));
-                binaryTotal += Character.getNumericValue(binaryInput.getText().toString().charAt(2))*2;
-                binaryTotal += Character.getNumericValue(binaryInput.getText().toString().charAt(1))*4;
-                binaryTotal += Character.getNumericValue(binaryInput.getText().toString().charAt(0))*8;
-                total.setText(Integer.toString(binaryTotal));
+                boolean invalidInput = false;
+                int length = binaryInput.length();
+                for(int i = 0; i<length; i++){ //loop will go through for every bit and multiply by necessary power of 2.
+                    if(Character.getNumericValue(binaryInput.getText().toString().charAt(i))>=2){
+                        invalidInput = true;
+                    }
+                    binaryTotal += Character.getNumericValue(binaryInput.getText().toString().charAt(i))*Math.pow(2, length-1-i);
+                }
+                if(invalidInput==false){ //if there was an invalid input just output invalid.
+                    total.setText(Integer.toString(binaryTotal));
+                }else{
+                    total.setText("Invalid");
+                }
+                invalidInput = false;
             }
         });
     }

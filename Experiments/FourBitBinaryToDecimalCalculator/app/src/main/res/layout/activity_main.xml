@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_margin="50dp"
         android:text="0"
         android:textSize="80dp" />
 
@@ -40,7 +39,7 @@
         android:id="@+id/textToDecimal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textConvert"
+        android:layout_below="@id/editText"
         android:layout_centerHorizontal="true"
         android:layout_margin="80dp"
         android:text="To Decimal"
@@ -52,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:layout_margin="290dp"
+        android:layout_below="@id/textConvert"
         android:hint="Enter Binary Number"
         android:inputType="number"
         android:textSize="30dp" />
