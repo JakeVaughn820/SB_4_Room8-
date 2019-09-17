@@ -1,0 +1,11 @@
+sudo grep "temporary password" /var/log/mysqld.log | tail -n 1
+
+fRZlS-Ywu1Xy
+
+GIT stuff
+
+Cd to cloned folder
+Git pull
+Git add.
+Git commit -m "message"
+Git push -u origin master 
