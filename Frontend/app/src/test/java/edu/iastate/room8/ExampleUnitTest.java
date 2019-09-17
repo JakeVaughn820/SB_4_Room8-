@@ -1,4 +1,4 @@
-package com.example.frontenddevelopment;
+package edu.iastate.room8;
 
 import org.junit.Test;
 

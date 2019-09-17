@@ -1,4 +1,4 @@
-package com.example.frontenddevelopment;
+package edu.iastate.room8;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.frontenddevelopment", appContext.getPackageName());
+        assertEquals("edu.iastate.room8", appContext.getPackageName());
     }
 }
