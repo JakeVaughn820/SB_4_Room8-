@@ -36,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
                 validate(userNameEditText.getText().toString(), passwordEditText.getText().toString());
             }
         });
+
+        signUpBtn.setOnClickListener(new View.OnClickListener(){
+           @Override
+           public void onClick(View view){
+               Intent i = new Intent(MainActivity.this, RegisterActivity.class);
+               startActivity(i);
+            }
+        });
     }
 
     private void validate(String userName, String userPassword){
