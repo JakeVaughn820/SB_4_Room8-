@@ -1,6 +1,10 @@
 sudo grep "temporary password" /var/log/mysqld.log | tail -n 1
 
-fRZlS-Ywu1Xy
+ mysql -uroot -p
+
+New Root Password: SB_4projuser
+
+Old Temporary Password: fRZlS-Ywu1Xy
 
 GIT stuff
 
