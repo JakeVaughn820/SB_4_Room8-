@@ -24,7 +24,8 @@ public class ListActivity extends AppCompatActivity {
         newList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
+                //TODO, actually create the new list item.
+                //TODO see how to use the newly implemented volley stuff with backend
             }
         });
     }
