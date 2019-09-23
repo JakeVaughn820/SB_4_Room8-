@@ -6,24 +6,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-public class HomeActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity {
 
-    private Button tempButton;
+    private Button newList;
+    private EditText newListName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_list);
 
-        tempButton = findViewById(R.id.tempButton);
-        tempButton.setOnClickListener(new View.OnClickListener() {
+        newList = findViewById(R.id.newList);
+        newListName = findViewById(R.id.newListName);
+
+        newList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, ListActivity.class);
-                startActivity(i);
+                //TODO
             }
         });
     }
-
 }
