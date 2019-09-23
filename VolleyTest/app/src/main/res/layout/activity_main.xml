@@ -16,7 +16,7 @@
 
     <Button
         android:id="@+id/button_parse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="156dp"
+        android:layout_height="85dp"
         android:text="parse" />
 </RelativeLayout>

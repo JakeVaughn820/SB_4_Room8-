@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/166f8h";
+        String url = "https://api.myjson.com/bins/rlimp";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
