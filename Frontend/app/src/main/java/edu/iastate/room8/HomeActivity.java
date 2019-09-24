@@ -20,7 +20,7 @@ public class HomeActivity extends AppCompatActivity {
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, NewListActivity.class);
+                Intent i = new Intent(HomeActivity.this, MainListActivity.class);
                 startActivity(i);
             }
         });

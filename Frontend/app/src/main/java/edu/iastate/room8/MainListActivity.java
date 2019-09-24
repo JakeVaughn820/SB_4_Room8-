@@ -14,8 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +31,7 @@ public class MainListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_list);
 
-        btn = findViewById(R.id.btn);
+        btn = findViewById(R.id.btn_create_new_list);
         Text_View_List = findViewById(R.id.Text_View_List);
         mQueue = Volley.newRequestQueue(this);
 
@@ -41,7 +39,8 @@ public class MainListActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jsonParse();
+                Intent i = new Intent(MainListActivity.this, NewListActivity.class);
+                startActivity(i);
             }
         });
 //        fab_Create_New_List.setOnClickListener(new View.OnClickListener() {
@@ -54,8 +53,7 @@ public class MainListActivity extends AppCompatActivity {
 //            }
 //        });
 
-        Text_View_List.append("Help");
-
+        jsonParse();
 
     }
 
