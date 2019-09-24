@@ -2,21 +2,17 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import edu.iastate.room8.utils.*;
-import edu.iastate.room8.app.*;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -24,16 +20,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ListActivity extends AppCompatActivity {
+public class NewListActivity extends AppCompatActivity {
 
-    private TextView mTextViewResult;
     private EditText newListName;
     private Button btn_back;
-    private RequestQueue mQueue;
-    private TextView Text_View_List;
-    private TextView msgResponse;
     private Button newList;
-    private String TAG = ListActivity.class.getSimpleName();
+    private String TAG = NewListActivity.class.getSimpleName();
 
     // These tags will be used to cancel the requests
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -41,22 +33,28 @@ public class ListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list);
-        msgResponse = findViewById(R.id.msgResponse);
-        mTextViewResult = findViewById(R.id.text_view_result);
+        setContentView(R.layout.activity_new_list);
+
         newList = findViewById(R.id.newList);
         newListName = findViewById(R.id.newListName);
         btn_back = findViewById(R.id.btn_back);
-        Text_View_List = findViewById(R.id.Text_View_List);
 
-        mQueue = Volley.newRequestQueue(this);
+
+
 
         newList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                jsonParse();
                 //TODO, actually create the new list item.
                 //TODO see how to use the newly implemented volley stuff with backend
+            }
+        });
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(NewListActivity.this, MainListActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -87,37 +85,4 @@ public class ListActivity extends AppCompatActivity {
 //        // ApplicationController.getInstance().getRequestQueue().cancelAll(tag_json_arry);
 //    }
 
-    private void jsonParse() {
-        String url = "\"https://api.androidhive.info/volley/person_array.json";
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("List");
-
-                            for (int i = 0; i < jsonArray.length(); i++){
-                                JSONObject List = jsonArray.getJSONObject(i);
-
-                                String id = List.getString("id");
-                                String contents = List.getString("contents");
-                                String dateCreate = List.getString("dateCreate");
-
-                                mTextViewResult.append("* " + contents + "\n");
-                                Text_View_List.append("* " + contents + "\n");
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-
-        mQueue.add(request);
-    }
 }
