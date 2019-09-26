@@ -77,6 +77,7 @@ public class MainListActivity extends AppCompatActivity {
                                 Text_View_List.append("* " + contents + "\n");
                             }
                         } catch (JSONException e) {
+                            Text_View_List.setText("Something went wrong!>!>!>");
                             e.printStackTrace();
                         }
                     }
