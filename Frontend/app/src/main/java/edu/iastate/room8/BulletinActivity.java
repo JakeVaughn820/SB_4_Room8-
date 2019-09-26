@@ -2,10 +2,7 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -19,46 +16,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainListActivity extends AppCompatActivity {
-
+public class BulletinActivity extends AppCompatActivity {
+    private TextView textView;
     private RequestQueue mQueue;
-    private TextView Text_View_List;
-    private Button btn;
-    //private FloatingActionButton fab_Create_New_List = findViewById(R.id.fab_Create_New_List);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_list);
-
-        btn = findViewById(R.id.btn_create_new_list);
-        Text_View_List = findViewById(R.id.Text_View_List);
+        setContentView(R.layout.activity_bulletin);
         mQueue = Volley.newRequestQueue(this);
-
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainListActivity.this, NewListActivity.class);
-                startActivity(i);
-            }
-        });
-//        fab_Create_New_List.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//                Intent i = new Intent(MainListActivity.this, NewListActivity.class);
-//                startActivity(i);
-//            }
-//        });
-
+        textView = findViewById(R.id.textView);
         jsonParse();
 
     }
-
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/rlimp";
+        String url = "https://api.myjson.com/bins/7clyt";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -74,10 +45,10 @@ public class MainListActivity extends AppCompatActivity {
                                 String contents = List.getString("contents");
                                 String dateCreate = List.getString("dateCreate");
 
-                                Text_View_List.append("* " + contents + "\n");
+                                textView.append(id + ": " + contents + "    " + dateCreate + "\n");
                             }
                         } catch (JSONException e) {
-                            Text_View_List.setText("Something went wrong!>!>!>");
+                            textView.setText("Something went wrong!>!>!>");
                             e.printStackTrace();
                         }
                     }
