@@ -29,7 +29,7 @@ public class BulletinActivity extends AppCompatActivity {
 
     }
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/rlimp";
+        String url = "https://api.myjson.com/bins/7clyt";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -45,7 +45,7 @@ public class BulletinActivity extends AppCompatActivity {
                                 String contents = List.getString("contents");
                                 String dateCreate = List.getString("dateCreate");
 
-                                textView.append("* " + contents + "\n");
+                                textView.append(id + ": " + contents + "    " + dateCreate + "\n");
                             }
                         } catch (JSONException e) {
                             textView.setText("Something went wrong!>!>!>");
