@@ -10,7 +10,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Bulletin Board" />
+        android:layout_centerInParent="true"
+        android:text="Bulletin Board\n"
+        android:textSize="30sp" />
 </RelativeLayout>
