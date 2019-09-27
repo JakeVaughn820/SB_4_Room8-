@@ -68,7 +68,7 @@ public class NewListActivity extends AppCompatActivity {
     }
 
     private void postRequest() {
-        String url = "https://api.androidhive.info/volley/person_object.json";
+        String url = "https://reqres.in/api/users";
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, null,
                 new Response.Listener<JSONObject>() {
@@ -85,9 +85,8 @@ public class NewListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", "Androidhive");
-                params.put("email", "abc@androidhive.info");
-                params.put("password", "password123");
+                params.put("name", "5");
+                params.put("job", "* This is a new list");
                 return params;
             }
         };
