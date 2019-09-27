@@ -41,7 +41,13 @@ public class MainListActivity extends AppCompatActivity {
 
         btn_new_list = findViewById(R.id.btn_create_new_list);
         mQueue = Volley.newRequestQueue(this);
+        itemsList = findViewById(R.id.itemsList);
 
+
+        items = new ArrayList<String>();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        itemsList.setAdapter(adapter);
+        jsonParse();
 
 
         btn_new_list.setOnClickListener(new View.OnClickListener() {
@@ -52,12 +58,13 @@ public class MainListActivity extends AppCompatActivity {
             }
         });
 
-        jsonParse();
+
 
     }
 
     private void jsonParse() {
         String url = "https://api.myjson.com/bins/jqfcl";
+
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -70,14 +77,14 @@ public class MainListActivity extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
 
                                 String id = List.getString("id");
-                                String contents = List.getString("contents");
+                                items.add(List.getString("contents"));
                                 String dateCreate = List.getString("dateCreate");
 
-                                adapter.add(contents);
-                                Text_View_List.append("* " + contents + "\n");
                             }
+
+                            adapter.notifyDataSetChanged();
+
                         } catch (JSONException e) {
-                            Text_View_List.setText("Something went wrong!>!>!>");
                             e.printStackTrace();
                         }
                     }
@@ -87,6 +94,7 @@ public class MainListActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
+
 
         mQueue.add(request);
     }
