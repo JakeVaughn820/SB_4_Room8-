@@ -43,7 +43,7 @@ public class MainListActivity extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
         itemsList = findViewById(R.id.itemsList);
 
-
+        btn_new_list.setText("+"); //added this as a fix to the + not displaying
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
