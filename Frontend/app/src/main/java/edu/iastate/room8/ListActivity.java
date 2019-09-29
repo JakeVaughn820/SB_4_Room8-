@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,8 +40,16 @@ public class ListActivity extends AppCompatActivity {
         titleForList = findViewById(R.id.TitleForList);
         itemsList = findViewById(R.id.ListActivityList);
 
+        mQueue = Volley.newRequestQueue(this);
+
+
         titleForList.setText(title);
 
+
+
+        items = new ArrayList<String>();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        itemsList.setAdapter(adapter);
         jsonParse();
     }
 
