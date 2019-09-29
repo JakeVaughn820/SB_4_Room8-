@@ -13,16 +13,40 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/titleBulletin"
+
         android:background="@drawable/back"
-        android:text="Bulletin Board\n"
+        android:text=""
+        android:textAlignment="center"
         android:textSize="24sp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonForAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Button" />
+        android:layout_above="@id/messageToAdd"
+        android:text="Add" />
+
+    <EditText
+        android:id="@+id/messageToAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:inputType="textPersonName"
+        android:hint="Enter Text"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/titleBulletin"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="36sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Bulletin Board" />
 </RelativeLayout>

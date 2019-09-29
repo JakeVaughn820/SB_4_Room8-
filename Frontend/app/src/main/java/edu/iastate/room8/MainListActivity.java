@@ -49,6 +49,8 @@ public class MainListActivity extends AppCompatActivity {
         itemsList.setAdapter(adapter);
         jsonParse();
 
+        //TODO might try and put an on click listener to be able to go into the list and look at the list
+        //TODO or just add sublist functionality, not sure which Thane wants
 
         btn_new_list.setOnClickListener(new View.OnClickListener() {
             @Override

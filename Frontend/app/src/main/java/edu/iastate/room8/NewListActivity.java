@@ -54,6 +54,7 @@ public class NewListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO make sure post request works
                 postRequest();
+                finish();
             }
         });
 
