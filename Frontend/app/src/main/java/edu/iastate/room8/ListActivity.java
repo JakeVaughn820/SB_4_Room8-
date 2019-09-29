@@ -2,10 +2,14 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -50,7 +54,10 @@ public class ListActivity extends AppCompatActivity {
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
+
         jsonParse();
+
+        itemsList.setOnItemClickListener(messageClickedHandler);
     }
 
     private void jsonParse() {
@@ -89,4 +96,14 @@ public class ListActivity extends AppCompatActivity {
 
         mQueue.add(request);
     }
+
+    private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView parent, View v, int position, long id) {
+            String toToast = items.get(position);
+            items.remove(position);
+            adapter.notifyDataSetChanged();
+            Toast.makeText(ListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
+        }
+    };
+
 }

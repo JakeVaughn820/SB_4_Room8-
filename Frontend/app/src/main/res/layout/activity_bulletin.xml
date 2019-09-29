@@ -18,7 +18,6 @@
 
         android:background="@drawable/back"
         android:text=""
-        android:textAlignment="center"
         android:textSize="24sp" />
 
     <Button
