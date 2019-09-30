@@ -61,8 +61,7 @@ public class NewListActivity extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(NewListActivity.this, MainListActivity.class);
-                startActivity(i);
+                finish();
             }
         });
 

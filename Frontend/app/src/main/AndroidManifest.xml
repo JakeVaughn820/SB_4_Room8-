@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BulletinActivity"></activity>
+        <activity android:name=".ListActivity"></activity>
+        <activity android:name=".BulletinActivity" />
         <activity android:name=".MainListActivity" />
         <activity android:name=".NewListActivity" />
         <activity android:name=".RegisterActivity" />
