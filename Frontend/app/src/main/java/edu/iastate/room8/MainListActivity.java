@@ -62,26 +62,9 @@ public class MainListActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
-        itemsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String s = items.get(i);
-
-                if(s == "Do a mewtwo raid"){
-                    Toast.makeText(MainListActivity.this, "YOU CANNOT DELETE MEWTWO!!!" , Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    items.remove(i);
-                }
-                adapter.notifyDataSetChanged();
-                Toast.makeText(MainListActivity.this, s  , Toast.LENGTH_SHORT).show();
-            }
-        });
-
-=======
+        
         itemsList.setOnItemClickListener(messageClickedHandler);
->>>>>>> f346f4a74992cb50401c962706c11d93feec6c32
+
 
     }
 
