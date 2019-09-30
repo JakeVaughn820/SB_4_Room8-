@@ -68,7 +68,7 @@ public class NewListActivity extends AppCompatActivity {
     }
 
     private void postRequest() {
-        String url = "https://reqres.in/api/users";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, null,
                 new Response.Listener<JSONObject>() {
@@ -85,12 +85,13 @@ public class NewListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", "5");
-                params.put("job", "* This is a new list");
+                params.put("contents", "Hi its Paul");
+                params.put("dateCreate", "sep 9");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 
 }
