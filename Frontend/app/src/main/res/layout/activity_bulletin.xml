@@ -4,13 +4,48 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginVertical="20dp"
+    android:layout_marginHorizontal="20dp"
+
     tools:context=".BulletinActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Bulletin Board\n"
-        android:textSize="30sp" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/titleBulletin"
+
+        android:background="@drawable/back"
+        android:text=""
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/buttonForAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/messageToAdd"
+        android:text="Add" />
+
+    <EditText
+        android:id="@+id/messageToAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:inputType="textPersonName"
+        android:hint="Enter Text"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/titleBulletin"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="36sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Bulletin Board" />
 </RelativeLayout>

@@ -54,14 +54,14 @@ public class NewListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO make sure post request works
                 postRequest();
+                finish();
             }
         });
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(NewListActivity.this, MainListActivity.class);
-                startActivity(i);
+                finish();
             }
         });
 
