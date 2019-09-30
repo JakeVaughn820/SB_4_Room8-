@@ -29,7 +29,7 @@ public class ListActivity extends AppCompatActivity {
     private TextView titleForList;
 
     private RequestQueue mQueue;
-
+    private int whichOne;
     private ListView itemsList;
 
     private ArrayList<String> items;
@@ -43,9 +43,8 @@ public class ListActivity extends AppCompatActivity {
         String title = getIntent().getStringExtra("EXTRA_INFORMATION");
         titleForList = findViewById(R.id.TitleForList);
         itemsList = findViewById(R.id.ListActivityList);
-
         mQueue = Volley.newRequestQueue(this);
-
+        whichOne = getIntent().getIntExtra("WHICH", -1);
 
         titleForList.setText(title);
 

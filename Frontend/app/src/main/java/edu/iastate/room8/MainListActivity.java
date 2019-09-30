@@ -108,6 +108,7 @@ public class MainListActivity extends AppCompatActivity {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             Intent i = new Intent(MainListActivity.this, ListActivity.class);
             i.putExtra("EXTRA_INFORMATION", items.get(position));
+            i.putExtra("WHICH", position);
             startActivity(i);
         }
     };
