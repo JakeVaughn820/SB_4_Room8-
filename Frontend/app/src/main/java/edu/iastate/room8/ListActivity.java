@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +33,8 @@ public class ListActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     private int whichOne;
     private ListView itemsList;
-
+    private Button newListItem;
+    private EditText newListItemName;
     private ArrayList<String> items;
     private ArrayAdapter<String> adapter;
 
@@ -43,6 +46,8 @@ public class ListActivity extends AppCompatActivity {
         String title = getIntent().getStringExtra("EXTRA_INFORMATION");
         titleForList = findViewById(R.id.TitleForList);
         itemsList = findViewById(R.id.ListActivityList);
+        newListItem = findViewById(R.id.AddNewListItem);
+        newListItemName = findViewById(R.id.EnterNewListItem);
         mQueue = Volley.newRequestQueue(this);
         whichOne = getIntent().getIntExtra("WHICH", -1);
 
@@ -57,6 +62,14 @@ public class ListActivity extends AppCompatActivity {
         jsonParse();
 
         itemsList.setOnItemClickListener(messageClickedHandler);
+
+        newListItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO make sure post request works
+                newListItemName.setText("");
+            }
+        });
     }
 
     private void jsonParse() {
