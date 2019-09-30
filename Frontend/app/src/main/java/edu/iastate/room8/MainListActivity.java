@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -58,6 +60,21 @@ public class MainListActivity extends AppCompatActivity {
             }
         });
 
+        itemsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String s = items.get(i);
+
+                if(s == "Do a mewtwo raid"){
+                    Toast.makeText(MainListActivity.this, "YOU CANNOT DELETE MEWTWO!!!" , Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    items.remove(i);
+                }
+                adapter.notifyDataSetChanged();
+                Toast.makeText(MainListActivity.this, s  , Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
