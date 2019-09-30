@@ -1,6 +1,8 @@
 package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.OnLifecycleEvent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +39,7 @@ public class MainListActivity extends AppCompatActivity {
     private ArrayList<String> items;
     private ArrayAdapter<String> adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +53,7 @@ public class MainListActivity extends AppCompatActivity {
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
-        jsonParse();
-
+//        jsonParse();
         //TODO might try and put an on click listener to be able to go into the list and look at the list
         //TODO or just add sublist functionality, not sure which Thane wants
 
@@ -67,6 +69,13 @@ public class MainListActivity extends AppCompatActivity {
         itemsList.setOnItemClickListener(messageClickedHandler);
 
 
+    }
+
+    @Override
+    public void onResume() { //after pressing "done" the list should now update
+        super.onResume();
+        items.clear();
+        jsonParse();
     }
 
     private void jsonParse() {
