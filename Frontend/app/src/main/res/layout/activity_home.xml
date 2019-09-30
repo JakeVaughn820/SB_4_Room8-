@@ -20,4 +20,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tempButton"
         android:text="Temporary Go To Bulletin Board" />
+
+    <Button
+        android:id="@+id/tempButtonSchedule"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tempButtonBulletin"
+        android:text="Temporary Go To Schedule" />
 </RelativeLayout>

@@ -31,6 +31,7 @@ public class MainListActivity extends AppCompatActivity {
     private TextView Text_View_List;
     private Button btn_new_list;
 
+
     private ListView itemsList;
 
     private ArrayList<String> items;
@@ -69,8 +70,8 @@ public class MainListActivity extends AppCompatActivity {
     }
 
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/jqfcl";
-
+//        String url = "https://api.myjson.com/bins/jqfcl";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
