@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BulletinService 
+public class BulletinService implements IBulletinService
 {
 	@Autowired
 	private BulletinRepository bulletinRepository;
 	
-	public List<Bulletin> getBullentin()
+	public List<Bulletin> findAll()
 	{
-		return bulletinRepository.findAll(); 
+		return (List<Bulletin>) bulletinRepository.findAll(); 
 	}
 	
 	public void addBullentin(Bulletin bulletin)
