@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,6 +37,7 @@ public class BulletinActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     private Button toAddButton;
     private TextView toAddText;
+    private String stringToAddText;
     private String TAG = NewListActivity.class.getSimpleName();
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 //TODO maybe try and make each person color coded?
@@ -52,7 +54,8 @@ public class BulletinActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO make sure post request works
-                postRequest();
+                //postRequest();
+                stringToAddText = toAddText.getText().toString();
                 toAddText.setText("");
             }
         });
@@ -95,9 +98,14 @@ public class BulletinActivity extends AppCompatActivity {
     }
 
     private void postRequest() {
-        String url = "https://reqres.in/api/users";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd"; //TODO change this for the bulletin
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
+        params.put("contents", stringToAddText);
+
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, null,
+                url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -110,14 +118,23 @@ public class BulletinActivity extends AppCompatActivity {
             }
         }) {
             @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", "5");
-                params.put("job", "* This is a new list");
+                params.put("contents", "Hi its Paul");
+                params.put("dateCreate", "sep 9");
+
+//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 
 }

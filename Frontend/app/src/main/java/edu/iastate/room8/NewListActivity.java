@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,6 +33,7 @@ public class NewListActivity extends AppCompatActivity {
     private EditText newListName;
     private Button btn_back;
     private Button newList;
+    private String newListNameString;
     private String TAG = NewListActivity.class.getSimpleName();
 
     // These tags will be used to cancel the requests
@@ -53,6 +55,7 @@ public class NewListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO make sure post request works
+                newListNameString = newListName.getText().toString();
                 postRequest();
                 finish();
             }
@@ -68,9 +71,14 @@ public class NewListActivity extends AppCompatActivity {
     }
 
     private void postRequest() {
-        String url = "https://reqres.in/api/users";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("contents", newListNameString);
+        params.put("dateCreate", "sep 9");
+
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, null,
+                url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -83,14 +91,23 @@ public class NewListActivity extends AppCompatActivity {
             }
         }) {
             @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("name", "5");
-                params.put("job", "* This is a new list");
+                params.put("contents", "Hi its Paul");
+                params.put("dateCreate", "sep 9");
+
+//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 
 }
