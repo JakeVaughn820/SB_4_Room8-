@@ -54,7 +54,7 @@ public class BulletinActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO make sure post request works
-                postRequest();
+                //postRequest();
                 stringToAddText = toAddText.getText().toString();
                 toAddText.setText("");
             }
@@ -101,7 +101,7 @@ public class BulletinActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd"; //TODO change this for the bulletin
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("id", "User");
+        params.put("id", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
         params.put("contents", stringToAddText);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
