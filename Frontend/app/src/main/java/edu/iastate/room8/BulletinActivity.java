@@ -2,7 +2,13 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -53,23 +59,25 @@ public class BulletinActivity extends AppCompatActivity {
 
     }
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/7clyt";
+        String url = "https://api.myjson.com/bins/o1jlx";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("List");
+                            JSONArray jsonArray = response.getJSONArray("Message");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
 
                                 String id = List.getString("id");
                                 String contents = List.getString("contents");
-                                String dateCreate = List.getString("dateCreate");
 
-                                textView.append(id + ": " + contents + "    " + dateCreate + "\n");
+
+
+                                textView.append(Html.fromHtml("<b>"+ id + ": </b>"));
+                                textView.append(contents + "\n");
                             }
                         } catch (JSONException e) {
                             textView.setText("Something went wrong!>!>!>");

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +30,7 @@ public class MainListActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     private TextView Text_View_List;
     private Button btn_new_list;
+
 
     private ListView itemsList;
 
@@ -61,13 +63,15 @@ public class MainListActivity extends AppCompatActivity {
             }
         });
 
+
         itemsList.setOnItemClickListener(messageClickedHandler);
+
 
     }
 
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/jqfcl";
-
+//        String url = "https://api.myjson.com/bins/jqfcl";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -105,6 +109,7 @@ public class MainListActivity extends AppCompatActivity {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             Intent i = new Intent(MainListActivity.this, ListActivity.class);
             i.putExtra("EXTRA_INFORMATION", items.get(position));
+            i.putExtra("WHICH", position);
             startActivity(i);
         }
     };

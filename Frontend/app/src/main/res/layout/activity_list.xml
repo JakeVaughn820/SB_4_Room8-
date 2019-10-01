@@ -20,6 +20,26 @@
     <ListView
         android:id="@+id/ListActivityList"
         android:layout_width="match_parent"
+        android:layout_marginBottom="100dp"
         android:layout_below="@id/TitleForList"
         android:layout_height="match_parent" />
+
+    <EditText
+        android:id="@+id/EnterNewListItem"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Input New List Item"
+        android:text="" />
+
+    <Button
+        android:id="@+id/AddNewListItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/EnterNewListItem"
+        android:layout_centerHorizontal="true"
+        android:text="Add To List" />
 </RelativeLayout>
