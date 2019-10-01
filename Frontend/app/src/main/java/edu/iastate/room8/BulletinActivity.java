@@ -69,12 +69,12 @@ public class BulletinActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("Message");
+                            JSONArray jsonArray = response.getJSONArray("message");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
 
-                                String id = List.getString("id");
+                                String id = List.getString("user");
                                 String contents = List.getString("contents");
 
 
@@ -101,7 +101,7 @@ public class BulletinActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd"; //TODO change this for the bulletin
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("id", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
+        params.put("user", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
         params.put("contents", stringToAddText);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -126,8 +126,8 @@ public class BulletinActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("contents", "Hi its Paul");
-                params.put("dateCreate", "sep 9");
+                params.put("user", "User");
+                params.put("contents", stringToAddText);
 
 //                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;

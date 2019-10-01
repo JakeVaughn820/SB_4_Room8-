@@ -87,13 +87,13 @@ public class MainListActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("List");
+                            JSONArray jsonArray = response.getJSONArray("lists");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
 
 //                                String id = List.getString("id");
-                                items.add(List.getString("contents"));
+                                items.add(List.getString("title"));
                                 String dateCreate = List.getString("dateCreate");
 
                             }

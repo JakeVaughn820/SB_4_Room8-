@@ -94,14 +94,12 @@ public class ListActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("List");
+                            JSONArray jsonArray = response.getJSONArray("tasks");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
 
-                                String id = List.getString("id");
                                 items.add(List.getString("contents"));
-                                String dateCreate = List.getString("dateCreate");
 
                             }
 
@@ -160,8 +158,8 @@ public class ListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("contents", "Hi its Paul");
-                params.put("dateCreate", "sep 9");
+                params.put("id", title);
+                params.put("contents", "sep 9");
 
 //                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;

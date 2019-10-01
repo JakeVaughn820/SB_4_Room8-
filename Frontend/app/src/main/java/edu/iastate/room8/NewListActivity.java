@@ -74,7 +74,7 @@ public class NewListActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("contents", newListNameString);
+        params.put("title", newListNameString);
         params.put("dateCreate", "sep 9");
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -99,7 +99,7 @@ public class NewListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("contents", "Hi its Paul");
+                params.put("title", "Hi its Paul");
                 params.put("dateCreate", "sep 9");
 
 //                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
