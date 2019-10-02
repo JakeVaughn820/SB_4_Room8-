@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -56,8 +57,12 @@ public class BulletinActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO make sure post request works
-                //postRequest();
                 stringToAddText = toAddText.getText().toString();
+                if(stringToAddText.equals("")){
+                    Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
+                }else{
+                    //postRequest();
+                }
                 toAddText.setText("");
             }
         });
