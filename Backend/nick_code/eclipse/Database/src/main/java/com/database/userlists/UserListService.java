@@ -1,4 +1,4 @@
-package com.database.lists;
+package com.database.userlists;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ListService 
+public class UserListService 
 {
 	@Autowired
-	private ListRepository listRepository; 
+	private UserListRepository listRepository; 
 	
 	public List<UserLists> getLists() 
 	{
