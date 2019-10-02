@@ -86,6 +86,7 @@ public class MainListActivity extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 String temp = List.getString("Description");
+//                                Toast.makeText(MainListActivity.this, temp, Toast.LENGTH_SHORT).show();
                             }
                             adapter.notifyDataSetChanged();
 

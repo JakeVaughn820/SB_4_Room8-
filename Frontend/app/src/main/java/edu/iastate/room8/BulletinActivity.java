@@ -103,8 +103,8 @@ public class BulletinActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd"; //TODO change this for the bulletin
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("user", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
-        params.put("contents", stringToAddText);
+        params.put("User", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
+        params.put("Contents", stringToAddText);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),

@@ -80,9 +80,12 @@ public class NewListActivity extends AppCompatActivity {
         Map<String, String> params = new HashMap<String, String>();
         params.put("Title", newListNameString);
         params.put("Description", descriptionTextString);
-
+//        Toast.makeText(this, params.get("Title"), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, params.get("Description"), Toast.LENGTH_SHORT).show();
+        JSONObject toPost = new JSONObject(params);
+//        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, new JSONObject(params),
+                url, toPost,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
