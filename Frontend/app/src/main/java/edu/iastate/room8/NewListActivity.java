@@ -75,7 +75,7 @@ public class NewListActivity extends AppCompatActivity {
     }
 
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("Title", newListNameString);
