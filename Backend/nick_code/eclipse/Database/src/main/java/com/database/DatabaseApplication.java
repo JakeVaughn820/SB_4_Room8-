@@ -1,5 +1,6 @@
 package com.database;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,55 +21,56 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
+import com.database.lists.*;
 
 @SpringBootApplication
 public class DatabaseApplication {
-	String myString = "{\"List\":[{\"contents\":\"do the dishes\",\"dateCreate\":\"feb 5\"},{\"contents\":\"Take out the garbage\",\"dateCreate\":\"feb 6\"},{\"contents\":\"Get groceries\",\"dateCreate\":\"feb 7\"},{\"contents\":\"Do a mewtwo raid\",\"dateCreate\":\"feb 9\"}]}";
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DatabaseApplication.class, args);
 	}
-
-	@RestController
+		
+	  @RestController
 	  class GreetingController implements ErrorController {
-	      
-	      @RequestMapping("/hello/{name}")
-	      String hello(@PathVariable String name) {
-	          return "Hello, " + name + "!";
-	      }
-	      
-	      @GetMapping("/list")
-	      String list() {
-	    	  return myString;
-	      }
-	      
-	      
-	      @PostMapping(path = "/listadd", consumes = "application/json", produces = "application/json")
-	    	  public void addMember(@RequestBody String item) {
-	          myString = myString.substring(0, myString.length()-2) + "," + item + "]}";
-	          }
-	      
-	      @Autowired
-	      private ErrorAttributes errorAttributes;
-
-	      @Autowired
-	      private BulletinRepository bulletinRepository;
-	      
-	      @GetMapping("/testendpoint")
-	      String testendpoint() {
-	    	  return //Return something with a bulletin object;
-	      }
-	      
-	      @Override
-	      public String getErrorPath() {
-	          return "/error";
-	      }
-
-	      @RequestMapping("/error")
-	      public String error(HttpServletRequest servletRequest, Model model) {
-	          Map<String, Object> attrs = errorAttributes.getErrorAttributes((WebRequest) new ServletRequestAttributes(servletRequest), false);
-	          model.addAttribute("attrs", attrs);
-	          return "error: "+attrs.toString();
-	      }
+			
+		  @Autowired
+		  private RoomListService roomListService;
+		  private ErrorAttributes errorAttributes;
+		 
+		  @RequestMapping("/hello/{name}")
+		  String hello(@PathVariable String name) {
+		      return "Hello, " + name + "!";
+		  }
+		  
+		  @GetMapping("/list")
+		  public String getRoomList() {
+			  List<RoomList> roomLists = roomListService.getLists();
+			  String ret = "{\"RoomLists\":[";
+			  for (RoomList temp : roomLists) {
+				ret += temp.toString() + ",";
+			  	}
+		  	  ret = ret.substring(0, ret.length()-1) + "]}";
+		      return ret;
+		  }
+		  
+		  @PostMapping(path = "/list", consumes = "application/json", produces = "application/json")
+		  public String addRoomList(@RequestBody String item) {
+			  String Title = item.substring(10, item.indexOf('\"', 10));
+			  String Description = item.substring(Title.length()+27, item.indexOf('\"', Title.length()+27));
+			  roomListService.addList(new RoomList(Title, Description));
+			  return "{\"done\":\"ok\"}";
+		  }
+		  
+		  @Override
+		  public String getErrorPath() {
+		      return "/error";
+		  }
+		
+		  @RequestMapping("/error")
+		  public String error(HttpServletRequest servletRequest, Model model) {
+		      Map<String, Object> attrs = errorAttributes.getErrorAttributes((WebRequest) new ServletRequestAttributes(servletRequest), false);
+		      model.addAttribute("attrs", attrs);
+		      return "error: "+attrs.toString();
+		  }
 	  }
 }
