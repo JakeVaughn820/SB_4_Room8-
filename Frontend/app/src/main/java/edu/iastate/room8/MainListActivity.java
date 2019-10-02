@@ -33,9 +33,7 @@ public class MainListActivity extends AppCompatActivity {
     private Button btn_new_list;
     private ListView itemsList;
     private ArrayList<String> items;
-    private ArrayList<String> subItems;
     private ArrayAdapter<String> adapter;
-    private ArrayAdapter<String> subAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +45,10 @@ public class MainListActivity extends AppCompatActivity {
         itemsList = findViewById(R.id.itemsList);
 
         btn_new_list.setText("+"); //added this as a fix to the + not displaying
+
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
-        subItems = new ArrayList<String>();
-        subAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_2, subItems);
-        itemsList.setAdapter(subAdapter);
 
         //jsonParse();
 
@@ -76,7 +72,8 @@ public class MainListActivity extends AppCompatActivity {
 
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
+        String url = "https://api.myjson.com/bins/w6jix";
+//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -88,9 +85,10 @@ public class MainListActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("contents"));
-                                subItems.add(List.getString("description"));
+                                String temp = List.getString("description");
                             }
                             adapter.notifyDataSetChanged();
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
