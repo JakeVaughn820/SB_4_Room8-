@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -56,8 +57,12 @@ public class NewListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 newListNameString = newListName.getText().toString();
                 descriptionTextString = descriptionText.getText().toString();
-                postRequest();
-                finish();
+                if(newListNameString.equals("")){
+                    Toast.makeText(NewListActivity.this, "Must put something in the 'enter name for new list' line!", Toast.LENGTH_LONG).show();
+                }else{
+                    postRequest();
+                    finish();
+                }
             }
         });
 
