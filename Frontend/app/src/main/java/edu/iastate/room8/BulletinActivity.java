@@ -49,7 +49,9 @@ public class BulletinActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
-        jsonParse();
+
+        jsonParse();  //Parses through the json given to frontend from back end
+
         toAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +61,6 @@ public class BulletinActivity extends AppCompatActivity {
                 toAddText.setText("");
             }
         });
-
     }
     private void jsonParse() {
         String url = "https://api.myjson.com/bins/o1jlx";
@@ -76,9 +77,6 @@ public class BulletinActivity extends AppCompatActivity {
 
                                 String id = List.getString("user");
                                 String contents = List.getString("contents");
-
-
-
                                 textView.append(Html.fromHtml("<b>"+ id + ": </b>"));
                                 textView.append(contents + "\n");
                             }
@@ -93,7 +91,6 @@ public class BulletinActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
-
         mQueue.add(request);
     }
 
@@ -129,12 +126,9 @@ public class BulletinActivity extends AppCompatActivity {
                 params.put("user", "User");
                 params.put("contents", stringToAddText);
 
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
-
 }

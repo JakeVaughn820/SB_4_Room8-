@@ -64,8 +64,6 @@ public class ListActivity extends AppCompatActivity {
 
         titleForList.setText(title);
 
-
-
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
@@ -88,7 +86,6 @@ public class ListActivity extends AppCompatActivity {
     private void jsonParse() {
         String url = "https://api.myjson.com/bins/jqfcl";
 
-
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -101,11 +98,8 @@ public class ListActivity extends AppCompatActivity {
 
                                 items.add(List.getString("contents"));
                                 items.add(List.getString("description"));
-
                             }
-
                             adapter.notifyDataSetChanged();
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -116,8 +110,6 @@ public class ListActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
-
-
         mQueue.add(request);
     }
 
@@ -169,5 +161,4 @@ public class ListActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 //        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
-
 }
