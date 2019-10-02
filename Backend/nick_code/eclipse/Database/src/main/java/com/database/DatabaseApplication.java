@@ -35,6 +35,11 @@ public class DatabaseApplication {
 			
 		  @Autowired
 		  private RoomListService roomListService;
+		  
+		  @Autowired
+		  private BulletinService bulletinService;
+		  
+		  @Autowired
 		  private ErrorAttributes errorAttributes;
 		 
 		  @RequestMapping("/hello/{name}")
@@ -55,9 +60,28 @@ public class DatabaseApplication {
 		  
 		  @PostMapping(path = "/list", consumes = "application/json", produces = "application/json")
 		  public String addRoomList(@RequestBody String item) {
-			  String Title = item.substring(10, item.indexOf('\"', 10));
-			  String Description = item.substring(Title.length()+27, item.indexOf('\"', Title.length()+27));
+			  String Description = item.substring(16, item.indexOf('\"', 16));
+			  String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
 			  roomListService.addList(new RoomList(Title, Description));
+			  return "{\"done\":\"ok\"}";
+		  }
+		  
+		  @GetMapping("/bulletin")
+		  public String getBulletin() {
+			  List<Pin> pins = bulletinService.getPins();
+			  String ret = "{\"BulletinBoard\":[";
+			  for (Pin temp : pins) {
+				ret += temp.toString() + ",";
+			  	}
+		  	  ret = ret.substring(0, ret.length()-1) + "]}";
+		      return ret;
+		  }
+		  
+		  @PostMapping(path = "/bulletin", consumes = "application/json", produces = "application/json")
+		  public String addToBulletin(@RequestBody String item) {
+			  String User = item.substring(9, item.indexOf('\"', 9));
+			  String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
+			  bulletinService.addPin(new Pin(User, Contents));
 			  return "{\"done\":\"ok\"}";
 		  }
 		  
