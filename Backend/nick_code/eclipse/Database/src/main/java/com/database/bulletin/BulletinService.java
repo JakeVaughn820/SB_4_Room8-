@@ -6,22 +6,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.database.lists.RoomList;
-
 @Service
 public class BulletinService
 {
 	@Autowired
 	private BulletinRepository bulletinRepository;
 	
-	public List<Pin> findAll()
+	public List<Pin> getPins()
 	{
 		List<Pin> bulletin = new ArrayList<>();
 		bulletinRepository.findAll().forEach(bulletin::add);
 		return bulletin; 
 	}
 	
-	public void addBullentin(Pin bulletin)
+	public void addPin(Pin bulletin)
 	{
 		bulletinRepository.save(bulletin); 
 	}
