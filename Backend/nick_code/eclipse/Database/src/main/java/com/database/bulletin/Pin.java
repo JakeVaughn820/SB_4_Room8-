@@ -15,19 +15,19 @@ public class Pin
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String Id;
 	
-	@Column(name="Title")
-	private String Title;	
+	@Column(name="User")
+	private String User;	
 	
-	@Column(name="Description")
-	private String Description;
+	@Column(name="Contents")
+	private String Contents;
 	
 	public Pin() {
 		
 	}
 	
 	public Pin(String name, String contents){ 
-		Title = name; 
-		Description = contents; 
+		User = name; 
+		Contents = contents; 
 	}
 	
 	public String getId(){
@@ -38,25 +38,25 @@ public class Pin
 		Id = id; 
 	}
 		
-	public String getTitle(){
-		return Title; 
+	public String getUser(){
+		return User; 
 	}
 	
-	public void setTitle(String name){
-		Title = name; 
+	public void setUser(String name){
+		User = name; 
 	}
 	
-	public String getDescription(){
-		return Description; 
+	public String getContents(){
+		return Contents; 
 	}
 	
-	public void setListContents(String contents){
-		Description = contents; 
+	public void setContents(String contents){
+		Contents = contents; 
 	}
 
     @Override
     public String toString() {
-        String ret = "{Title:" + Title + ",Description:" + Description + "}";
+        String ret = "{User:" + User + ",Contents:" + Contents + "}";
         return ret;
     }
 }

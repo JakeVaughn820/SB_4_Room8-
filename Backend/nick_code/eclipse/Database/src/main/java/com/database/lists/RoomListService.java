@@ -17,7 +17,6 @@ public class RoomListService
 		List<RoomList> roomList = new ArrayList<>();
 		listRepository.findAll().forEach(roomList::add);
 		return roomList;
-		
 	}
 	
 	public void addList(RoomList roomList)
