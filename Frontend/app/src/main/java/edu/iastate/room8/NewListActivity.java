@@ -48,13 +48,9 @@ public class NewListActivity extends AppCompatActivity {
         newListName = findViewById(R.id.newListName);
         btn_back = findViewById(R.id.btn_back);
 
-
-
-
         newList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO make sure post request works
                 newListNameString = newListName.getText().toString();
                 postRequest();
                 finish();
@@ -67,7 +63,6 @@ public class NewListActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     private void postRequest() {
@@ -101,13 +96,9 @@ public class NewListActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("title", "Hi its Paul");
                 params.put("dateCreate", "sep 9");
-
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
-
 }
