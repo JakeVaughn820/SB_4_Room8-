@@ -51,6 +51,8 @@ public class DatabaseApplication {
 		  public String getRoomList() {
 			  List<RoomList> roomLists = roomListService.getLists();
 			  String ret = "{\"RoomLists\":[";
+			  if(roomLists.isEmpty())
+				  ret += " ";
 			  for (RoomList temp : roomLists) {
 				ret += temp.toString() + ",";
 			  	}
@@ -70,6 +72,8 @@ public class DatabaseApplication {
 		  public String getBulletin() {
 			  List<Pin> pins = bulletinService.getPins();
 			  String ret = "{\"BulletinBoard\":[";
+			  if(pins.isEmpty())
+				  ret += " ";
 			  for (Pin temp : pins) {
 				ret += temp.toString() + ",";
 			  	}
