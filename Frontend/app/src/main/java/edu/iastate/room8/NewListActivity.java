@@ -31,6 +31,8 @@ import edu.iastate.room8.app.AppController;
 public class NewListActivity extends AppCompatActivity {
 
     private EditText newListName;
+    private EditText descriptionText;
+    private String descriptionTextString;
     private Button btn_back;
     private Button newList;
     private String newListNameString;
@@ -47,6 +49,7 @@ public class NewListActivity extends AppCompatActivity {
         newList = findViewById(R.id.newList);
         newListName = findViewById(R.id.newListName);
         btn_back = findViewById(R.id.btn_back);
+        descriptionText = findViewById(R.id.descriptionText);
 
 
 
@@ -56,6 +59,7 @@ public class NewListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO make sure post request works
                 newListNameString = newListName.getText().toString();
+                descriptionTextString = descriptionText.getText().toString();
                 postRequest();
                 finish();
             }
@@ -75,7 +79,7 @@ public class NewListActivity extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("title", newListNameString);
-        params.put("dateCreate", "sep 9");
+        params.put("description", descriptionTextString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -99,8 +103,8 @@ public class NewListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("title", "Hi its Paul");
-                params.put("dateCreate", "sep 9");
+                params.put("title", newListNameString);
+                params.put("description", descriptionTextString);
 
 //                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;

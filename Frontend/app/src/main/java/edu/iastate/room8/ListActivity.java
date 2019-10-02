@@ -100,6 +100,7 @@ public class ListActivity extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
 
                                 items.add(List.getString("contents"));
+                                items.add(List.getString("description"));
 
                             }
 
@@ -159,7 +160,7 @@ public class ListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("id", title);
-                params.put("contents", "sep 9");
+                params.put("contents", newListItemNameString);
 
 //                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;

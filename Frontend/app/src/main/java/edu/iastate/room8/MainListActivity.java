@@ -93,8 +93,8 @@ public class MainListActivity extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
 
 //                                String id = List.getString("id");
-                                items.add(List.getString("title"));
-                                String dateCreate = List.getString("dateCreate");
+                                items.add(List.getString("contents"));
+                                String dateCreate = List.getString("description");
 
                             }
 

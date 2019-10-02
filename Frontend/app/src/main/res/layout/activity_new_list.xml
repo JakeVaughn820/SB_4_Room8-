@@ -68,5 +68,16 @@
         android:layout_toLeftOf="@+id/TitleCreateNewList"
         android:text="X" />
 
+    <EditText
+        android:id="@+id/descriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_marginTop="150dp"
+        android:width="299dp"
+        android:hint="Enter description for new list"
+        android:gravity="start|top"
+        android:inputType="textMultiLine" />
+
 
 </RelativeLayout>
