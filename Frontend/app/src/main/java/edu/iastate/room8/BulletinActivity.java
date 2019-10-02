@@ -107,7 +107,7 @@ public class BulletinActivity extends AppCompatActivity {
         params.put("User", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
         params.put("Contents", stringToAddText);
         JSONObject toPost = new JSONObject(params);
-        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
                 new Response.Listener<JSONObject>() {
