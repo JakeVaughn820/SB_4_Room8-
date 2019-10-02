@@ -64,8 +64,6 @@ public class ListActivity extends AppCompatActivity {
 
         titleForList.setText(title);
 
-
-
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
@@ -88,25 +86,20 @@ public class ListActivity extends AppCompatActivity {
     private void jsonParse() {
         String url = "https://api.myjson.com/bins/jqfcl";
 
-
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("List");
+                            JSONArray jsonArray = response.getJSONArray("tasks");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
 
-                                String id = List.getString("id");
                                 items.add(List.getString("contents"));
-                                String dateCreate = List.getString("dateCreate");
-
+                                items.add(List.getString("description"));
                             }
-
                             adapter.notifyDataSetChanged();
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -117,8 +110,6 @@ public class ListActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
-
-
         mQueue.add(request);
     }
 
@@ -160,8 +151,8 @@ public class ListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("contents", "Hi its Paul");
-                params.put("dateCreate", "sep 9");
+                params.put("id", title);
+                params.put("contents", newListItemNameString);
 
 //                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
@@ -170,5 +161,4 @@ public class ListActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 //        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
-
 }

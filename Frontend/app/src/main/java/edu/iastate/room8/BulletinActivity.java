@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -49,17 +50,22 @@ public class BulletinActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
-        jsonParse();
+
+        jsonParse();  //Parses through the json given to frontend from back end
+
         toAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO make sure post request works
-                //postRequest();
                 stringToAddText = toAddText.getText().toString();
+                if(stringToAddText.equals("")){
+                    Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
+                }else{
+                    //postRequest();
+                }
                 toAddText.setText("");
             }
         });
-
     }
     private void jsonParse() {
         String url = "https://api.myjson.com/bins/o1jlx";
@@ -69,16 +75,13 @@ public class BulletinActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("Message");
+                            JSONArray jsonArray = response.getJSONArray("message");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
 
-                                String id = List.getString("id");
+                                String id = List.getString("user");
                                 String contents = List.getString("contents");
-
-
-
                                 textView.append(Html.fromHtml("<b>"+ id + ": </b>"));
                                 textView.append(contents + "\n");
                             }
@@ -93,7 +96,6 @@ public class BulletinActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
-
         mQueue.add(request);
     }
 
@@ -101,7 +103,7 @@ public class BulletinActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd"; //TODO change this for the bulletin
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("id", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
+        params.put("user", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
         params.put("contents", stringToAddText);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -126,15 +128,12 @@ public class BulletinActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("contents", "Hi its Paul");
-                params.put("dateCreate", "sep 9");
+                params.put("user", "User");
+                params.put("contents", stringToAddText);
 
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
-
 }

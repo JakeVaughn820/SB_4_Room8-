@@ -30,15 +30,10 @@ import java.util.ArrayList;
 public class MainListActivity extends AppCompatActivity {
 
     private RequestQueue mQueue;
-    private TextView Text_View_List;
     private Button btn_new_list;
-
-
     private ListView itemsList;
-
     private ArrayList<String> items;
     private ArrayAdapter<String> adapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +45,12 @@ public class MainListActivity extends AppCompatActivity {
         itemsList = findViewById(R.id.itemsList);
 
         btn_new_list.setText("+"); //added this as a fix to the + not displaying
+
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
-//        jsonParse();
-        //TODO might try and put an on click listener to be able to go into the list and look at the list
-        //TODO or just add sublist functionality, not sure which Thane wants
+
+        //jsonParse();
 
         btn_new_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,21 +60,19 @@ public class MainListActivity extends AppCompatActivity {
             }
         });
 
-
         itemsList.setOnItemClickListener(messageClickedHandler);
-
-
     }
 
     @Override
     public void onResume() { //after pressing "done" the list should now update
         super.onResume();
         items.clear();
-        jsonParse();
+        jsonParse();   //Parses through the json given to frontend from back end
     }
 
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
+//        String url = "https://api.myjson.com/bins/w6jix";
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -87,17 +80,13 @@ public class MainListActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("List");
+                            JSONArray jsonArray = response.getJSONArray("RoomLists");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
-
-//                                String id = List.getString("id");
-                                items.add(List.getString("contents"));
-                                String dateCreate = List.getString("dateCreate");
-
+                                items.add(List.getString("Title"));
+                                String temp = List.getString("Description");
                             }
-
                             adapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
@@ -110,8 +99,6 @@ public class MainListActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
-
-
         mQueue.add(request);
     }
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
@@ -122,5 +109,4 @@ public class MainListActivity extends AppCompatActivity {
             startActivity(i);
         }
     };
-
 }

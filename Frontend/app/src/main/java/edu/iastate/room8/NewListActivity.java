@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -31,6 +32,8 @@ import edu.iastate.room8.app.AppController;
 public class NewListActivity extends AppCompatActivity {
 
     private EditText newListName;
+    private EditText descriptionText;
+    private String descriptionTextString;
     private Button btn_back;
     private Button newList;
     private String newListNameString;
@@ -47,17 +50,19 @@ public class NewListActivity extends AppCompatActivity {
         newList = findViewById(R.id.newList);
         newListName = findViewById(R.id.newListName);
         btn_back = findViewById(R.id.btn_back);
-
-
-
+        descriptionText = findViewById(R.id.descriptionText);
 
         newList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO make sure post request works
                 newListNameString = newListName.getText().toString();
-                postRequest();
-                finish();
+                descriptionTextString = descriptionText.getText().toString();
+                if(newListNameString.equals("")){
+                    Toast.makeText(NewListActivity.this, "Must put something in the 'enter name for new list' line!", Toast.LENGTH_LONG).show();
+                }else{
+                    postRequest();
+                    finish();
+                }
             }
         });
 
@@ -67,15 +72,14 @@ public class NewListActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("contents", newListNameString);
-        params.put("dateCreate", "sep 9");
+        params.put("Title", newListNameString);
+        params.put("Description", descriptionTextString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -99,15 +103,11 @@ public class NewListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("contents", "Hi its Paul");
-                params.put("dateCreate", "sep 9");
-
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
+                params.put("Title", newListNameString);
+                params.put("Description", descriptionTextString);
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
-
 }
