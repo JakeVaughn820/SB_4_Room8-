@@ -72,20 +72,20 @@ public class MainListActivity extends AppCompatActivity {
 
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
-        String url = "https://api.myjson.com/bins/w6jix";
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
+//        String url = "https://api.myjson.com/bins/w6jix";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getRoomList";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("lists");
+                            JSONArray jsonArray = response.getJSONArray("RoomLists");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
-                                items.add(List.getString("contents"));
-                                String temp = List.getString("description");
+                                items.add(List.getString("Title"));
+                                String temp = List.getString("Description");
                             }
                             adapter.notifyDataSetChanged();
 

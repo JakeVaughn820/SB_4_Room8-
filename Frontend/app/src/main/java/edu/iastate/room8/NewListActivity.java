@@ -78,8 +78,8 @@ public class NewListActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("title", newListNameString);
-        params.put("description", descriptionTextString);
+        params.put("Title", newListNameString);
+        params.put("Description", descriptionTextString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -103,8 +103,8 @@ public class NewListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("title", newListNameString);
-                params.put("description", descriptionTextString);
+                params.put("Title", newListNameString);
+                params.put("Description", descriptionTextString);
                 return params;
             }
         };
