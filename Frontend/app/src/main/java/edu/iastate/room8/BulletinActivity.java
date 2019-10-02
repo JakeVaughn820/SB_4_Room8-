@@ -61,27 +61,28 @@ public class BulletinActivity extends AppCompatActivity {
                 if(stringToAddText.equals("")){
                     Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
                 }else{
-                    //postRequest();
+                    postRequest();
+                    jsonParse();
                 }
                 toAddText.setText("");
             }
         });
     }
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/o1jlx";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("message");
+                            JSONArray jsonArray = response.getJSONArray("BulletinBoard");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
 
-                                String id = List.getString("user");
-                                String contents = List.getString("contents");
+                                String id = List.getString("User");
+                                String contents = List.getString("Contents");
                                 textView.append(Html.fromHtml("<b>"+ id + ": </b>"));
                                 textView.append(contents + "\n");
                             }
@@ -100,14 +101,15 @@ public class BulletinActivity extends AppCompatActivity {
     }
 
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd"; //TODO change this for the bulletin
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin"; //TODO change this for the bulletin
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("User", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
         params.put("Contents", stringToAddText);
-
+        JSONObject toPost = new JSONObject(params);
+        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, new JSONObject(params),
+                url, toPost,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -128,8 +130,8 @@ public class BulletinActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("user", "User");
-                params.put("contents", stringToAddText);
+                params.put("User", "User");
+                params.put("Contents", stringToAddText);
 
                 return params;
             }
