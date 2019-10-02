@@ -36,9 +36,11 @@ import edu.iastate.room8.app.AppController;
 public class ListActivity extends AppCompatActivity {
 
     private TextView titleForList;
+    private TextView descriptionUnderTitle;
 
     private RequestQueue mQueue;
     private int whichOne;
+    private String description;
     private ListView itemsList;
     private Button newListItem;
     private EditText newListItemName;
@@ -59,9 +61,12 @@ public class ListActivity extends AppCompatActivity {
         itemsList = findViewById(R.id.ListActivityList);
         newListItem = findViewById(R.id.AddNewListItem);
         newListItemName = findViewById(R.id.EnterNewListItem);
+        descriptionUnderTitle = findViewById(R.id.descriptionUnderTitle);
+
         mQueue = Volley.newRequestQueue(this);
         whichOne = getIntent().getIntExtra("WHICH", -1);
-
+        description = getIntent().getStringExtra("DESCRIPTION_INFORMATION");
+        descriptionUnderTitle.setText(description);
         titleForList.setText(title);
 
         items = new ArrayList<String>();
@@ -91,13 +96,13 @@ public class ListActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("tasks");
+                            JSONArray jsonArray = response.getJSONArray("List");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
 
                                 items.add(List.getString("contents"));
-                                items.add(List.getString("description"));
+                                items.add(List.getString("dateCreate"));
                             }
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {

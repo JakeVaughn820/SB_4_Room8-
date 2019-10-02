@@ -34,6 +34,7 @@ public class MainListActivity extends AppCompatActivity {
     private ListView itemsList;
     private ArrayList<String> items;
     private ArrayAdapter<String> adapter;
+    private ArrayList<String> description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class MainListActivity extends AppCompatActivity {
         btn_new_list.setText("+"); //added this as a fix to the + not displaying
 
         items = new ArrayList<String>();
+        description = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
@@ -73,6 +75,7 @@ public class MainListActivity extends AppCompatActivity {
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
 //        String url = "https://api.myjson.com/bins/w6jix";
+//        String url = "https://api.myjson.com/bins/l3r1l";
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -85,7 +88,7 @@ public class MainListActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
-                                String temp = List.getString("Description");
+                                description.add(List.getString("Description"));
 //                                Toast.makeText(MainListActivity.this, temp, Toast.LENGTH_SHORT).show();
                             }
                             adapter.notifyDataSetChanged();
@@ -107,6 +110,7 @@ public class MainListActivity extends AppCompatActivity {
             Intent i = new Intent(MainListActivity.this, ListActivity.class);
             i.putExtra("EXTRA_INFORMATION", items.get(position));
             i.putExtra("WHICH", position);
+            i.putExtra("DESCRIPTION_INFORMATION", description.get(position));
             startActivity(i);
         }
     };
