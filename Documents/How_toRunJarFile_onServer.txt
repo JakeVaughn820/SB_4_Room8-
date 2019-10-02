@@ -13,3 +13,29 @@ Step 4) scp ./name.jar nickisu@coms-309-sb-4.misc.iastate.edu:~
 Step 5) go to server
 
 Step 6) java -jar name.jar &
+
+
+
+
+
+#Shouldn't need this anymore
+sudo grep "temporary password" /var/log/mysqld.log | tail -n 1
+
+New root password: SB_4projuser
+
+Old temp password: fRZlS-Ywu1Xy
+
+
+
+#Mysql New User
+User Name: 	dbTest
+Password: 	SB_4projuserß
+
+
+GIT stuff
+
+Cd to cloned folder
+Git pull
+Git add .
+Git commit -m "message"
+Git push -u origin master
