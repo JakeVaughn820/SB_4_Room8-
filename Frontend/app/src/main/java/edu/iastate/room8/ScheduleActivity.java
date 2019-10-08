@@ -40,6 +40,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
         goToScheduleDay = findViewById(R.id.goToScheduleDay);
         calender = findViewById(R.id.calendar);
+
         goToScheduleDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

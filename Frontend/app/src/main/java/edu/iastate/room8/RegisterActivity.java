@@ -65,10 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
                 userNameEditTextString = userNameEditText.getText().toString();
                 passwordEditTextString = passwordEditText.getText().toString();
 
-                if(userEmailEditTextString.equals("")){
-                    Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
-                }else if(userNameEditTextString.equals("")){
+                if(userNameEditTextString.equals("")){
                     Toast.makeText(RegisterActivity.this, "Must input a username!", Toast.LENGTH_SHORT).show();
+                }else if(userEmailEditTextString.equals("")){
+                    Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
                 }else if(passwordEditTextString.equals("")){
                     Toast.makeText(RegisterActivity.this, "Must input a password", Toast.LENGTH_SHORT).show();
                 }else{
