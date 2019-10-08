@@ -6,17 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserListService 
+public class UserService 
 {
 	@Autowired
-	private UserListRepository listRepository; 
+	private UserRepository listRepository; 
 	
-	public List<UserLists> getLists() 
+	public List<User> getLists() 
 	{
 		return listRepository.findAll();
 	}
 	
-	public void addList(UserLists userList)
+	public void addList(User userList)
 	{
 		listRepository.save(userList); 
 	}
