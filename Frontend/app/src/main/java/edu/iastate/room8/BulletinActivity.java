@@ -62,7 +62,6 @@ public class BulletinActivity extends AppCompatActivity {
                     Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
                 }else{
                     postRequest();
-                    jsonParse();
                 }
                 toAddText.setText("");
             }
@@ -70,6 +69,7 @@ public class BulletinActivity extends AppCompatActivity {
     }
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
+        //String url = "https://api.myjson.com/bins/1g4fnt";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

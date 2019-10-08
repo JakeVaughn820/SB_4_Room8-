@@ -21,7 +21,7 @@
         android:id="@+id/ListActivityList"
         android:layout_width="match_parent"
         android:layout_marginBottom="100dp"
-        android:layout_below="@id/TitleForList"
+        android:layout_below="@id/descriptionUnderTitle"
         android:layout_height="match_parent" />
 
     <EditText
@@ -42,4 +42,12 @@
         android:layout_above="@id/EnterNewListItem"
         android:layout_centerHorizontal="true"
         android:text="Add To List" />
+
+    <TextView
+        android:id="@+id/descriptionUnderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TitleForList"
+        android:layout_centerHorizontal="true"
+        android:text="Description" />
 </RelativeLayout>
