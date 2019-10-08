@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Table(name="UserLists")
-public class UserLists 
+public class User 
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class UserLists
 	@Column(name="Contents of List")
 	private String ListContents;  
 	
-	public UserLists(String name, String contents)
+	public User(String name, String contents)
 	{ 
 		this.ListName = name; 
 		this.ListContents = contents; 
