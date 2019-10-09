@@ -65,7 +65,7 @@ public class DatabaseApplication {
 			  String Description = item.substring(16, item.indexOf('\"', 16));
 			  String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
 			  roomListService.addList(new RoomList(Title, Description));
-			  return "{\"done\":\"ok\"}";
+			  return "200 OK";
 		  }
 		  
 		  @GetMapping("/bulletin")
@@ -86,7 +86,16 @@ public class DatabaseApplication {
 			  String User = item.substring(9, item.indexOf('\"', 9));
 			  String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
 			  bulletinService.addPin(new Pin(User, Contents));
-			  return "{\"done\":\"ok\"}";
+			  return "200 OK";
+		  }
+		  
+		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
+		  public String attemptLogin() {
+			  //TODO Add login system
+			  if(true)
+				  return "Success";
+			  else
+				  return "Invalid Credentials";
 		  }
 		  
 		  @Override

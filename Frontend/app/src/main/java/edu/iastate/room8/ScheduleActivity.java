@@ -42,7 +42,6 @@ public class ScheduleActivity extends AppCompatActivity {
         goToScheduleDay = findViewById(R.id.goToScheduleDay);
         calender = findViewById(R.id.calendar);
 
-        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();;
         goToScheduleDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
