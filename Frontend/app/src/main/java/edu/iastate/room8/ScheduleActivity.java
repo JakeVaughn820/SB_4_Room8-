@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,6 +41,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
         goToScheduleDay = findViewById(R.id.goToScheduleDay);
         calender = findViewById(R.id.calendar);
+
+        Toast.makeText(this, "", Toast.LENGTH_SHORT).show();;
         goToScheduleDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
