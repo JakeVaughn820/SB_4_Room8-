@@ -98,6 +98,20 @@ public class DatabaseApplication {
 				  return "Invalid Credentials";
 		  }
 		  
+		  @PostMapping(path = "/createUser", consumes = "application/json", produces = "application/json")
+		  public String createUser() {
+			  //TODO do this method
+			  /*
+			   * if(username is not already taken && password meets requirements)
+			   * 	return "gucci";
+			   * else
+			   * 	return try again, nerd
+			   * 
+			   * client side should prevent faulty password from being sent, however extra security on the server side is good to have
+			   * in case of a curl request
+			   */
+		  }
+		  
 		  @Override
 		  public String getErrorPath() {
 		      return "/error";
