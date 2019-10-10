@@ -71,9 +71,11 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
                 }else if(passwordEditTextString.equals("")){
                     Toast.makeText(RegisterActivity.this, "Must input a password", Toast.LENGTH_SHORT).show();
+                }else if(passwordEditTextString.length()<8){
+                    Toast.makeText(RegisterActivity.this, "Password must be more than 8 characters", Toast.LENGTH_SHORT).show();
                 }else{
-                    finish();
                     //postRequest();
+                    finish();
                 }
             }
         });
