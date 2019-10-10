@@ -1,22 +1,26 @@
-image: docker:latest
-services:
-  - docker:dind
+stages: 
+	- mavenbuild
+	- maventest
+	- autodeploy
 
-variables:
-  DOCKER_DRIVER: overlay
-  SPRING_PROFILES_ACTIVE: gitlab-ci
+maven-build: 
+	stage: mavenbuild
+	script:
+		- cd Spring
+	 	- mvn package -B
 
-stages:
-  - build
+maven-test:
+	stage: maventest
+	script:
+		- cd Sring
+		- mvn test
+	artifacts:
+	paths:
+		- Spring/target/*.jar
 
-  
-maven-build:
-  image: maven:3-jdk-8
-  stage: build
-  tags:
-    - backend_tag1
-  script: "mvn package -B"
-  artifacts:
-    paths:
-      - target/*.jar
+autoDeploy:
+	stage: autodeploy 
+	script: 
+		- cd Spring 
+		- mvn package -B
 
