@@ -29,9 +29,11 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userNameEditText;
     private EditText userEmailEditText;
     private EditText passwordEditText;
+    private EditText passwordEditTextCheck;
     private String userNameEditTextString;
     private String userEmailEditTextString;
     private String passwordEditTextString;
+    private String passwordCheckTextString;
 
     private Button btnRegister;
     private Button btnLogin;
@@ -48,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         userNameEditText = findViewById(R.id.userNameEditText);
         userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.userPasswordEditText);
+        passwordEditTextCheck = findViewById(R.id.userPasswordCheckEditText);
         btnRegister = findViewById(R.id.btnRegister);
         btnLogin = findViewById(R.id.btnLogin);
 
@@ -64,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
                 userEmailEditTextString = userEmailEditText.getText().toString();
                 userNameEditTextString = userNameEditText.getText().toString();
                 passwordEditTextString = passwordEditText.getText().toString();
+                passwordCheckTextString = passwordEditTextCheck.getText().toString();
 
                 if(userNameEditTextString.equals("")){
                     Toast.makeText(RegisterActivity.this, "Must input a username!", Toast.LENGTH_SHORT).show();
@@ -73,7 +77,10 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Must input a password", Toast.LENGTH_SHORT).show();
                 }else if(passwordEditTextString.length()<8){
                     Toast.makeText(RegisterActivity.this, "Password must be more than 8 characters", Toast.LENGTH_SHORT).show();
-                }else{
+                }else if(!passwordEditTextString.equals(passwordCheckTextString)){
+                    Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                }
+                else{
                     //postRequest();
                     finish();
                 }
