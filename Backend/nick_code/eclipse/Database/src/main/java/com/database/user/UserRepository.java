@@ -1,4 +1,4 @@
-package com.database.userlists;
+package com.database.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

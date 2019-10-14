@@ -1,4 +1,4 @@
-package com.database.userlists;
+package com.database.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 
 @Entity
-@Table(name="UserLists")
+@Table(name="Users")
 public class User 
 {
 	@Id
@@ -16,15 +16,15 @@ public class User
 	private String Id;
 	
 	@Column(name="Name")
-	private String ListName;
+	private String Name;
 	
-	@Column(name="Contents of List")
-	private String ListContents;  
+	@Column(name="Password")
+	private String Password;  
 	
-	public User(String name, String contents)
+	public User(String name, String pswd)
 	{ 
-		this.ListName = name; 
-		this.ListContents = contents; 
+		this.Name = name; 
+		this.Password = pswd; 
 	}
 	
 	//Id handlers
@@ -42,24 +42,24 @@ public class User
 	//Name handlers
 	public String getListName()
 	{
-		return ListName; 
+		return Name; 
 	}
 	
 	public void setListName(String name)
 	{
-		this.ListName = name; 
+		this.Name = name; 
 	}
 	
 	
 	//Content handlers
-	public String getListContents()
+	public String getPassword()
 	{
-		return ListContents; 
+		return Password; 
 	}
 	
-	public void setListContents(String contents)
+	public void setPassword(String pswd)
 	{
-		this.ListContents = contents; 
+		this.Password = pswd; 
 	}
 
 }

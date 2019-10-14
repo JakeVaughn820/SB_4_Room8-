@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -110,6 +111,7 @@ public class DatabaseApplication {
 			   * client side should prevent faulty password from being sent, however extra security on the server side is good to have
 			   * in case of a curl request
 			   */
+			  return null;
 		  }
 		  
 		  @Override

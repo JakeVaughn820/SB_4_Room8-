@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import com.database.tasks.*;
 
 @Entity
-@Table(name="RoomList")
+@Table(name="Lists")
 public class RoomList 
 {
 	@Id

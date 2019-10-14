@@ -1,4 +1,4 @@
-package com.database.userlists;
+package com.database.user;
 
 import java.util.List;
 
