@@ -63,8 +63,11 @@ public class DatabaseApplication {
 		  
 		  @PostMapping(path = "/list", consumes = "application/json", produces = "application/json")
 		  public String addRoomList(@RequestBody String item) {
-			  String Description = item.substring(16, item.indexOf('\"', 16));
-			  String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
+			  JSONObject body = new JSONObject(item);
+			  String Title = body.getString("Title");
+			  String Description = body.getString("Description");
+			  //String Description = item.substring(16, item.indexOf('\"', 16));
+			  //String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
 			  roomListService.addList(new RoomList(Title, Description));
 			  return "200 OK";
 		  }
@@ -84,8 +87,11 @@ public class DatabaseApplication {
 		  
 		  @PostMapping(path = "/bulletin", consumes = "application/json", produces = "application/json")
 		  public String addToBulletin(@RequestBody String item) {
-			  String User = item.substring(9, item.indexOf('\"', 9));
-			  String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
+			  JSONObject body = new JSONObject(item);
+			  String User = body.getString("User");
+			  String Contents = body.getString("Contents");
+			  //String User = item.substring(9, item.indexOf('\"', 9));
+			  //String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
 			  bulletinService.addPin(new Pin(User, Contents));
 			  return "200 OK";
 		  }
