@@ -65,4 +65,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    //TODO put post/parse that will see if email and password is correct
+    //TODO possibly take in the entire users stuff and parse through it? seems too much but easy
 }
