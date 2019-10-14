@@ -101,9 +101,21 @@ public class DatabaseApplication {
 		  }
 		  
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
-		  public String attemptLogin() {
-			  //TODO Add login system
-			  return "Success";
+		  public String attemptLogin(@RequestBody String item) {
+			  //TODO Add login system, actually do something to Log in, instead of returning 'match' or 'no match'
+			  JSONObject body = new JSONObject(item);
+			  String Email = body.getString("Email");
+			  String Password = body.getString("Password");
+			  List<User> userList = userService.getUsers();
+			  for(User user : userList) {
+				  if(user.getName().equals(Email)) {
+					  if(user.getEmail().equals(Password))
+						  return "Credentials match";
+					  else
+						  return "Incorrect Password";
+				  }
+			  }
+			  return "User does not exist";
 		  }
 		  
 		  @PostMapping(path = "/createUser", consumes = "application/json", produces = "application/json")
