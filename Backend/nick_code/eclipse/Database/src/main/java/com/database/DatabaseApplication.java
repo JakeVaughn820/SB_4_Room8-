@@ -110,17 +110,17 @@ public class DatabaseApplication {
 		  public String createUser(@RequestBody String item) {
 			  JSONObject body = new JSONObject(item);
 			  String Name = body.getString("Name");
+			  String Email = body.getString("Email");
 			  String Password = body.getString("Password");
 			  List<User> userList = userService.getUsers();
 			  for(User user : userList) {
 				  if(user.getName().equals(Name))
 					  return "Name already in use";
-				  else {
-					  userService.addUser(new User(Name, Password));
-					  return "User created";
-				  }  
+				  if(user.getEmail().equals(Email))
+					  return "Email already in use";
 			  }
-			  return null;
+			  userService.addUser(new User(Name, Email, Password));
+			  return "User created";
 		  }
 		  
 		  @Override
