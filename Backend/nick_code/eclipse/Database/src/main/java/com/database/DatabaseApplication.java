@@ -111,8 +111,16 @@ public class DatabaseApplication {
 			  JSONObject body = new JSONObject(item);
 			  String Name = body.getString("Name");
 			  String Password = body.getString("Password");
-			  userService.addUser(new User(Name, Password));
-			  return body.toString();
+			  List<User> userList = userService.getUsers();
+			  for(User user : userList) {
+				  if(user.getName().equals(Name))
+					  return "Name already in use";
+				  else {
+					  userService.addUser(new User(Name, Password));
+					  return "User created";
+				  }  
+			  }
+			  return null;
 		  }
 		  
 		  @Override

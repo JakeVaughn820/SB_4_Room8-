@@ -40,12 +40,12 @@ public class User
 	
 	
 	//Name handlers
-	public String getListName()
+	public String getName()
 	{
 		return Name; 
 	}
 	
-	public void setListName(String name)
+	public void setName(String name)
 	{
 		this.Name = name; 
 	}
