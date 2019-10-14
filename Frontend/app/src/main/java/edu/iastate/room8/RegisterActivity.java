@@ -93,9 +93,9 @@ public class RegisterActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("user", userNameEditTextString);
-        params.put("email", userEmailEditTextString);
-        params.put("password", passwordEditTextString);
+        params.put("Name", userNameEditTextString);
+        params.put("Email", userEmailEditTextString);
+        params.put("Password", passwordEditTextString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -119,9 +119,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("user", userNameEditTextString);
-                params.put("email", userEmailEditTextString);
-                params.put("password", passwordEditTextString);
+                params.put("Name", userNameEditTextString);
+                params.put("Email", userEmailEditTextString);
+                params.put("Password", passwordEditTextString);
                 return params;
             }
         };
