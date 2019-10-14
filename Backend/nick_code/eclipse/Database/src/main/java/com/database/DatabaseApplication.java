@@ -23,6 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
 import com.database.lists.*;
+import com.database.user.*;
 
 @SpringBootApplication
 public class DatabaseApplication {
@@ -39,6 +40,9 @@ public class DatabaseApplication {
 		  
 		  @Autowired
 		  private BulletinService bulletinService;
+		  
+		  @Autowired
+		  private UserService userService;
 		  
 		  @Autowired
 		  private ErrorAttributes errorAttributes;
@@ -99,25 +103,16 @@ public class DatabaseApplication {
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
 		  public String attemptLogin() {
 			  //TODO Add login system
-			  if(true)
-				  return "Success";
-			  else
-				  return "Invalid Credentials";
+			  return "Success";
 		  }
 		  
 		  @PostMapping(path = "/createUser", consumes = "application/json", produces = "application/json")
-		  public String createUser() {
-			  //TODO do this method
-			  /*
-			   * if(username is not already taken && password meets requirements)
-			   * 	return "gucci";
-			   * else
-			   * 	return try again, nerd
-			   * 
-			   * client side should prevent faulty password from being sent, however extra security on the server side is good to have
-			   * in case of a curl request
-			   */
-			  return null;
+		  public String createUser(@RequestBody String item) {
+			  JSONObject body = new JSONObject(item);
+			  String Name = body.getString("Name");
+			  String Password = body.getString("Password");
+			  userService.addUser(new User(Name, Password));
+			  return body.toString();
 		  }
 		  
 		  @Override

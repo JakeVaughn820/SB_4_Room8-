@@ -11,13 +11,13 @@ public class UserService
 	@Autowired
 	private UserRepository listRepository; 
 	
-	public List<User> getLists() 
+	public List<User> getUsers() 
 	{
 		return listRepository.findAll();
 	}
 	
-	public void addList(User userList)
+	public void addUser(User user)
 	{
-		listRepository.save(userList); 
+		listRepository.save(user); 
 	}
 }
