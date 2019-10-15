@@ -35,17 +35,10 @@ public class DatabaseApplication {
 	  @RestController
 	  class GreetingController implements ErrorController {
 			
-		  @Autowired
-		  private RoomListService roomListService;
-		  
-		  @Autowired
-		  private BulletinService bulletinService;
-		  
-		  @Autowired
-		  private UserService userService;
-		  
-		  @Autowired
-		  private ErrorAttributes errorAttributes;
+		  @Autowired private RoomListService roomListService;
+		  @Autowired private BulletinService bulletinService;
+		  @Autowired private UserService userService;
+		  @Autowired private ErrorAttributes errorAttributes;
 		 
 		  @RequestMapping("/hello/{name}")
 		  String hello(@PathVariable String name) {
@@ -108,8 +101,8 @@ public class DatabaseApplication {
 			  String Password = body.getString("Password");
 			  List<User> userList = userService.getUsers();
 			  for(User user : userList) {
-				  if(user.getName().equals(Email)) {
-					  if(user.getEmail().equals(Password))
+				  if(user.getEmail().equals(Email)) {
+					  if(user.getPassword().equals(Password))
 						  return "Credentials match";
 					  else
 						  return "Incorrect Password";

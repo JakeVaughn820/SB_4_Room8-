@@ -14,13 +14,21 @@ public class RoomListService
 	
 	public List<RoomList> getLists() 
 	{
-		List<RoomList> roomList = new ArrayList<>();
-		listRepository.findAll().forEach(roomList::add);
-		return roomList;
+		return listRepository.findAll();
 	}
 	
 	public void addList(RoomList roomList)
 	{
 		listRepository.save(roomList); 
 	}
+	
+    public Long count() {
+
+        return listRepository.count();
+    }
+
+    public void deleteById(String userId) {
+
+    	listRepository.deleteById(userId);;
+    }
 }
