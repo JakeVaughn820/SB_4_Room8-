@@ -17,6 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -81,8 +83,8 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    //postRequest();
-                    finish();
+                    postRequest();
+//                    finish();
                 }
             }
         });
@@ -101,8 +103,20 @@ public class RegisterActivity extends AppCompatActivity {
                 url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONObject response) { //TODO Use this same method in lists to update correctly and in bulletin!
                         Log.d(TAG, response.toString());
+                        try {
+                            String success = response.getString("Success");
+                            if(success.equals("1")){
+                                finish();
+                                Toast.makeText(RegisterActivity.this, "Successfully created account!", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(RegisterActivity.this, "Username/Email already in use.", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
