@@ -67,7 +67,7 @@ public class BulletinActivity extends AppCompatActivity {
             }
         });
     }
-    private void jsonParse() {
+    public void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
         //String url = "https://api.myjson.com/bins/1g4fnt";
 
