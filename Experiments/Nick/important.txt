@@ -15,3 +15,5 @@ Git commit -m "message"
 Git push -u origin master 
 
 CREATE TABLE bulletin_board (id INT unsigned NOT NULL AUTO_INCREMENT, User VARCHAR(50), Contents VARCHAR(150), PRIMARY KEY (id)); CREATE TABLE room_list (id INT unsigned NOT NULL AUTO_INCREMENT, Title VARCHAR(50), Description VARCHAR(150), PRIMARY KEY (id));
+
+curl -X POST -H "Content-Type: application/json" -d "{\"Name\":\"thane\",\"Password\":\"asdf\"}" http://coms-309-sb-4.misc.iastate.edu:8080/createUser

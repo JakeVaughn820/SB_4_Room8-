@@ -18,47 +18,56 @@ public class User
 	@Column(name="Name")
 	private String Name;
 	
+	@Column(name="Email")
+	private String Email;
+	
 	@Column(name="Password")
 	private String Password;  
 	
-	public User(String name, String pswd)
-	{ 
+	
+	public User() {
+
+	}
+	
+	public User(String name, String email, String pswd){ 
 		this.Name = name; 
+		this.Email = email;
 		this.Password = pswd; 
 	}
 	
 	//Id handlers
-	public String getId()
-	{
+	public String getId(){
 		return Id; 
 	}
 	
-	public void setId(String Id)
-	{
+	public void setId(String Id){
 		this.Id = Id; 
 	}
 	
-	
 	//Name handlers
-	public String getListName()
-	{
+	public String getName(){
 		return Name; 
 	}
 	
-	public void setListName(String name)
-	{
+	public void setName(String name){
 		this.Name = name; 
 	}
 	
+	//Email handlers
+	public String getEmail() {
+		return Email;
+	}
 	
-	//Content handlers
-	public String getPassword()
-	{
+	public void setEmail(String email) {
+		this.Email = email;
+	}
+	
+	//Password handlers
+	public String getPassword(){
 		return Password; 
 	}
 	
-	public void setPassword(String pswd)
-	{
+	public void setPassword(String pswd){
 		this.Password = pswd; 
 	}
 

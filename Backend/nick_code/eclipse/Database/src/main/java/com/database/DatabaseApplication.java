@@ -23,6 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
 import com.database.lists.*;
+import com.database.user.*;
 
 @SpringBootApplication
 public class DatabaseApplication {
@@ -34,14 +35,10 @@ public class DatabaseApplication {
 	  @RestController
 	  class GreetingController implements ErrorController {
 			
-		  @Autowired
-		  private RoomListService roomListService;
-		  
-		  @Autowired
-		  private BulletinService bulletinService;
-		  
-		  @Autowired
-		  private ErrorAttributes errorAttributes;
+		  @Autowired private RoomListService roomListService;
+		  @Autowired private BulletinService bulletinService;
+		  @Autowired private UserService userService;
+		  @Autowired private ErrorAttributes errorAttributes;
 		 
 		  @RequestMapping("/hello/{name}")
 		  String hello(@PathVariable String name) {
@@ -97,27 +94,38 @@ public class DatabaseApplication {
 		  }
 		  
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
-		  public String attemptLogin() {
-			  //TODO Add login system
-			  if(true)
-				  return "Success";
-			  else
-				  return "Invalid Credentials";
+		  public String attemptLogin(@RequestBody String item) {
+			  //TODO Add login system, actually do something to Log in, instead of returning 'match' or 'no match'
+			  JSONObject body = new JSONObject(item);
+			  String Email = body.getString("Email");
+			  String Password = body.getString("Password");
+			  List<User> userList = userService.getUsers();
+			  for(User user : userList) {
+				  if(user.getEmail().equals(Email)) {
+					  if(user.getPassword().equals(Password))
+						  return "Credentials match";
+					  else
+						  return "Incorrect Password";
+				  }
+			  }
+			  return "User does not exist";
 		  }
 		  
 		  @PostMapping(path = "/createUser", consumes = "application/json", produces = "application/json")
-		  public String createUser() {
-			  //TODO do this method
-			  /*
-			   * if(username is not already taken && password meets requirements)
-			   * 	return "gucci";
-			   * else
-			   * 	return try again, nerd
-			   * 
-			   * client side should prevent faulty password from being sent, however extra security on the server side is good to have
-			   * in case of a curl request
-			   */
-			  return null;
+		  public String createUser(@RequestBody String item) {
+			  JSONObject body = new JSONObject(item);
+			  String Name = body.getString("Name");
+			  String Email = body.getString("Email");
+			  String Password = body.getString("Password");
+			  List<User> userList = userService.getUsers();
+			  for(User user : userList) {
+				  if(user.getName().equals(Name))
+					  return "Name already in use";
+				  if(user.getEmail().equals(Email))
+					  return "Email already in use";
+			  }
+			  userService.addUser(new User(Name, Email, Password));
+			  return "User created";
 		  }
 		  
 		  @Override
