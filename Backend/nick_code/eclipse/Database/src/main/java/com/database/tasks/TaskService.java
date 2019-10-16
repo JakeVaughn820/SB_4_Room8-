@@ -9,15 +9,25 @@ import org.springframework.stereotype.Service;
 public class TaskService 
 {
 	@Autowired
-	private TaskRepository listRepository; 
+	private TaskRepository taskRepository; 
 	
 	public List<Task> getLists() 
 	{
-		return listRepository.findAll();
+		return taskRepository.findAll();
 	}
 	
 	public void addList(Task userList)
 	{
-		listRepository.save(userList); 
+		taskRepository.save(userList); 
 	}
+	
+    public Long count() {
+
+        return taskRepository.count();
+    }
+
+    public void deleteById(String userId) {
+
+    	taskRepository.deleteById(userId);;
+    }
 }

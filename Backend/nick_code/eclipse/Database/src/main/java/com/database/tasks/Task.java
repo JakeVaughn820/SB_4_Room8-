@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 
 @Entity
-@Table(name="RoomList")
+@Table(name="Task")
 public class Task 
 {
 	@Id

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -22,6 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
 import com.database.lists.*;
+import com.database.user.*;
 
 @SpringBootApplication
 public class DatabaseApplication {
@@ -33,14 +35,10 @@ public class DatabaseApplication {
 	  @RestController
 	  class GreetingController implements ErrorController {
 			
-		  @Autowired
-		  private RoomListService roomListService;
-		  
-		  @Autowired
-		  private BulletinService bulletinService;
-		  
-		  @Autowired
-		  private ErrorAttributes errorAttributes;
+		  @Autowired private RoomListService roomListService;
+		  @Autowired private BulletinService bulletinService;
+		  @Autowired private UserService userService;
+		  @Autowired private ErrorAttributes errorAttributes;
 		 
 		  @RequestMapping("/hello/{name}")
 		  String hello(@PathVariable String name) {
@@ -62,8 +60,11 @@ public class DatabaseApplication {
 		  
 		  @PostMapping(path = "/list", consumes = "application/json", produces = "application/json")
 		  public String addRoomList(@RequestBody String item) {
-			  String Description = item.substring(16, item.indexOf('\"', 16));
-			  String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
+			  JSONObject body = new JSONObject(item);
+			  String Title = body.getString("Title");
+			  String Description = body.getString("Description");
+			  //String Description = item.substring(16, item.indexOf('\"', 16));
+			  //String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
 			  roomListService.addList(new RoomList(Title, Description));
 			  return "200 OK";
 		  }
@@ -83,19 +84,48 @@ public class DatabaseApplication {
 		  
 		  @PostMapping(path = "/bulletin", consumes = "application/json", produces = "application/json")
 		  public String addToBulletin(@RequestBody String item) {
-			  String User = item.substring(9, item.indexOf('\"', 9));
-			  String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
+			  JSONObject body = new JSONObject(item);
+			  String User = body.getString("User");
+			  String Contents = body.getString("Contents");
+			  //String User = item.substring(9, item.indexOf('\"', 9));
+			  //String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
 			  bulletinService.addPin(new Pin(User, Contents));
 			  return "200 OK";
 		  }
 		  
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
-		  public String attemptLogin() {
-			  //TODO Add login system
-			  if(true)
-				  return "Success";
-			  else
-				  return "Invalid Credentials";
+		  public String attemptLogin(@RequestBody String item) {
+			  //TODO Add login system, actually do something to Log in, instead of returning 'match' or 'no match'
+			  JSONObject body = new JSONObject(item);
+			  String Email = body.getString("Email");
+			  String Password = body.getString("Password");
+			  List<User> userList = userService.getUsers();
+			  for(User user : userList) {
+				  if(user.getEmail().equals(Email)) {
+					  if(user.getPassword().equals(Password))
+						  return "Credentials match";
+					  else
+						  return "Incorrect Password";
+				  }
+			  }
+			  return "User does not exist";
+		  }
+		  
+		  @PostMapping(path = "/createUser", consumes = "application/json", produces = "application/json")
+		  public String createUser(@RequestBody String item) {
+			  JSONObject body = new JSONObject(item);
+			  String Name = body.getString("Name");
+			  String Email = body.getString("Email");
+			  String Password = body.getString("Password");
+			  List<User> userList = userService.getUsers();
+			  for(User user : userList) {
+				  if(user.getName().equals(Name))
+					  return "Name already in use";
+				  if(user.getEmail().equals(Email))
+					  return "Email already in use";
+			  }
+			  userService.addUser(new User(Name, Email, Password));
+			  return "User created";
 		  }
 		  
 		  @Override

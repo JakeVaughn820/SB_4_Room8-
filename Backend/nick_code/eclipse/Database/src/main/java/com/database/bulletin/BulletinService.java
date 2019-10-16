@@ -14,13 +14,21 @@ public class BulletinService
 	
 	public List<Pin> getPins()
 	{
-		List<Pin> bulletin = new ArrayList<>();
-		bulletinRepository.findAll().forEach(bulletin::add);
-		return bulletin; 
+		return bulletinRepository.findAll();
 	}
 	
 	public void addPin(Pin bulletin)
 	{
 		bulletinRepository.save(bulletin); 
 	}
+	
+    public Long count() {
+
+        return bulletinRepository.count();
+    }
+
+    public void deleteById(String userId) {
+
+    	bulletinRepository.deleteById(userId);;
+    }
 }

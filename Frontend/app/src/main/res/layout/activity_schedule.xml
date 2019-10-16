@@ -29,5 +29,5 @@
         android:layout_margin="50dp"
         android:layout_below="@id/calendar"
         android:background="@drawable/button"
-        android:text="Schedule of selected day" />
+        android:text=" Schedule of selected day " />
 </RelativeLayout>
