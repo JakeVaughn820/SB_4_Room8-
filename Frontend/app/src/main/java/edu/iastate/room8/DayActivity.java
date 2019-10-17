@@ -2,9 +2,12 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -25,11 +28,14 @@ import edu.iastate.room8.app.AppController;
 
 public class DayActivity extends AppCompatActivity {
     private TextView date;
+    private String dateString;
     private String TAG = NewListActivity.class.getSimpleName();
     private String day;
     private String month;
     private String year;
     private Button buttonAddScheduleItem;
+
+    private ListView listView;
 
     // These tags will be used to cancel the requests
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -39,12 +45,22 @@ public class DayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_day);
         date = findViewById(R.id.date);
         buttonAddScheduleItem = findViewById(R.id.buttonAddScheduledItem);
+        listView = findViewById(R.id.scheduleListView);
+
         date.setText(getIntent().getStringExtra("EXTRA_INFORMATION"));
+        dateString = date.getText().toString();
         day = getIntent().getStringExtra("Day");
         month = getIntent().getStringExtra("Month");
         year = getIntent().getStringExtra("Year");
 
-
+        buttonAddScheduleItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(DayActivity.this, NewScheduleActivity.class);
+                i.putExtra("DATE", dateString);
+                startActivity(i);
+            }
+        });
     }
 
 
