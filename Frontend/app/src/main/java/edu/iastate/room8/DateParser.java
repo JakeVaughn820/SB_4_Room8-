@@ -1,5 +1,5 @@
 package edu.iastate.room8;
-
+//TODO make a mydate class and try to follow along with tutorial except with this instead
 public class DateParser {
     private int day;
     private int month;

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -28,6 +29,7 @@ public class DayActivity extends AppCompatActivity {
     private String day;
     private String month;
     private String year;
+    private Button buttonAddScheduleItem;
 
     // These tags will be used to cancel the requests
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -36,11 +38,18 @@ public class DayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
         date = findViewById(R.id.date);
+        buttonAddScheduleItem = findViewById(R.id.buttonAddScheduledItem);
         date.setText(getIntent().getStringExtra("EXTRA_INFORMATION"));
         day = getIntent().getStringExtra("Day");
         month = getIntent().getStringExtra("Month");
         year = getIntent().getStringExtra("Year");
+
+
     }
+
+
+
+
     private void postRequest() { //TODO use a button to add stuff to schedule and post using this
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
