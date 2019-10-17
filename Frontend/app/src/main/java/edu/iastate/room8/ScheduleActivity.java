@@ -32,6 +32,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private String day;
     private String month;
     private String year;
+    private DateParser dateParser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
         goToScheduleDay = findViewById(R.id.goToScheduleDay);
         calender = findViewById(R.id.calendar);
+
+        dateParser = new DateParser();
 
         goToScheduleDay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,10 +59,14 @@ public class ScheduleActivity extends AppCompatActivity {
         calender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                date = (i1 + 1) + "/" + i2 + "/" + i;
-                day = i2 + "";
-                month = (i1 + 1) + "";
-                year = i + "";
+                date = dateParser.parseDate(i, i1, i2);
+                day = dateParser.parseDay(i2);
+                month = dateParser.parseMonth(i1);
+                year = dateParser.parseYear(i);
+//                date = (i1 + 1) + "/" + i2 + "/" + i;
+//                day = i2 + "";
+//                month = (i1 + 1) + "";
+//                year = i + "";
             }
         });
     }
