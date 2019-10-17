@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,7 +25,7 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
 
     private EditText userNameEditText;
@@ -36,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private int loginAttemps = 5;
     private TextView loginAttempsTextView;
     private String TAG = NewListActivity.class.getSimpleName();
+    SessionManager sessionManager;
 
     // These tags will be used to cancel the requests
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -43,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
+        sessionManager = new SessionManager(this);
         userNameEditText = findViewById(R.id.userNameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginbtn = findViewById(R.id.loginbtn);
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         signUpBtn.setOnClickListener(new View.OnClickListener(){
            @Override
            public void onClick(View view){
-               Intent i = new Intent(MainActivity.this, RegisterActivity.class);
+               Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                startActivity(i);
             }
         });
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private void validate(String userName, String userPassword){
         if((userName.equals("")) && (userPassword.equals(""))){
 
-            Intent i = new Intent(MainActivity.this, HomeActivity.class);
+            Intent i = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(i);
 
         }else{

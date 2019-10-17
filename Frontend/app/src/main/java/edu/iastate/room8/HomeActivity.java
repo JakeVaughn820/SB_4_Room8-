@@ -12,10 +12,14 @@ public class HomeActivity extends AppCompatActivity {
     private Button tempButton;
     private Button tempButtonBulletin;
     private Button tempButtonSchedule;
+    SessionManager sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        sessionManager = new SessionManager(this);
+        sessionManager.checkLogin();
 
         tempButton = findViewById(R.id.tempButton);
         tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
