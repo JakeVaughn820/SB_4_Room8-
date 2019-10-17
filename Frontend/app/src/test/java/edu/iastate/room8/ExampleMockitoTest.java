@@ -30,21 +30,20 @@ public class ExampleMockitoTest { //will test
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    JSONObject json;
-    BulletinActivity test = Mockito.mock(BulletinActivity.class);
+    ScheduleActivity sch = new ScheduleActivity();
+    DateParser test = Mockito.mock(DateParser.class);
 
-    @Before
-    public void setup(){
-        json = new JSONObject();
-    }
+//    @Before
+//    public void setup(){
+//        String temp = "10/10/2019";
+//        when(DateParser.parseDate(10, 10, 2019)).thenReturn(temp);
+//    }
 
     @Test
-    public void jsonParseTest_returnsTrue() throws JSONException{
-        String User = "Paul";
-        String Content = "Jake";
-        json.put("User", User);
-        json.put("Content", Content);
-        //when((test.jsonParse()).thenReturn(json.getString(User)));
-
+    public void jsonParseTest_returnsTrue() {
+        String temp = "10/17/2019";
+        when(test.parseDate(10, 10, 2019)).thenReturn(temp);
+        String returned = sch.callDateParser(10, 10, 2019);
+        assertEquals("10/17/2019", returned);
     }
 }
