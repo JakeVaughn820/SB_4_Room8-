@@ -30,28 +30,21 @@ public class ExampleMockitoTest { //will test
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    JSONObject jsonRequest;
-    JSONObject jsonReturn;
+    JSONObject json;
     BulletinActivity test = Mockito.mock(BulletinActivity.class);
 
     @Before
     public void setup(){
-
+        json = new JSONObject();
     }
 
     @Test
     public void jsonParseTest_returnsTrue() throws JSONException{
-
         String User = "Paul";
-        String Contents = "IsCool";
+        String Content = "Jake";
+        json.put("User", User);
+        json.put("Content", Content);
+        //when((test.jsonParse()).thenReturn(json.getString(User)));
 
-        JSONObject response = new JSONObject();
-
-        response.put("User",User);
-        response.put("Contents", Contents);
-
-        Mockito.doCallRealMethod().when(test).jsonParse();
-        test.jsonParse();
-        Assert.assertEquals(User,response.getString("User"));
     }
 }
