@@ -13,7 +13,6 @@
         android:layout_width="150dp"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
-        android:background="@drawable/button"
         android:layout_margin="50dp"
         android:layout_below="@id/homeTextView"
         android:text="Room Lists" />
@@ -24,14 +23,12 @@
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_below="@id/tempButton"
-        android:background="@drawable/button"
         android:layout_margin="50dp"
         android:text="Room Bulletin" />
 
     <Button
         android:id="@+id/tempButtonSchedule"
         android:layout_width="150dp"
-        android:background="@drawable/button"
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_below="@id/tempButtonBulletin"
