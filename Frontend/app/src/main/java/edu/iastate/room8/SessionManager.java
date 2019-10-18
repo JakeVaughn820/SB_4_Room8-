@@ -15,6 +15,7 @@ public class SessionManager {
 
     private static final String PREF_NAME = "LOGIN";
     private static final String LOGIN = "IS_LOGIN";
+    private static final String ROOM = "ROOM";
     public static final String NAME = "NAME";
     public static final String EMAIL = "EMAIL";
     public static final String ID = "ID";
@@ -33,6 +34,11 @@ public class SessionManager {
         editor.putString(ID, id);
         editor.apply();
 
+    }
+
+    public void setRoom (String room){
+        editor.putString(ROOM, room);
+        editor.apply();
     }
 
     public boolean isLoggin(){

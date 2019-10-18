@@ -13,6 +13,7 @@
         android:id="@+id/Logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="80dp"
         android:text="Room8"
@@ -22,9 +23,10 @@
         android:id="@+id/userNameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/Logo"
         android:ems="10"
-        android:hint="User Name"
+        android:hint="User Name or Email"
         android:inputType="textPersonName"
         android:textSize="24sp" />
 
@@ -32,6 +34,7 @@
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/userNameEditText"
         android:ems="10"
         android:hint="Password"
@@ -42,6 +45,7 @@
         android:id="@+id/loginbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/passwordEditText"
         android:text="Login"
         android:textSize="36sp" />
@@ -50,6 +54,7 @@
         android:id="@+id/signUpBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/loginbtn"
         android:layout_marginBottom="140dp"
         android:text="Sign Up" />
@@ -58,6 +63,7 @@
         android:id="@+id/loginAttempsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_below="@id/signUpBtn"
         android:layout_marginTop="23dp"
         android:layout_marginBottom="10dp" />

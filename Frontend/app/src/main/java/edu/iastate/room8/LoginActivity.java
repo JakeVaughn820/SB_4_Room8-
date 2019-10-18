@@ -79,12 +79,21 @@ public class LoginActivity extends AppCompatActivity {
         String getEmail = "";
         String getPassword = "";
         String id = "whatever we want the id to be";
+        String getRoom = "not null";  //Set this to equal if user is in a room. If it is null the user isn't in a room
 
         //This if matches the (username or email) and password with those on the database
         if((userName_Email.equals(getUser) || userName_Email.equals(getEmail)) && (userPassword.equals(getPassword))){
             sessionManager.createSession(getUser, getEmail, id);  //Creates a new session where the user is logged in
-            Intent i = new Intent(LoginActivity.this, HomeActivity.class);  //Goes to HomeActivity
-            startActivity(i);
+            if(getRoom == null) {
+                Intent i = new Intent(LoginActivity.this, NewRoomActivity.class);  //Goes to HomeActivity
+                startActivity(i);
+            }
+
+            else if(getRoom != null) {
+                sessionManager.setRoom(getRoom);
+                Intent i = new Intent(LoginActivity.this, HomeActivity.class);  //Goes to HomeActivity
+                startActivity(i);
+            }
 
         }else{
 
