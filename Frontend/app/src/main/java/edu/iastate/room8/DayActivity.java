@@ -130,7 +130,7 @@ public class DayActivity extends AppCompatActivity {
 //        String url = "https://api.myjson.com/bins/w6jix";
 //        String url = "https://api.myjson.com/bins/l3r1l";
 //        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
-        String url = "https://api.myjson.com/bins/p9le0";
+        String url = "https://api.myjson.com/bins/ao2eo";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -144,7 +144,8 @@ public class DayActivity extends AppCompatActivity {
                                 //TODO figure out what we want to get from backend, probably the times and things happening at that time
                                 String start = List.getString("StartTime");
                                 String end = List.getString("EndTime");
-                                items.add(start + " - " + end);
+                                String eventName = List.getString("EventName");
+                                items.add(eventName + "\t" + start + " - " + end);
 
 //                                Toast.makeText(MainListActivity.this, temp, Toast.LENGTH_SHORT).show();
                             }
