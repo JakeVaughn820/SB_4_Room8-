@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -78,6 +79,8 @@ public class DayActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        listView.setOnItemClickListener(messageClickedHandler);
     }
 
 
@@ -130,7 +133,7 @@ public class DayActivity extends AppCompatActivity {
 //        String url = "https://api.myjson.com/bins/w6jix";
 //        String url = "https://api.myjson.com/bins/l3r1l";
 //        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
-        String url = "https://api.myjson.com/bins/ao2eo";
+        String url = "https://api.myjson.com/bins/xf1fk";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -145,7 +148,9 @@ public class DayActivity extends AppCompatActivity {
                                 String start = List.getString("StartTime");
                                 String end = List.getString("EndTime");
                                 String eventName = List.getString("EventName");
-                                items.add(eventName + "\t" + start + " - " + end);
+                                String user = List.getString("User");
+                                items.add(user + ": " + eventName + "\t" + start + " - " + end);
+
 
 //                                Toast.makeText(MainListActivity.this, temp, Toast.LENGTH_SHORT).show();
                             }
@@ -162,5 +167,13 @@ public class DayActivity extends AppCompatActivity {
         });
         mQueue.add(request);
     }
+
+    private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView parent, View v, int position, long id) {
+            Intent i = new Intent(DayActivity.this, ScheduleDescriptionActivity.class);
+            i.putExtra("EXTRA_INFORMATION", items.get(position));
+            startActivity(i);
+        }
+    };
 
 }
