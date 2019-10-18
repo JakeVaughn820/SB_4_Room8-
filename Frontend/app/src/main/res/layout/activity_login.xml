@@ -9,35 +9,20 @@
     android:paddingTop="80dp"
     tools:context=".LoginActivity">
 
-
     <TextView
         android:id="@+id/Logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="80dp"
         android:text="Room8"
         android:textSize="80sp" />
-
-    <Button
-        android:id="@+id/loginbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
-        android:text="Login"
-        android:textSize="36sp" />
-
-    <Button
-        android:id="@+id/signUpBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="140dp"
-        android:text="Sign Up" />
 
     <EditText
         android:id="@+id/userNameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="28dp"
+        android:layout_below="@id/Logo"
         android:ems="10"
         android:hint="User Name"
         android:inputType="textPersonName"
@@ -47,16 +32,33 @@
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
+        android:layout_below="@id/userNameEditText"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         android:textSize="24sp" />
 
+    <Button
+        android:id="@+id/loginbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passwordEditText"
+        android:text="Login"
+        android:textSize="36sp" />
+
+    <Button
+        android:id="@+id/signUpBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loginbtn"
+        android:layout_marginBottom="140dp"
+        android:text="Sign Up" />
+
     <TextView
         android:id="@+id/loginAttempsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/signUpBtn"
         android:layout_marginTop="23dp"
         android:layout_marginBottom="10dp" />
 

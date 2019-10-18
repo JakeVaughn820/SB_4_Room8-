@@ -46,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         sessionManager = new SessionManager(this);
+
         userNameEditText = findViewById(R.id.userNameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginbtn = findViewById(R.id.loginbtn);
@@ -68,10 +69,21 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void validate(String userName, String userPassword){
-        if((userName.equals("")) && (userPassword.equals(""))){
+    private void validate(String userName_Email, String userPassword){
+        //TODO Get user names email and password see if any match.
+        //TODO these will need to be gotten from the database
+        //TODO I would recommend posting a request for the userName which can
+        //TODO be given as either the user name or the Email of the person
+        //TODO and then also getting their password. So it can be checked below.
+        String getUser = "";
+        String getEmail = "";
+        String getPassword = "";
+        String id = "whatever we want the id to be";
 
-            Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+        //This if matches the (username or email) and password with those on the database
+        if((userName_Email.equals(getUser) || userName_Email.equals(getEmail)) && (userPassword.equals(getPassword))){
+            sessionManager.createSession(getUser, getEmail, id);  //Creates a new session where the user is logged in
+            Intent i = new Intent(LoginActivity.this, HomeActivity.class);  //Goes to HomeActivity
             startActivity(i);
 
         }else{
@@ -79,9 +91,10 @@ public class LoginActivity extends AppCompatActivity {
             loginAttemps--;
             loginAttempsTextView.setText("Incorrect User Name or Password" + "\n" +
                     "Login Attemps Left: " + loginAttemps
-                    + "\n" + userName + " " + userPassword);
+                    + "\n" + userName_Email + " " + userPassword);
 
             if (loginAttemps == 0){
+                //TODO set up a timeout for this so it is not perma disabled.
                 loginbtn.setEnabled(false);
 
             }
