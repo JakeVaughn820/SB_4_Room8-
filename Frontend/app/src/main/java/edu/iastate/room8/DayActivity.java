@@ -83,14 +83,14 @@ public class DayActivity extends AppCompatActivity {
 
 
 
-    private void postRequest() { //TODO use a button to add stuff to schedule and post using this
+    private void postRequest() { //TODO put this post request in the "schedule description activity" when made
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("Day", day);
         params.put("Month", month);
         params.put("Year", year);
-        //TODO send the thing you want to add to the schedule and the time you want to do it at
+        //TOD
 //        Toast.makeText(this, params.get("Title"), Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, params.get("Description"), Toast.LENGTH_SHORT).show();
         JSONObject toPost = new JSONObject(params);
