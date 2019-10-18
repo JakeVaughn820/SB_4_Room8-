@@ -33,7 +33,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private String day;
     private String month;
     private String year;
-    private DateParser dateParser;
+//    private DateParser dateParser;
     boolean clicked;
 
     @Override

@@ -10,21 +10,41 @@
 
     <Button
         android:id="@+id/tempButton"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:text="Temporary Go To List Button" />
+        android:layout_width="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button"
+        android:layout_margin="50dp"
+        android:layout_below="@id/homeTextView"
+        android:text="Room Lists" />
 
     <Button
         android:id="@+id/tempButtonBulletin"
-        android:layout_width="fill_parent"
+        android:layout_width="150dp"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_below="@id/tempButton"
-        android:text="Temporary Go To Bulletin Board" />
+        android:background="@drawable/button"
+        android:layout_margin="50dp"
+        android:text="Room Bulletin" />
 
     <Button
         android:id="@+id/tempButtonSchedule"
-        android:layout_width="fill_parent"
+        android:layout_width="150dp"
+        android:background="@drawable/button"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_below="@id/tempButtonBulletin"
-        android:text="Temporary Go To Schedule" />
+        android:layout_margin="50dp"
+        android:text="Room Schedule" />
+
+    <TextView
+        android:id="@+id/homeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50dp"
+
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Room8" />
 </RelativeLayout>
