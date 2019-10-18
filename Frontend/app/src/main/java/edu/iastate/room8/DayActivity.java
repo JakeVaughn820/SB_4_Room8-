@@ -6,21 +6,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +39,10 @@ public class DayActivity extends AppCompatActivity {
     private String year;
     private Button buttonAddScheduleItem;
 
+    private RequestQueue mQueue;
+
+    private ArrayList<String> items;
+    private ArrayAdapter<String> adapter;
     private ListView listView;
 
     // These tags will be used to cancel the requests
@@ -47,11 +55,20 @@ public class DayActivity extends AppCompatActivity {
         buttonAddScheduleItem = findViewById(R.id.buttonAddScheduledItem);
         listView = findViewById(R.id.scheduleListView);
 
+        mQueue = Volley.newRequestQueue(this);
+
+
         date.setText(getIntent().getStringExtra("EXTRA_INFORMATION"));
         dateString = date.getText().toString();
         day = getIntent().getStringExtra("Day");
         month = getIntent().getStringExtra("Month");
         year = getIntent().getStringExtra("Year");
+
+        items = new ArrayList<String>();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        listView.setAdapter(adapter);
+
+        jsonParse();
 
         buttonAddScheduleItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,23 +129,26 @@ public class DayActivity extends AppCompatActivity {
 //        String url = "https://api.myjson.com/bins/jqfcl";
 //        String url = "https://api.myjson.com/bins/w6jix";
 //        String url = "https://api.myjson.com/bins/l3r1l";
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
+//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
+        String url = "https://api.myjson.com/bins/p9le0";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("RoomLists");
+                            JSONArray jsonArray = response.getJSONArray("Schedule");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 //TODO figure out what we want to get from backend, probably the times and things happening at that time
-                                //items.add(List.getString("Title"));
-                                //description.add(List.getString("Description"));
+                                String start = List.getString("StartTime");
+                                String end = List.getString("EndTime");
+                                items.add(start + " - " + end);
+
 //                                Toast.makeText(MainListActivity.this, temp, Toast.LENGTH_SHORT).show();
                             }
-
+                            adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -139,5 +159,7 @@ public class DayActivity extends AppCompatActivity {
                 error.printStackTrace();
             }
         });
+        mQueue.add(request);
     }
+
 }
