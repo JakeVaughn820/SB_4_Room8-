@@ -58,7 +58,7 @@ unitTests:
     - chmod +x ./Android_test/gradlew
   tags:
     - android_tag1
-  scripts:
+  script:
     - cd Android_test
     - ./gradlew test
 
