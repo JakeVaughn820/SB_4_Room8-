@@ -8,7 +8,7 @@ stages:
 maven-build: 
   stage: mavenbuild
   tags:
-    - shell
+    - backend_tag1
   script:
     - cd Spring
     - mvn package -B
@@ -16,7 +16,7 @@ maven-build:
 maven-test:
   stage: maventest
   tags:
-    - shell
+    - backend_tag1
   script:
     - cd Spring
     - mvn test
@@ -27,7 +27,7 @@ maven-test:
 autoDeploy:
   stage: autodeploy
   tags:
-    - shell
+    - backend_tag1
   script: 
     - cd Spring 
     - mvn package
