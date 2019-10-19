@@ -10,7 +10,8 @@ maven-build:
   tags:
     - backend_tag1
   script:
-    - cd Spring
+    - cd Backend
+    - cd nick_code
     - mvn package -B
 
 maven-test:
@@ -18,7 +19,8 @@ maven-test:
   tags:
     - backend_tag1
   script:
-    - cd Spring
+    - cd Backend
+    - cd nick_code
     - mvn test
   artifacts:
     paths:
@@ -29,7 +31,8 @@ autoDeploy:
   tags:
     - backend_tag1
   script: 
-    - cd Spring 
+    - cd Backend
+    - cd nick_code
     - mvn package
     - sudo mc target/*.jar /target/web-demo.jar
     - sudo systemctl stop systemd-web-demo
@@ -44,7 +47,7 @@ android-build:
   tags:
     - android_tag1
   script:
-    - cd Android_test
+    - cd Frontend
     - ./gradelew assemble
   artifacts:
     paths:
@@ -59,6 +62,6 @@ unitTests:
   tags:
     - android_tag1
   script:
-    - cd Android_test
+    - cd Frontend
     - ./gradlew test
 
