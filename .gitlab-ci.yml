@@ -37,8 +37,6 @@ autoDeploy:
     - cd nick_code
     - cd eclipse/Database
     - mvn package
-    - pwd
-    - ls -la
     - sudo mv target/*.jar /target/web-demo.jar
     - sudo systemctl stop systemd-web-demo
     - sudo systemctl start systemd-web-demo
