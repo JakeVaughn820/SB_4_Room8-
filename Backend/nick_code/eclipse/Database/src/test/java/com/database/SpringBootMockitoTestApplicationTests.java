@@ -1,32 +1,41 @@
 package com.database;
 
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.servlet.error.ErrorAttributes;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.Before;
+import org.junit.Test;
+//import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import com.database.bulletin.BulletinRepository;
 import com.database.bulletin.BulletinService;
-import com.database.lists.RoomListRepository;
 import com.database.lists.RoomListService;
+import com.database.tasks.TaskService;
+import com.database.user.UserService;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(MockitoJUnitRunner.class)
 public class SpringBootMockitoTestApplicationTests 
 {
-	private RoomListService roomListService;
-	private RoomListRepository roomListRepository; 
+	@Before
+	public void init() {
+	    MockitoAnnotations.initMocks(this);
+	}
 	
-	private BulletinService bulletinService;
-	private BulletinRepository bulletinRepository; 
+	@Mock
+	BulletinService bulletinService; 
 	
+	@Mock
+	RoomListService roomListService; 
 	
-	//private UserService userService;
-	private UserRepository userRepository
+	@Mock
+	TaskService taskService;
 	
-	private ErrorAttributes errorAttributes;
+	@Mock
+	UserService userService;
 	
+	@Test
+	public void test1()
+	{
+		
+	}
 	
 
 }
