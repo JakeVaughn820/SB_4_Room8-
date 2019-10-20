@@ -87,10 +87,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void validate(String success){
+    private void validate2(String success, String userID){
         if(success.equals("1")){
 
-            Intent i = new Intent(MainActivity.this, HomeActivity.class);
+            Intent i = new Intent(MainActivity.this, NewUserRoomJoin.class);
+            i.putExtra("USER_ID", userID);
             startActivity(i);
 
         }else{
@@ -122,7 +123,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Success");
-                            validate(success);
+                            String userID = response.getString("UserID");
+                            validate2(success, userID);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
