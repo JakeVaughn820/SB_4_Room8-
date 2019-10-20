@@ -73,14 +73,15 @@ public class ListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
-        jsonParse();
+//        jsonParse();
+        //postRequestForParse();
 
         itemsList.setOnItemClickListener(messageClickedHandler);
 
         newListItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO make sure post request works
+
                 newListItemNameString = newListItemName.getText().toString();
                 //postRequest();
                 newListItemName.setText("");
@@ -88,35 +89,35 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
-    private void jsonParse() {
-        String url = "https://api.myjson.com/bins/jqfcl";
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("List");
-
-                            for (int i = 0; i < jsonArray.length(); i++){
-                                JSONObject List = jsonArray.getJSONObject(i);
-
-                                items.add(List.getString("contents"));
-                                items.add(List.getString("dateCreate"));
-                            }
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        mQueue.add(request);
-    }
+//    private void jsonParse() {
+//        String url = "https://api.myjson.com/bins/jqfcl";
+//
+//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        try {
+//                            JSONArray jsonArray = response.getJSONArray("List");
+//
+//                            for (int i = 0; i < jsonArray.length(); i++){
+//                                JSONObject List = jsonArray.getJSONObject(i);
+//
+//                                items.add(List.getString("contents"));
+//                                items.add(List.getString("dateCreate"));
+//                            }
+//                            adapter.notifyDataSetChanged();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                error.printStackTrace();
+//            }
+//        });
+//        mQueue.add(request);
+//    }
 
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
@@ -128,11 +129,11 @@ public class ListActivity extends AppCompatActivity {
     };
 
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd"; //TODO change this for the actual list
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("id", title);
-        params.put("contents", newListItemNameString);
+        params.put("ListName", title);
+        params.put("Task", newListItemNameString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -156,8 +157,59 @@ public class ListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("id", title);
-                params.put("contents", newListItemNameString);
+                params.put("ListName", title);
+                params.put("Task", newListItemNameString);
+
+//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
+    }
+
+    private void postRequestForParse() {
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("ListName", title);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("List");
+
+                            for (int i = 0; i < jsonArray.length(); i++){
+                                JSONObject List = jsonArray.getJSONObject(i);
+
+                                items.add(List.getString("Contents"));
+                            }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("ListName", title);
+                params.put("Task", newListItemNameString);
 
 //                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;

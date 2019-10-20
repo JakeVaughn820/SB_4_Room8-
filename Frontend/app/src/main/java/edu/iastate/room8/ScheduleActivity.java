@@ -33,7 +33,8 @@ public class ScheduleActivity extends AppCompatActivity {
     private String day;
     private String month;
     private String year;
-    private DateParser dateParser;
+//    private DateParser dateParser;
+    boolean clicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +44,23 @@ public class ScheduleActivity extends AppCompatActivity {
         goToScheduleDay = findViewById(R.id.goToScheduleDay);
         calender = findViewById(R.id.calendar);
 
-        dateParser = new DateParser(10, 17, 2019);
+        clicked = false;
+        //dateParser = new DateParser(10, 17, 2019);
 
         goToScheduleDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(clicked==false ){
+                    Toast.makeText(ScheduleActivity.this, "Please select a date first", Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent i = new Intent(ScheduleActivity.this, DayActivity.class);
+                    i.putExtra("EXTRA_INFORMATION", date);
+                    i.putExtra("Day", day);
+                    i.putExtra("Month", month);
+                    i.putExtra("Year", year);
+                    startActivity(i);
+                }
 
-                Intent i = new Intent(ScheduleActivity.this, DayActivity.class);
-                i.putExtra("EXTRA_INFORMATION", date);
-                i.putExtra("Day", day);
-                i.putExtra("Month", month);
-                i.putExtra("Year", year);
-                startActivity(i);
             }
         });
         calender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -67,7 +73,7 @@ public class ScheduleActivity extends AppCompatActivity {
 //                dateParser.setDay(i1);
 //                dateParser.setMonth(i+1);
 //                dateParser.setYear(i2);
-
+                clicked = true;
                 date = (i1 + 1) + "/" + i2 + "/" + i;
                 day = i2 + "";
                 month = (i1 + 1) + "";

@@ -110,6 +110,27 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void validate2(String success, String userID){
+        if(success.equals("1")){
+
+            Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
+            i.putExtra("USER_ID", userID);
+            startActivity(i);
+
+        }else{
+
+            loginAttemps--;
+            loginAttempsTextView.setText("Incorrect User Name or Password" + "\n" +
+                    "Login Attemps Left: " + loginAttemps
+                    + "\n");
+
+            if (loginAttemps == 0){
+                loginbtn.setEnabled(false);
+
+            }
+        }
+    }
+
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 
@@ -121,11 +142,12 @@ public class LoginActivity extends AppCompatActivity {
                 url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) { //TODO Use this same method in lists to update correctly and in bulletin!
+                    public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Success");
-                            //TODO use Jake's validate with success are argument. Change to one parameter.
+                            String userID = response.getString("UserID");
+                            validate2(success, userID);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

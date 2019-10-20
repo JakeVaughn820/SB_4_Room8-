@@ -22,7 +22,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
-import com.database.lists.*;
+import com.database.roomList.*;
 import com.database.user.*;
 
 @SpringBootApplication
@@ -45,9 +45,10 @@ public class DatabaseApplication {
 		      return "Hello, " + name + "!";
 		  }
 		  
-		  @GetMapping("/list")
-		  public String getRoomList() {
+		  @GetMapping("/list/{room}")
+		  public String getRoomList(@PathVariable String room) {
 			  List<RoomList> roomLists = roomListService.getLists();
+			  JSONObject jlist = new JSONObject();
 			  String ret = "{\"RoomLists\":[";
 			  if(roomLists.isEmpty())
 				  ret += " ";
@@ -58,19 +59,17 @@ public class DatabaseApplication {
 		      return ret;
 		  }
 		  
-		  @PostMapping(path = "/list", consumes = "application/json", produces = "application/json")
-		  public String addRoomList(@RequestBody String item) {
+		  @PostMapping(path = "/list/{room}", consumes = "application/json", produces = "application/json")
+		  public String addRoomList(@RequestBody String item, @PathVariable String room) {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  String Description = body.getString("Description");
-			  //String Description = item.substring(16, item.indexOf('\"', 16));
-			  //String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
 			  roomListService.addList(new RoomList(Title, Description));
-			  return "200 OK";
+			  return "Success";
 		  }
 		  
-		  @GetMapping("/bulletin")
-		  public String getBulletin() {
+		  @GetMapping("/bulletin/{room}")
+		  public String getBulletin(@PathVariable String room) {
 			  List<Pin> pins = bulletinService.getPins();
 			  String ret = "{\"BulletinBoard\":[";
 			  if(pins.isEmpty())
@@ -82,15 +81,25 @@ public class DatabaseApplication {
 		      return ret;
 		  }
 		  
-		  @PostMapping(path = "/bulletin", consumes = "application/json", produces = "application/json")
-		  public String addToBulletin(@RequestBody String item) {
+		  @PostMapping(path = "/bulletin/{room}", consumes = "application/json", produces = "application/json")
+		  public String addToBulletin(@RequestBody String item, @PathVariable String room) {
 			  JSONObject body = new JSONObject(item);
 			  String User = body.getString("User");
 			  String Contents = body.getString("Contents");
-			  //String User = item.substring(9, item.indexOf('\"', 9));
-			  //String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
 			  bulletinService.addPin(new Pin(User, Contents));
-			  return "200 OK";
+			  return "Success";
+		  }
+		  
+		  @GetMapping("/schedule/{room}")
+		  public String getShedule(@PathVariable String room) {
+			  //TODO
+			  return null;
+		  }
+		  
+		  @PostMapping(path = "/schedule/{room}", consumes = "application/json", produces = "application/json")
+		  public String addToSchedule(@RequestBody String item, @PathVariable String room) {
+			  //TODO
+			  return null;
 		  }
 		  
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
@@ -103,7 +112,7 @@ public class DatabaseApplication {
 			  for(User user : userList) {
 				  if(user.getEmail().equals(Email)) {
 					  if(user.getPassword().equals(Password))
-						  return "Credentials match";
+						  return "Success";
 					  else
 						  return "Incorrect Password";
 				  }
@@ -111,7 +120,7 @@ public class DatabaseApplication {
 			  return "User does not exist";
 		  }
 		  
-		  @PostMapping(path = "/createUser", consumes = "application/json", produces = "application/json")
+		  @PostMapping(path = "/register", consumes = "application/json", produces = "application/json")
 		  public String createUser(@RequestBody String item) {
 			  JSONObject body = new JSONObject(item);
 			  String Name = body.getString("Name");
@@ -125,7 +134,7 @@ public class DatabaseApplication {
 					  return "Email already in use";
 			  }
 			  userService.addUser(new User(Name, Email, Password));
-			  return "User created";
+			  return "Success";
 		  }
 		  
 		  @Override

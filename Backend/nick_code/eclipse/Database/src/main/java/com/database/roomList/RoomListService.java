@@ -1,4 +1,4 @@
-package com.database.lists;
+package com.database.roomList;
 
 import java.util.ArrayList;
 import java.util.List;
