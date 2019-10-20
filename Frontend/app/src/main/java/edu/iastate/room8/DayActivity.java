@@ -65,7 +65,7 @@ public class DayActivity extends AppCompatActivity {
         day = getIntent().getStringExtra("Day");
         month = getIntent().getStringExtra("Month");
         year = getIntent().getStringExtra("Year");
-
+        eventNames = new ArrayList<String>();
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
