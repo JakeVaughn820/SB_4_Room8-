@@ -58,7 +58,6 @@ public class BulletinActivity extends AppCompatActivity {
         toAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO make sure post request works
                 stringToAddText = toAddText.getText().toString();
                 if(stringToAddText.equals("")){
                     Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
@@ -115,7 +114,7 @@ public class BulletinActivity extends AppCompatActivity {
     }
 
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin"; //TODO change this for the bulletin
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("User", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.

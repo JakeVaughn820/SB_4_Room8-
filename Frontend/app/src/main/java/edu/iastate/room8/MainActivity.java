@@ -118,12 +118,11 @@ public class MainActivity extends AppCompatActivity {
                 url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) { //TODO Use this same method in lists to update correctly and in bulletin!
+                    public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Success");
                             validate(success);
-                            //TODO use Jake's validate with success are argument. Change to one parameter.
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

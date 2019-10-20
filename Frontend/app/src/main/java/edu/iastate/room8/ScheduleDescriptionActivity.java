@@ -59,7 +59,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
 
     }
 
-    private void postRequest() { //TODO put this post request in the "schedule description activity" when made
+    private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         Map<String, String> params = new HashMap<String, String>();

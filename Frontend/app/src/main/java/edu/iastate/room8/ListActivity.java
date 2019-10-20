@@ -81,7 +81,7 @@ public class ListActivity extends AppCompatActivity {
         newListItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO make sure post request works
+
                 newListItemNameString = newListItemName.getText().toString();
                 //postRequest();
                 newListItemName.setText("");
@@ -129,7 +129,7 @@ public class ListActivity extends AppCompatActivity {
     };
 
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd"; //TODO change this for the actual list
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("ListName", title);
@@ -169,7 +169,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     private void postRequestForParse() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd"; //TODO change this for the actual list
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("ListName", title);
