@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import edu.iastate.room8.app.AppController;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -20,6 +23,8 @@ public class HomeActivity extends AppCompatActivity {
         tempButton = findViewById(R.id.tempButton);
         tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
         tempButtonSchedule = findViewById(R.id.tempButtonSchedule);
+
+        Toast.makeText(this, ((AppController) this.getApplication()).getUserID(), Toast.LENGTH_SHORT).show();
 
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
