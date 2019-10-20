@@ -87,6 +87,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void validate(String success){
+        if(success.equals("1")){
+
+            Intent i = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(i);
+
+        }else{
+
+            loginAttemps--;
+            loginAttempsTextView.setText("Incorrect User Name or Password" + "\n" +
+                    "Login Attemps Left: " + loginAttemps
+                    + "\n");
+
+            if (loginAttemps == 0){
+                loginbtn.setEnabled(false);
+
+            }
+        }
+    }
+
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 
@@ -102,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Success");
+                            validate(success);
                             //TODO use Jake's validate with success are argument. Change to one parameter.
                         } catch (JSONException e) {
                             e.printStackTrace();
