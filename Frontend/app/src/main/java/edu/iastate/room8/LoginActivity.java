@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.SessionManager;
 
 public class LoginActivity extends AppCompatActivity {
 

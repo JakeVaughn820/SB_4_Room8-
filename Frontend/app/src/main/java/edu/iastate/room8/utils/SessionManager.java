@@ -1,10 +1,14 @@
-package edu.iastate.room8;
+package edu.iastate.room8.utils;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import java.util.HashMap;
+
+import edu.iastate.room8.HomeActivity;
+import edu.iastate.room8.LoginActivity;
+import edu.iastate.room8.NewRoomActivity;
 
 public class SessionManager {
 

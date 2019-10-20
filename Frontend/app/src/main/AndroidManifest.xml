@@ -14,13 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-<<<<<<< HEAD
         <activity android:name=".NewRoomActivity"></activity>
-=======
         <activity android:name=".NewUserRoomJoin"></activity>
         <activity android:name=".ScheduleDescriptionActivity" />
         <activity android:name=".NewScheduleActivity" />
->>>>>>> d67be41e38e6d775f6fb0b83f2c6166301d07579
         <activity android:name=".DayActivity" />
         <activity android:name=".ScheduleActivity" />
         <activity android:name=".ListActivity" />
