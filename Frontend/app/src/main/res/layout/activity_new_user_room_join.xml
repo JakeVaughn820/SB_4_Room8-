@@ -53,6 +53,7 @@
         android:text="" />
 
     <ListView
+        android:id="@+id/RoomList"
         android:layout_width="match_parent"
         android:layout_below="@id/alreadyJoinedTextView"
         android:layout_height="match_parent" />
