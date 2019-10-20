@@ -90,6 +90,18 @@ public class DatabaseApplication {
 			  return "Success";
 		  }
 		  
+		  @GetMapping("/schedule/{room}")
+		  public String getShedule(@PathVariable String room) {
+			  //TODO
+			  return null;
+		  }
+		  
+		  @PostMapping(path = "/schedule/{room}", consumes = "application/json", produces = "application/json")
+		  public String addToSchedule(@RequestBody String item, @PathVariable String room) {
+			  //TODO
+			  return null;
+		  }
+		  
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
 		  public String attemptLogin(@RequestBody String item) {
 			  //TODO Add login system, actually do something to Log in, instead of returning 'match' or 'no match'
