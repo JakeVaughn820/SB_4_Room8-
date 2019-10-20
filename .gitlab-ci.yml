@@ -11,7 +11,6 @@ maven-build:
     - backend_tag1
   script:
     - cd Backend
-    - cd nick_code
     - mvn package -B
 
 maven-test:
@@ -20,7 +19,6 @@ maven-test:
     - backend_tag1
   script:
     - cd Backend
-    - cd nick_code
     - mvn test
   artifacts:
     paths:
@@ -32,7 +30,6 @@ autoDeploy:
     - backend_tag1
   script: 
     - cd Backend
-    - cd nick_code
     - mvn package
     - sudo mc target/*.jar /target/web-demo.jar
     - sudo systemctl stop systemd-web-demo
