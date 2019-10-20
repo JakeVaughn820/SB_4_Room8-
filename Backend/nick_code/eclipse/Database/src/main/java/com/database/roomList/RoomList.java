@@ -1,4 +1,4 @@
-package com.database.lists;
+package com.database.roomList;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
