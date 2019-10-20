@@ -33,12 +33,26 @@ public class SessionManager {
         editor.putString(EMAIL, email);
         editor.putString(ID, id);
         editor.apply();
-
     }
 
     public void setRoom (String room){
         editor.putString(ROOM, room);
         editor.apply();
+    }
+
+    public boolean isInRoom(){
+        if (sharedPreferences.getString(ROOM, null) != null){
+            return true;
+        }
+        return false;
+    }
+
+    public void checkRoom(){
+        if (!this.isInRoom()){
+            Intent i = new Intent(context, NewRoomActivity.class);
+            context.startActivity(i);
+            ((HomeActivity) context).finish();
+        }
     }
 
     public boolean isLoggin(){
@@ -60,6 +74,7 @@ public class SessionManager {
         user.put(NAME, sharedPreferences.getString(NAME, null));
         user.put(EMAIL, sharedPreferences.getString(EMAIL, null));
         user.put(ID, sharedPreferences.getString(ID, null));
+        user.put(ROOM, sharedPreferences.getString(ROOM, null));
 
         return user;
     }

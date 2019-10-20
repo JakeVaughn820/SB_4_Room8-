@@ -6,11 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".NewRoomActivity">
 
+    <EditText
+        android:id="@+id/etNewRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:hint="Enter New Room Name" />
     <Button
         android:id="@+id/btnCreateRoom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_below="@id/etNewRoom"
         android:layout_centerHorizontal="true"
         android:text="Create New Room" />
 
