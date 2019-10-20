@@ -31,6 +31,7 @@ public class NewRoomActivity extends AppCompatActivity {
     private EditText etInviteCode;
     private String inviteCode;
     private String room;
+    private String userName;
     private SessionManager sessionManager;
     private String TAG = NewListActivity.class.getSimpleName();
 
@@ -47,6 +48,8 @@ public class NewRoomActivity extends AppCompatActivity {
         btnCreateRoom = findViewById(R.id.btnCreateRoom);
         btnJoinRoom = findViewById(R.id.btnJoinRoom);
         etInviteCode = findViewById(R.id.etInviteCode);
+
+        userName = sessionManager.getUserDetail().get("USER");
 
         btnCreateRoom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +78,7 @@ public class NewRoomActivity extends AppCompatActivity {
         String url = "";
 
         Map<String, String> params = new HashMap<String, String>();
+        params.put("UserName", userName);
         params.put("InviteCode", inviteCode);
         JSONObject toPost = new JSONObject(params);
 //        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
@@ -100,6 +104,7 @@ public class NewRoomActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("UserName", userName);
                 params.put("Room", room);
                 return params;
             }
