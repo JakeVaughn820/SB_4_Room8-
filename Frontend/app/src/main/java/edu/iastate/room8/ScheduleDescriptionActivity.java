@@ -63,7 +63,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("Day", getIntent().getStringExtra("EXTRA_INFORMATION"));
+        params.put("EventName", getIntent().getStringExtra("EXTRA_INFORMATION"));
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
@@ -99,7 +99,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Day", getIntent().getStringExtra("EXTRA_INFORMATION"));
+                params.put("EventName", getIntent().getStringExtra("EXTRA_INFORMATION"));
                 return params;
             }
         };
