@@ -43,6 +43,7 @@ public class DayActivity extends AppCompatActivity {
     private RequestQueue mQueue;
 
     private ArrayList<String> items;
+    private ArrayList<String> eventNames;
     private ArrayAdapter<String> adapter;
     private ListView listView;
 
@@ -86,48 +87,7 @@ public class DayActivity extends AppCompatActivity {
 
 
 
-    private void postRequest() { //TODO put this post request in the "schedule description activity" when made
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("Day", day);
-        params.put("Month", month);
-        params.put("Year", year);
-        //TOD
-//        Toast.makeText(this, params.get("Title"), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, params.get("Description"), Toast.LENGTH_SHORT).show();
-        JSONObject toPost = new JSONObject(params);
-//        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, toPost,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Day", day);
-                params.put("Month", month);
-                params.put("Year", year);
-                return params;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-    }
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
 //        String url = "https://api.myjson.com/bins/w6jix";
@@ -150,7 +110,7 @@ public class DayActivity extends AppCompatActivity {
                                 String eventName = List.getString("EventName");
                                 String user = List.getString("User");
                                 items.add(user + ": " + eventName + "\t" + start + " - " + end);
-
+                                eventNames.add(eventName);
 
 //                                Toast.makeText(MainListActivity.this, temp, Toast.LENGTH_SHORT).show();
                             }
@@ -171,7 +131,7 @@ public class DayActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             Intent i = new Intent(DayActivity.this, ScheduleDescriptionActivity.class);
-            i.putExtra("EXTRA_INFORMATION", items.get(position));
+            i.putExtra("EXTRA_INFORMATION", eventNames.get(position));
             startActivity(i);
         }
     };
