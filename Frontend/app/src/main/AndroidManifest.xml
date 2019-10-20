@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NewScheduleActivity"></activity>
+        <activity android:name=".ScheduleDescriptionActivity"></activity>
+        <activity android:name=".NewScheduleActivity" />
         <activity android:name=".DayActivity" />
         <activity android:name=".ScheduleActivity" />
         <activity android:name=".ListActivity" />

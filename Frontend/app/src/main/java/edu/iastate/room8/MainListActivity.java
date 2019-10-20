@@ -62,7 +62,7 @@ public class MainListActivity extends AppCompatActivity {
             }
         });
 
-        itemsList.setOnItemClickListener(messageClickedHandler);
+        itemsList.setOnItemClickListener(messageClickedHandler);//
     }
 
     @Override

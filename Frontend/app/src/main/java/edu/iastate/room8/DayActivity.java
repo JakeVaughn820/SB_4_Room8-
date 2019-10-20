@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -42,6 +43,7 @@ public class DayActivity extends AppCompatActivity {
     private RequestQueue mQueue;
 
     private ArrayList<String> items;
+    private ArrayList<String> eventNames;
     private ArrayAdapter<String> adapter;
     private ListView listView;
 
@@ -63,7 +65,7 @@ public class DayActivity extends AppCompatActivity {
         day = getIntent().getStringExtra("Day");
         month = getIntent().getStringExtra("Month");
         year = getIntent().getStringExtra("Year");
-
+        eventNames = new ArrayList<String>();
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
@@ -78,59 +80,20 @@ public class DayActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        listView.setOnItemClickListener(messageClickedHandler);
     }
 
 
 
 
-    private void postRequest() { //TODO put this post request in the "schedule description activity" when made
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("Day", day);
-        params.put("Month", month);
-        params.put("Year", year);
-        //TOD
-//        Toast.makeText(this, params.get("Title"), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, params.get("Description"), Toast.LENGTH_SHORT).show();
-        JSONObject toPost = new JSONObject(params);
-//        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, toPost,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("Day", day);
-                params.put("Month", month);
-                params.put("Year", year);
-                return params;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-    }
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
 //        String url = "https://api.myjson.com/bins/w6jix";
 //        String url = "https://api.myjson.com/bins/l3r1l";
 //        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
-        String url = "https://api.myjson.com/bins/ao2eo";
+        String url = "https://api.myjson.com/bins/xf1fk";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -145,7 +108,9 @@ public class DayActivity extends AppCompatActivity {
                                 String start = List.getString("StartTime");
                                 String end = List.getString("EndTime");
                                 String eventName = List.getString("EventName");
-                                items.add(eventName + "\t" + start + " - " + end);
+                                String user = List.getString("User");
+                                items.add(user + ": " + eventName + "\t" + start + " - " + end);
+                                eventNames.add(eventName);
 
 //                                Toast.makeText(MainListActivity.this, temp, Toast.LENGTH_SHORT).show();
                             }
@@ -162,5 +127,13 @@ public class DayActivity extends AppCompatActivity {
         });
         mQueue.add(request);
     }
+
+    private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView parent, View v, int position, long id) {
+            Intent i = new Intent(DayActivity.this, ScheduleDescriptionActivity.class);
+            i.putExtra("EXTRA_INFORMATION", eventNames.get(position));
+            startActivity(i);
+        }
+    };
 
 }
