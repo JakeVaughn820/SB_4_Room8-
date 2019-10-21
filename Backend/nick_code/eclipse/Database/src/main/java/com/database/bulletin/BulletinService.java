@@ -12,39 +12,23 @@ public class BulletinService
 	@Autowired
 	private BulletinRepository bulletinRepository;
 	
-	public Iterable<Bulletin> fetchAll() throws Exception
+	public List<Pin> getPins()
 	{
-		return bulletinRepository.findAll(); 
+		return bulletinRepository.findAll();
 	}
 	
-	public List<String> findContentsByRoomId(String roomId)
+	public void addPin(Pin bulletin)
 	{
-		return bulletinRepository.findContentsByRoomId(roomId);
+		bulletinRepository.save(bulletin); 
 	}
 	
-	
-	
-//	@Query(value="select first_name, last_name from Users u where u.user_id =:userId", nativeQuery=true)
-//	List<Object[]> getUserFullNameById(@Param("userId") String userId);
-//	
-//	
-//	public List<Pin> getPins()
-//	{
-//		return bulletinRepository.findAll();
-//	}
-//	
-//	public void addPin(Pin bulletin)
-//	{
-//		bulletinRepository.save(bulletin); 
-//	}
-//	
-//    public Long count() {
-//
-//        return bulletinRepository.count();
-//    }
-//
-//    public void deleteById(String userId) {
-//
-//    	bulletinRepository.deleteById(userId);;
-//    }
+    public Long count() {
+
+        return bulletinRepository.count();
+    }
+
+    public void deleteById(String userId) {
+
+    	bulletinRepository.deleteById(userId);;
+    }
 }

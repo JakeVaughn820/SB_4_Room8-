@@ -1,14 +1,15 @@
 package com.database.roomMembers;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,11 +21,13 @@ public class RoomMembers
 	@Column(name="id")
 	private String id; 
 	
-	@ManyToOne
+	//	@ManyToOne(fetch = FetchType.LAZY)
+	
+	@ManyToOne(targetEntity = com.database.user.User.class)
 	@JoinColumn(name="user_id", foreignKey = @ForeignKey(name = "user_id"))
 	private String userId;
 	
-	@ManyToOne
+	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_id", foreignKey = @ForeignKey(name = "room_id"))
 	private String roomId;
 	

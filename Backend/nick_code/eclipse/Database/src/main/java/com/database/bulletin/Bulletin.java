@@ -1,5 +1,6 @@
 package com.database.bulletin;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -22,7 +23,7 @@ public class Bulletin
 	@Column(name="bulletin_contents")
 	private String bulletinContents;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_bulletin_id", foreignKey = @ForeignKey(name = "room_bulletin_id"))
 	private String roomBulletinId;
 	
