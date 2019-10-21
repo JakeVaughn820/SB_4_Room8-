@@ -18,21 +18,22 @@ public class DateParser {
     public void setYear(int i){
         year = i;
     }
-    public static String parseDate(int i, int i1, int i2){
-        return (i1 + 1) + "/" + i + "/" + i2;
+
+    public String parseDate(){
+        return (month + 1) + "/" + day + "/" + year;
 
     }
 
-    public String parseDay(int i){
+    public String parseDay(){
         return day + "";
     }
 
-    public String parseMonth(int i){
+    public String parseMonth(){
         return (month + 1) + "";
 
     }
 
-    public String parseYear(int i){
+    public String parseYear(){
         return year + "";
 
     }

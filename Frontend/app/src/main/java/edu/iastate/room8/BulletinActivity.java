@@ -113,38 +113,7 @@ public class BulletinActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
-//    public JSONObject returnJSON() {
-//        String url = "https://api.myjson.com/bins/1g4fnt";
-//
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//                            JSONArray jsonArray = response.getJSONArray("BulletinBoard");
-//
-//                            for (int i = 0; i < jsonArray.length(); i++) {
-//                                JSONObject List = jsonArray.getJSONObject(i);
-//
-//                                String id = List.getString("User");
-//                                String contents = List.getString("Contents");
-//                                textView.append(Html.fromHtml("<b>" + id + ": </b>"));
-//                                textView.append(contents + "\n");
-//                            }
-//                        } catch (JSONException e) {
-//                            textView.setText("Something went wrong!>!>!>");//yml
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//            }
-//        });
-//
-//        return null;
-//    }
+
 
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";

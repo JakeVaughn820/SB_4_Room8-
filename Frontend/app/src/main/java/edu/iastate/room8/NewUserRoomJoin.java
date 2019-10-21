@@ -62,8 +62,8 @@ public class NewUserRoomJoin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO post that creates new room
-                Intent i = new Intent(NewUserRoomJoin.this, HomeActivity.class);
-                startActivity(i);
+                Intent j = new Intent(NewUserRoomJoin.this, HomeActivity.class);
+                startActivity(j);
             }
         });
 

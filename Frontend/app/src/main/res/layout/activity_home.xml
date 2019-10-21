@@ -31,7 +31,7 @@
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_below="@id/tempButtonBulletin"
-        android:text="Temporary Go To Schedule" />
+        android:text="Room Schedule" />
 
     <Button
         android:id="@+id/btnLogout"
