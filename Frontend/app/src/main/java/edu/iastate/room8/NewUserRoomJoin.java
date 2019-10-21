@@ -55,6 +55,9 @@ public class NewUserRoomJoin extends AppCompatActivity {
         joinRoomEditText = findViewById(R.id.roomIdEditText);
         list = findViewById(R.id.RoomList);
 
+        items = new ArrayList<String>();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+
         newRoomCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
