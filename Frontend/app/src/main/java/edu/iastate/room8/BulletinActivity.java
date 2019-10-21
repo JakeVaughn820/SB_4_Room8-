@@ -100,7 +100,7 @@ public class BulletinActivity extends AppCompatActivity {
                                 textView.append(contents + "\n");
                             }
                         } catch (JSONException e) {
-                            textView.setText("Something went wrong!>!>!>");
+                            textView.setText("Something went wrong!>!>!>");//yml
                             e.printStackTrace();
                         }
                     }
