@@ -85,16 +85,10 @@ public class LoginActivity extends AppCompatActivity {
         //This if matches the (username or email) and password with those on the database
         if((userName_Email.equals(getUser) || userName_Email.equals(getEmail)) && (userPassword.equals(getPassword))){
             sessionManager.createSession(getUser, getEmail, id);  //Creates a new session where the user is logged in
-            if(getRoom == null) {
-                Intent i = new Intent(LoginActivity.this, NewRoomActivity.class);  //Goes to HomeActivity
-                startActivity(i);
-            }
 
-            else if(getRoom != null) {
-                sessionManager.setRoom(getRoom);
-                Intent i = new Intent(LoginActivity.this, HomeActivity.class);  //Goes to HomeActivity
+                Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
                 startActivity(i);
-            }
+
 
         }else{
 
@@ -111,11 +105,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void validate2(String success, String userID){
+    private void validate2(String success, String userID, String userEmail, String userName){
         if(success.equals("1")){
 
             Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
-            i.putExtra("USER_ID", userID);
+            sessionManager.createSession(userName, userEmail, userID);  //Creates a new session where the user is logged in
             startActivity(i);
 
         }else{
@@ -148,7 +142,10 @@ public class LoginActivity extends AppCompatActivity {
                         try {
                             String success = response.getString("Success");
                             String userID = response.getString("UserID");
-                            validate2(success, userID);
+                            String userEmail = response.getString("Email");
+                            String userName = response.getString("UserName");
+
+                            validate2(success, userID, userEmail, userName);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
