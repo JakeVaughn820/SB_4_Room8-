@@ -56,7 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_below="@id/loginbtn"
-        android:layout_marginBottom="140dp"
         android:text="Sign Up" />
 
     <TextView
