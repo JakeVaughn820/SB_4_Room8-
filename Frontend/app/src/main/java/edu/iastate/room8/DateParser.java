@@ -6,7 +6,7 @@ public class DateParser {
     private int year;
     public DateParser(int i, int i1, int i2){
         day = i;
-        month = i1;
+        month = i1-1;
         year = i2;
     }
     public void setDay(int i){
