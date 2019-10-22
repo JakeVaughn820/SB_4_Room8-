@@ -53,6 +53,8 @@ public class SessionManager {
 
     public void checkRoom(){
         if (!this.isInRoom()){
+            //TODO this line below pulls it to the wrong room, should be changed to NewUserRoomJoin. I will make a logout in the NewUserRoomJoin
+            //TODO then push and then go to bed
             Intent i = new Intent(context, NewRoomActivity.class);
             context.startActivity(i);
             ((HomeActivity) context).finish();

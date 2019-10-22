@@ -34,6 +34,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
 
     private Button newRoomCreate;
     private Button joinRoom;
+    private Button logout;
     private EditText joinRoomEditText;
     private ListView list;
     private String TAG = NewListActivity.class.getSimpleName();
@@ -54,6 +55,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
         joinRoom = findViewById(R.id.RoomJoin);
         joinRoomEditText = findViewById(R.id.roomIdEditText);
         list = findViewById(R.id.RoomList);
+        logout = findViewById(R.id.logoutButton);
 
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
@@ -73,6 +75,15 @@ public class NewUserRoomJoin extends AppCompatActivity {
                 //TODO post that sees if room exists and return if true then calls method that does stuff
                 Intent j = new Intent(NewUserRoomJoin.this, HomeActivity.class);
                 startActivity(j);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO put session manager logout here, for now will put temporary intent
+                Intent i = new Intent(NewUserRoomJoin.this, LoginActivity.class);
+                startActivity(i);
             }
         });
 

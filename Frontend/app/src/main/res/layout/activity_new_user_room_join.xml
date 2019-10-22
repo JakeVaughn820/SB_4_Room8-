@@ -18,7 +18,7 @@
         android:id="@+id/newRoomCreateTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         android:textAlignment="center"
         android:text="Want to create a new room? Click here and it will create a new room with an ID for others to use to join" />
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/NewRoomCreate"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="Want to join an already created room? Enter the room ID" />
 
     <Button
@@ -62,9 +62,26 @@
         android:id="@+id/alreadyJoinedTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/RoomJoin"
+        android:layout_below="@id/logoutButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:text="Already Joined Rooms" />
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logoutTextView"
+        android:layout_centerHorizontal="true"
+        android:text="Logout" />
+
+    <TextView
+        android:id="@+id/logoutTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/RoomJoin"
+        android:text="Not your account? Logout below" />
 
 </RelativeLayout>
