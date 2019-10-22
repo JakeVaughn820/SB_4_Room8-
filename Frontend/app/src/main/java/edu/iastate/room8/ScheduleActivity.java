@@ -32,7 +32,7 @@ public class ScheduleActivity extends AppCompatActivity {
         calender = findViewById(R.id.calendar);
 
         clicked = false;
-        dateParser = new DateParser(10, 21, 2019);
+        dateParser = new DateParser(21, 10, 2019);
 
         goToScheduleDay.setOnClickListener(new View.OnClickListener() {
             @Override
