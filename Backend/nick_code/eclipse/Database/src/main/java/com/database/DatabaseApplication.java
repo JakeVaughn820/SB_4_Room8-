@@ -22,6 +22,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
+import com.database.bulletin.pins.Pin;
 import com.database.lists.*;
 import com.database.user.*;
 
@@ -47,37 +48,37 @@ public class DatabaseApplication {
 		  
 		  @GetMapping("/list")
 		  public String getRoomList() {
-			  List<RoomList> roomLists = roomListService.getLists();
+//			  List<RoomList> roomLists = roomListService.getLists();
 			  String ret = "{\"RoomLists\":[";
-			  if(roomLists.isEmpty())
-				  ret += " ";
-			  for (RoomList temp : roomLists) {
-				ret += temp.toString() + ",";
-			  	}
+//			  if(roomLists.isEmpty())
+//				  ret += " ";
+//			  for (RoomList temp : roomLists) {
+//				ret += temp.toString() + ",";
+//			  	}
 		  	  ret = ret.substring(0, ret.length()-1) + "]}";
 		      return ret;
 		  }
 		  
 		  @PostMapping(path = "/list", consumes = "application/json", produces = "application/json")
 		  public String addRoomList(@RequestBody String item) {
-			  JSONObject body = new JSONObject(item);
-			  String Title = body.getString("Title");
-			  String Description = body.getString("Description");
+//			  JSONObject body = new JSONObject(item);
+//			  String Title = body.getString("Title");
+//			  String Description = body.getString("Description");
 			  //String Description = item.substring(16, item.indexOf('\"', 16));
 			  //String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
-			  roomListService.addList(new RoomList(Title, Description));
+//			  roomListService.addList(new RoomList(Title, Description));
 			  return "200 OK";
 		  }
 		  
 		  @GetMapping("/bulletin")
 		  public String getBulletin() {
-			  List<Pin> pins = bulletinService.getPins();
+	//		  List<Pin> pins = bulletinService.getPins();
 			  String ret = "{\"BulletinBoard\":[";
-			  if(pins.isEmpty())
+			//  if(pins.isEmpty())
 				  ret += " ";
-			  for (Pin temp : pins) {
-				ret += temp.toString() + ",";
-			  	}
+	//		  for (Pin temp : pins) {
+	//			ret += temp.toString() + ",";
+	//		  	}
 		  	  ret = ret.substring(0, ret.length()-1) + "]}";
 		      return ret;
 		  }
@@ -85,11 +86,11 @@ public class DatabaseApplication {
 		  @PostMapping(path = "/bulletin", consumes = "application/json", produces = "application/json")
 		  public String addToBulletin(@RequestBody String item) {
 			  JSONObject body = new JSONObject(item);
-			  String User = body.getString("User");
+			  //String User = body.getString("User");
 			  String Contents = body.getString("Contents");
 			  //String User = item.substring(9, item.indexOf('\"', 9));
 			  //String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
-			  bulletinService.addPin(new Pin(User, Contents));
+	//		  bulletinService.addPin(new Pin(Contents));
 			  return "200 OK";
 		  }
 		  
@@ -117,6 +118,7 @@ public class DatabaseApplication {
 			  String Name = body.getString("Name");
 			  String Email = body.getString("Email");
 			  String Password = body.getString("Password");
+			  //int In_Room = body.getInt("In_Room"); 
 			  List<User> userList = userService.getUsers();
 			  for(User user : userList) {
 				  if(user.getName().equals(Name))

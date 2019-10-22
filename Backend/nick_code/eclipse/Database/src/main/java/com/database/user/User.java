@@ -16,24 +16,29 @@ public class User
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String Id;
 	
-	@Column(name="Name")
+	@Column(name="name")
 	private String Name;
 	
-	@Column(name="Email")
+	@Column(name="email")
 	private String Email;
 	
-	@Column(name="Password")
-	private String Password;  
+	@Column(name="password")
+	private String Password;
+	
+	@Column(name="in_room")
+	private int In_Room;
 	
 	
 	public User() {
 
 	}
 	
-	public User(String name, String email, String pswd){ 
+	public User(String name, String email, String pswd)
+	{ 
 		this.Name = name; 
 		this.Email = email;
 		this.Password = pswd; 
+		this.In_Room = 0; 
 	}
 	
 	//Id handlers
@@ -70,6 +75,26 @@ public class User
 	
 	public void setPassword(String pswd){
 		this.Password = pswd; 
+	}
+	
+	//In_Room handlers
+	public int getInRoom(){
+		return In_Room; 
+	}
+	
+	public void setInRoom(String in_room){
+		this.Password = in_room; 
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o == this)
+			return true;
+		if(!(o instanceof User))
+			return false; 
+		User user = (User) o;
+		return this.Id == user.Id && this.Name == user.Name && this.Email == user.Email && this.Password == user.Password && this.In_Room == user.In_Room;
 	}
 
 }

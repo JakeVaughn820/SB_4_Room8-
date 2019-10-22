@@ -11,14 +11,15 @@ public class RoomMembersService
 	@Autowired
 	private RoomMembersRepository roomMembersRepository; 
 	
-	public List<RoomMembers> getRooms()
+	public List<RoomMembers> getRoomMembers()
 	{
 		return roomMembersRepository.findAll();
 	}
 	
-	public void addRoom(RoomMembers roomMembers)
+	public RoomMembers addRoomMembers(RoomMembers roomMembers)
 	{
 		roomMembersRepository.save(roomMembers); 
+		return roomMembers;
 	} 
 	
 	public void deleteById(String roomMembersId)

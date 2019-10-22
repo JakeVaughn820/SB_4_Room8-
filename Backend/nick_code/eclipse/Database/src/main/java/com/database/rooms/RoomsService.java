@@ -16,10 +16,16 @@ public class RoomsService
 		return roomsRepository.findAll();
 	}
 	
-	public void addRoom(Rooms room)
+	public Rooms addRoom(Rooms room)
 	{
-		roomsRepository.save(room); 
+		roomsRepository.save(room);
+		return room; 
 	} 
+	
+    public Long count() {
+
+        return roomsRepository.count();
+    }
 	
 	public void deleteById(String roomId)
 	{

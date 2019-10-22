@@ -1,6 +1,5 @@
 package com.database.lists;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,25 +9,27 @@ import org.springframework.stereotype.Service;
 public class RoomListService 
 {
 	@Autowired
-	private RoomListRepository listRepository; 
+	private RoomListRepository roomListRepository; 
 	
-	public List<RoomList> getLists() 
+	public List<RoomList> getPins() 
 	{
-		return listRepository.findAll();
+		return roomListRepository.findAll();
 	}
 	
-	public void addList(RoomList roomList)
+	public RoomList addPin(RoomList roomList)
 	{
-		listRepository.save(roomList); 
+		return roomListRepository.save(roomList);
 	}
 	
-    public Long count() {
+    public Long count() 
+    {
 
-        return listRepository.count();
+        return roomListRepository.count();
     }
 
-    public void deleteById(String userId) {
-
-    	listRepository.deleteById(userId);;
+    public boolean deleteById(String pinId) throws IllegalArgumentException
+    {
+    	roomListRepository.deleteById(pinId);
+        return true; 
     }
 }

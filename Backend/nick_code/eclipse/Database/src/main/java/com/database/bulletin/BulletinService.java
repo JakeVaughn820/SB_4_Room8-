@@ -1,6 +1,5 @@
 package com.database.bulletin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +11,14 @@ public class BulletinService
 	@Autowired
 	private BulletinRepository bulletinRepository;
 	
-	public List<Pin> getPins()
+	public List<Bulletin> getBulletin()
 	{
 		return bulletinRepository.findAll();
 	}
 	
-	public void addPin(Pin bulletin)
+	public Bulletin addBulletin(Bulletin bulletin)
 	{
-		bulletinRepository.save(bulletin); 
+		return bulletinRepository.save(bulletin); 
 	}
 	
     public Long count() {
@@ -27,8 +26,9 @@ public class BulletinService
         return bulletinRepository.count();
     }
 
-    public void deleteById(String userId) {
-
-    	bulletinRepository.deleteById(userId);;
+    public boolean deleteById(String userId) throws IllegalArgumentException 
+    {
+    	bulletinRepository.deleteById(userId);
+    	return true; 
     }
 }

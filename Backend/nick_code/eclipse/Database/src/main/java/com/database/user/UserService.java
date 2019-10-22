@@ -16,9 +16,10 @@ public class UserService
 		return userRepository.findAll();
 	}
 	
-	public void addUser(User user)
+	public User addUser(User user)
 	{
-		userRepository.save(user); 
+		userRepository.save(user);
+		return user; 
 	}
 	
     public Long count() {
@@ -26,8 +27,9 @@ public class UserService
         return userRepository.count();
     }
 
-    public void deleteById(String userId) {
+    public String deleteById(String userId) {
 
-        userRepository.deleteById(userId);;
+        userRepository.deleteById(userId);
+        return userId; 
     }
 }
