@@ -55,8 +55,6 @@ public class SessionManager {
 
     public void checkRoom(){
         if (!this.isInRoom()){
-            //TODO this line below pulls it to the wrong room, should be changed to NewUserRoomJoin. I will make a logout in the NewUserRoomJoin
-            //TODO then push and then go to bed
             Intent i = new Intent(context, NewUserRoomJoin.class);
             context.startActivity(i);
             ((HomeActivity) context).finish();
@@ -79,8 +77,8 @@ public class SessionManager {
     public HashMap<String, String> getUserDetail(){
 
         HashMap<String, String> user = new HashMap<>();
-        user.put(NAME, sharedPreferences.getString(NAME, null));
-        user.put(EMAIL, sharedPreferences.getString(EMAIL, null));
+        user.put(EMAIL, sharedPreferences.getString(NAME, null));
+        user.put(NAME, sharedPreferences.getString(EMAIL, null));
         user.put(ID, sharedPreferences.getString(ID, null));
         user.put(ROOM, sharedPreferences.getString(ROOM, null));
 
