@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.JsonParser;
 
 public class BulletinActivity extends AppCompatActivity {
     private JsonParser jsonParser;

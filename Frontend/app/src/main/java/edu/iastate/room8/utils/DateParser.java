@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.utils;
 //TODO make a mydate class and try to follow along with tutorial except with this instead
 public class DateParser {
     private int day;
