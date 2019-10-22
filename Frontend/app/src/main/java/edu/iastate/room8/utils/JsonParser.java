@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.utils;
 
 import android.text.Html;
 import android.widget.Toast;

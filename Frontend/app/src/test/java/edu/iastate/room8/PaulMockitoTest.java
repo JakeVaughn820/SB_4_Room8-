@@ -1,7 +1,6 @@
 package edu.iastate.room8;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
