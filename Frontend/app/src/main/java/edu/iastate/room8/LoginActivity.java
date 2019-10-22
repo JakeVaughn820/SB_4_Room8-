@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/login";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("Email", userNameEditText.getText().toString());

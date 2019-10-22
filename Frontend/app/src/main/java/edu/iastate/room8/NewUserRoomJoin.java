@@ -71,7 +71,8 @@ public class NewUserRoomJoin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO post that sees if room exists and return if true then calls method that does stuff
-
+                Intent j = new Intent(NewUserRoomJoin.this, HomeActivity.class);
+                startActivity(j);
             }
         });
 
