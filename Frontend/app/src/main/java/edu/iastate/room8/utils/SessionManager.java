@@ -9,6 +9,7 @@ import java.util.HashMap;
 import edu.iastate.room8.HomeActivity;
 import edu.iastate.room8.LoginActivity;
 import edu.iastate.room8.NewRoomActivity;
+import edu.iastate.room8.NewUserRoomJoin;
 
 public class SessionManager {
 
@@ -36,6 +37,7 @@ public class SessionManager {
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
         editor.putString(ID, id);
+        editor.putString(ROOM, null);
         editor.apply();
     }
 
@@ -55,7 +57,7 @@ public class SessionManager {
         if (!this.isInRoom()){
             //TODO this line below pulls it to the wrong room, should be changed to NewUserRoomJoin. I will make a logout in the NewUserRoomJoin
             //TODO then push and then go to bed
-            Intent i = new Intent(context, NewRoomActivity.class);
+            Intent i = new Intent(context, NewUserRoomJoin.class);
             context.startActivity(i);
             ((HomeActivity) context).finish();
         }
