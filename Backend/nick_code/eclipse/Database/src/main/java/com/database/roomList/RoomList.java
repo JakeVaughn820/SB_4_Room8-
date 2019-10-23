@@ -10,7 +10,10 @@ import javax.persistence.Table;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+<<<<<<< HEAD
 import javax.persistence.ManyToOne;
+=======
+>>>>>>> nick_dev2
 import javax.persistence.OneToOne;
 
 @Entity
@@ -28,6 +31,7 @@ public class RoomList
 	
 	@Column(name="title")
 	private String title;
+<<<<<<< HEAD
 	
 	@Column(name="description")
 	private String description;
@@ -35,6 +39,11 @@ public class RoomList
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.roomList.tasks.Tasks.class)
 	@JoinColumn(name="list_task_id", foreignKey = @ForeignKey(name="list_task_id"))
 	private int taskId;
+=======
+	
+	@Column(name="description")
+	private String description;
+>>>>>>> nick_dev2
 	
 	/**
 	 * Constructor
@@ -42,12 +51,19 @@ public class RoomList
 	 * @param roomId
 	 * @param title
 	 */
+<<<<<<< HEAD
 	public RoomList(int roomId, String title, String description, int taskId)
+=======
+	public RoomList(String roomId, String title, String description)
+>>>>>>> nick_dev2
 	{
 		this.roomId = roomId;  
 		this.title = title; 
 		this.description = description;
+<<<<<<< HEAD
 		this.taskId = taskId; 
+=======
+>>>>>>> nick_dev2
 	}
 	
 	/**
@@ -63,9 +79,18 @@ public class RoomList
 		return roomId;
 	}
 	
+<<<<<<< HEAD
 	public int getTaskId()
 	{
 		return taskId; 
+=======
+	public String getTitle() {
+		return title;
+	}
+	
+	public String getDescription() {
+		return description;
+>>>>>>> nick_dev2
 	}
 	
 	public String getTitle() {
@@ -86,9 +111,18 @@ public class RoomList
 		this.roomId = roomId;
 	}
 	
+<<<<<<< HEAD
 	public void setTaskId(int taskId)
 	{
 		this.taskId = taskId; 
+=======
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+>>>>>>> nick_dev2
 	}
 	
 	public void setTitle(String title) {
@@ -107,7 +141,12 @@ public class RoomList
 		if(!(o instanceof RoomList))
 			return false; 
 		RoomList roomList = (RoomList) o;
+<<<<<<< HEAD
 		return this.id == roomList.id && this.title == roomList.title && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
+=======
+		return this.id == roomList.id && this.title == roomList.title && this.roomId == roomList.roomId; 
+>>>>>>> nick_dev2
 	}
+
 
 }

@@ -27,9 +27,9 @@ public class UserService
         return userRepository.count();
     }
 
-    public String deleteById(String userId) {
-
+    public boolean deleteById(String userId) throws IllegalArgumentException
+    {
         userRepository.deleteById(userId);
-        return userId; 
+        return true; 
     }
 }

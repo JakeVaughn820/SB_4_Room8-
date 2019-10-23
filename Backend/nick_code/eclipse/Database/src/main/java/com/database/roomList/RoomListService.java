@@ -11,25 +11,24 @@ public class RoomListService
 	@Autowired
 	private RoomListRepository roomListRepository; 
 	
-	public List<RoomList> getPins() 
+	public List<RoomList> getRoomList() 
 	{
 		return roomListRepository.findAll();
 	}
 	
-	public RoomList addPin(RoomList roomList)
+	public RoomList addRoomList(RoomList roomList)
 	{
 		return roomListRepository.save(roomList);
 	}
 	
     public Long count() 
     {
-
         return roomListRepository.count();
     }
 
-    public boolean deleteById(String pinId) throws IllegalArgumentException
+    public boolean deleteById(String roomList) throws IllegalArgumentException
     {
-    	roomListRepository.deleteById(pinId);
+    	roomListRepository.deleteById(roomList);
         return true; 
     }
 }
