@@ -24,6 +24,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import edu.iastate.room8.utils.SessionManager;
+
 public class DayActivity extends AppCompatActivity {
     private TextView date;
     private String dateString;
@@ -39,6 +41,7 @@ public class DayActivity extends AppCompatActivity {
     private ArrayList<String> eventNames;
     private ArrayAdapter<String> adapter;
     private ListView listView;
+    SessionManager sessionManager;
 
     // These tags will be used to cancel the requests
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -46,6 +49,9 @@ public class DayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
+
+        sessionManager = new SessionManager(this);
+
         date = findViewById(R.id.date);
         buttonAddScheduleItem = findViewById(R.id.buttonAddScheduledItem);
         listView = findViewById(R.id.scheduleListView);

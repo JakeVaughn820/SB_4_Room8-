@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.SessionManager;
 
 public class NewListActivity extends AppCompatActivity {
 
@@ -38,6 +39,7 @@ public class NewListActivity extends AppCompatActivity {
     private Button newList;
     private String newListNameString;
     private String TAG = NewListActivity.class.getSimpleName();
+    SessionManager sessionManager;
 
     // These tags will be used to cancel the requests
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -46,6 +48,7 @@ public class NewListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_list);
+        sessionManager = new SessionManager(this);
 
         newList = findViewById(R.id.newList);
         newListName = findViewById(R.id.newListName);

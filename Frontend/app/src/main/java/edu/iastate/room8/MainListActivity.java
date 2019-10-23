@@ -27,6 +27,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import edu.iastate.room8.utils.SessionManager;
+
 public class MainListActivity extends AppCompatActivity {
 
     private RequestQueue mQueue;
@@ -35,11 +37,14 @@ public class MainListActivity extends AppCompatActivity {
     private ArrayList<String> items;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> description;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_list);
+
+        sessionManager = new SessionManager(this);
 
         btn_new_list = findViewById(R.id.btn_create_new_list);
         mQueue = Volley.newRequestQueue(this);
