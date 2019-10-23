@@ -1,10 +1,14 @@
 package com.database.roomList.tasks;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,8 +23,13 @@ public class Tasks
 	@Column(name="contents")
 	private String contents;
 	
-	@Column(name="task_user_id")
-	private String userId; 
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.user.User.class)
+	@JoinColumn(name="task_user_id", foreignKey = @ForeignKey(name = "task_user_id"))
+	private int userId;
+	
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.roomList.RoomList.class)
+	@JoinColumn(name="task_list_id", foreignKey = @ForeignKey(name = "task_list_id"))
+	private int listId;
 	
 	/**
 	 * Constructor
@@ -28,10 +37,11 @@ public class Tasks
 	 * @param contents
 	 * @param userId
 	 */
-	public Tasks(String contents, String userId)
+	public Tasks(String contents, int userId, int listId)
 	{ 
 		this.contents = contents;
-		this.userId = userId; 
+		this.userId = userId;
+		this.listId = listId; 
 	}
 	
 	/**
@@ -48,12 +58,20 @@ public class Tasks
 		return contents; 
 	}
 	
-	public String getUserId()
+	public int getUserId()
 	{
 		return userId;
 	}
 	
+<<<<<<< HEAD
 	public void setId(int id)
+=======
+	public int getListId()
+	{
+		return listId; 
+	}
+	public void setId(String id)
+>>>>>>> nick_dev2
 	{
 		this.id = id; 
 	}
@@ -63,9 +81,14 @@ public class Tasks
 		this.contents = contents; 
 	}
 	
-	public void setUserId(String userId)
+	public void setUserId(int userId)
 	{
 		this.userId = userId; 
+	}
+	
+	public void setListId(int listId)
+	{
+		this.listId = listId; 
 	}
 	
 	@Override 
@@ -82,6 +105,6 @@ public class Tasks
 		if(!(o instanceof Tasks))
 			return false; 
 		Tasks task = (Tasks) o;
-		return this.id == task.id && this.contents == task.contents && this.userId == task.userId; 
+		return this.id == task.id && this.contents == task.contents && this.userId == task.userId && this.listId == task.listId; 
 	}
 }

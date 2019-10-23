@@ -22,8 +22,9 @@ public class RoomMembersService
 		return roomMembers;
 	} 
 	
-	public void deleteById(String roomMembersId)
+	public boolean deleteById(String roomMembersId) throws IllegalArgumentException
 	{
 		roomMembersRepository.deleteById(roomMembersId);
+		return true;
 	}
 }

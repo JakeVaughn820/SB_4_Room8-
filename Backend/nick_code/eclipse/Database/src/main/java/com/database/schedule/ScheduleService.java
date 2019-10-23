@@ -11,12 +11,12 @@ public class ScheduleService
 	@Autowired
 	private ScheduleRepository scheduleRepository;
 	
-	public List<Schedule> getBulletin()
+	public List<Schedule> getSchedule()
 	{
 		return scheduleRepository.findAll();
 	}
 	
-	public Schedule addBulletin(Schedule schedule)
+	public Schedule addSchedule(Schedule schedule)
 	{
 		return scheduleRepository.save(schedule); 
 	}
@@ -26,9 +26,9 @@ public class ScheduleService
         return scheduleRepository.count();
     }
 
-    public boolean deleteById(String userId) throws IllegalArgumentException  
+    public boolean deleteById(String scheduleId) throws IllegalArgumentException  
     {
-    	scheduleRepository.deleteById(userId);
+    	scheduleRepository.deleteById(scheduleId);
     	return true; 
     }
 

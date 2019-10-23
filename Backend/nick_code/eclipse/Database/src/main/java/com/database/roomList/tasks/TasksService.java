@@ -26,9 +26,9 @@ public class TasksService
         return taskRepository.count();
     }
 
-    public boolean deleteById(String pinId) throws IllegalArgumentException
+    public boolean deleteById(String taskId) throws IllegalArgumentException
     {
-    	taskRepository.deleteById(pinId);
+    	taskRepository.deleteById(taskId);
         return true; 
     }
 
