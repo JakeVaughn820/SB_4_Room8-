@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.database.rooms.Rooms;
+
 @Service
 public class RoomMembersService 
 {
@@ -17,14 +19,16 @@ public class RoomMembersService
 		return roomMembersRepository.findAll();
 	}
 	
-	public List<RoomMembers> getRoomsByUsersId(int userId)
+	public List<Integer> getRoomsByUsersId(int userId)
 	{
 		List <RoomMembers> temp = roomMembersRepository.findAll();
-		List <RoomMembers> toReturn = new ArrayList<RoomMembers>();
+		List <Integer> toReturn = new ArrayList<Integer>();
 		for(int i = 0; i < ((RoomMembersService) temp).getRoomMembers().size(); i++)
 		{
 			if(temp.get(i).getUserId() == userId)
-				toReturn.add(temp.get(i));
+			{
+				toReturn.add(temp.get(i).getUserId());
+			}
 		}
 		return toReturn; 
 	}

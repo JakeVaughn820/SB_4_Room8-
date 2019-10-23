@@ -22,6 +22,20 @@ public class RoomsService
 		return room; 
 	} 
 	
+	public Rooms getRoomById(int id)
+	{
+		List<Rooms> temp = roomsRepository.findAll();
+		Rooms toReturn = new Rooms("fakeNews");
+		for(int i = 0; i < getRooms().size(); i++)
+		{
+			if(temp.get(i).getId() == id)
+			{
+				toReturn = temp.get(i); 
+			}
+		}
+		return toReturn; 
+	}
+	
     public Long count() {
 
         return roomsRepository.count();
