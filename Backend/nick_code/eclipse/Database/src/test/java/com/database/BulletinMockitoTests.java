@@ -1,6 +1,7 @@
 package com.database;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.stream.Collectors;
@@ -27,6 +28,11 @@ public class BulletinMockitoTests
 	@MockBean
 	private BulletinRepository bulletinRepository;
 
+	@Test
+	public void pleaseWork()
+	{
+		assertTrue(true); 
+	}
 //	@Test
 //	public void getUsersTest() {
 //		when(bulletinRepository.findAll()).thenReturn(Stream.of(new Bulletin("Room1", "Pin1"),
