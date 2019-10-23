@@ -60,12 +60,39 @@ public class SessionsTest {
 
     @Test
     public void createSessionTest() {
+        //Depends on getUserDetailTest
         sessionManager2.createSession("Jack", "Jack@email.com", "35");
 
         assertEquals("Jack", sessionManager2.getUserDetail().get("NAME"));
         assertEquals("Jack@email.com", sessionManager2.getUserDetail().get("EMAIL"));
         assertEquals("35", sessionManager2.getUserDetail().get("ID"));
         assertEquals(null, sessionManager2.getUserDetail().get("ROOM"));
+    }
+
+    @Test
+    public void setRoomTest (){
+        //Depends on getUserDetailTest
+        sessionManager2.createSession("Jack", "Jack@email.com", "35");
+        sessionManager2.setRoom("8");
+
+        assertEquals("8", sessionManager2.getUserDetail().get("ROOM"));
+    }
+
+    @Test
+    public void isInRoomTest(){
+        assertEquals(false, sessionManager1.isInRoom());
+
+        Mockito.when(mockPrefs.getString("ROOM", null)).thenReturn("8");
+        assertEquals(true, sessionManager1.isInRoom());
+    }
+
+    @Test
+    public void isLoggin(){
+        assertEquals(false, sessionManager1.isLoggin());
+
+        Mockito.when(mockPrefs.getBoolean("IS_LOGIN", false)).thenReturn(true);
+
+        assertEquals(true, sessionManager1.isLoggin());
     }
 }
 
