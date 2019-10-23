@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.SessionManager;
 
 public class NewScheduleActivity extends AppCompatActivity {
 
@@ -38,6 +39,7 @@ public class NewScheduleActivity extends AppCompatActivity {
     private String endTimeString;
     private String eventNameString;
     private String eventDescriptionString;
+    SessionManager sessionManager;
 
     private String TAG = NewListActivity.class.getSimpleName();
 
@@ -48,6 +50,9 @@ public class NewScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_schedule);
+
+        sessionManager = new SessionManager(this);
+
         addNewEventTextView = findViewById(R.id.addNewEventTextView);
         addNewEventButton = findViewById(R.id.addNewEventButton);
         startTime = findViewById(R.id.startTime);

@@ -44,9 +44,10 @@ public class BulletinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_bulletin);
 
         sessionManager = new SessionManager(this);
-        setContentView(R.layout.activity_bulletin);
+
         mQueue = Volley.newRequestQueue(this);
         textView = findViewById(R.id.textView);
         toAddButton = findViewById(R.id.buttonForAdd);

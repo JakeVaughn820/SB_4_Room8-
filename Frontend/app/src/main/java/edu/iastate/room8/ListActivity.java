@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.SessionManager;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -50,11 +51,13 @@ public class ListActivity extends AppCompatActivity {
     private String title;
     private String TAG = NewListActivity.class.getSimpleName();
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    SessionManager sessionManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_list);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
         titleForList = findViewById(R.id.TitleForList);

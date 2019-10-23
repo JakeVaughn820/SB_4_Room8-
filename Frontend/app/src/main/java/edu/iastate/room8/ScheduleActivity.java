@@ -11,6 +11,7 @@ import android.widget.CalendarView;
 import android.widget.Toast;
 
 import edu.iastate.room8.utils.DateParser;
+import edu.iastate.room8.utils.SessionManager;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -23,10 +24,14 @@ public class ScheduleActivity extends AppCompatActivity {
     private DateParser dateParser;
     boolean clicked;
 
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+
+        sessionManager = new SessionManager(this);
 
         goToScheduleDay = findViewById(R.id.goToScheduleDay);
         calender = findViewById(R.id.calendar);

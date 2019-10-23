@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.SessionManager;
 
 public class ScheduleDescriptionActivity extends AppCompatActivity {
 
@@ -41,6 +42,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
 
     private String TAG = NewListActivity.class.getSimpleName();
     private RequestQueue mQueue;
+    SessionManager sessionManager;
     // These tags will be used to cancel the requests
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
@@ -48,6 +50,8 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_description);
+
+        sessionManager = new SessionManager(this);
         eventName = findViewById(R.id.eventNameDescription);
         person = findViewById(R.id.personTextView);
         description = findViewById(R.id.descriptionTextView);

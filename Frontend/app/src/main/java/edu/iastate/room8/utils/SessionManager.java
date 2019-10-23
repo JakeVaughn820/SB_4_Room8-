@@ -36,18 +36,19 @@ public class SessionManager {
     //Creates a new session with everything set to null other than the params.
     public void createSession(String name, String email, String id){
 
+        Set<String> set = new HashSet<>();
         editor.putBoolean(LOGIN, true);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
         editor.putString(ID, id);
         editor.putString(ROOM, null);
-        editor.putStringSet(ROOMS, null);
+        editor.putStringSet(ROOMS, set);
         editor.apply();
     }
 
     //Adds a room to ROOMS and sets it as current room.
     public void addRoom (String room){
-        Set<String> set = new HashSet<>();
+        Set<String> set;
         set = (sharedPreferences.getStringSet(ROOMS, null));
         set.add(room);
         editor.putStringSet(ROOMS, set);
