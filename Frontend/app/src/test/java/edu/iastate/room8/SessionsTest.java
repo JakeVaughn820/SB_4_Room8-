@@ -70,10 +70,10 @@ public class SessionsTest {
     }
 
     @Test
-    public void setRoomTest (){
+    public void addRoomTest (){
         //Depends on getUserDetailTest
         sessionManager2.createSession("Jack", "Jack@email.com", "35");
-        sessionManager2.setRoom("8");
+        sessionManager2.addRoom("8");
 
         assertEquals("8", sessionManager2.getUserDetail().get("ROOM"));
     }
