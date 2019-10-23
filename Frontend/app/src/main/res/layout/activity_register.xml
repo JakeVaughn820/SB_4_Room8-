@@ -7,7 +7,7 @@
     tools:context=".RegisterActivity">
 
     <EditText
-        android:id="@+id/userNameEditText"
+        android:id="@+id/userEmailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:text="Create Account"
         android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/userNameEditText"
+        app:layout_constraintBottom_toTopOf="@+id/userEmailEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

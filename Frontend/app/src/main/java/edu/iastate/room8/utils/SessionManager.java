@@ -61,6 +61,22 @@ public class SessionManager {
         }
     }
 
+    public String getRoom(){
+        return sharedPreferences.getString(ROOM, null);
+    }
+
+    public String getName(){
+        return sharedPreferences.getString(NAME, null);
+    }
+
+    public String getEmail(){
+        return sharedPreferences.getString(EMAIL, null);
+    }
+
+    public String getID(){
+        return sharedPreferences.getString(ID, null);
+    }
+
     public boolean isLoggin(){
         return sharedPreferences.getBoolean(LOGIN, false);
     }
