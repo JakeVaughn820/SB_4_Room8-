@@ -84,11 +84,9 @@ public class NewUserRoomJoin extends AppCompatActivity {
         newRoomCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO post that creates new room
-                //postRequestCreate();
+                postRequestCreate();
 
-                Intent j = new Intent(NewUserRoomJoin.this, HomeActivity.class);
-                startActivity(j);
+
             }
         });
 
@@ -97,9 +95,8 @@ public class NewUserRoomJoin extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO post that sees if room exists and return if true then calls method that does stuff
 
-                //postRequestJoin();
-                Intent j = new Intent(NewUserRoomJoin.this, HomeActivity.class);
-                startActivity(j);
+                postRequestJoin();
+
             }
         });
 
@@ -171,7 +168,8 @@ public class NewUserRoomJoin extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             sessionManager.addRoom(response.getString("RoomId"));
-
+                            Intent j = new Intent(NewUserRoomJoin.this, HomeActivity.class);
+                            startActivity(j);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -251,7 +249,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("User", getIntent().getStringExtra("USER_ID"));
-        params.put("RoomID", joinRoomEditText.getText().toString());
+        params.put("RoomId", joinRoomEditText.getText().toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -260,9 +258,13 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         try {
-                            String success = response.getString("Success");
-                            if(success.equals("1")){
-                                //TODO
+                            String success = response.getString("Response");
+                            if(success.equals("Success")){
+                                sessionManager.addRoom(joinRoomEditText.getText().toString());
+                                Intent j = new Intent(NewUserRoomJoin.this, HomeActivity.class);
+                                startActivity(j);
+                            }else{
+                                Toast.makeText(NewUserRoomJoin.this, "Room does not exist!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
