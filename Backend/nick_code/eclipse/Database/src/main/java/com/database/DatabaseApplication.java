@@ -49,7 +49,7 @@ public class DatabaseApplication {
 		  
 		  @GetMapping("/list")
 		  public String getRoomList() {
-//			  List<RoomList> roomLists = roomListService.getLists();
+//			  List<RoomList> roomLists = roomListService.getLists(); 
 			  String ret = "{\"RoomLists\":[";
 //			  if(roomLists.isEmpty())
 //				  ret += " ";
