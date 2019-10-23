@@ -1,4 +1,4 @@
-package com.database.lists.tasks;
+package com.database.roomList.tasks;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

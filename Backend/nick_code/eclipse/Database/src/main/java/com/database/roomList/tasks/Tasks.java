@@ -1,4 +1,4 @@
-package com.database.lists.tasks;
+package com.database.roomList.tasks;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

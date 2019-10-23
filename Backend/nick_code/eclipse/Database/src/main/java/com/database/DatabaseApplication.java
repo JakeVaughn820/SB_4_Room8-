@@ -23,7 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
 import com.database.bulletin.pins.Pin;
-import com.database.lists.*;
+import com.database.roomList.RoomListService;
 import com.database.user.*;
 
 @SpringBootApplication
