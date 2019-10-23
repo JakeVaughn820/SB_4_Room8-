@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.JsonParser;
 
 public class BulletinActivity extends AppCompatActivity {
     private JsonParser jsonParser;
@@ -100,7 +101,7 @@ public class BulletinActivity extends AppCompatActivity {
                                 textView.append(contents + "\n");
                             }
                         } catch (JSONException e) {
-                            textView.setText("Something went wrong!>!>!>");
+                            textView.setText("Something went wrong!>!>!>");//yml
                             e.printStackTrace();
                         }
                     }
@@ -112,6 +113,8 @@ public class BulletinActivity extends AppCompatActivity {
         });
         mQueue.add(request);
     }
+
+
 
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";

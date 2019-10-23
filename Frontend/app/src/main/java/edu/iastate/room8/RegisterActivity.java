@@ -92,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("Name", userNameEditTextString);

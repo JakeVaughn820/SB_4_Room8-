@@ -1,4 +1,4 @@
-package com.database.lists;
+package com.database.roomList;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
