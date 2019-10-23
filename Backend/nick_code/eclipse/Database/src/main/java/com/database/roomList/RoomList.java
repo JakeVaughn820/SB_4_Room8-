@@ -30,7 +30,7 @@ public class RoomList
 	@Column(name="contents")
 	private String contents; 
 	
-	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.lists.tasks.Tasks.class)
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.roomList.tasks.Tasks.class)
 	@JoinColumn(name="list_task_id", foreignKey = @ForeignKey(name="list_task_id"))
 	private String taskId;
 	
