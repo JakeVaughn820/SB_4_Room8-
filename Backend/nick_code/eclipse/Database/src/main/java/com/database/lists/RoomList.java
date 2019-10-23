@@ -10,6 +10,7 @@ import javax.persistence.Table;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -29,10 +30,9 @@ public class RoomList
 	@Column(name="contents")
 	private String contents; 
 	
-//TODO
-//	@OneToMany(cascade = CascadeType.ALL, targetEntity = com.database.lists.tasks.Tasks.class)
-//	@JoinColumn(name="task_id", foreignKey = @ForeignKey(name="task_id"))
-//	private String taskId;
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.lists.tasks.Tasks.class)
+	@JoinColumn(name="list_task_id", foreignKey = @ForeignKey(name="list_task_id"))
+	private String taskId;
 	
 	/**
 	 * Constructor
@@ -59,10 +59,10 @@ public class RoomList
 		return roomId;
 	}
 	
-//	public String getTaskId()
-//	{
-//		return taskId; 
-//	}
+	public String getTaskId()
+	{
+		return taskId; 
+	}
 	
 	public void setId(String id)
 	{
@@ -74,10 +74,10 @@ public class RoomList
 		this.roomId = roomId;
 	}
 	
-//	public void setTaskId(String taskId)
-//	{
-//		this.taskId = taskId; 
-//	}
+	public void setTaskId(String taskId)
+	{
+		this.taskId = taskId; 
+	}
 	
 	@Override
 	public boolean equals(Object o)
@@ -87,7 +87,7 @@ public class RoomList
 		if(!(o instanceof RoomList))
 			return false; 
 		RoomList roomList = (RoomList) o;
-		return this.id == roomList.id && this.contents == roomList.contents && this.roomId == roomList.roomId; 
+		return this.id == roomList.id && this.contents == roomList.contents && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
 	}
 
 }
