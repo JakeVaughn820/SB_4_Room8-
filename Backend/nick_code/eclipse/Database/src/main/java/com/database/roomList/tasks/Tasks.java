@@ -62,18 +62,15 @@ public class Tasks
 	{
 		return userId;
 	}
-	
-<<<<<<< HEAD
-	public void setId(int id)
-=======
+
 	public int getListId()
 	{
 		return listId; 
 	}
-	public void setId(String id)
->>>>>>> nick_dev2
+	
+	public void setId(int id)
 	{
-		this.id = id; 
+		this.id = id;
 	}
 	
 	public void setContents(String contents)

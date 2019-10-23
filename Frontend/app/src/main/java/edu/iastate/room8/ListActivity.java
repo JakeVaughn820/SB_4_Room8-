@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.SessionManager;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -50,11 +51,13 @@ public class ListActivity extends AppCompatActivity {
     private String title;
     private String TAG = NewListActivity.class.getSimpleName();
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    SessionManager sessionManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_list);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
         titleForList = findViewById(R.id.TitleForList);
@@ -73,7 +76,7 @@ public class ListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
-//        jsonParse();
+        jsonParse();
         //postRequestForParse();
 
         itemsList.setOnItemClickListener(messageClickedHandler);
@@ -83,41 +86,42 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 newListItemNameString = newListItemName.getText().toString();
-                //postRequest();
+                postRequest();
                 newListItemName.setText("");
             }
         });
     }
 
-//    private void jsonParse() {
-//        String url = "https://api.myjson.com/bins/jqfcl";
-//
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//                            JSONArray jsonArray = response.getJSONArray("List");
-//
-//                            for (int i = 0; i < jsonArray.length(); i++){
-//                                JSONObject List = jsonArray.getJSONObject(i);
-//
-//                                items.add(List.getString("contents"));
-//                                items.add(List.getString("dateCreate"));
-//                            }
-//                            adapter.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                error.printStackTrace();
-//            }
-//        });
-//        mQueue.add(request);
-//    }
+    private void jsonParse() {
+        String url = "https://api.myjson.com/bins/jqfcl";
+//        String url =
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("List");
+
+                            for (int i = 0; i < jsonArray.length(); i++){
+                                JSONObject List = jsonArray.getJSONObject(i);
+
+                                items.add(List.getString("contents"));
+                                items.add(List.getString("dateCreate"));
+                            }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mQueue.add(request);
+    }
 
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
@@ -168,54 +172,54 @@ public class ListActivity extends AppCompatActivity {
 //        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 
-    private void postRequestForParse() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("ListName", title);
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                url, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("List");
-
-                            for (int i = 0; i < jsonArray.length(); i++){
-                                JSONObject List = jsonArray.getJSONObject(i);
-
-                                items.add(List.getString("Contents"));
-                            }
-                            adapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("ListName", title);
-                params.put("Task", newListItemNameString);
-
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
-                return params;
-            }
-        };
-        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
-    }
+//    private void postRequestForParse() {
+//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+//
+//        Map<String, String> params = new HashMap<String, String>();
+//        params.put("ListName", title);
+//
+//        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+//                url, new JSONObject(params),
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        Log.d(TAG, response.toString());
+//                        try {
+//                            JSONArray jsonArray = response.getJSONArray("List");
+//
+//                            for (int i = 0; i < jsonArray.length(); i++){
+//                                JSONObject List = jsonArray.getJSONObject(i);
+//
+//                                items.add(List.getString("Contents"));
+//                            }
+//                            adapter.notifyDataSetChanged();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                VolleyLog.d(TAG, "Error: " + error.getMessage());
+//            }
+//        }) {
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                HashMap<String, String> headers = new HashMap<String, String>();
+//                headers.put("Content-Type", "application/json");
+//                return headers;
+//            }
+//            @Override
+//            protected Map<String, String> getParams() {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("ListName", title);
+//                params.put("Task", newListItemNameString);
+//
+////                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
+//                return params;
+//            }
+//        };
+//        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+////        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
+//    }
 }
