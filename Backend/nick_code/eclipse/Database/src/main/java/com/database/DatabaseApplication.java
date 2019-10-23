@@ -23,8 +23,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
 import com.database.bulletin.pins.Pin;
-import com.database.roomList.RoomList;
-import com.database.roomList.RoomListService;
+import com.database.roomList.*;
+import com.database.rooms.*;
 import com.database.user.*;
 
 @SpringBootApplication
@@ -39,6 +39,7 @@ public class DatabaseApplication {
 			
 		  @Autowired private RoomListService roomListService;
 		  @Autowired private BulletinService bulletinService;
+		  @Autowired private RoomsService roomService;
 		  @Autowired private UserService userService;
 		  @Autowired private ErrorAttributes errorAttributes;
 		 
@@ -47,8 +48,8 @@ public class DatabaseApplication {
 		      return "Hello, " + name + "!";
 		  }
 		  
-		  @GetMapping("/list")
-		  public String getRoomList() {
+		  @GetMapping("/list/{room}")
+		  public String getRoomList(@PathVariable String room) {
 //			  List<RoomList> roomLists = roomListService.getLists();
 			  String ret = "{\"RoomLists\":[";
 //			  if(roomLists.isEmpty())
@@ -65,12 +66,12 @@ public class DatabaseApplication {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  String Description = body.getString("Description");
-//			  roomListService.addList(new RoomList(room, Title));
+			  roomListService.addRoomList(new RoomList(room, Title, Description));
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
-		  @GetMapping("/bulletin")
-		  public String getBulletin() {
+		  @GetMapping("/bulletin/{room}")
+		  public String getBulletin(@PathVariable String room) {
 	//		  List<Pin> pins = bulletinService.getPins();
 			  String ret = "{\"BulletinBoard\":[";
 			//  if(pins.isEmpty())
@@ -90,6 +91,27 @@ public class DatabaseApplication {
 			  //String User = item.substring(9, item.indexOf('\"', 9));
 			  //String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
 	//		  bulletinService.addPin(new Pin(Contents));
+			  return "{\"Response\":\"Success\"}";
+		  }
+		  
+		  @GetMapping("/room/{user}")
+		  public String getRooms(@PathVariable String user) {
+	//		  List<Pin> pins = bulletinService.getPins();
+			  String ret = "{\"BulletinBoard\":[";
+			//  if(pins.isEmpty())
+				  ret += " ";
+	//		  for (Pin temp : pins) {
+	//			ret += temp.toString() + ",";
+	//		  	}
+		  	  ret = ret.substring(0, ret.length()-1) + "]}";
+		      return ret;
+		  }
+		  
+		  @PostMapping(path = "/room/{user}", consumes = "application/json", produces = "application/json")
+		  public String addRoom(@RequestBody String item, @PathVariable String user) {
+			  JSONObject body = new JSONObject(item);
+			  String Title = body.getString("Title");
+			  roomService.addRoom(new Rooms(Title));
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
