@@ -24,6 +24,7 @@ import org.springframework.web.context.request.WebRequest;
 import com.database.bulletin.*;
 import com.database.bulletin.pins.Pin;
 import com.database.roomList.*;
+import com.database.roomMembers.*;
 import com.database.rooms.*;
 import com.database.user.*;
 
@@ -42,6 +43,7 @@ public class DatabaseApplication {
 		  @Autowired private RoomsService roomService;
 		  @Autowired private UserService userService;
 		  @Autowired private ErrorAttributes errorAttributes;
+		  @Autowired private RoomMembersService roomMembersService;
 		 
 		  @RequestMapping("/hello/{name}")
 		  String hello(@PathVariable String name) {
