@@ -82,6 +82,28 @@ public class DatabaseApplication {
 		      return ret;
 		  }
 		  
+		  @PostMapping(path = "/room/{user}", consumes = "application/json", produces = "application/json")
+		  public String addRoom(@RequestBody String item, @PathVariable String user) {
+			  JSONObject body = new JSONObject(item);
+			  String Title = body.getString("Title");
+//			  add room with title
+			  return "{\"Response\":\"Success\"}";
+		  }
+		  
+		  @GetMapping("/room/{user}")
+		  public String getRooms() {
+			  //TODO return room names AND RoomIds. Yes it seems stupid but just do it you talked about it with Paul -Thane
+	//		  List<Pin> pins = bulletinService.getPins();
+			  String ret = "{\"Rooms\":[";
+			//  if(pins.isEmpty())
+				  ret += " ";
+	//		  for (Pin temp : pins) {
+	//			ret += temp.toString() + ",";
+	//		  	}
+		  	  ret = ret.substring(0, ret.length()-1) + "]}";
+		      return ret;
+		  }
+		  
 		  @PostMapping(path = "/bulletin/{room}", consumes = "application/json", produces = "application/json")
 		  public String addToBulletin(@RequestBody String item, @PathVariable String room) {
 			  JSONObject body = new JSONObject(item);
@@ -103,7 +125,7 @@ public class DatabaseApplication {
 			  for(User user : userList) {
 				  if(user.getEmail().equals(Email)) {
 					  if(user.getPassword().equals(Password))
-						  return "{\"Response\":\"Success\", \"Username\":\"" + user.getName() + "\"}";
+						  return "{\"Response\":\"Success\", \"Username\":\"" + user.getName() + "\", \"UserId\":\"" + user.getId() + "\"}";
 					  else
 						  return "{\"Response\":\"Incorrect Password\"}";
 				  }
