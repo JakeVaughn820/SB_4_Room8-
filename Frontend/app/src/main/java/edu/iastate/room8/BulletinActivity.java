@@ -28,6 +28,7 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.JsonParser;
+import edu.iastate.room8.utils.SessionManager;
 
 public class BulletinActivity extends AppCompatActivity {
     private JsonParser jsonParser;
@@ -38,10 +39,13 @@ public class BulletinActivity extends AppCompatActivity {
     private String stringToAddText;
     private String TAG = NewListActivity.class.getSimpleName();
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    SessionManager sessionManager;
 //TODO maybe try and make each person color coded?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_bulletin);
         mQueue = Volley.newRequestQueue(this);
         textView = findViewById(R.id.textView);
