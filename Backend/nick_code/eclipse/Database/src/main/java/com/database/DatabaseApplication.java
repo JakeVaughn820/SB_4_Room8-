@@ -23,6 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
 import com.database.bulletin.pins.Pin;
+import com.database.roomList.RoomList;
 import com.database.roomList.RoomListService;
 import com.database.user.*;
 
@@ -59,15 +60,13 @@ public class DatabaseApplication {
 		      return ret;
 		  }
 		  
-		  @PostMapping(path = "/list", consumes = "application/json", produces = "application/json")
-		  public String addRoomList(@RequestBody String item) {
-//			  JSONObject body = new JSONObject(item);
-//			  String Title = body.getString("Title");
-//			  String Description = body.getString("Description");
-			  //String Description = item.substring(16, item.indexOf('\"', 16));
-			  //String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
-//			  roomListService.addList(new RoomList(Title, Description));
-			  return "200 OK";
+		  @PostMapping(path = "/list/{room}", consumes = "application/json", produces = "application/json")
+		  public String addRoomList(@RequestBody String item, @PathVariable String room) {
+			  JSONObject body = new JSONObject(item);
+			  String Title = body.getString("Title");
+			  String Description = body.getString("Description");
+			  roomListService.addList(new RoomList(room, Title));
+			  return "{\"Response\":\"Success\"}";
 		  }
 		  
 		  @GetMapping("/bulletin")
@@ -91,7 +90,7 @@ public class DatabaseApplication {
 			  //String User = item.substring(9, item.indexOf('\"', 9));
 			  //String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
 	//		  bulletinService.addPin(new Pin(Contents));
-			  return "200 OK";
+			  return "{\"Response\":\"Success\"}";
 		  }
 		  
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
@@ -104,12 +103,12 @@ public class DatabaseApplication {
 			  for(User user : userList) {
 				  if(user.getEmail().equals(Email)) {
 					  if(user.getPassword().equals(Password))
-						  return "Success";
+						  return "{\"Response\":\"Success\"}";
 					  else
-						  return "Incorrect Password";
+						  return "{\"Response\":\"Incorrect Password\"}";
 				  }
 			  }
-			  return "User does not exist";
+			  return "{\"Response\":\"User Does Not Exist\"}";
 		  }
 		  
 		  @PostMapping(path = "/register", consumes = "application/json", produces = "application/json")
@@ -122,12 +121,12 @@ public class DatabaseApplication {
 			  List<User> userList = userService.getUsers();
 			  for(User user : userList) {
 				  if(user.getName().equals(Name))
-					  return "Name already in use";
+					  return "{\"Response\":\"Name Already In Use\"}";
 				  if(user.getEmail().equals(Email))
-					  return "Email already in use";
+					  return "{\"Response\":\"Email Already In Use\"}";
 			  }
 			  userService.addUser(new User(Name, Email, Password));
-			  return "Success";
+			  return "{\"Response\":\"Success\"}";
 		  }
 		  
 		  @Override
