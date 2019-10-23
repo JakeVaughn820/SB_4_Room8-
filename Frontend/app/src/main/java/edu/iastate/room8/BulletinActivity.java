@@ -2,13 +2,8 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +27,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.JsonParser;
+import edu.iastate.room8.utils.SessionManager;
 
 public class BulletinActivity extends AppCompatActivity {
+    private JsonParser jsonParser;
     private TextView textView;
     private RequestQueue mQueue;
     private Button toAddButton;
@@ -41,22 +39,31 @@ public class BulletinActivity extends AppCompatActivity {
     private String stringToAddText;
     private String TAG = NewListActivity.class.getSimpleName();
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    SessionManager sessionManager;
 //TODO maybe try and make each person color coded?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bulletin);
+
+        sessionManager = new SessionManager(this);
+
         mQueue = Volley.newRequestQueue(this);
         textView = findViewById(R.id.textView);
         toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
+        jsonParser = new JsonParser();
 
-        jsonParse();  //Parses through the json given to frontend from back end
+        try{
+            jsonParse();  //Parses through the json given to frontend from back end
+        }catch(JSONException e){
+            textView.setText("Something went wrong!>!>!>");
+            e.printStackTrace();
+        }
 
         toAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO make sure post request works
                 stringToAddText = toAddText.getText().toString();
                 if(stringToAddText.equals("")){
                     Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
@@ -67,9 +74,22 @@ public class BulletinActivity extends AppCompatActivity {
             }
         });
     }
-    private void jsonParse() {
+    public void jsonParse() throws JSONException {
+//        String url = "https://api.myjson.com/bins/1g4fnt";
+//
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
-        //String url = "https://api.myjson.com/bins/1g4fnt";
+        url = url + "/" + sessionManager.getRoom();
+//        JSONObject json = jsonParser.jsonParse(url);
+//        JSONArray jsonArray = json.getJSONArray("BulletinBoard");
+//
+//        for (int i = 0; i < jsonArray.length(); i++){
+//            JSONObject List = jsonArray.getJSONObject(i);
+//            String id = List.getString("User");
+//            String contents = List.getString("Contents");
+//            textView.append(Html.fromHtml("<b>"+ id + ": </b>"));
+//            textView.append(contents + "\n");
+//        }
+//        mQueue.add(jsonParser.returnRequest());
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -87,7 +107,7 @@ public class BulletinActivity extends AppCompatActivity {
                                 textView.append(contents + "\n");
                             }
                         } catch (JSONException e) {
-                            textView.setText("Something went wrong!>!>!>");
+                            textView.setText("Something went wrong!>!>!>");//yml
                             e.printStackTrace();
                         }
                     }
@@ -100,11 +120,15 @@ public class BulletinActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+
+
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin"; //TODO change this for the bulletin
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
+        url = url + "/" + sessionManager.getRoom();
+
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("User", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
+        params.put("User", sessionManager.getName());
         params.put("Contents", stringToAddText);
         JSONObject toPost = new JSONObject(params);
 //        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();

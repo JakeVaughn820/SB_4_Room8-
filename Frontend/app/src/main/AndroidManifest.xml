@@ -16,8 +16,11 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".HomeActivityMoreTab"
-            android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".NewRoomActivity"></activity>
+        <activity android:name=".NewUserRoomJoin"></activity>
+        <activity android:name=".ScheduleDescriptionActivity" />
+        <activity android:name=".NewScheduleActivity" />
         <activity android:name=".DayActivity" />
         <activity android:name=".ScheduleActivity" />
         <activity android:name=".ListActivity" />
@@ -25,14 +28,14 @@
         <activity android:name=".MainListActivity" />
         <activity android:name=".NewListActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LoginActivity" />
     </application>
 
 </manifest>

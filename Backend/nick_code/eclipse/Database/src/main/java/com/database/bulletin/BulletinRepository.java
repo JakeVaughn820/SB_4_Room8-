@@ -1,7 +1,10 @@
 package com.database.bulletin;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface BulletinRepository extends JpaRepository<Pin, String> {
+@Repository
+public interface BulletinRepository extends JpaRepository<Bulletin, String>
+{
 
 }

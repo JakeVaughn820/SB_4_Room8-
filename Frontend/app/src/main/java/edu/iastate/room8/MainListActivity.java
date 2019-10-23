@@ -27,19 +27,24 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import edu.iastate.room8.utils.SessionManager;
+
 public class MainListActivity extends AppCompatActivity {
-//I was here.
+
     private RequestQueue mQueue;
     private Button btn_new_list;
     private ListView itemsList;
     private ArrayList<String> items;
     private ArrayAdapter<String> adapter;
     private ArrayList<String> description;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_list);
+
+        sessionManager = new SessionManager(this);
 
         btn_new_list = findViewById(R.id.btn_create_new_list);
         mQueue = Volley.newRequestQueue(this);
@@ -62,7 +67,7 @@ public class MainListActivity extends AppCompatActivity {
             }
         });
 
-        itemsList.setOnItemClickListener(messageClickedHandler);
+        itemsList.setOnItemClickListener(messageClickedHandler);//
     }
 
     @Override
@@ -77,6 +82,8 @@ public class MainListActivity extends AppCompatActivity {
 //        String url = "https://api.myjson.com/bins/w6jix";
 //        String url = "https://api.myjson.com/bins/l3r1l";
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
+        url = url + "/" + sessionManager.getRoom();
+
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

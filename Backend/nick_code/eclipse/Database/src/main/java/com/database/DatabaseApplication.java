@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -21,7 +22,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
-import com.database.lists.*;
+import com.database.bulletin.pins.Pin;
+import com.database.roomList.RoomList;
+import com.database.roomList.RoomListService;
+import com.database.user.*;
 
 @SpringBootApplication
 public class DatabaseApplication {
@@ -33,14 +37,10 @@ public class DatabaseApplication {
 	  @RestController
 	  class GreetingController implements ErrorController {
 			
-		  @Autowired
-		  private RoomListService roomListService;
-		  
-		  @Autowired
-		  private BulletinService bulletinService;
-		  
-		  @Autowired
-		  private ErrorAttributes errorAttributes;
+		  @Autowired private RoomListService roomListService;
+		  @Autowired private BulletinService bulletinService;
+		  @Autowired private UserService userService;
+		  @Autowired private ErrorAttributes errorAttributes;
 		 
 		  @RequestMapping("/hello/{name}")
 		  String hello(@PathVariable String name) {
@@ -49,53 +49,84 @@ public class DatabaseApplication {
 		  
 		  @GetMapping("/list")
 		  public String getRoomList() {
-			  List<RoomList> roomLists = roomListService.getLists();
+//			  List<RoomList> roomLists = roomListService.getLists();
 			  String ret = "{\"RoomLists\":[";
-			  if(roomLists.isEmpty())
-				  ret += " ";
-			  for (RoomList temp : roomLists) {
-				ret += temp.toString() + ",";
-			  	}
+//			  if(roomLists.isEmpty())
+//				  ret += " ";
+//			  for (RoomList temp : roomLists) {
+//				ret += temp.toString() + ",";
+//			  	}
 		  	  ret = ret.substring(0, ret.length()-1) + "]}";
 		      return ret;
 		  }
 		  
-		  @PostMapping(path = "/list", consumes = "application/json", produces = "application/json")
-		  public String addRoomList(@RequestBody String item) {
-			  String Description = item.substring(16, item.indexOf('\"', 16));
-			  String Title = item.substring(Description.length()+27, item.indexOf('\"', Description.length()+27));
-			  roomListService.addList(new RoomList(Title, Description));
-			  return "200 OK";
+		  @PostMapping(path = "/list/{room}", consumes = "application/json", produces = "application/json")
+		  public String addRoomList(@RequestBody String item, @PathVariable String room) {
+			  JSONObject body = new JSONObject(item);
+			  String Title = body.getString("Title");
+			  String Description = body.getString("Description");
+//			  roomListService.addList(new RoomList(room, Title));
+			  return "{\"Response\":\"Success\"}";
 		  }
 		  
 		  @GetMapping("/bulletin")
 		  public String getBulletin() {
-			  List<Pin> pins = bulletinService.getPins();
+	//		  List<Pin> pins = bulletinService.getPins();
 			  String ret = "{\"BulletinBoard\":[";
-			  if(pins.isEmpty())
+			//  if(pins.isEmpty())
 				  ret += " ";
-			  for (Pin temp : pins) {
-				ret += temp.toString() + ",";
-			  	}
+	//		  for (Pin temp : pins) {
+	//			ret += temp.toString() + ",";
+	//		  	}
 		  	  ret = ret.substring(0, ret.length()-1) + "]}";
 		      return ret;
 		  }
 		  
-		  @PostMapping(path = "/bulletin", consumes = "application/json", produces = "application/json")
-		  public String addToBulletin(@RequestBody String item) {
-			  String User = item.substring(9, item.indexOf('\"', 9));
-			  String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
-			  bulletinService.addPin(new Pin(User, Contents));
-			  return "200 OK";
+		  @PostMapping(path = "/bulletin/{room}", consumes = "application/json", produces = "application/json")
+		  public String addToBulletin(@RequestBody String item, @PathVariable String room) {
+			  JSONObject body = new JSONObject(item);
+			  //String User = body.getString("User");
+			  String Contents = body.getString("Contents");
+			  //String User = item.substring(9, item.indexOf('\"', 9));
+			  //String Contents = item.substring(User.length()+23, item.indexOf('\"', User.length()+23));
+	//		  bulletinService.addPin(new Pin(Contents));
+			  return "{\"Response\":\"Success\"}";
 		  }
 		  
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
-		  public String attemptLogin() {
-			  //TODO Add login system
-			  if(true)
-				  return "Success";
-			  else
-				  return "Invalid Credentials";
+		  public String attemptLogin(@RequestBody String item) {
+			  //TODO Add login system, actually do something to Log in, instead of returning 'match' or 'no match'
+			  JSONObject body = new JSONObject(item);
+			  String Email = body.getString("Email");
+			  String Password = body.getString("Password");
+			  List<User> userList = userService.getUsers();
+			  for(User user : userList) {
+				  if(user.getEmail().equals(Email)) {
+					  if(user.getPassword().equals(Password))
+						  return "{\"Response\":\"Success\"}";
+					  else
+						  return "{\"Response\":\"Incorrect Password\"}";
+				  }
+			  }
+			  return "{\"Response\":\"User Does Not Exist\"}";
+		  }
+		  
+		  @PostMapping(path = "/register", consumes = "application/json", produces = "application/json")
+		  public String createUser(@RequestBody String item) {
+			  JSONObject body = new JSONObject(item);
+			  String Name = body.getString("Name");
+			  String Email = body.getString("Email");
+			  String Password = body.getString("Password");
+			  //int In_Room = body.getInt("In_Room"); 
+			  List<User> userList = userService.getUsers();
+			  for(User user : userList) {
+				  if(user.getName().equals(Name))
+					  return "{\"Response\":\"Name Already In Use\"}";
+				  if(user.getEmail().equals(Email))
+					  return "{\"Response\":\"Email Already In Use\"}";
+			  }
+			  userService.addUser(new User(Name, Email, Password));
+			  return "{\"Response\":\"Success\"}";
 		  }
 		  
 		  @Override

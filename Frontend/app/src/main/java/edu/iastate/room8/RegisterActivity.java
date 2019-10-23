@@ -2,7 +2,6 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -29,9 +29,11 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userNameEditText;
     private EditText userEmailEditText;
     private EditText passwordEditText;
+    private EditText passwordEditTextCheck;
     private String userNameEditTextString;
     private String userEmailEditTextString;
     private String passwordEditTextString;
+    private String passwordCheckTextString;
 
     private Button btnRegister;
     private Button btnLogin;
@@ -48,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         userNameEditText = findViewById(R.id.userNameEditText);
         userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.userPasswordEditText);
+        passwordEditTextCheck = findViewById(R.id.userPasswordCheckEditText);
         btnRegister = findViewById(R.id.btnRegister);
         btnLogin = findViewById(R.id.btnLogin);
 
@@ -64,6 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
                 userEmailEditTextString = userEmailEditText.getText().toString();
                 userNameEditTextString = userNameEditText.getText().toString();
                 passwordEditTextString = passwordEditText.getText().toString();
+                passwordCheckTextString = passwordEditTextCheck.getText().toString();
 
                 if(userNameEditTextString.equals("")){
                     Toast.makeText(RegisterActivity.this, "Must input a username!", Toast.LENGTH_SHORT).show();
@@ -71,9 +75,14 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
                 }else if(passwordEditTextString.equals("")){
                     Toast.makeText(RegisterActivity.this, "Must input a password", Toast.LENGTH_SHORT).show();
-                }else{
-                    finish();
-                    //postRequest();
+                }else if(passwordEditTextString.length()<8){
+                    Toast.makeText(RegisterActivity.this, "Password must be more than 8 characters", Toast.LENGTH_SHORT).show();
+                }else if(!passwordEditTextString.equals(passwordCheckTextString)){
+                    Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    postRequest();
+//                    finish();
                 }
             }
         });
@@ -81,12 +90,12 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("user", userNameEditTextString);
-        params.put("email", userEmailEditTextString);
-        params.put("password", passwordEditTextString);
+        params.put("Name", userNameEditTextString);
+        params.put("Email", userEmailEditTextString);
+        params.put("Password", passwordEditTextString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -94,6 +103,18 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
+                        try {
+                            String success = response.getString("Response");
+                            if(success.equals("Success")){
+                                finish();
+                                Toast.makeText(RegisterActivity.this, "Successfully created account!", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(RegisterActivity.this, "Username/Email already in use.", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -110,9 +131,9 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("user", userNameEditTextString);
-                params.put("email", userEmailEditTextString);
-                params.put("password", passwordEditTextString);
+                params.put("Name", userNameEditTextString);
+                params.put("Email", userEmailEditTextString);
+                params.put("Password", passwordEditTextString);
                 return params;
             }
         };
