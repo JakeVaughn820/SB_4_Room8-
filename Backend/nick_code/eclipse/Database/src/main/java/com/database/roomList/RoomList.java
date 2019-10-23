@@ -102,12 +102,13 @@ public class RoomList
 	@Override
 	public boolean equals(Object o)
 	{
+		//TODO redo this to include title
 		if(o == this)
 			return true;
 		if(!(o instanceof RoomList))
 			return false; 
 		RoomList roomList = (RoomList) o;
-		return this.id == roomList.id && this.contents == roomList.contents && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
+		return this.id == roomList.id && this.description == roomList.description && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
 	}
 
 }

@@ -65,7 +65,7 @@ public class DatabaseApplication {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  String Description = body.getString("Description");
-			  roomListService.addList(new RoomList(room, Title));
+			  //roomListService.addList(new RoomList(room, Title));
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
@@ -103,7 +103,7 @@ public class DatabaseApplication {
 			  for(User user : userList) {
 				  if(user.getEmail().equals(Email)) {
 					  if(user.getPassword().equals(Password))
-						  return "{\"Response\":\"Success\"}";
+						  return "{\"Response\":\"Success\", \"Username\":\"" + user.getName() + "\"}";
 					  else
 						  return "{\"Response\":\"Incorrect Password\"}";
 				  }
