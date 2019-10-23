@@ -85,10 +85,12 @@ public class NewUserRoomJoin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                postRequestCreate();
-                items.clear();
-                ids.clear();
-                jsonParse();
+//                postRequestCreate();
+//                items.clear();
+//                ids.clear();
+//                jsonParse();
+                Intent i = new Intent(NewUserRoomJoin.this, HomeActivity.class);
+                startActivity(i);
 
             }
         });
