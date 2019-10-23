@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private void validate(String userName, String userPassword){
         if((userName.equals("")) && (userPassword.equals(""))){
 
-            Intent i = new Intent(MainActivity.this, HomeActivity.class);
+            Intent i = new Intent(MainActivity.this, HomeActivityMoreTab.class);
             startActivity(i);
 
         }else{
