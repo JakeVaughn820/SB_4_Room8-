@@ -64,9 +64,10 @@ public class DatabaseApplication {
 		  @PostMapping(path = "/list/{room}", consumes = "application/json", produces = "application/json")
 		  public String addRoomList(@RequestBody String item, @PathVariable String room) {
 			  JSONObject body = new JSONObject(item);
+			  int intRoom = Integer.parseInt(room);
 			  String Title = body.getString("Title");
 			  String Description = body.getString("Description");
-//			  roomListService.addRoomList(new RoomList(room, Title, Description));
+			  roomListService.addRoomList(new RoomList(intRoom, Title, Description));
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
@@ -96,7 +97,7 @@ public class DatabaseApplication {
 		  
 		  @GetMapping("/room/{user}")
 		  public String getRooms(@PathVariable String user) {
-	//		  List<Pin> pins = bulletinService.getPins();
+//			  List<Rooms> rooms = bulletinService.getRooms();
 			  String ret = "{\"BulletinBoard\":[";
 			//  if(pins.isEmpty())
 				  ret += " ";
@@ -124,8 +125,10 @@ public class DatabaseApplication {
 			  List<User> userList = userService.getUsers();
 			  for(User user : userList) {
 				  if(user.getEmail().equals(Email)) {
-					  if(user.getPassword().equals(Password))
-						  return "{\"Response\":\"Success\", \"Username\":\"" + user.getName() + "\"}";
+					  if(user.getPassword().equals(Password)) {
+						  System.out.println("{\"Response\":\"Success\", \"Username\":\"" + user.getName() + "\",\"UserId\":\"" + user.getId() + "\"}");
+						  return "{\"Response\":\"Success\", \"Username\":\"" + user.getName() + "\",\"UserId\":\"" + user.getId() + "\"}";
+					  }
 					  else
 						  return "{\"Response\":\"Incorrect Password\"}";
 				  }
