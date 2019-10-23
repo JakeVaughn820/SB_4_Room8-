@@ -74,9 +74,10 @@ public class BulletinActivity extends AppCompatActivity {
         });
     }
     public void jsonParse() throws JSONException {
-        String url = "https://api.myjson.com/bins/1g4fnt";
+//        String url = "https://api.myjson.com/bins/1g4fnt";
 //
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
+        url = url + "/" + sessionManager.getRoom();
 //        JSONObject json = jsonParser.jsonParse(url);
 //        JSONArray jsonArray = json.getJSONArray("BulletinBoard");
 //
@@ -124,7 +125,7 @@ public class BulletinActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("User", "User"); //TODO When the user makes their login they should provide a name. This name will be put here.
+        params.put("User", sessionManager.getName()); //TODO When the user makes their login they should provide a name. This name will be put here.
         params.put("Contents", stringToAddText);
         JSONObject toPost = new JSONObject(params);
 //        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
