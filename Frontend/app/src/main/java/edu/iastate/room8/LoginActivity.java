@@ -142,9 +142,9 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Response");
-                            String userID = response.getString("UserID");
-                            String userEmail = response.getString("Email");
-                            String userName = response.getString("UserName");
+                            String userID = "1";
+                            String userEmail = userEmailEditText.getText().toString();
+                            String userName = response.getString("Username");
 
                             validate2(success, userID, userEmail, userName);
                         } catch (JSONException e) {
