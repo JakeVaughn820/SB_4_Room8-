@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -21,11 +20,11 @@ public class RoomList
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id; 
+	private int id; 
 	
 	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_list_id", foreignKey = @ForeignKey(name="room_list_id"))
-	private String roomId; 
+	private int roomId; 
 	
 	@Column(name="title")
 	private String title;
@@ -35,7 +34,7 @@ public class RoomList
 	
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.roomList.tasks.Tasks.class)
 	@JoinColumn(name="list_task_id", foreignKey = @ForeignKey(name="list_task_id"))
-	private String taskId;
+	private int taskId;
 	
 	/**
 	 * Constructor
@@ -43,27 +42,28 @@ public class RoomList
 	 * @param roomId
 	 * @param title
 	 */
-	public RoomList(String roomId, String title, String description)
+	public RoomList(int roomId, String title, String description, int taskId)
 	{
 		this.roomId = roomId;  
 		this.title = title; 
 		this.description = description;
+		this.taskId = taskId; 
 	}
 	
 	/**
 	 * Handlers
 	 */
-	public String getId()
+	public int getId()
 	{
 		return id; 
 	}
 	
-	public String getRoomId()
+	public int getRoomId()
 	{
 		return roomId;
 	}
 	
-	public String getTaskId()
+	public int getTaskId()
 	{
 		return taskId; 
 	}
@@ -76,17 +76,17 @@ public class RoomList
 		return description;
 	}
 	
-	public void setId(String id)
+	public void setId(int id)
 	{
 		this.id = id; 
 	}
 	
-	public void setRoomId(String roomId)
+	public void setRoomId(int roomId)
 	{
 		this.roomId = roomId;
 	}
 	
-	public void setTaskId(String taskId)
+	public void setTaskId(int taskId)
 	{
 		this.taskId = taskId; 
 	}
@@ -107,7 +107,7 @@ public class RoomList
 		if(!(o instanceof RoomList))
 			return false; 
 		RoomList roomList = (RoomList) o;
-		return this.id == roomList.id && this.contents == roomList.contents && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
+		return this.id == roomList.id && this.title == roomList.title && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
 	}
 
 }

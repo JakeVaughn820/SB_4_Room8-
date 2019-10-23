@@ -15,7 +15,7 @@ public class Rooms
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private String id; 
+	private int id; 
 	
 	@Column(name="room_name")
 	private String roomName;
@@ -25,7 +25,7 @@ public class Rooms
 		this.roomName = roomName; 
 	}
 	
-	public void setId(String id)
+	public void setId(int id)
 	{
 		this.id = id;
 	}
@@ -35,7 +35,7 @@ public class Rooms
 		this.roomName = roomName; 
 	}
 	
-	public String getId()
+	public int getId()
 	{
 		return this.id; 
 	}
