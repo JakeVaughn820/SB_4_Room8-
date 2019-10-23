@@ -29,7 +29,7 @@ import edu.iastate.room8.utils.SessionManager;
 public class LoginActivity extends AppCompatActivity {
 
 
-    private EditText userNameEditText;
+    private EditText userEmailEditText;
     private EditText passwordEditText;
     private Button loginbtn;
     private Button signUpBtn;
@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        userNameEditText = findViewById(R.id.userNameEditText);
+        userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginbtn = findViewById(R.id.loginbtn);
         signUpBtn = findViewById(R.id.signUpBtn);
@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate(userNameEditText.getText().toString(), passwordEditText.getText().toString());
+                validate(userEmailEditText.getText().toString(), passwordEditText.getText().toString());
             }
         });
 
@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/login";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("Email", userNameEditText.getText().toString());
+        params.put("Email", userEmailEditText.getText().toString());
         params.put("Password", passwordEditText.getText().toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("Email", userNameEditText.getText().toString());
+                params.put("Email", userEmailEditText.getText().toString());
                 params.put("Password", passwordEditText.getText().toString());
                 return params;
             }

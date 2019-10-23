@@ -2,7 +2,6 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        userNameEditText = findViewById(R.id.userNameEditText);
+        userNameEditText = findViewById(R.id.userEmailEditText);
         userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.userPasswordEditText);
         passwordEditTextCheck = findViewById(R.id.userPasswordCheckEditText);
