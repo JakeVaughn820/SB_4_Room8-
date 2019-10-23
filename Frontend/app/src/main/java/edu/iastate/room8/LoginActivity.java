@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                             String userID = response.getString("UserId");
                             String userEmail = userEmailEditText.getText().toString();
                             String userName = response.getString("Username");
-//                            Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                             validate2(success, userID, userEmail, userName);
                         } catch (JSONException e) {
                             e.printStackTrace();

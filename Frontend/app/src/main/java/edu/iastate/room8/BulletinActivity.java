@@ -124,9 +124,11 @@ public class BulletinActivity extends AppCompatActivity {
 
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
+        url = url + "/" + sessionManager.getRoom();
+
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("User", sessionManager.getName()); //TODO When the user makes their login they should provide a name. This name will be put here.
+        params.put("User", sessionManager.getName());
         params.put("Contents", stringToAddText);
         JSONObject toPost = new JSONObject(params);
 //        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
