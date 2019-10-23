@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name="rooms")
 public class Rooms 
@@ -19,24 +20,19 @@ public class Rooms
 	@Column(name="room_name")
 	private String roomName;
 	
-	public Rooms(String id, String roomName)
+	public Rooms(String roomName)
 	{
-		if (id.length() <= 49)
-			this.id = id;
-		if (roomName.length() <= 49)
-			this.roomName = roomName; 
+		this.roomName = roomName; 
 	}
 	
 	public void setId(String id)
 	{
-		if (id.length() <= 49)
-			this.id = id;
+		this.id = id;
 	}
 	
 	public void setRoomName(String roomName)
 	{
-		if (roomName.length() <= 49)
-			this.roomName = roomName; 
+		this.roomName = roomName; 
 	}
 	
 	public String getId()
@@ -47,6 +43,17 @@ public class Rooms
 	public String getRoomName()
 	{
 		return this.roomName; 
+	}
+	
+	@Override 
+	public boolean equals(Object o)
+	{
+		if(o == this)
+			return true;
+		if(!(o instanceof Rooms))
+			return false; 
+		Rooms room = (Rooms) o;
+		return this.id == room.id && this.roomName == room.roomName;
 	}
 
 }

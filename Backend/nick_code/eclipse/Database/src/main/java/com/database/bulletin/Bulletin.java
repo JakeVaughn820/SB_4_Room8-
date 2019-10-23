@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,58 +22,64 @@ public class Bulletin
 	@Column(name="id")
 	private String id; 
 	
-	@Column(name="bulletin_contents")
-	private String bulletinContents;
-	
 	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_bulletin_id", foreignKey = @ForeignKey(name = "room_bulletin_id"))
 	private String roomBulletinId;
 	
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
+	@JoinColumn(name="pin_id", foreignKey = @ForeignKey(name = "pin_id"))
+	private String pinId;
+	
 	/**
 	 * Bulletin Constructor 
 	 */
-	public Bulletin(String id, String bulletinContents, String roomBulletinId)
+	public Bulletin(String roomBulletinId, String pinId)
 	{
-		if(id.length() <= 49)
-			this.id = id;
-		if(bulletinContents.length() <= 98)
-			this.bulletinContents = bulletinContents;
-		if(roomBulletinId.length() <= 49)
-			this.roomBulletinId = roomBulletinId; 
+		this.roomBulletinId = roomBulletinId;
+		this.pinId = pinId; 
 	}
 	
-	public void setId(String id)
-	{
-		if(id.length() <= 49)
-			this.id = id; 
-	}
-	
-	public void setBulletinContents(String bulletinContents)
-	{
-		if (bulletinContents.length() <= 98)
-			this.bulletinContents = bulletinContents;
-	}
-	
-	public void setRoomBulletinId(String roomBulletinId)
-	{
-		if (roomBulletinId.length() <= 49)
-			this.roomBulletinId = roomBulletinId;
-	}
-	
+	/**
+	 * Handlers
+	 */
 	public String getBulletinId()
 	{
-		return id;
-	}
-	
-	public String getBulletinContents()
-	{
-		return bulletinContents; 
+		return id; 
 	}
 	
 	public String getRoomId()
-	{	
+	{
 		return roomBulletinId;
 	}
 	
+	public String getPinId() 
+	{
+		return pinId; 
+	}
 	
+	public void setBulletinId(String id)
+	{
+		this.id = id; 
+	}
+	
+	public void setRoomId(String roomId)
+	{
+		this.roomBulletinId = roomId; 
+	}
+	
+	public void setPinId(String pinId)
+	{
+		this.pinId = pinId; 
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if(o == this)
+			return true;
+		if(!(o instanceof Bulletin))
+			return false; 
+		Bulletin Bulletin = (Bulletin) o;
+		return this.id == Bulletin.id && this.roomBulletinId == Bulletin.roomBulletinId && this.pinId == Bulletin.pinId;
+	}	
 }
