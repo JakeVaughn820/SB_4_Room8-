@@ -10,7 +10,6 @@ import javax.persistence.Table;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import javax.persistence.OneToOne;
 
@@ -33,23 +32,17 @@ public class RoomList
 	@Column(name="description")
 	private String description;
 	
-	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.roomList.tasks.Tasks.class)
-	@JoinColumn(name="list_task_id", foreignKey = @ForeignKey(name="list_task_id"))
-	private int taskId;
-	
-	
 	/**
 	 * Constructor
 	 * 
 	 * @param roomId
 	 * @param title
 	 */
-	public RoomList(int roomId, String title, String description, int taskId)
+	public RoomList(int roomId, String title, String description)
 	{
 		this.roomId = roomId;  
 		this.title = title; 
-		this.description = description;
-		this.taskId = taskId; 
+		this.description = description; 
 	}
 	
 	/**
@@ -63,11 +56,6 @@ public class RoomList
 	public int getRoomId()
 	{
 		return roomId;
-	}
-
-	public int getTaskId()
-	{
-		return taskId; 
 	}
 	
 	public String getTitle() 
@@ -88,11 +76,6 @@ public class RoomList
 	{
 		this.roomId = roomId;
 	}
-
-	public void setTaskId(int taskId)
-	{
-		this.taskId = taskId; 
-	}
 	
 	public void setTitle(String title) {
 		this.title = title;
@@ -112,7 +95,7 @@ public class RoomList
 			return false; 
 		RoomList roomList = (RoomList) o;
 
-		return this.id == roomList.id && this.title == roomList.title && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
+		return this.id == roomList.id && this.title == roomList.title && this.roomId == roomList.roomId; 
 	}
 
 

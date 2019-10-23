@@ -82,6 +82,8 @@ public class MainListActivity extends AppCompatActivity {
 //        String url = "https://api.myjson.com/bins/w6jix";
 //        String url = "https://api.myjson.com/bins/l3r1l";
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
+        url = url + "/" + sessionManager.getRoom();
+
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
