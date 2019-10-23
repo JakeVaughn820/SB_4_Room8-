@@ -248,10 +248,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
 //        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 //    }
     private void postRequestJoin() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/Room";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("User", getIntent().getStringExtra("USER_ID"));
+        params.put("User", sessionManager.getID());
         params.put("RoomId", joinRoomEditText.getText().toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
