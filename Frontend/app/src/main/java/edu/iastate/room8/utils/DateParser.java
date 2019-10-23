@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.utils;
 //TODO make a mydate class and try to follow along with tutorial except with this instead
 public class DateParser {
     private int day;
@@ -6,7 +6,7 @@ public class DateParser {
     private int year;
     public DateParser(int i, int i1, int i2){
         day = i;
-        month = i1;
+        month = i1-1;
         year = i2;
     }
     public void setDay(int i){
@@ -18,21 +18,22 @@ public class DateParser {
     public void setYear(int i){
         year = i;
     }
-    public static String parseDate(int i, int i1, int i2){
-        return (i1 + 1) + "/" + i + "/" + i2;
+
+    public String parseDate(){
+        return (month + 1) + "/" + day + "/" + year;
 
     }
 
-    public String parseDay(int i){
+    public String parseDay(){
         return day + "";
     }
 
-    public String parseMonth(int i){
+    public String parseMonth(){
         return (month + 1) + "";
 
     }
 
-    public String parseYear(int i){
+    public String parseYear(){
         return year + "";
 
     }

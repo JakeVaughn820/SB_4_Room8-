@@ -5,25 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import edu.iastate.room8.app.AppController;
+import edu.iastate.room8.utils.DateParser;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -33,7 +20,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private String day;
     private String month;
     private String year;
-//    private DateParser dateParser;
+    private DateParser dateParser;
     boolean clicked;
 
     @Override
@@ -45,7 +32,7 @@ public class ScheduleActivity extends AppCompatActivity {
         calender = findViewById(R.id.calendar);
 
         clicked = false;
-        //dateParser = new DateParser(10, 17, 2019);
+        dateParser = new DateParser(21, 10, 2019);
 
         goToScheduleDay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,24 +53,24 @@ public class ScheduleActivity extends AppCompatActivity {
         calender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-//                date = callDateParser(i, i1, i2);
-//                day = dateParser.parseDay(i2);
-//                month = dateParser.parseMonth(i1);
-//                year = dateParser.parseYear(i);
-//                dateParser.setDay(i1);
-//                dateParser.setMonth(i+1);
-//                dateParser.setYear(i2);
+                dateParser.setDay(i2);
+                dateParser.setMonth(i1);
+                dateParser.setYear(i);
+                day = dateParser.parseDay();
+                month = dateParser.parseMonth();
+                year = dateParser.parseYear();
+                date = callDateParser();
                 clicked = true;
-                date = (i1 + 1) + "/" + i2 + "/" + i;
-                day = i2 + "";
-                month = (i1 + 1) + "";
-                year = i + "";
+//                date = (i1 + 1) + "/" + i2 + "/" + i;
+//                day = i2 + "";
+//                month = (i1 + 1) + "";
+//                year = i + "";
             }
         });
     }
 
-//    public String callDateParser(int i, int i1, int i2){
-//        return dateParser.parseDate(i, i1, i2);
-//    }
+    public String callDateParser(){
+        return dateParser.parseDate();
+    }
 
 }

@@ -83,8 +83,8 @@ public class DatabaseApplication {
 		      return ret;
 		  }
 		  
-		  @PostMapping(path = "/bulletin", consumes = "application/json", produces = "application/json")
-		  public String addToBulletin(@RequestBody String item) {
+		  @PostMapping(path = "/bulletin/{room}", consumes = "application/json", produces = "application/json")
+		  public String addToBulletin(@RequestBody String item, @PathVariable String room) {
 			  JSONObject body = new JSONObject(item);
 			  //String User = body.getString("User");
 			  String Contents = body.getString("Contents");
@@ -104,7 +104,7 @@ public class DatabaseApplication {
 			  for(User user : userList) {
 				  if(user.getEmail().equals(Email)) {
 					  if(user.getPassword().equals(Password))
-						  return "Credentials match";
+						  return "Success";
 					  else
 						  return "Incorrect Password";
 				  }
@@ -112,7 +112,7 @@ public class DatabaseApplication {
 			  return "User does not exist";
 		  }
 		  
-		  @PostMapping(path = "/createUser", consumes = "application/json", produces = "application/json")
+		  @PostMapping(path = "/register", consumes = "application/json", produces = "application/json")
 		  public String createUser(@RequestBody String item) {
 			  JSONObject body = new JSONObject(item);
 			  String Name = body.getString("Name");
@@ -127,7 +127,7 @@ public class DatabaseApplication {
 					  return "Email already in use";
 			  }
 			  userService.addUser(new User(Name, Email, Password));
-			  return "User created";
+			  return "Success";
 		  }
 		  
 		  @Override
