@@ -1,5 +1,6 @@
 package com.database;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -99,13 +100,13 @@ public class DatabaseApplication {
 		  
 		  @GetMapping("/room/{user}")
 		  public String getRooms(@PathVariable String user) {
-//			  List<Rooms> rooms = bulletinService.getRooms();
-			  String ret = "{\"BulletinBoard\":[";
-			//  if(pins.isEmpty())
+			  List<Rooms> rooms = roomMembersService.getRoomsByUsersId(Integer.parseInt(user));
+			  String ret = "{\"Rooms\":[";
+			  if(rooms.isEmpty())
 				  ret += " ";
-	//		  for (Pin temp : pins) {
-	//			ret += temp.toString() + ",";
-	//		  	}
+			  for (Rooms temp : rooms) {
+				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Id\":\"" + temp.getId() + "\"},";
+			  	}
 		  	  ret = ret.substring(0, ret.length()-1) + "]}";
 		      return ret;
 		  }
@@ -114,7 +115,12 @@ public class DatabaseApplication {
 		  public String addRoom(@RequestBody String item, @PathVariable String user) {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
-			  roomService.addRoom(new Rooms(Title));
+			  Rooms toAdd = new Rooms(Title);
+			  int roomsId = toAdd.getId();
+			  roomService.addRoom(toAdd);
+			  Integer userId = Integer.parseInt(user);
+			  RoomMembers adding = new RoomMembers(userId, roomsId);
+			  roomMembersService.addRoomMembers(adding);
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
