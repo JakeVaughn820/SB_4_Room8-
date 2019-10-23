@@ -123,7 +123,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
     };
 
     private void jsonParse() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/NewUserRoomJoin/Rooms";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/NewUserRoomJoin/Room";
         url = url + "/" + sessionManager.getID();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
