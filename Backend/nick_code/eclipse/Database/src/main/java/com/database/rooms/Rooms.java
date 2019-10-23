@@ -15,7 +15,7 @@ public class Rooms
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id; 
+	private Integer id; 
 	
 	@Column(name="title")
 	private String title;
@@ -35,7 +35,7 @@ public class Rooms
 		this.title = roomName; 
 	}
 	
-	public int getId()
+	public Integer getId()
 	{
 		return this.id; 
 	}

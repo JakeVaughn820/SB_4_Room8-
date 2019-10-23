@@ -1,5 +1,6 @@
 package com.database;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,8 +24,9 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
 import com.database.bulletin.pins.Pin;
-import com.database.roomList.RoomList;
-import com.database.roomList.RoomListService;
+import com.database.roomList.*;
+import com.database.roomMembers.*;
+import com.database.rooms.*;
 import com.database.user.*;
 
 @SpringBootApplication
@@ -39,16 +41,18 @@ public class DatabaseApplication {
 			
 		  @Autowired private RoomListService roomListService;
 		  @Autowired private BulletinService bulletinService;
+		  @Autowired private RoomsService roomService;
 		  @Autowired private UserService userService;
 		  @Autowired private ErrorAttributes errorAttributes;
+		  @Autowired private RoomMembersService roomMembersService;
 		 
 		  @RequestMapping("/hello/{name}")
 		  String hello(@PathVariable String name) {
 		      return "Hello, " + name + "!";
 		  }
 		  
-		  @GetMapping("/list")
-		  public String getRoomList() {
+		  @GetMapping("/list/{room}")
+		  public String getRoomList(@PathVariable String room) {
 //			  List<RoomList> roomLists = roomListService.getLists();
 			  String ret = "{\"RoomLists\":[";
 //			  if(roomLists.isEmpty())
@@ -63,14 +67,15 @@ public class DatabaseApplication {
 		  @PostMapping(path = "/list/{room}", consumes = "application/json", produces = "application/json")
 		  public String addRoomList(@RequestBody String item, @PathVariable String room) {
 			  JSONObject body = new JSONObject(item);
+			  int intRoom = Integer.parseInt(room);
 			  String Title = body.getString("Title");
 			  String Description = body.getString("Description");
-//			  roomListService.addList(new RoomList(room, Title));
+			  roomListService.addRoomList(new RoomList(intRoom, Title, Description));
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
-		  @GetMapping("/bulletin")
-		  public String getBulletin() {
+		  @GetMapping("/bulletin/{room}")
+		  public String getBulletin(@PathVariable String room) {
 	//		  List<Pin> pins = bulletinService.getPins();
 			  String ret = "{\"BulletinBoard\":[";
 			//  if(pins.isEmpty())
@@ -93,6 +98,32 @@ public class DatabaseApplication {
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
+		  @GetMapping("/room/{user}")
+		  public String getRooms(@PathVariable String user) {
+			  List<Rooms> rooms = roomMembersService.getRoomsByUsersId(Integer.parseInt(user));
+			  String ret = "{\"Rooms\":[";
+			  if(rooms.isEmpty())
+				  ret += " ";
+			  for (Rooms temp : rooms) {
+				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Id\":\"" + temp.getId() + "\"},";
+			  	}
+		  	  ret = ret.substring(0, ret.length()-1) + "]}";
+		      return ret;
+		  }
+		  
+		  @PostMapping(path = "/room/{user}", consumes = "application/json", produces = "application/json")
+		  public String addRoom(@RequestBody String item, @PathVariable String user) {
+			  JSONObject body = new JSONObject(item);
+			  String Title = body.getString("Title");
+			  Rooms toAdd = new Rooms(Title);
+			  Integer roomsId = toAdd.getId();
+			  roomService.addRoom(toAdd);
+			  Integer userId = Integer.parseInt(user);
+			  RoomMembers adding = new RoomMembers(userId, roomsId);
+			  roomMembersService.addRoomMembers(adding);
+			  return "{\"Response\":\"Success\"}";
+		  }
+		  
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
 		  public String attemptLogin(@RequestBody String item) {
 			  //TODO Add login system, actually do something to Log in, instead of returning 'match' or 'no match'
@@ -102,8 +133,10 @@ public class DatabaseApplication {
 			  List<User> userList = userService.getUsers();
 			  for(User user : userList) {
 				  if(user.getEmail().equals(Email)) {
-					  if(user.getPassword().equals(Password))
-						  return "{\"Response\":\"Success\"}";
+					  if(user.getPassword().equals(Password)) {
+						  System.out.println("{\"Response\":\"Success\", \"Username\":\"" + user.getName() + "\",\"UserId\":\"" + user.getId() + "\"}");
+						  return "{\"Response\":\"Success\", \"Username\":\"" + user.getName() + "\",\"UserId\":\"" + user.getId() + "\"}";
+					  }
 					  else
 						  return "{\"Response\":\"Incorrect Password\"}";
 				  }
