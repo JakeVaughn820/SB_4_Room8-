@@ -65,7 +65,7 @@ public class DatabaseApplication {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  String Description = body.getString("Description");
-			  roomListService.addList(new RoomList(room, Title));
+//			  roomListService.addList(new RoomList(room, Title));
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  

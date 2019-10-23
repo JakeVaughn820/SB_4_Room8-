@@ -14,7 +14,7 @@ public class Tasks
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+	private int id;
 	
 	@Column(name="contents")
 	private String contents;
@@ -38,7 +38,7 @@ public class Tasks
 	 * Handlers
 	 * 
 	 */
-	public String getId()
+	public int getId()
 	{
 		return id; 
 	}
@@ -53,7 +53,7 @@ public class Tasks
 		return userId;
 	}
 	
-	public void setId(String id)
+	public void setId(int id)
 	{
 		this.id = id; 
 	}

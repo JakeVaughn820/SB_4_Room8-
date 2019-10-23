@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,28 +19,22 @@ public class Schedule
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id; 
+	private int id; 
 	
 	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_schedule_id", foreignKey = @ForeignKey(name="room_schedule_id"))
-	private String roomId; 
+	private int roomId; 
 	
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.schedule.events.Events.class)
 	@JoinColumn(name="event_id", foreignKey = @ForeignKey(name="event_id"))
-	private String eventId;
-	
-	/**
-	 * @JoinTable(name = "lawyer_cscd", joinColumns = {
-    @JoinColumn(name = "country_code", referencedColumnName = "country_code") }, inverseJoinColumns = {
-    @JoinColumn(name = "lawyer_batch_no", referencedColumnName = "lawyer_batch_no") })
-	 */
+	private int eventId;
 	
 	/**
 	 * Constructor
 	 * @param roomId
 	 * @param eventId
 	 */
-	public Schedule(String roomId, String eventId)
+	public Schedule(int roomId, int eventId)
 	{
 		this.roomId = roomId; 
 		this.eventId = eventId; 
@@ -50,32 +43,32 @@ public class Schedule
 	/**
 	 * Handlers
 	 */
-	public String getId()
+	public int getId()
 	{
 		return id; 
 	}
 	
-	public String getRoomId()
+	public int getRoomId()
 	{
 		return roomId; 
 	}
 	
-	public String getEventId()
+	public int getEventId()
 	{
 		return eventId; 
 	}
 	
-	public void setId(String id)
+	public void setId(int id)
 	{
 		this.id = id; 
 	}
 	
-	public void setRoomId(String roomId)
+	public void setRoomId(int roomId)
 	{
 		this.roomId = roomId;
 	}
 	
-	public void setEventId(String eventId)
+	public void setEventId(int eventId)
 	{
 		this.eventId = eventId;
 	}

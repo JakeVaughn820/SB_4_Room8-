@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,20 +19,20 @@ public class Bulletin
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private String id; 
+	private int id; 
 	
 	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_bulletin_id", foreignKey = @ForeignKey(name = "room_bulletin_id"))
-	private String roomBulletinId;
+	private int roomBulletinId;
 	
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="pin_id", foreignKey = @ForeignKey(name = "pin_id"))
-	private String pinId;
+	private int pinId;
 	
 	/**
 	 * Bulletin Constructor 
 	 */
-	public Bulletin(String roomBulletinId, String pinId)
+	public Bulletin(int roomBulletinId, int pinId)
 	{
 		this.roomBulletinId = roomBulletinId;
 		this.pinId = pinId; 
@@ -42,32 +41,32 @@ public class Bulletin
 	/**
 	 * Handlers
 	 */
-	public String getBulletinId()
+	public int getBulletinId()
 	{
 		return id; 
 	}
 	
-	public String getRoomId()
+	public int getRoomId()
 	{
 		return roomBulletinId;
 	}
 	
-	public String getPinId() 
+	public int getPinId() 
 	{
 		return pinId; 
 	}
 	
-	public void setBulletinId(String id)
+	public void setBulletinId(int id)
 	{
 		this.id = id; 
 	}
 	
-	public void setRoomId(String roomId)
+	public void setRoomId(int roomId)
 	{
 		this.roomBulletinId = roomId; 
 	}
 	
-	public void setPinId(String pinId)
+	public void setPinId(int pinId)
 	{
 		this.pinId = pinId; 
 	}
