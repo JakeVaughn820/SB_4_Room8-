@@ -116,7 +116,7 @@ public class DatabaseApplication {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  Rooms toAdd = new Rooms(Title);
-			  int roomsId = toAdd.getId();
+			  Integer roomsId = toAdd.getId();
 			  roomService.addRoom(toAdd);
 			  Integer userId = Integer.parseInt(user);
 			  RoomMembers adding = new RoomMembers(userId, roomsId);

@@ -27,9 +27,9 @@ public class RoomMembers
 	
 	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_id", foreignKey = @ForeignKey(name = "room_id"))
-	private int roomId;
+	private Integer roomId;
 	
-	public RoomMembers(Integer userId, int roomId)
+	public RoomMembers(Integer userId, Integer roomId)
 	{
 		this.userId = userId;
 		this.roomId = roomId; 
@@ -60,7 +60,7 @@ public class RoomMembers
 		return this.userId; 
 	}
 	
-	public int getRoomId()
+	public Integer getRoomId()
 	{
 		return this.roomId; 
 	}
