@@ -50,7 +50,7 @@ public class User
 		this.Id = Id; 
 	}
 	
-	//Name handlers
+	//Name handlers 
 	public String getName(){
 		return Name; 
 	}
