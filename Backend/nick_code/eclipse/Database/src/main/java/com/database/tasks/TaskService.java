@@ -11,14 +11,14 @@ public class TaskService
 	@Autowired
 	private TaskRepository taskRepository; 
 	
-	public List<Task> getLists() 
+	public List<Task> getTasks() 
 	{
 		return taskRepository.findAll();
 	}
 	
-	public void addList(Task userList)
+	public void addTask(Task task)
 	{
-		taskRepository.save(userList); 
+		taskRepository.save(task); 
 	}
 	
     public Long count() {
@@ -26,8 +26,9 @@ public class TaskService
         return taskRepository.count();
     }
 
-    public void deleteById(String userId) {
-
-    	taskRepository.deleteById(userId);;
+    public boolean deleteById(String taskId) throws IllegalArgumentException
+    {
+    	taskRepository.deleteById(taskId);
+    	return true; 
     }
 }

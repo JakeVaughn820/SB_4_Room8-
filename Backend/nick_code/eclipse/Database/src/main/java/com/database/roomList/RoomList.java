@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -27,8 +26,11 @@ public class RoomList
 	@JoinColumn(name="room_list_id", foreignKey = @ForeignKey(name="room_list_id"))
 	private String roomId; 
 	
-	@Column(name="contents")
-	private String contents; 
+	@Column(name="title")
+	private String title;
+	
+	@Column(name="description")
+	private String description;
 	
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.roomList.tasks.Tasks.class)
 	@JoinColumn(name="list_task_id", foreignKey = @ForeignKey(name="list_task_id"))
@@ -38,12 +40,13 @@ public class RoomList
 	 * Constructor
 	 * 
 	 * @param roomId
-	 * @param contents
+	 * @param title
 	 */
-	public RoomList(String roomId, String contents)
+	public RoomList(String roomId, String title, String description)
 	{
 		this.roomId = roomId;  
-		this.contents = contents; 
+		this.title = title; 
+		this.description = description;
 	}
 	
 	/**
@@ -64,6 +67,14 @@ public class RoomList
 		return taskId; 
 	}
 	
+	public String getTitle() {
+		return title;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
 	public void setId(String id)
 	{
 		this.id = id; 
@@ -79,6 +90,14 @@ public class RoomList
 		this.taskId = taskId; 
 	}
 	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	@Override
 	public boolean equals(Object o)
 	{
@@ -87,7 +106,8 @@ public class RoomList
 		if(!(o instanceof RoomList))
 			return false; 
 		RoomList roomList = (RoomList) o;
-		return this.id == roomList.id && this.contents == roomList.contents && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
+		return this.id == roomList.id && this.title == roomList.title && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
 	}
+
 
 }

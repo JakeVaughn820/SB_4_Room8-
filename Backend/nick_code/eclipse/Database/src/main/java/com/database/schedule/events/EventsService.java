@@ -9,14 +9,14 @@ public class EventsService
 	@Autowired
 	private EventsRepository eventsRepository; 
 	
-	public List<Events> getPins() 
+	public List<Events> getEvents() 
 	{
 		return eventsRepository.findAll();
 	}
 	
-	public Events addPin(Events pin)
+	public Events addEvent(Events event)
 	{
-		return eventsRepository.save(pin);
+		return eventsRepository.save(event);
 	}
 	
     public Long count() 
@@ -25,9 +25,9 @@ public class EventsService
         return eventsRepository.count();
     }
 
-    public boolean deleteById(String pinId) throws IllegalArgumentException
+    public boolean deleteById(String eventId) throws IllegalArgumentException
     {
-    	eventsRepository.deleteById(pinId);
+    	eventsRepository.deleteById(eventId);
         return true; 
     }
 
