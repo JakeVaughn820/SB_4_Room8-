@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import edu.iastate.room8.HomeActivity;
 import edu.iastate.room8.LoginActivity;
@@ -38,10 +40,11 @@ public class SessionManager {
         editor.putString(EMAIL, email);
         editor.putString(ID, id);
         editor.putString(ROOM, null);
+        editor.putStringSet(ROOM, null);
         editor.apply();
     }
 
-    public void setRoom (String room){
+    public void addRoom (String room){
         editor.putString(ROOM, room);
         editor.apply();
     }

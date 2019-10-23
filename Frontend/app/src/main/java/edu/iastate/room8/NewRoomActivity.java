@@ -57,7 +57,7 @@ public class NewRoomActivity extends AppCompatActivity {
             public void onClick(View view) {
                 room = etNewRoom.getText().toString();
                 newRoomPostRequest();
-                sessionManager.setRoom(room);
+                sessionManager.addRoom(room);
                 Intent i = new Intent(NewRoomActivity.this, HomeActivity.class);
                 startActivity(i);
             }
@@ -68,7 +68,7 @@ public class NewRoomActivity extends AppCompatActivity {
             public void onClick(View view) {
                 inviteCode = etInviteCode.getText().toString();
                 invitePostRequest();
-                sessionManager.setRoom(room);
+                sessionManager.addRoom(room);
                 Intent i = new Intent(NewRoomActivity.this, HomeActivity.class);
                 startActivity(i);
             }

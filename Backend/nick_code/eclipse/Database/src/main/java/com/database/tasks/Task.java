@@ -13,7 +13,7 @@ public class Task
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String Id;
+	private int Id;
 	
 	@Column(name="Title")
 	private String Title;
@@ -28,12 +28,12 @@ public class Task
 	}
 	
 	//Id handlers
-	public String getId()
+	public int getId()
 	{
 		return Id; 
 	}
 	
-	public void setId(String Id)
+	public void setId(int Id)
 	{
 		this.Id = Id; 
 	}
