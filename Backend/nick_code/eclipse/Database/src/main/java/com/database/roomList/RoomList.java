@@ -10,7 +10,6 @@ import javax.persistence.Table;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -31,10 +30,6 @@ public class RoomList
 	
 	@Column(name="description")
 	private String description;
-	
-	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.roomList.tasks.Tasks.class)
-	@JoinColumn(name="list_task_id", foreignKey = @ForeignKey(name="list_task_id"))
-	private String taskId;
 	
 	/**
 	 * Constructor
@@ -62,11 +57,6 @@ public class RoomList
 		return roomId;
 	}
 	
-	public String getTaskId()
-	{
-		return taskId; 
-	}
-	
 	public String getTitle() {
 		return title;
 	}
@@ -85,11 +75,6 @@ public class RoomList
 		this.roomId = roomId;
 	}
 	
-	public void setTaskId(String taskId)
-	{
-		this.taskId = taskId; 
-	}
-	
 	public void setTitle(String title) {
 		this.title = title;
 	}
@@ -106,7 +91,7 @@ public class RoomList
 		if(!(o instanceof RoomList))
 			return false; 
 		RoomList roomList = (RoomList) o;
-		return this.id == roomList.id && this.title == roomList.title && this.roomId == roomList.roomId && this.taskId == roomList.taskId; 
+		return this.id == roomList.id && this.title == roomList.title && this.roomId == roomList.roomId; 
 	}
 
 
