@@ -30,15 +30,15 @@ public class RoomMembersMockitoTests
 	@Test
 	public void getRoomMembersTest() 
 	{
-		when(roomMembersRepository.findAll()).thenReturn(Stream.of(new RoomMembers("userId1", "roomId1"), 
-				new RoomMembers("userId2", "roomId2")).collect(Collectors.toList()));
+		when(roomMembersRepository.findAll()).thenReturn(Stream.of(new RoomMembers(1, 1), 
+				new RoomMembers(2, 2)).collect(Collectors.toList()));
 		assertEquals(2, roomMemberService.getRoomMembers().size());
 	}
 	
 	@Test
 	public void addRoomMemberTest()
 	{
-		RoomMembers newRoomMember = new RoomMembers("userId3", "roomId3");
+		RoomMembers newRoomMember = new RoomMembers(3, 3);
 		when(roomMembersRepository.save(newRoomMember)).thenReturn(newRoomMember); 
 		assertEquals(newRoomMember, roomMemberService.addRoomMembers(newRoomMember));
 	}

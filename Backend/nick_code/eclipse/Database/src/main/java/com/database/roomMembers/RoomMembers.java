@@ -19,48 +19,48 @@ public class RoomMembers
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private String id; 
+	private int id; 
 	
 	@ManyToOne(targetEntity = com.database.user.User.class)
 	@JoinColumn(name="user_id", foreignKey = @ForeignKey(name = "user_id"))
-	private String userId;
+	private int userId;
 	
 	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_id", foreignKey = @ForeignKey(name = "room_id"))
-	private String roomId;
+	private int roomId;
 	
-	public RoomMembers(String userId, String roomId)
+	public RoomMembers(int userId, int roomId)
 	{
 		this.userId = userId;
 		this.roomId = roomId; 
 	}
 	
-	public void setId(String id)
+	public void setId(int id)
 	{
 		this.id = id; 
 	}
 	
-	public void setUserId(String userId)
+	public void setUserId(int userId)
 	{
 		this.userId = userId; 
 	}
 	
-	public void setRoomId(String roomId)
+	public void setRoomId(int roomId)
 	{
 		this.roomId = roomId; 
 	}
 	
-	public String getId()
+	public int getId()
 	{
 		return this.id;
 	}
 	
-	public String getUserId()
+	public int getUserId()
 	{
 		return this.userId; 
 	}
 	
-	public String getRoomId()
+	public int getRoomId()
 	{
 		return this.roomId; 
 	}
