@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+//asdfa
 
 @Entity
 @Table(name="rooms")
@@ -17,12 +17,12 @@ public class Rooms
 	@Column(name="id")
 	private int id; 
 	
-	@Column(name="room_name")
-	private String roomName;
+	@Column(name="title")
+	private String title;
 	
 	public Rooms(String roomName)
 	{
-		this.roomName = roomName; 
+		this.title = roomName; 
 	}
 	
 	public void setId(int id)
@@ -32,7 +32,7 @@ public class Rooms
 	
 	public void setRoomName(String roomName)
 	{
-		this.roomName = roomName; 
+		this.title = roomName; 
 	}
 	
 	public int getId()
@@ -40,9 +40,9 @@ public class Rooms
 		return this.id; 
 	}
 	
-	public String getRoomName()
+	public String getTitle()
 	{
-		return this.roomName; 
+		return this.title; 
 	}
 	
 	@Override 
@@ -53,7 +53,7 @@ public class Rooms
 		if(!(o instanceof Rooms))
 			return false; 
 		Rooms room = (Rooms) o;
-		return this.id == room.id && this.roomName == room.roomName;
+		return this.id == room.id && this.title == room.title;
 	}
 
 }

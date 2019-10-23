@@ -27,9 +27,10 @@ public class RoomsService
         return roomsRepository.count();
     }
 	
-	public void deleteById(String roomId)
+	public boolean deleteById(String roomId) throws IllegalArgumentException
 	{
 		roomsRepository.deleteById(roomId);
+		return true;
 	}
 
 }
