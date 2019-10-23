@@ -106,8 +106,8 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         try {
-                            String success = response.getString("Success");
-                            if(success.equals("1")){
+                            String success = response.getString("Response");
+                            if(success.equals("Success")){
                                 finish();
                                 Toast.makeText(RegisterActivity.this, "Successfully created account!", Toast.LENGTH_SHORT).show();
                             }else{
