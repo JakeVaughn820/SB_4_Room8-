@@ -103,7 +103,7 @@ public class DatabaseApplication {
 			  for(User user : userList) {
 				  if(user.getEmail().equals(Email)) {
 					  if(user.getPassword().equals(Password))
-						  return "{\"Response\":\"Success\"}";
+						  return "{\"Response\":\"Success\", \"Username\":\"" + user.getName() + "\"}";
 					  else
 						  return "{\"Response\":\"Incorrect Password\"}";
 				  }
