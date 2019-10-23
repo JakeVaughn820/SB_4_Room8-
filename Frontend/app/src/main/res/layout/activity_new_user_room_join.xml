@@ -10,7 +10,7 @@
         android:id="@+id/NewRoomCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/newRoomCreateTextView"
+        android:layout_below="@id/RoomNameCreate"
         android:layout_centerHorizontal="true"
         android:text="Create Room"/>
 
@@ -83,5 +83,15 @@
         android:layout_marginTop="30dp"
         android:layout_below="@id/RoomJoin"
         android:text="Not your account? Logout below" />
+
+    <EditText
+        android:id="@+id/RoomNameCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_below="@id/newRoomCreateTextView"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPersonName"
+        android:hint="Room Name" />
 
 </RelativeLayout>

@@ -82,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else{
                     postRequest();
-                    finish();
+//                    finish();
                 }
             }
         });

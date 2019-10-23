@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -142,10 +143,10 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Response");
-                            String userID = "1";
+                            String userID = response.getString("UserId");
                             String userEmail = userEmailEditText.getText().toString();
                             String userName = response.getString("Username");
-
+                            Toast.makeText(LoginActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                             validate2(success, userID, userEmail, userName);
                         } catch (JSONException e) {
                             e.printStackTrace();
