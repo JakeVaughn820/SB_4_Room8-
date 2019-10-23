@@ -57,7 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validate(userEmailEditText.getText().toString(), passwordEditText.getText().toString());
+//                validate(userEmailEditText.getText().toString(), passwordEditText.getText().toString());
+                postRequest();
             }
         });
 
@@ -106,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validate2(String success, String userID, String userEmail, String userName){
-        if(success.equals("1")){
+        if(success.equals("Success")){
 
             Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
             sessionManager.createSession(userName, userEmail, userID);  //Creates a new session where the user is logged in
@@ -140,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         try {
-                            String success = response.getString("Success");
+                            String success = response.getString("Response");
                             String userID = response.getString("UserID");
                             String userEmail = response.getString("Email");
                             String userName = response.getString("UserName");
