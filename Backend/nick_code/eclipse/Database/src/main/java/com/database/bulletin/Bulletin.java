@@ -19,20 +19,20 @@ public class Bulletin
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id; 
+	private Integer id; 
 	
 	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_bulletin_id", foreignKey = @ForeignKey(name = "room_bulletin_id"))
-	private int roomBulletinId;
+	private Integer roomBulletinId;
 	
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="pin_id", foreignKey = @ForeignKey(name = "pin_id"))
-	private int pinId;
+	private Integer pinId;
 	
 	/**
 	 * Bulletin Constructor 
 	 */
-	public Bulletin(int roomBulletinId, int pinId)
+	public Bulletin(Integer roomBulletinId, Integer pinId)
 	{
 		this.roomBulletinId = roomBulletinId;
 		this.pinId = pinId; 
@@ -41,32 +41,32 @@ public class Bulletin
 	/**
 	 * Handlers
 	 */
-	public int getBulletinId()
+	public Integer getBulletinId()
 	{
 		return id; 
 	}
 	
-	public int getRoomId()
+	public Integer getRoomId()
 	{
 		return roomBulletinId;
 	}
 	
-	public int getPinId() 
+	public Integer getPinId() 
 	{
 		return pinId; 
 	}
 	
-	public void setBulletinId(int id)
+	public void setBulletinId(Integer id)
 	{
 		this.id = id; 
 	}
 	
-	public void setRoomId(int roomId)
+	public void setRoomId(Integer roomId)
 	{
 		this.roomBulletinId = roomId; 
 	}
 	
-	public void setPinId(int pinId)
+	public void setPinId(Integer pinId)
 	{
 		this.pinId = pinId; 
 	}

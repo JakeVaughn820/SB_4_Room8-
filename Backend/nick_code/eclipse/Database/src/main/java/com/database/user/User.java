@@ -14,7 +14,7 @@ public class User
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int Id;
+	private Integer Id;
 	
 	@Column(name="name")
 	private String Name;
@@ -42,11 +42,11 @@ public class User
 	}
 	
 	//Id handlers
-	public int getId(){
+	public Integer getId(){
 		return Id; 
 	}
 	
-	public void setId(int Id){
+	public void setId(Integer Id){
 		this.Id = Id; 
 	}
 	

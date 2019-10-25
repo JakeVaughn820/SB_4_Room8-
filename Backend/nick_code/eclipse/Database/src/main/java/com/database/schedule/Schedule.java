@@ -19,22 +19,22 @@ public class Schedule
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id; 
+	private Integer id; 
 	
 	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_schedule_id", foreignKey = @ForeignKey(name="room_schedule_id"))
-	private int roomId; 
+	private Integer roomId; 
 	
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.schedule.events.Events.class)
 	@JoinColumn(name="event_id", foreignKey = @ForeignKey(name="event_id"))
-	private int eventId;
+	private Integer eventId;
 	
 	/**
 	 * Constructor
 	 * @param roomId
 	 * @param eventId
 	 */
-	public Schedule(int roomId, int eventId)
+	public Schedule(Integer roomId, Integer eventId)
 	{
 		this.roomId = roomId; 
 		this.eventId = eventId; 
@@ -43,32 +43,32 @@ public class Schedule
 	/**
 	 * Handlers
 	 */
-	public int getId()
+	public Integer getId()
 	{
 		return id; 
 	}
 	
-	public int getRoomId()
+	public Integer getRoomId()
 	{
 		return roomId; 
 	}
 	
-	public int getEventId()
+	public Integer getEventId()
 	{
 		return eventId; 
 	}
 	
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id; 
 	}
 	
-	public void setRoomId(int roomId)
+	public void setRoomId(Integer roomId)
 	{
 		this.roomId = roomId;
 	}
 	
-	public void setEventId(int eventId)
+	public void setEventId(Integer eventId)
 	{
 		this.eventId = eventId;
 	}

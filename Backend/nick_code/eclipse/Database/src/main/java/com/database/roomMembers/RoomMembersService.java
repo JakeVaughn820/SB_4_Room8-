@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.database.rooms.Rooms;
+//import com.database.rooms.Rooms;
 
 @Service
 public class RoomMembersService 

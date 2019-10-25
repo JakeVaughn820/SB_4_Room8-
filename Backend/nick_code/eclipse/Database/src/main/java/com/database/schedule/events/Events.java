@@ -14,13 +14,13 @@ public class Events
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(name="contents")
 	private String contents;
 	
 	@Column(name="events_user_id")
-	private String userId; 
+	private Integer userId; 
 	
 	/**
 	 * Constructor
@@ -28,7 +28,7 @@ public class Events
 	 * @param contents
 	 * @param userId
 	 */
-	public Events(String contents, String userId)
+	public Events(String contents, Integer userId)
 	{ 
 		this.contents = contents;
 		this.userId = userId; 
@@ -38,7 +38,7 @@ public class Events
 	 * Handlers
 	 * 
 	 */
-	public int getId()
+	public Integer getId()
 	{
 		return id; 
 	}
@@ -48,12 +48,12 @@ public class Events
 		return contents; 
 	}
 	
-	public String getUserId()
+	public Integer getUserId()
 	{
 		return userId;
 	}
 	
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id; 
 	}
@@ -63,7 +63,7 @@ public class Events
 		this.contents = contents; 
 	}
 	
-	public void setUserId(String userId)
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId; 
 	}

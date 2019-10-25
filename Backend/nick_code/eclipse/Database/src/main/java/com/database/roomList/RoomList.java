@@ -20,11 +20,11 @@ public class RoomList
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id; 
+	private Integer id; 
 	
 	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_list_id", foreignKey = @ForeignKey(name="room_list_id"))
-	private int roomId; 
+	private Integer roomId; 
 	
 	@Column(name="title")
 	private String title;
@@ -38,7 +38,7 @@ public class RoomList
 	 * @param roomId
 	 * @param title
 	 */
-	public RoomList(int roomId, String title, String description)
+	public RoomList(Integer roomId, String title, String description)
 	{
 		this.roomId = roomId;  
 		this.title = title; 
@@ -48,12 +48,12 @@ public class RoomList
 	/**
 	 * Handlers
 	 */
-	public int getId()
+	public Integer getId()
 	{
 		return id; 
 	}
 	
-	public int getRoomId()
+	public Integer getRoomId()
 	{
 		return roomId;
 	}
@@ -67,12 +67,12 @@ public class RoomList
 		return description;
 	}
 	
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id; 
 	}
 	
-	public void setRoomId(int roomId)
+	public void setRoomId(Integer roomId)
 	{
 		this.roomId = roomId;
 	}
