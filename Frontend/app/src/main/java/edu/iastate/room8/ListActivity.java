@@ -125,10 +125,16 @@ public class ListActivity extends AppCompatActivity {
 
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            String toToast = items.get(position);
-            items.remove(position);
-            adapter.notifyDataSetChanged();
-            Toast.makeText(ListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
+//            String toToast = items.get(position);
+//            items.remove(position);
+//            adapter.notifyDataSetChanged();
+//            Toast.makeText(ListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
+//TODO implement something that gets if the task has a subtask item, and if it does, go to subtask for it and if not, mark the task as done.
+            Intent i = new Intent(ListActivity.this, SubtaskActivity.class);
+            i.putExtra("EXTRA_INFORMATION", items.get(position));
+            i.putExtra("WHICH", position);
+            i.putExtra("DESCRIPTION_INFORMATION", description);
+            startActivity(i);
         }
     };
 
