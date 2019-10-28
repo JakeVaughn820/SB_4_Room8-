@@ -34,22 +34,22 @@ import java.util.Map;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
 
-public class ListActivity extends AppCompatActivity {
+public class SubtaskActivity extends AppCompatActivity {
 
-    private TextView titleForList;
-    private TextView descriptionUnderTitle;
+    private TextView titleForSubTask;
+    private TextView descriptionUnderTitle2;
 
     private RequestQueue mQueue;
     private int whichOne;
     private String description;
-    private ListView itemsList;
-    private Button newListItem;
-    private EditText newListItemName;
-    private String newListItemNameString;
+    private ListView itemsSubTask;
+    private Button newSubTaskItem;
+    private EditText newSubTaskItemName;
+    private String newSubTaskItemNameString;
     private ArrayList<String> items;
     private ArrayAdapter<String> adapter;
     private String title;
-    private String TAG = NewListActivity.class.getSimpleName();
+    private String TAG = SubtaskActivity.class.getSimpleName();
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
     SessionManager sessionManager;
 
@@ -58,36 +58,36 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_subtask);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
-        titleForList = findViewById(R.id.TitleForList);
-        itemsList = findViewById(R.id.ListActivityList);
-        newListItem = findViewById(R.id.AddNewListItem);
-        newListItemName = findViewById(R.id.EnterNewListItem);
-        descriptionUnderTitle = findViewById(R.id.descriptionUnderTitle);
+        titleForSubTask = findViewById(R.id.TitleForSubTask);
+        itemsSubTask = findViewById(R.id.SubTaskActivityList);
+        newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
+        newSubTaskItemName = findViewById(R.id.EnterNewSubTaskItem);
+        descriptionUnderTitle2 = findViewById(R.id.descriptionUnderTitle2);
 
         mQueue = Volley.newRequestQueue(this);
         whichOne = getIntent().getIntExtra("WHICH", -1);
         description = getIntent().getStringExtra("DESCRIPTION_INFORMATION");
-        descriptionUnderTitle.setText(description);
-        titleForList.setText(title);
+        descriptionUnderTitle2.setText(description);
+        titleForSubTask.setText(title);
 
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        itemsList.setAdapter(adapter);
+        itemsSubTask.setAdapter(adapter);
 
         jsonParse();
         //postRequestForParse();
 
-        itemsList.setOnItemClickListener(messageClickedHandler);
+        itemsSubTask.setOnItemClickListener(messageClickedHandler);
 
-        newListItem.setOnClickListener(new View.OnClickListener() {
+        newSubTaskItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                newListItemNameString = newListItemName.getText().toString();
+                newSubTaskItemNameString = newSubTaskItemName.getText().toString();
                 postRequest();
-                newListItemName.setText("");
+                newSubTaskItemName.setText("");
             }
         });
     }
@@ -125,16 +125,10 @@ public class ListActivity extends AppCompatActivity {
 
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-//            String toToast = items.get(position);
-//            items.remove(position);
-//            adapter.notifyDataSetChanged();
-//            Toast.makeText(ListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
-//TODO implement something that gets if the task has a subtask item, and if it does, go to subtask for it and if not, mark the task as done.
-            Intent i = new Intent(ListActivity.this, SubtaskActivity.class);
-            i.putExtra("EXTRA_INFORMATION", items.get(position));
-            i.putExtra("WHICH", position);
-            i.putExtra("DESCRIPTION_INFORMATION", description);
-            startActivity(i);
+            String toToast = items.get(position);
+            items.remove(position);
+            adapter.notifyDataSetChanged();
+            Toast.makeText(SubtaskActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -143,7 +137,7 @@ public class ListActivity extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("ListName", title);
-        params.put("Task", newListItemNameString);
+        params.put("Task", newSubTaskItemNameString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -168,7 +162,7 @@ public class ListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("ListName", title);
-                params.put("Task", newListItemNameString);
+                params.put("Task", newSubTaskItemNameString);
 
 //                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
@@ -178,54 +172,4 @@ public class ListActivity extends AppCompatActivity {
 //        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 
-//    private void postRequestForParse() {
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
-//
-//        Map<String, String> params = new HashMap<String, String>();
-//        params.put("ListName", title);
-//
-//        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-//                url, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        Log.d(TAG, response.toString());
-//                        try {
-//                            JSONArray jsonArray = response.getJSONArray("List");
-//
-//                            for (int i = 0; i < jsonArray.length(); i++){
-//                                JSONObject List = jsonArray.getJSONObject(i);
-//
-//                                items.add(List.getString("Contents"));
-//                            }
-//                            adapter.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                VolleyLog.d(TAG, "Error: " + error.getMessage());
-//            }
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Content-Type", "application/json");
-//                return headers;
-//            }
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("ListName", title);
-//                params.put("Task", newListItemNameString);
-//
-////                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
-//                return params;
-//            }
-//        };
-//        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-////        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
-//    }
 }
