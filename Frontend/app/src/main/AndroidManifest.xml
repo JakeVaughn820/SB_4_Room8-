@@ -14,8 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NewRoomActivity"></activity>
-        <activity android:name=".NewUserRoomJoin"></activity>
+        <activity android:name=".SubtaskActivity"></activity>
+        <activity android:name=".NewRoomActivity" />
+        <activity android:name=".NewUserRoomJoin" />
         <activity android:name=".ScheduleDescriptionActivity" />
         <activity android:name=".NewScheduleActivity" />
         <activity android:name=".DayActivity" />
