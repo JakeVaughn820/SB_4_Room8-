@@ -73,11 +73,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validate(String userName_Email, String userPassword){
-        //TODO Get user names email and password see if any match.
-        //TODO these will need to be gotten from the database
-        //TODO I would recommend posting a request for the userName which can
-        //TODO be given as either the user name or the Email of the person
-        //TODO and then also getting their password. So it can be checked below.
+        //TOD Get user names email and password see if any match.
+        //TOD these will need to be gotten from the database
+        //TOD I would recommend posting a request for the userName which can
+        //TOD be given as either the user name or the Email of the person
+        //TOD and then also getting their password. So it can be checked below.
         String getUser = "";
         String getEmail = "";
         String getPassword = "";
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     + "\n" + userName_Email + " " + userPassword);
 
             if (loginAttemps == 0){
-                //TODO set up a timeout for this so it is not perma disabled.
+                //TOD set up a timeout for this so it is not perma disabled.
                 loginbtn.setEnabled(false);
 
             }
