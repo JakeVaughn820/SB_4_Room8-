@@ -83,6 +83,8 @@ public class ListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
+        switchOn=false;
+
         jsonParse();
         //postRequestForParse();
 
