@@ -9,10 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,26 +34,19 @@ import java.util.Map;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
 
-public class ListActivity extends AppCompatActivity {
+public class SubtaskActivity extends AppCompatActivity {
 
-    private TextView titleForList;
-    private TextView descriptionUnderTitle;
+    private TextView titleForSubTask;
 
     private RequestQueue mQueue;
-    private int whichOne;
-    private String description;
-    private ListView itemsList;
-    private Button newListItem;
-    private EditText newListItemName;
-    private String newListItemNameString;
-
-    private Switch switchList;
-    private Boolean switchOn;
-
+    private ListView itemsSubTask;
+    private Button newSubTaskItem;
+    private EditText newSubTaskItemName;
+    private String newSubTaskItemNameString;
     private ArrayList<String> items;
     private ArrayAdapter<String> adapter;
     private String title;
-    private String TAG = NewListActivity.class.getSimpleName();
+    private String TAG = SubtaskActivity.class.getSimpleName();
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
     SessionManager sessionManager;
 
@@ -64,50 +55,32 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
-        setContentView(R.layout.activity_list);
+        setContentView(R.layout.activity_subtask);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
-        titleForList = findViewById(R.id.TitleForList);
-        itemsList = findViewById(R.id.ListActivityList);
-        newListItem = findViewById(R.id.AddNewListItem);
-        newListItemName = findViewById(R.id.EnterNewListItem);
-        descriptionUnderTitle = findViewById(R.id.descriptionUnderTitle);
-        switchList = findViewById(R.id.switchList);
+        titleForSubTask = findViewById(R.id.TitleForSubTask);
+        itemsSubTask = findViewById(R.id.SubTaskActivityList);
+        newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
+        newSubTaskItemName = findViewById(R.id.EnterNewSubTaskItem);
 
         mQueue = Volley.newRequestQueue(this);
-        whichOne = getIntent().getIntExtra("WHICH", -1);
-        description = getIntent().getStringExtra("DESCRIPTION_INFORMATION");
-        descriptionUnderTitle.setText(description);
-        titleForList.setText(title);
+        titleForSubTask.setText(title);
 
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        itemsList.setAdapter(adapter);
-
-        switchOn=false;
+        itemsSubTask.setAdapter(adapter);
 
         jsonParse();
         //postRequestForParse();
 
-        itemsList.setOnItemClickListener(messageClickedHandler);
+        itemsSubTask.setOnItemClickListener(messageClickedHandler);
 
-        newListItem.setOnClickListener(new View.OnClickListener() {
+        newSubTaskItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                newListItemNameString = newListItemName.getText().toString();
+                newSubTaskItemNameString = newSubTaskItemName.getText().toString();
                 postRequest();
-                newListItemName.setText("");
-            }
-        });
-
-        switchList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    switchOn = true;
-                }else{
-                    switchOn = false;
-                }
+                newSubTaskItemName.setText("");
             }
         });
     }
@@ -145,16 +118,10 @@ public class ListActivity extends AppCompatActivity {
 
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            if(switchOn){
-                String toToast = items.get(position);
-                items.remove(position);
-                adapter.notifyDataSetChanged();
-                Toast.makeText(ListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
-            }else{
-                Intent i = new Intent(ListActivity.this, SubtaskActivity.class);
-                i.putExtra("EXTRA_INFORMATION", items.get(position));
-                startActivity(i);
-            }
+            String toToast = items.get(position);
+            items.remove(position);
+            adapter.notifyDataSetChanged();
+            Toast.makeText(SubtaskActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -163,7 +130,7 @@ public class ListActivity extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("ListName", title);
-        params.put("Task", newListItemNameString);
+        params.put("Task", newSubTaskItemNameString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -188,7 +155,7 @@ public class ListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("ListName", title);
-                params.put("Task", newListItemNameString);
+                params.put("Task", newSubTaskItemNameString);
 
 //                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
@@ -198,54 +165,4 @@ public class ListActivity extends AppCompatActivity {
 //        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 
-//    private void postRequestForParse() {
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
-//
-//        Map<String, String> params = new HashMap<String, String>();
-//        params.put("ListName", title);
-//
-//        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-//                url, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        Log.d(TAG, response.toString());
-//                        try {
-//                            JSONArray jsonArray = response.getJSONArray("List");
-//
-//                            for (int i = 0; i < jsonArray.length(); i++){
-//                                JSONObject List = jsonArray.getJSONObject(i);
-//
-//                                items.add(List.getString("Contents"));
-//                            }
-//                            adapter.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                VolleyLog.d(TAG, "Error: " + error.getMessage());
-//            }
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Content-Type", "application/json");
-//                return headers;
-//            }
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("ListName", title);
-//                params.put("Task", newListItemNameString);
-//
-////                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
-//                return params;
-//            }
-//        };
-//        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-////        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
-//    }
 }
