@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +48,10 @@ public class ListActivity extends AppCompatActivity {
     private Button newListItem;
     private EditText newListItemName;
     private String newListItemNameString;
+
+    private Switch switchList;
+    private Boolean switchOn;
+
     private ArrayList<String> items;
     private ArrayAdapter<String> adapter;
     private String title;
@@ -65,6 +71,7 @@ public class ListActivity extends AppCompatActivity {
         newListItem = findViewById(R.id.AddNewListItem);
         newListItemName = findViewById(R.id.EnterNewListItem);
         descriptionUnderTitle = findViewById(R.id.descriptionUnderTitle);
+        switchList = findViewById(R.id.switchList);
 
         mQueue = Volley.newRequestQueue(this);
         whichOne = getIntent().getIntExtra("WHICH", -1);
@@ -88,6 +95,17 @@ public class ListActivity extends AppCompatActivity {
                 newListItemNameString = newListItemName.getText().toString();
                 postRequest();
                 newListItemName.setText("");
+            }
+        });
+
+        switchList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    switchOn = true;
+                }else{
+                    switchOn = false;
+                }
             }
         });
     }
@@ -125,16 +143,16 @@ public class ListActivity extends AppCompatActivity {
 
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-//            String toToast = items.get(position);
-//            items.remove(position);
-//            adapter.notifyDataSetChanged();
-//            Toast.makeText(ListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
-//TODO implement something that gets if the task has a subtask item, and if it does, go to subtask for it and if not, mark the task as done.
-            Intent i = new Intent(ListActivity.this, SubtaskActivity.class);
-            i.putExtra("EXTRA_INFORMATION", items.get(position));
-            i.putExtra("WHICH", position);
-            i.putExtra("DESCRIPTION_INFORMATION", description);
-            startActivity(i);
+            if(switchOn){
+                String toToast = items.get(position);
+                items.remove(position);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(ListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
+            }else{
+                Intent i = new Intent(ListActivity.this, SubtaskActivity.class);
+                i.putExtra("EXTRA_INFORMATION", items.get(position));
+                startActivity(i);
+            }
         }
     };
 
