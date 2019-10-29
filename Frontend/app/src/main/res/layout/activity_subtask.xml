@@ -19,7 +19,7 @@
         android:id="@+id/SubTaskActivityList"
         android:layout_width="match_parent"
         android:layout_marginBottom="100dp"
-        android:layout_below="@id/descriptionUnderTitle2"
+        android:layout_below="@id/TitleForSubTask"
         android:layout_height="match_parent" />
 
     <EditText
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Input New List Item"
+        android:hint="Input New Subtask"
         android:text="" />
 
     <Button
@@ -39,13 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/EnterNewSubTaskItem"
         android:layout_centerHorizontal="true"
-        android:text="Add To List" />
+        android:text="Add Subtask" />
 
-    <TextView
-        android:id="@+id/descriptionUnderTitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/TitleForSubTask"
-        android:layout_centerHorizontal="true"
-        android:text="Description" />
+
 </RelativeLayout>

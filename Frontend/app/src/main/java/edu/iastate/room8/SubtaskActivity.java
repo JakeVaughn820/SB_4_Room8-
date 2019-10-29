@@ -37,11 +37,8 @@ import edu.iastate.room8.utils.SessionManager;
 public class SubtaskActivity extends AppCompatActivity {
 
     private TextView titleForSubTask;
-    private TextView descriptionUnderTitle2;
 
     private RequestQueue mQueue;
-    private int whichOne;
-    private String description;
     private ListView itemsSubTask;
     private Button newSubTaskItem;
     private EditText newSubTaskItemName;
@@ -64,12 +61,8 @@ public class SubtaskActivity extends AppCompatActivity {
         itemsSubTask = findViewById(R.id.SubTaskActivityList);
         newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
         newSubTaskItemName = findViewById(R.id.EnterNewSubTaskItem);
-        descriptionUnderTitle2 = findViewById(R.id.descriptionUnderTitle2);
 
         mQueue = Volley.newRequestQueue(this);
-        whichOne = getIntent().getIntExtra("WHICH", -1);
-        description = getIntent().getStringExtra("DESCRIPTION_INFORMATION");
-        descriptionUnderTitle2.setText(description);
         titleForSubTask.setText(title);
 
         items = new ArrayList<String>();
