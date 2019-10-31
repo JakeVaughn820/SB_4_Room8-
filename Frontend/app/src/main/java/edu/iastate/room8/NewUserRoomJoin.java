@@ -169,6 +169,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
+
 //                        try {
 //                            sessionManager.addRoom(response.getString("RoomId"));
 //                            Intent j = new Intent(NewUserRoomJoin.this, HomeActivity.class);
