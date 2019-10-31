@@ -20,7 +20,7 @@ public class Pin
 	private String contents;
 	
 	@Column(name="pin_user_id")
-	private Integer userId; 
+	private Integer userId;  
 	
 	/**
 	 * Constructor
