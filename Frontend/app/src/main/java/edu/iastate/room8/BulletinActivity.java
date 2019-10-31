@@ -181,8 +181,18 @@ public class BulletinActivity extends AppCompatActivity {
         if(temp<0){
             temp=0;
         }
-        for(int i = temp; i<arr.size(); i++){
-            textView.append(arr.get(i));
+        ArrayList<String> tempArrayList = reverseArrayList(arr);
+        for(int i = temp; i<tempArrayList.size(); i++){
+            textView.append(tempArrayList.get(i));
         }
+    }
+
+    private ArrayList<String> reverseArrayList(ArrayList<String> arr1)
+    {
+        ArrayList<String> reverse = new ArrayList<String>();
+        for (int i = arr1.size() - 1; i >= 0; i--) {
+            reverse.add(arr1.get(i));
+        }
+        return reverse;
     }
 }
