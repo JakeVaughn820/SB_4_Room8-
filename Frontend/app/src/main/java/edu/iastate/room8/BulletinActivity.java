@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ public class BulletinActivity extends AppCompatActivity {
     private RequestQueue mQueue;
     private Button toAddButton;
     private TextView toAddText;
+    private ArrayList<String> arr;
     private String stringToAddText;
     private String TAG = NewListActivity.class.getSimpleName();
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -53,6 +55,7 @@ public class BulletinActivity extends AppCompatActivity {
         toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
         jsonParser = new JsonParser();
+        arr = new ArrayList<String>();
 
         try{
             jsonParse();  //Parses through the json given to frontend from back end
@@ -76,9 +79,10 @@ public class BulletinActivity extends AppCompatActivity {
     }
     public void jsonParse() throws JSONException {
 //        String url = "https://api.myjson.com/bins/1g4fnt";
-//
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
-        url = url + "/" + sessionManager.getRoom();
+//        String url = "https://api.myjson.com/bins/k7wvo";
+        String url = "https://api.myjson.com/bins/158r6c";
+//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
+//        url = url + "/" + sessionManager.getRoom();
 //        JSONObject json = jsonParser.jsonParse(url);
 //        JSONArray jsonArray = json.getJSONArray("BulletinBoard");
 //
@@ -103,8 +107,11 @@ public class BulletinActivity extends AppCompatActivity {
 
                                 String id = List.getString("User");
                                 String contents = List.getString("Contents");
-                                textView.append(Html.fromHtml("<b>"+ id + ": </b>"));
-                                textView.append(contents + "\n");
+//                                textView.append(Html.fromHtml("<b>"+ id + ": </b>"));
+//                                textView.append(contents + "\n");
+                                String temp = Html.fromHtml("<b>"+ id + ": </b>") + contents + "\n";
+                                arr.add(temp);
+                                appendTextView();
                             }
                         } catch (JSONException e) {
                             textView.setText("Something went wrong!>!>!>");//yml
@@ -161,5 +168,31 @@ public class BulletinActivity extends AppCompatActivity {
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
+    /**
+     * Method that will make sure the messages wont go off the screen.
+     * Basically appends here instead of in the parse method
+     */
+    private void appendTextView(){
+        textView.setText("");
+        int numMessagesToShow = 50; //CHANGE THIS NUMBER FOR AMOUNT OF MESSAGES TO SHOW UP
+        int temp = arr.size()-numMessagesToShow;
+        if(temp<0){
+            temp=0;
+        }
+        ArrayList<String> tempArrayList = reverseArrayList(arr);
+        for(int i = temp; i<tempArrayList.size(); i++){
+            textView.append(tempArrayList.get(i));
+        }
+    }
+
+    private ArrayList<String> reverseArrayList(ArrayList<String> arr1)
+    {
+        ArrayList<String> reverse = new ArrayList<String>();
+        for (int i = arr1.size() - 1; i >= 0; i--) {
+            reverse.add(arr1.get(i));
+        }
+        return reverse;
     }
 }

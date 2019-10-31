@@ -19,6 +19,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".NewRoomActivity"></activity>
         <activity android:name=".NewUserRoomJoin"></activity>
+        <activity android:name=".SubtaskActivity"></activity>
         <activity android:name=".ScheduleDescriptionActivity" />
         <activity android:name=".NewScheduleActivity" />
         <activity android:name=".DayActivity" />
