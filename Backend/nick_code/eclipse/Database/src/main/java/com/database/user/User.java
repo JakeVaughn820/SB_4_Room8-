@@ -28,10 +28,8 @@ public class User
 	@Column(name="in_room")
 	private int In_Room;
 	
-	
-	public User() {
-
-	}
+	@Column(name="user_role")
+	private String userRole; 
 	
 	public User(String name, String email, String pswd)
 	{ 
@@ -86,6 +84,16 @@ public class User
 		this.Password = in_room; 
 	}
 	
+	public String getUserRole()
+	{
+		return this.userRole; 
+	}
+	
+	public void setUserRole(String userRole)
+	{
+		this.userRole = userRole; 
+	}
+	
 	@Override
 	public boolean equals(Object o)
 	{
@@ -94,7 +102,7 @@ public class User
 		if(!(o instanceof User))
 			return false; 
 		User user = (User) o;
-		return this.Id == user.Id && this.Name == user.Name && this.Email == user.Email && this.Password == user.Password && this.In_Room == user.In_Room;
+		return this.Id == user.Id && this.Name == user.Name && this.Email == user.Email && this.Password == user.Password && this.In_Room == user.In_Room && this.userRole == user.userRole;
 	}
 
 }

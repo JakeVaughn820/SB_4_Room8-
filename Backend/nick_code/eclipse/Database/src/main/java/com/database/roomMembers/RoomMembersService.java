@@ -1,4 +1,4 @@
-package com.database.roomMmbers;
+package com.database.roomMembers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import com.database.rooms.Rooms;
+import com.database.rooms.RoomsRepository;
 
 
 @Service
