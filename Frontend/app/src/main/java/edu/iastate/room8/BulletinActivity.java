@@ -79,8 +79,8 @@ public class BulletinActivity extends AppCompatActivity {
     }
     public void jsonParse() throws JSONException {
 //        String url = "https://api.myjson.com/bins/1g4fnt";
-        String url = "https://api.myjson.com/bins/k7wvo";
-//
+//        String url = "https://api.myjson.com/bins/k7wvo";
+        String url = "https://api.myjson.com/bins/158r6c";
 //        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
 //        url = url + "/" + sessionManager.getRoom();
 //        JSONObject json = jsonParser.jsonParse(url);
@@ -176,7 +176,7 @@ public class BulletinActivity extends AppCompatActivity {
      */
     private void appendTextView(){
         textView.setText("");
-        int numMessagesToShow = 10; //CHANGE THIS NUMBER FOR AMOUNT OF MESSAGES TO SHOW UP
+        int numMessagesToShow = 50; //CHANGE THIS NUMBER FOR AMOUNT OF MESSAGES TO SHOW UP
         int temp = arr.size()-numMessagesToShow;
         if(temp<0){
             temp=0;
