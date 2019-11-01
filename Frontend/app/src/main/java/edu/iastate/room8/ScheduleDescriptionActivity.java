@@ -27,7 +27,12 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of ScheduleDescription. You will be able to see the description of the created event.
+ * This includes the time frame, description, event name, and who created the event.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class ScheduleDescriptionActivity extends AppCompatActivity {
 
     private TextView eventName;

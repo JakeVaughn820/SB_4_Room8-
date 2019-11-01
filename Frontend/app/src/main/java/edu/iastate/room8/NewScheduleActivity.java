@@ -23,7 +23,12 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity NewSchedule. You can create a new event in the schedule for the day on your rooms events page.
+ * The new event added will be viewable in DayActivity.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class NewScheduleActivity extends AppCompatActivity {
 
     private TextView addNewEventTextView;

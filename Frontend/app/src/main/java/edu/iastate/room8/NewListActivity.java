@@ -29,7 +29,12 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity NewList. You can create a new list which you can access back in MainList.
+ * You can add a description for the list but don't have to.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class NewListActivity extends AppCompatActivity {
 
     private EditText newListName;

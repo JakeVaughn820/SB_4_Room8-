@@ -12,7 +12,12 @@ import android.widget.Toast;
 
 import edu.iastate.room8.utils.DateParser;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity Schedule. There is a calender and you can select a day on the calender
+ * and see what events exist between you and your roommates and add more by clicking the button for adding new events.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class ScheduleActivity extends AppCompatActivity {
 
     private Button goToScheduleDay;

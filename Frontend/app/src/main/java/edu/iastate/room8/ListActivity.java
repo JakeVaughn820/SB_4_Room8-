@@ -35,7 +35,12 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of the list you chose. The list you chose will have tasks and subtasks
+ * Clicking on a task in completion mode deletes it. Clicking on a task not in completion mode brings you to the subtask activity.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class ListActivity extends AppCompatActivity {
 
     private TextView titleForList;

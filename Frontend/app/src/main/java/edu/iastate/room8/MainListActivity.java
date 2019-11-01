@@ -28,7 +28,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of MainList. List of lists that you can chose from. For example,
+ * you can create a to do list or a grocery list and select them here.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class MainListActivity extends AppCompatActivity {
 
     private RequestQueue mQueue;

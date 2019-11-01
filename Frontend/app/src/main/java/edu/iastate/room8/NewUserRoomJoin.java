@@ -33,7 +33,12 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity NewUserRoomJoin. You can create a new room which you can access in this.
+ * You can join a new room too with the room ID. You can access any of the rooms you have already joined too.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class NewUserRoomJoin extends AppCompatActivity {
 
     private Button newRoomCreate;

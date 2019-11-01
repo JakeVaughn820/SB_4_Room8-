@@ -23,7 +23,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
-
+/**
+ * This class is used for the activity Register. You can register for the app here.
+ * The server will check if the email or username is already in use. The password will be entered twice and has to be 8 characters at least.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText userNameEditText;

@@ -31,6 +31,11 @@ import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.JsonParser;
 import edu.iastate.room8.utils.SessionManager;
 
+/**
+ * This class is used for the activity of the bulletin feature. Send important messages to your roommates.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class BulletinActivity extends AppCompatActivity {
     private JsonParser jsonParser;
     private TextView textView;

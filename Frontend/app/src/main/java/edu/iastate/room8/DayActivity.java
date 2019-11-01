@@ -25,7 +25,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of the specific day chosen from the schedule.
+ * Can see what is happening on the day for everyone in your room.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class DayActivity extends AppCompatActivity {
     private TextView date;
     private String dateString;

@@ -26,7 +26,12 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of login. If you don't have a login you can press the register button.
+ * Use email and password to login.
+ * @Author Paul Degnan
+ * @Author Jake Vaughn
+ */
 public class LoginActivity extends AppCompatActivity {
 
 
