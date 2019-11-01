@@ -1,4 +1,9 @@
 package edu.iastate.room8.utils;
+
+/**
+ * Class that is used to parse the date for the ScheduleActivity
+ * @Author Paul Degnan
+ */
 public class DateParser {
     private int day;
     private int month;
