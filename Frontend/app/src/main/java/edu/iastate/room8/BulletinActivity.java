@@ -82,6 +82,13 @@ public class BulletinActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * Used to parse JSON Objects in BulletinActivity
+     * Will get the chats from each person in the room and display them
+     * Receives: Header: BulletinBoard. Keys: User. Contents.
+     * @throws JSONException
+     */
     public void jsonParse() throws JSONException {
 //        String url = "https://api.myjson.com/bins/1g4fnt";
 //        String url = "https://api.myjson.com/bins/k7wvo";
@@ -133,7 +140,10 @@ public class BulletinActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Used to send a message to the server to put onto the bulletin
+     * Sends information with keys: User, Contents.
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/bulletin";
         url = url + "/" + sessionManager.getRoom();
@@ -192,6 +202,12 @@ public class BulletinActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method that reverses an ArrayList. Called by appendTextView so that the first message on top of the screen
+     * is the most recent and you can scroll down to older messages.
+     * @param arr1 the ArrayList to reverse
+     * @return a reverse of the ArrayList received
+     */
     private ArrayList<String> reverseArrayList(ArrayList<String> arr1)
     {
         ArrayList<String> reverse = new ArrayList<String>();

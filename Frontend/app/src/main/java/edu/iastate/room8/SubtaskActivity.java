@@ -90,6 +90,11 @@ public class SubtaskActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Used to parse JSON Objects in SubtaskActivity
+     * Will get the subtasks for the task selected by the user and displays them in a list.
+     * @throws JSONException
+     */
     private void jsonParse() {
         String url = "https://api.myjson.com/bins/jqfcl";
 //        String url =
@@ -121,6 +126,9 @@ public class SubtaskActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+    /**
+     * Used as an onClickedListener for a list that will delete a subtask
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             String toToast = items.get(position);
@@ -130,6 +138,10 @@ public class SubtaskActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * post that creates a new subtask
+     * Sends keys: ListName, Task
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 

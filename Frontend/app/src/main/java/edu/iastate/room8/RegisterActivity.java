@@ -94,6 +94,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * post that creates a new user in the database
+     * Sends keys: Name, Email, Password
+     * Receives keys: Response which tells whether or not the user could be created
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
 

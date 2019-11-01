@@ -68,6 +68,11 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Post Request that is used for receiving the event information
+     * Sends Keys: EventName
+     * Receives Keys: EventName, User, Description, Start, End
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 

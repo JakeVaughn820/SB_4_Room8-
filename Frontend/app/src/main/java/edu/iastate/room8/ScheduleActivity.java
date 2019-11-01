@@ -79,6 +79,10 @@ public class ScheduleActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Calls the date parser to parse the date that is to be used for the schedule.
+     * @return returns the parsed date
+     */
     public String callDateParser(){
         return dateParser.parseDate();
     }

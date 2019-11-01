@@ -118,7 +118,9 @@ public class NewUserRoomJoin extends AppCompatActivity {
         list.setOnItemClickListener(messageClickedHandler);
     }
 
-
+    /**
+     * list onClickListener. Goes to homeActivity and sets the room of the user to the correct room.
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             sessionManager.addRoom(ids.get(position));
@@ -127,6 +129,12 @@ public class NewUserRoomJoin extends AppCompatActivity {
         }
     };
 
+    /**
+     * Used to parse JSON Objects in NewUserRoomJoin
+     * Will get the rooms the user has joined and display them in a list
+     * Receives Header: Rooms. Keys: Title, ID
+     * @throws JSONException
+     */
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
@@ -160,6 +168,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
 
     }
 
+    /**
+     * post that creates a new room in the database.
+     * Sends Keys: Title
+     */
     private void postRequestCreate() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
@@ -253,6 +265,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
 //        };
 //        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 //    }
+    /**
+     * post that lets the user join a new room
+     * Sends Keys: Title, RoomId
+     */
     private void postRequestJoin() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();

@@ -77,6 +77,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Validation method to see if the email and password correspond to a user in the database. (Old method for testing)
+     * @param userName_Email email the user typed in
+     * @param userPassword password the user typed in
+     */
     private void validate(String userName_Email, String userPassword){
         //TOD Get user names email and password see if any match.
         //TOD these will need to be gotten from the database
@@ -112,6 +117,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Validation method to see if the email and password correspond to a user in the database.
+     * @param success Whether or not the login attempt was successful
+     * @param userID ID of the user that logged in
+     * @param userEmail email of the user that logged in
+     * @param userName username of the user that logged in
+     */
     private void validate2(String success, String userID, String userEmail, String userName){
         if(success.equals("Success")){
 
@@ -133,6 +145,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * PostRequest used to see if the email and password are in the server.
+     * If the email and password correspond to a user in the database the server will
+     * return a "Success" and the user will be brought the the rooms activity
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/login";
 

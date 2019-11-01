@@ -75,6 +75,9 @@ public class MainListActivity extends AppCompatActivity {
         itemsList.setOnItemClickListener(messageClickedHandler);//
     }
 
+    /**
+     * Method that is used to jsonParse every time the activity is resumed
+     */
     @Override
     public void onResume() { //after pressing "done" the list should now update
         super.onResume();
@@ -82,6 +85,12 @@ public class MainListActivity extends AppCompatActivity {
         jsonParse();   //Parses through the json given to frontend from back end
     }
 
+    /**
+     * Used to parse JSON Objects in MainListActivity
+     * Will get the lists and display them in a list.
+     * Receiving Header: RoomLists. Keys: Title, Description.
+     * @throws JSONException
+     */
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
 //        String url = "https://api.myjson.com/bins/w6jix";
@@ -117,6 +126,10 @@ public class MainListActivity extends AppCompatActivity {
         });
         mQueue.add(request);
     }
+
+    /**
+     * onClickedListener for a list. Will take the user to the tasks of the list the user picked.
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             Intent i = new Intent(MainListActivity.this, ListActivity.class);

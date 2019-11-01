@@ -97,7 +97,12 @@ public class DayActivity extends AppCompatActivity {
         return null;
     }
 
-
+    /**
+     * Used to parse JSON Objects in DayActivity
+     * Will get the events for the day selected by the User and display them in a list
+     * Receives: Header: Schedule. Keys: StartTime. EndTime. EventName. User.
+     * @throws JSONException
+     */
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
 //        String url = "https://api.myjson.com/bins/w6jix";
@@ -138,6 +143,10 @@ public class DayActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+    /**
+     * An onClickListener for a list. Used to look at the description of an event.
+     * Will open up a new activity when any event is clicked on.
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             Intent i = new Intent(DayActivity.this, ScheduleDescriptionActivity.class);

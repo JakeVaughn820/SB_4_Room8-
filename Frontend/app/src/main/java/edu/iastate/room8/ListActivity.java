@@ -117,6 +117,12 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * Used to parse JSON Objects in ListActivity
+     * Will get the tasks for the list selected by the user and displays them in a list
+     * @throws JSONException
+     */
     private void jsonParse() {
         String url = "https://api.myjson.com/bins/jqfcl";
 //        String url =
@@ -148,6 +154,10 @@ public class ListActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+    /**
+     * onClickedListener for the list. When the switch is on you can complete and delete items of the list.
+     * When the switch is off it will bring you to the subtasks for the task.
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             if(switchOn){
@@ -163,6 +173,11 @@ public class ListActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * PostRequest that creates a new task in the list. It sends the name of the list to add to and the task
+     * that the user wants to add
+     * Sending keys: ListName, Task
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 

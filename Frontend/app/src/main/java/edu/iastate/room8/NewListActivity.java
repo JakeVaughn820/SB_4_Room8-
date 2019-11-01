@@ -82,6 +82,10 @@ public class NewListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * PostRequest that tells the server it wants to add a new list.
+     * Sends Keys: Title, Description
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 

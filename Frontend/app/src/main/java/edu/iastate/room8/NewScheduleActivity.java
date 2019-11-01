@@ -44,6 +44,7 @@ public class NewScheduleActivity extends AppCompatActivity {
     private String endTimeString;
     private String eventNameString;
     private String eventDescriptionString;
+    private String date;
     SessionManager sessionManager;
 
     private String TAG = NewListActivity.class.getSimpleName();
@@ -65,7 +66,7 @@ public class NewScheduleActivity extends AppCompatActivity {
         eventName = findViewById(R.id.eventName);
         eventDescription = findViewById(R.id.eventDescription);
 
-
+        date = getIntent().getStringExtra("DATE");
 
         addNewEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +80,10 @@ public class NewScheduleActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * PostRequest that creates a new event on a day specified by the user.
+     * Sends Keys: EventName, StartTime, EndTime, EventDescription, date.
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
@@ -87,6 +92,7 @@ public class NewScheduleActivity extends AppCompatActivity {
         params.put("StartTime", startTimeString);
         params.put("EndTime", endTimeString);
         params.put("EventDescription", eventDescriptionString);
+        params.put("Date", date);
 
 
 //        Toast.makeText(this, params.get("Title"), Toast.LENGTH_SHORT).show();
@@ -119,6 +125,7 @@ public class NewScheduleActivity extends AppCompatActivity {
                 params.put("StartTime", startTimeString);
                 params.put("EndTime", endTimeString);
                 params.put("EventDescription", eventDescriptionString);
+                params.put("Date", date);
                 return params;
             }
         };
