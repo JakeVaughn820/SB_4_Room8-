@@ -18,18 +18,18 @@ public class Tasks
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(name="contents")
 	private String contents;
 	
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.user.User.class)
 	@JoinColumn(name="task_user_id", foreignKey = @ForeignKey(name = "task_user_id"))
-	private int userId;
+	private Integer userId;
 	
 	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.roomList.RoomList.class)
 	@JoinColumn(name="task_list_id", foreignKey = @ForeignKey(name = "task_list_id"))
-	private int listId;
+	private Integer listId;
 	
 	/**
 	 * Constructor
@@ -37,7 +37,7 @@ public class Tasks
 	 * @param contents
 	 * @param userId
 	 */
-	public Tasks(String contents, int userId, int listId)
+	public Tasks(String contents, Integer userId, Integer listId)
 	{ 
 		this.contents = contents;
 		this.userId = userId;
@@ -48,7 +48,7 @@ public class Tasks
 	 * Handlers
 	 * 
 	 */
-	public int getId()
+	public Integer getId()
 	{
 		return id; 
 	}
@@ -58,17 +58,17 @@ public class Tasks
 		return contents; 
 	}
 	
-	public int getUserId()
+	public Integer getUserId()
 	{
 		return userId;
 	}
 
-	public int getListId()
+	public Integer getListId()
 	{
 		return listId; 
 	}
 	
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id;
 	}
@@ -78,12 +78,12 @@ public class Tasks
 		this.contents = contents; 
 	}
 	
-	public void setUserId(int userId)
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId; 
 	}
 	
-	public void setListId(int listId)
+	public void setListId(Integer listId)
 	{
 		this.listId = listId; 
 	}
@@ -102,6 +102,6 @@ public class Tasks
 		if(!(o instanceof Tasks))
 			return false; 
 		Tasks task = (Tasks) o;
-		return this.id == task.id && this.contents == task.contents && this.userId == task.userId && this.listId == task.listId; 
+		return this.id == task.id && this.contents.equals(task.contents) && this.userId == task.userId && this.listId == task.listId; 
 	}
 }

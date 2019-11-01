@@ -19,15 +19,23 @@ public class RoomMembers
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id; 
+	public Integer id; 
 	
 	@ManyToOne(targetEntity = com.database.user.User.class)
 	@JoinColumn(name="user_id", foreignKey = @ForeignKey(name = "user_id"))
-	private Integer userId;
+	public Integer userId;
 	
 	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_id", foreignKey = @ForeignKey(name = "room_id"))
-	private Integer roomId;
+	public Integer roomId;
+	
+	@Column(name="user_role")
+	public String userRole; 
+	
+	public RoomMembers()
+	{
+		
+	}
 	
 	public RoomMembers(Integer userId, Integer roomId)
 	{
@@ -35,17 +43,17 @@ public class RoomMembers
 		this.roomId = roomId; 
 	}
 	
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id; 
 	}
 	
-	public void setUserId(int userId)
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId; 
 	}
 	
-	public void setRoomId(int roomId)
+	public void setRoomId(Integer roomId)
 	{
 		this.roomId = roomId; 
 	}
@@ -55,14 +63,24 @@ public class RoomMembers
 		return this.id;
 	}
 	
-	public Integer getUserId()
+	public int getUserId()
 	{
 		return this.userId; 
 	}
 	
-	public Integer getRoomId()
+	public int getRoomId()
 	{
 		return this.roomId; 
+	}
+	
+	public String getUserRole()
+	{
+		return this.userRole; 
+	}
+	
+	public void setUserRole(String userRole)
+	{
+		this.userRole = userRole; 
 	}
 	
 	@Override
@@ -73,6 +91,6 @@ public class RoomMembers
 		if(!(o instanceof RoomMembers))
 			return false; 
 		RoomMembers RoomMembers = (RoomMembers) o;
-		return this.id == RoomMembers.id && this.userId == RoomMembers.userId && this.roomId == RoomMembers.roomId;
+		return this.id == RoomMembers.id && this.userId == RoomMembers.userId && this.roomId == RoomMembers.roomId && this.userRole.equals(RoomMembers.userRole);
 	}
 }

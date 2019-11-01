@@ -14,13 +14,13 @@ public class Pin
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	
 	@Column(name="contents")
 	private String contents;
 	
 	@Column(name="pin_user_id")
-	private String userId; 
+	private Integer userId;  
 	
 	/**
 	 * Constructor
@@ -28,7 +28,7 @@ public class Pin
 	 * @param contents
 	 * @param userId
 	 */
-	public Pin(String contents, String userId)
+	public Pin(String contents, Integer userId)
 	{ 
 		this.contents = contents;
 		this.userId = userId; 
@@ -38,7 +38,7 @@ public class Pin
 	 * Handlers
 	 * 
 	 */
-	public int getId()
+	public Integer getId()
 	{
 		return id; 
 	}
@@ -48,12 +48,12 @@ public class Pin
 		return contents; 
 	}
 	
-	public String getUserId()
+	public Integer getUserId()
 	{
 		return userId;
 	}
 	
-	public void setId(int id)
+	public void setId(Integer id)
 	{
 		this.id = id; 
 	}
@@ -63,7 +63,7 @@ public class Pin
 		this.contents = contents; 
 	}
 	
-	public void setUserId(String userId)
+	public void setUserId(Integer userId)
 	{
 		this.userId = userId; 
 	}
@@ -82,6 +82,6 @@ public class Pin
 		if(!(o instanceof Pin))
 			return false; 
 		Pin pin = (Pin) o;
-		return this.id == pin.id && this.contents == pin.contents && this.userId == pin.userId; 
+		return this.id == pin.id && this.contents.equals(pin.contents) && this.userId == pin.userId; 
 	}
 }
