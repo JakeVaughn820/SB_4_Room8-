@@ -95,7 +95,7 @@ public class RoomList
 			return false; 
 		RoomList roomList = (RoomList) o;
 
-		return this.id == roomList.id && this.title == roomList.title && this.roomId == roomList.roomId; 
+		return this.id == roomList.id && this.title.equals(roomList.title) && this.roomId == roomList.roomId && this.description.equals(roomList.description); 
 	}
 
 

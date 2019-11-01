@@ -1,5 +1,6 @@
 package com.database.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,21 @@ public class UserService
 	public List<User> getUsers() 
 	{
 		return userRepository.findAll();
+	}
+	
+	public User getUserById(Integer userId)
+	{
+		List<User> temp = new ArrayList<User>();
+		User toReturn = null; 
+		for(User i : temp)
+		{
+			if(i.getId().equals(userId))
+			{
+				toReturn = i; 
+				break; 
+			}
+		}
+		return toReturn;
 	}
 	
 	public User addUser(User user)

@@ -1,6 +1,6 @@
 package com.database;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -98,9 +98,14 @@ public class DatabaseApplication {
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
+		  /**
+		   * Get all rooms a particular user is in
+		   * @param user
+		   * @return
+		   */
 		  @GetMapping("/room/{user}")
 		  public String getRooms(@PathVariable String user) {
-			  List<Rooms> rooms = roomMembersService.getRoomsByUsersId(Integer.parseInt(user));
+			  List<Rooms> rooms = roomMembersService.getRoomsByUserId(Integer.parseInt(user));
 			  String ret = "{\"Rooms\":[";
 			  if(rooms.isEmpty())
 				  ret += " ";
@@ -111,18 +116,43 @@ public class DatabaseApplication {
 		      return ret;
 		  }
 		  
+		  /**
+		   * This method creates a room therefore assigning which ever user created this room 
+		   * is now the owner of the room 
+		   * 
+		   * @param item
+		   * @param user
+		   * @return
+		   */
 		  @PostMapping(path = "/room/{user}", consumes = "application/json", produces = "application/json")
 		  public String addRoom(@RequestBody String item, @PathVariable String user) {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  Rooms toAdd = new Rooms(Title);
-			  Integer roomsId = toAdd.getId();
+			  Integer roomsId = new Integer(toAdd.getId());
 			  roomService.addRoom(toAdd);
 			  Integer userId = Integer.parseInt(user);
 			  RoomMembers adding = new RoomMembers(userId, roomsId);
 			  roomMembersService.addRoomMembers(adding);
+			  adding.setUserRole("Owner");
 			  return "{\"Response\":\"Success\"}";
 		  }
+		  
+		  /**
+		   * This method deletes a room
+		   * This method checks if the user requesting 
+		   * to delete the room is a Owner since only 
+		   * the owner can delete rooms.
+		   * 
+		   * @param item
+		   * @return
+		   */
+//		  @GetMapping(path = "/room/delete/{user}")
+//		  public String deleteRoom(@PathVariable String room, @PathVariable String user)
+//		  {
+//			  RoomMembers roleCheck = roomMembersService.getRoom()
+//			  if()
+//		  }
 		  
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
 		  public String attemptLogin(@RequestBody String item) {

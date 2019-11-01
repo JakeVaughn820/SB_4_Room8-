@@ -82,6 +82,6 @@ public class Pin
 		if(!(o instanceof Pin))
 			return false; 
 		Pin pin = (Pin) o;
-		return this.id == pin.id && this.contents == pin.contents && this.userId == pin.userId; 
+		return this.id == pin.id && this.contents.equals(pin.contents) && this.userId == pin.userId; 
 	}
 }

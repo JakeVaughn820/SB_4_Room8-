@@ -102,6 +102,6 @@ public class Tasks
 		if(!(o instanceof Tasks))
 			return false; 
 		Tasks task = (Tasks) o;
-		return this.id == task.id && this.contents == task.contents && this.userId == task.userId && this.listId == task.listId; 
+		return this.id == task.id && this.contents.equals(task.contents) && this.userId == task.userId && this.listId == task.listId; 
 	}
 }

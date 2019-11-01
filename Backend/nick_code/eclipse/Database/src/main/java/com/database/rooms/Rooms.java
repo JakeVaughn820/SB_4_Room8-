@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-//asdfa
 
 @Entity
 @Table(name="rooms")
@@ -15,10 +14,15 @@ public class Rooms
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private Integer id; 
+	public Integer id; 
 	
 	@Column(name="title")
-	private String title;
+	public String title;
+	
+	public Rooms()
+	{
+		
+	}
 	
 	public Rooms(String roomName)
 	{
@@ -53,7 +57,7 @@ public class Rooms
 		if(!(o instanceof Rooms))
 			return false; 
 		Rooms room = (Rooms) o;
-		return this.id == room.id && this.title == room.title;
+		return this.id == room.id && this.title.equals(room.title);
 	}
 
 }
