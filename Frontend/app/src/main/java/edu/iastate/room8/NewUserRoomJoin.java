@@ -116,12 +116,12 @@ public class NewUserRoomJoin extends AppCompatActivity {
         items = new ArrayList<String>();
 
         items.add("Test Room");
-        sessionManager.addRoom("Test Room");
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         list.setAdapter(adapter);
 
         ids = new ArrayList<String>();
+        ids.add("Test Room");
 
 
         jsonParse();
