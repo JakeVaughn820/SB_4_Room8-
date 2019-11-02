@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
@@ -113,9 +114,15 @@ public class NewUserRoomJoin extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
 
         items = new ArrayList<String>();
+
+        items.add("Test Room");
+        sessionManager.addRoom("Test Room");
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        list.setAdapter(adapter);
 
         ids = new ArrayList<String>();
+
 
         jsonParse();
 
@@ -138,8 +145,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
             public void onClick(View view) {
 
                 postRequestJoin();
-
-
             }
         });
 
