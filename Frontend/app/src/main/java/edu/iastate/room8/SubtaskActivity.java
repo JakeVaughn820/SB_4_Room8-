@@ -40,19 +40,53 @@ import edu.iastate.room8.utils.SessionManager;
  * @author Jake Vaughn
  */
 public class SubtaskActivity extends AppCompatActivity {
-
+    /**
+     * Text View with title for subtasks
+     */
     private TextView titleForSubTask;
-
+    /**
+     * Request Queue
+     */
     private RequestQueue mQueue;
+    /**
+     * List View with the subtasks
+     */
     private ListView itemsSubTask;
+    /**
+     * Button that adds a new sub task
+     */
     private Button newSubTaskItem;
+    /**
+     * User input for the new subtask item name
+     */
     private EditText newSubTaskItemName;
+    /**
+     * String with the user input for the new subtask item
+     */
     private String newSubTaskItemNameString;
+    /**
+     * ArrayList for List View
+     */
     private ArrayList<String> items;
+    /**
+     * Adapter for List View
+     */
     private ArrayAdapter<String> adapter;
+    /**
+     * String with the title of the page
+     */
     private String title;
+    /**
+     * Tag with the activity currently in
+     */
     private String TAG = SubtaskActivity.class.getSimpleName();
+    /**
+     * Used to stop requests
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
 
 
