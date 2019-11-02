@@ -21,25 +21,64 @@ public class SessionManager {
      * Shared Preferences
      */
     SharedPreferences sharedPreferences;
+    /**
+     * Editor for shared preferences
+     */
     public SharedPreferences.Editor editor;
+    /**
+     * Context, class that session manager is being used in
+     */
     public Context context;
+    /**
+     * Int for private mode
+     */
     int PRIVATE_MODE = 0;
-
+    /**
+     * Constant preference name
+     */
     private static final String PREF_NAME = "LOGIN";
+    /**
+     * Constant login string
+     */
     private static final String LOGIN = "IS_LOGIN";
+    /**
+     * Constant room string
+     */
     private static final String ROOM = "ROOM";
+    /**
+     * Constant rooms string
+     */
     private static final String ROOMS = "ROOMS";
+    /**
+     * Constant name string
+     */
     public static final String NAME = "NAME";
+    /**
+     * Constant email string
+     */
     public static final String EMAIL = "EMAIL";
+    /**
+     * Constant ID string
+     */
     public static final String ID = "ID";
 
+    /**
+     * Session Manager constructor
+     * @param context what activity it was constructed in
+     */
     public SessionManager(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = sharedPreferences.edit();
     }
 
-    //Creates a new session with everything set to null other than the params.
+    /**
+     * Creates a new session with everything set to null other than the params.
+     * @param name name of user
+     * @param email email of user
+     * @param id id of user
+     */
+
     public void createSession(String name, String email, String id){
 
         Set<String> set = new HashSet<>();
@@ -52,7 +91,10 @@ public class SessionManager {
         editor.apply();
     }
 
-    //Adds a room to ROOMS and sets it as current room.
+    /**
+     * Adds a room to ROOMS and sets it as current room.
+     * @param room room to set for the user
+     */
     public void addRoom (String room){
         Set<String> set;
         set = (sharedPreferences.getStringSet(ROOMS, null));
@@ -62,7 +104,11 @@ public class SessionManager {
         editor.apply();
     }
 
-    //True if user is currently in a room false if otherwise
+    /**
+     * True if user is currently in a room false if otherwise
+     * @param room is in a room or not
+     * @return if user is in a room
+     */
     public boolean isRoom (String room){
         Set<String> set;
         set = (sharedPreferences.getStringSet(ROOMS, null));
@@ -70,7 +116,10 @@ public class SessionManager {
         return set.contains(room);
     }
 
-    //Sets the current room the user is in.
+    /**
+     * Sets the current room the user is in.
+     * @param room sets the room for the user
+     */
     public void setRoom (String room){
         if(isRoom(room)){
             editor.putString(ROOM, room);
@@ -78,7 +127,10 @@ public class SessionManager {
         }
     }
 
-    //Returns true if the user is in a room false if otherwise
+    /**
+     * Returns true if the user is in a room false if otherwise
+     * @return returns if the user is in a room
+     */
     public boolean isInRoom(){
         if (sharedPreferences.getString(ROOM, null) != null){
             return true;
@@ -86,7 +138,9 @@ public class SessionManager {
         return false;
     }
 
-    //Checks Room to see if the user is in a room if not it puts user on NewUserRoomJoin
+    /**
+     *   Checks Room to see if the user is in a room if not it puts user on NewUserRoomJoin
+     */
     public void checkRoom(){
         if (!this.isInRoom()){
             Intent i = new Intent(context, NewUserRoomJoin.class);
@@ -95,37 +149,57 @@ public class SessionManager {
         }
     }
 
-    //Returns current room if user is in room
+    /**
+     * Returns current room if user is in room
+     * @return the room the user is in
+     */
     public String getRoom(){
         return sharedPreferences.getString(ROOM, null);
     }
 
-    //Returns all the rooms the user is a part of.
+    /**
+     * Returns all the rooms the user is a part of.
+     * @return all rooms the user is in
+     */
     public Set<String> getRooms(){
         return sharedPreferences.getStringSet(ROOMS, null);
     }
 
-    //Returns the name of the user.
+    /**
+     * Returns the name of the user.
+     * @return name of user
+     */
     public String getName(){
         return sharedPreferences.getString(NAME, null);
     }
 
-    //Returns the Email of the user.
+    /**
+     * Returns the Email of the user.
+     * @return email of user
+     */
     public String getEmail(){
         return sharedPreferences.getString(EMAIL, null);
     }
 
-    //Returns the ID of the user.
+    /**
+     * Returns the ID of the user.
+     * @return id of user
+     */
     public String getID(){
         return sharedPreferences.getString(ID, null);
     }
 
-    //Returns true if the user is logged in false if otherwise.
+    /**
+     * Returns true if the user is logged in false if otherwise.
+     * @return returns if the user is logged in
+     */
     public boolean isLoggin(){
         return sharedPreferences.getBoolean(LOGIN, false);
     }
 
-    //Checks if the user is logged in if they are not logged in go to LoginActivity
+    /**
+     * Checks if the user is logged in if they are not logged in go to LoginActivity
+     */
     public void checkLogin(){
 
         if (!this.isLoggin()){
@@ -135,7 +209,10 @@ public class SessionManager {
         }
     }
 
-    //Returns all of the users Details as a HashMap<"Keyword", "Thing">
+    /**
+     * Returns all of the users Details as a HashMap<"Keyword", "Thing">
+     * @return returns user details
+     */
     public HashMap<String, String> getUserDetail(){
 
         HashMap<String, String> user = new HashMap<>();
@@ -147,7 +224,9 @@ public class SessionManager {
         return user;
     }
 
-    //Leaves the current room and switches screen to NewUserRoomJoin.
+    /**
+     * Leaves the current room and switches screen to NewUserRoomJoin.
+     */
     public void leaveRoom(){
         editor.putString(ROOM, null);
         editor.apply();
@@ -156,7 +235,9 @@ public class SessionManager {
         ((HomeActivity) context).finish();
     }
 
-    //Logs out of the session clearing all of the users data from shared preferences.
+    /**
+     * Logs out of the session clearing all of the users data from shared preferences.
+     */
     public void logout(){
 
         editor.clear();
