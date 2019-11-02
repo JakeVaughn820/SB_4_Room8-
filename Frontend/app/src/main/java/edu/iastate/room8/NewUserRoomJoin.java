@@ -36,29 +36,62 @@ import edu.iastate.room8.utils.SessionManager;
 /**
  * This class is used for the activity NewUserRoomJoin. You can create a new room which you can access in this.
  * You can join a new room too with the room ID. You can access any of the rooms you have already joined too.
- * @Author Paul Degnan
- * @Author Jake Vaughn
+ * @author Paul Degnan
+ * @author Jake Vaughn
  */
 public class NewUserRoomJoin extends AppCompatActivity {
-
+    /**
+     * Button that when pressed creates a new room with the name of the edit text
+     */
     private Button newRoomCreate;
+    /**
+     * Button that will join the room with ID the user input
+     */
     private Button joinRoom;
+    /**
+     * Button that logs out
+     */
     private Button logout;
+    /**
+     * Request Queue
+     */
     private RequestQueue mQueue;
-
+    /**
+     * User input for ID of room to join
+     */
     private EditText joinRoomEditText;
+    /**
+     * User input for the name of the new room they want to create
+     */
     private EditText newRoomCreateEditText;
+    /**
+     * List View with all the rooms the user is in
+     */
     private ListView list;
+    /**
+     * Tag with the activity currently in
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
-
-    // These tags will be used to cancel the requests
+    /**
+     *     These tags will be used to cancel the requests
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
-
+    /**
+     * ArrayList with items for List View
+     */
     private ArrayList<String> items;
+    /**
+     * Adapter for List View
+     */
     private ArrayAdapter<String> adapter;
-
+    /**
+     * ids of the rooms parsed
+     */
     private ArrayList<String> ids;
 
     @Override
@@ -89,12 +122,14 @@ public class NewUserRoomJoin extends AppCompatActivity {
         newRoomCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                postRequestCreate();
-                items.clear();
-                ids.clear();
-                jsonParse();
-
+                if(newRoomCreateEditText.getText().toString().equals("")){
+                    Toast.makeText(NewUserRoomJoin.this, "Must input a room name!", Toast.LENGTH_SHORT).show();
+                }else{
+                    postRequestCreate();
+                    items.clear();
+                    ids.clear();
+                    jsonParse();
+                }
             }
         });
 

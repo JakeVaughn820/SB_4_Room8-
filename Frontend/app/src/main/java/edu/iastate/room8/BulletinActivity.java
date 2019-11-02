@@ -7,6 +7,7 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,19 +34,45 @@ import edu.iastate.room8.utils.SessionManager;
 
 /**
  * This class is used for the activity of the bulletin feature. Send important messages to your roommates.
- * @Author Paul Degnan
- * @Author Jake Vaughn
+ * @author Paul Degnan
+ * @author Jake Vaughn
  */
 public class BulletinActivity extends AppCompatActivity {
-    private JsonParser jsonParser;
+    /**
+     * text view that shows the room's bulletin
+     */
     private TextView textView;
+    /**
+     * request queue
+     */
     private RequestQueue mQueue;
+    /**
+     * when clicked will add message to bulletin
+     */
     private Button toAddButton;
-    private TextView toAddText;
+    /**
+     * text the user inputs to be added to bulletin
+     */
+    private EditText toAddText;
+    /**
+     * ArrayList that holds all of bulletin entries
+     */
     private ArrayList<String> arr;
+    /**
+     * String with the text to be added
+     */
     private String stringToAddText;
+    /**
+     * TAG used for the class the request came from
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * tag for json's object or json array requests
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    /**
+     * session manager used for settings and information for the specific user
+     */
     SessionManager sessionManager;
 //TODO maybe try and make each person color coded?
     @Override
@@ -59,7 +86,6 @@ public class BulletinActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
-        jsonParser = new JsonParser();
         arr = new ArrayList<String>();
 
         try{

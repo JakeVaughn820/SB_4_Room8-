@@ -38,30 +38,77 @@ import edu.iastate.room8.utils.SessionManager;
 /**
  * This class is used for the activity of the list you chose. The list you chose will have tasks and subtasks
  * Clicking on a task in completion mode deletes it. Clicking on a task not in completion mode brings you to the subtask activity.
- * @Author Paul Degnan
- * @Author Jake Vaughn
+ * @author Paul Degnan
+ * @author Jake Vaughn
  */
 public class ListActivity extends AppCompatActivity {
-
+    /**
+     * Text view with title for list activity
+     */
     private TextView titleForList;
+    /**
+     * Text view for the description under the title
+     */
     private TextView descriptionUnderTitle;
-
+    /**
+     * Request queue
+     */
     private RequestQueue mQueue;
+    /**
+     * integer that holds the position of the item
+     */
     private int whichOne;
+    /**
+     * String that holds the description
+     */
     private String description;
+    /**
+     * List View with list of tasks
+     */
     private ListView itemsList;
+    /**
+     * Button to add a new task to the list
+     */
     private Button newListItem;
+    /**
+     * Edit Text that will be added when the button is pressed
+     */
     private EditText newListItemName;
+    /**
+     * String that holds the user input
+     */
     private String newListItemNameString;
-
+    /**
+     * Switch that switches between completion mode and subtask mode
+     */
     private Switch switchList;
+    /**
+     * Boolean for whether or not the switch is on(true) or off(false)
+     */
     private Boolean switchOn;
-
+    /**
+     * ArrayList with the tasks for the list
+     */
     private ArrayList<String> items;
+    /**
+     * Adapter for the list view
+     */
     private ArrayAdapter<String> adapter;
+    /**
+     * String with the title
+     */
     private String title;
+    /**
+     * Tag with class
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * Used to stop json request
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    /**
+     * session manager
+     */
     SessionManager sessionManager;
 
 

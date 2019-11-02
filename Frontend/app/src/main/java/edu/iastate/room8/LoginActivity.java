@@ -29,19 +29,41 @@ import edu.iastate.room8.utils.SessionManager;
 /**
  * This class is used for the activity of login. If you don't have a login you can press the register button.
  * Use email and password to login.
- * @Author Paul Degnan
- * @Author Jake Vaughn
+ * @author Paul Degnan
+ * @author Jake Vaughn
  */
 public class LoginActivity extends AppCompatActivity {
-
-
+    /**
+     * User input for email
+     */
     private EditText userEmailEditText;
+    /**
+     * User input for password
+     */
     private EditText passwordEditText;
+    /**
+     * Button that will send the email and password to be checked for logging in
+     */
     private Button loginbtn;
+    /**
+     * Button that will send user to register page
+     */
     private Button signUpBtn;
+    /**
+     * Integer with amount of login attempts they get
+     */
     private int loginAttemps = 5;
+    /**
+     * Text View that shows the amount of login attempts left
+     */
     private TextView loginAttempsTextView;
+    /**
+     * Tag with current activity name
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
 
     // These tags will be used to cancel the requests

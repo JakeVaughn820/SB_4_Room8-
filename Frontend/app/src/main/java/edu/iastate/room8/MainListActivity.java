@@ -31,17 +31,37 @@ import edu.iastate.room8.utils.SessionManager;
 /**
  * This class is used for the activity of MainList. List of lists that you can chose from. For example,
  * you can create a to do list or a grocery list and select them here.
- * @Author Paul Degnan
- * @Author Jake Vaughn
+ * @author Paul Degnan
+ * @author Jake Vaughn
  */
 public class MainListActivity extends AppCompatActivity {
-
+    /**
+     * Request Queue
+     */
     private RequestQueue mQueue;
+    /**
+     * Button  that brings you to new list activity
+     */
     private Button btn_new_list;
+    /**
+     * List View with list of lists
+     */
     private ListView itemsList;
+    /**
+     * Items in the list view
+     */
     private ArrayList<String> items;
+    /**
+     * Adapter for List View
+     */
     private ArrayAdapter<String> adapter;
+    /**
+     * ArrayList with descriptions
+     */
     private ArrayList<String> description;
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
 
     @Override

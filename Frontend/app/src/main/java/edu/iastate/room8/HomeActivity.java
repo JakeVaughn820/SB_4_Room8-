@@ -10,16 +10,31 @@ import android.widget.Button;
 import edu.iastate.room8.utils.SessionManager;
 /**
  * This class is used for the activity of home. Home has buttons to get to each feature or logout
- * @Author Paul Degnan
- * @Author Jake Vaughn
+ * @author Paul Degnan
+ * @author Jake Vaughn
  */
 public class HomeActivity extends AppCompatActivity {
-
+    /**
+     * Button used to go to lists
+     */
     private Button tempButton;
+    /**
+     * Button used to go to bulletin
+     */
     private Button tempButtonBulletin;
+    /**
+     * Button used to go to schedule
+     */
     private Button tempButtonSchedule;
+    /**
+     * Button used to logout
+     */
     private Button btnLogout;
+    /**
+     * Session manager
+     */
     SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -36,8 +36,8 @@ import edu.iastate.room8.utils.SessionManager;
 /**
  * This class is used for the activity SubTask. You will be able to see and create subtasks in this class.
  * You get to this class by clicking on the task in ListActivity.
- * @Author Paul Degnan
- * @Author Jake Vaughn
+ * @author Paul Degnan
+ * @author Jake Vaughn
  */
 public class SubtaskActivity extends AppCompatActivity {
 
