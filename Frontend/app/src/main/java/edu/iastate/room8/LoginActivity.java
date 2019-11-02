@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         if((userName_Email.equals(getUser) || userName_Email.equals(getEmail)) && (userPassword.equals(getPassword))){
             sessionManager.createSession(getUser, getEmail, id);  //Creates a new session where the user is logged in
 
-                Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
+                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(i);
 
 
