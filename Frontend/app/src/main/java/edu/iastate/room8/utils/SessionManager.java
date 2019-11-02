@@ -14,10 +14,12 @@ import edu.iastate.room8.NewUserRoomJoin;
 
 /**
  * Class used for session managing. Holds information like the UserID or Room they are in.
- * @Author Jake Vaughn
+ * @author Jake Vaughn
  */
 public class SessionManager {
-
+    /**
+     * Shared Preferences
+     */
     SharedPreferences sharedPreferences;
     public SharedPreferences.Editor editor;
     public Context context;
