@@ -42,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
-//        sessionManager.checkRoom();
+        sessionManager.checkRoom();
 
         tempButton = findViewById(R.id.tempButton);
         tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
