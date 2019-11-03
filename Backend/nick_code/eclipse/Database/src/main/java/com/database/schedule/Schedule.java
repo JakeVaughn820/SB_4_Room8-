@@ -1,78 +1,137 @@
 package com.database.schedule;
 
-import javax.persistence.CascadeType;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * This class implements the schedule entity. Schedule has a OneToOne relationship with Rooms. 
+ * 
+ * @author Nickolas Mitchell
+ */
 @Entity
 @Table(name="schedule")
 public class Schedule 
 {
+	/**
+	 * A unique id which is automatically set for each Schedule.
+	 */
 	@Id
-	@Column(name="id")
+	@Column(name="id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id; 
-	
-	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
-	@JoinColumn(name="room_schedule_id", foreignKey = @ForeignKey(name="room_schedule_id"))
-	private Integer roomId; 
-	
-	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.schedule.events.Events.class)
-	@JoinColumn(name="event_id", foreignKey = @ForeignKey(name="event_id"))
-	private Integer eventId;
+	private Long id; 
 	
 	/**
-	 * Constructor
-	 * @param roomId
-	 * @param eventId
+	 * Room Id associated with this schedule.
 	 */
-	public Schedule(Integer roomId, Integer eventId)
+	@OneToOne(fetch=FetchType.LAZY, targetEntity=com.database.rooms.Rooms.class)
+    @JoinColumn(name="room_schedule_id", referencedColumnName = "id")
+	private Long roomId; 
+	
+	/**
+	 * Event Id's associated with this schedule.
+	 */
+	@OneToMany(fetch=FetchType.LAZY)
+    @JoinColumn(name="event_schedu_id", referencedColumnName = "id")
+	private List<Long> events;
+	
+	/**
+	 * Default Constructor. 
+	 */
+	public Schedule()
+	{
+		
+	}
+	/**
+	 * Constructor which sets the below parameters.
+	 * 
+	 * @param roomId
+	 */
+	public Schedule(Long roomId)
 	{
 		this.roomId = roomId; 
-		this.eventId = eventId; 
 	}
 	
 	/**
-	 * Handlers
+	 * Returns the schedule id. 
+	 * 
+	 * @return
 	 */
-	public Integer getId()
+	public Long getId()
 	{
 		return id; 
 	}
 	
-	public Integer getRoomId()
+	/**
+	 * Returns the room id.
+	 * 
+	 * @return
+	 */
+	public Long getRoomId()
 	{
 		return roomId; 
 	}
 	
-	public Integer getEventId()
+	/**
+	 * Returns the event id's.  
+	 * 
+	 * @return
+	 */
+	public List<Long> getEventId()
 	{
-		return eventId; 
+		return events; 
 	}
 	
-	public void setId(Integer id)
+	/**
+	 * Sets the schedule id. 
+	 * 
+	 * @param id
+	 */
+	public void setId(Long id)
 	{
 		this.id = id; 
 	}
 	
-	public void setRoomId(Integer roomId)
+	/**
+	 * Sets the room id. 
+	 * 
+	 * @param roomId
+	 */
+	public void setRoomId(Long roomId)
 	{
 		this.roomId = roomId;
 	}
 	
-	public void setEventId(Integer eventId)
+	public void setManyEventIds(List<Long> eventIds)
 	{
-		this.eventId = eventId;
+		for(Long i: eventIds)
+		{
+			events.add(i);
+		}
 	}
 	
+	/**
+	 * Sets the event id. 
+	 * 
+	 * @param eventId
+	 */
+	public void setEventId(Long eventId)
+	{
+		events.add(eventId); 
+	}
+	
+	/**
+	 * Checks if two schedules are the same. 
+	 */
 	@Override
 	public boolean equals(Object o)
 	{
@@ -81,6 +140,6 @@ public class Schedule
 		if(!(o instanceof Schedule))
 			return false; 
 		Schedule schedule = (Schedule) o;
-		return this.id == schedule.id && this.roomId == schedule.roomId && this.eventId == schedule.eventId;
+		return this.id == schedule.id && this.roomId == schedule.roomId && this.events.equals(schedule.events);
 	}
 }

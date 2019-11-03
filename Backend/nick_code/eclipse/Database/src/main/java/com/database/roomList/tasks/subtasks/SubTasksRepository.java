@@ -1,15 +1,15 @@
-package com.database.bulletin.pins;
+package com.database.roomList.tasks.subtasks;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * This interface holds the pin repository. 
+ * This interface holds the subtask repository. 
  * 
  * @author Nickolas Mitchell
  */
 @Repository
-public interface PinRepository extends JpaRepository<Pin, Long>
+public interface SubTasksRepository extends JpaRepository<SubTasks, Long>
 {
 
 }
