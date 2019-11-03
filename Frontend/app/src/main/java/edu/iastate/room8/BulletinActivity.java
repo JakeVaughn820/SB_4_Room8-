@@ -253,6 +253,10 @@ public class BulletinActivity extends AppCompatActivity {
         }
         return reverse;
     }
+
+    /**
+     * Connects to web sockets for bulletin
+     */
     private void connectWebSocket() {
         URI uri;
         try {
@@ -294,6 +298,11 @@ public class BulletinActivity extends AppCompatActivity {
         };
         mWebSocketClient.connect();
     }
+
+    /**
+     * Sends the message to the web socket
+     * @param view
+     */
     public void sendMessage(View view) {
         EditText editText = findViewById(R.id.messageToAdd);
         mWebSocketClient.send(editText.getText().toString());

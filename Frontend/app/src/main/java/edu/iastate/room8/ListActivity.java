@@ -3,6 +3,7 @@ package edu.iastate.room8;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,10 +26,14 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -110,12 +115,17 @@ public class ListActivity extends AppCompatActivity {
      * session manager
      */
     SessionManager sessionManager;
+    /**
+     * mWebSocketClient used for connecting websocket to server.
+     */
+    private WebSocketClient mWebSocketClient;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
+        connectWebSocket();
         setContentView(R.layout.activity_list);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
         titleForList = findViewById(R.id.TitleForList);
@@ -147,7 +157,8 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 newListItemNameString = newListItemName.getText().toString();
-                postRequest();
+//                postRequest();
+                sendMessage(view);
                 newListItemName.setText("");
             }
         });
@@ -263,6 +274,59 @@ public class ListActivity extends AppCompatActivity {
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 //        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
+    }
+
+    /**
+     * Connects to web sockets for bulletin
+     */
+    private void connectWebSocket() {
+        URI uri;
+        try {
+            uri = new URI("wss://echo.websocket.org");
+        } catch (
+                URISyntaxException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        mWebSocketClient = new WebSocketClient(uri) {
+            @Override
+            public void onOpen(ServerHandshake serverHandshake) {
+                Log.i("Websocket", "Opened");
+                mWebSocketClient.send("Hello from " + Build.MANUFACTURER + " " + Build.MODEL);
+            }
+
+            @Override
+            public void onMessage(String s) {
+                final String message = s;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        items.add(message);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onClose(int i, String s, boolean b) {
+                Log.i("Websocket", "Closed " + s);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.i("Websocket", "Error " + e.getMessage());
+            }
+        };
+        mWebSocketClient.connect();
+    }
+
+    /**
+     * Sends the message to the web socket
+     * @param view
+     */
+    public void sendMessage(View view) {
+        mWebSocketClient.send(newListItemNameString);
     }
 
 //    private void postRequestForParse() {
