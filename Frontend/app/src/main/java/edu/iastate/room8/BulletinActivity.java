@@ -305,7 +305,7 @@ public class BulletinActivity extends AppCompatActivity {
      */
     public void sendMessage(View view) {
         EditText editText = findViewById(R.id.messageToAdd);
-        mWebSocketClient.send(editText.getText().toString());
+        mWebSocketClient.send(sessionManager.getName() + ": " + editText.getText().toString());
         editText.setText("");
     }
 
