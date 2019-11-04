@@ -89,6 +89,10 @@ public class SubtaskActivity extends AppCompatActivity {
      */
     SessionManager sessionManager;
 
+    /**
+     * Text View that shows if the subtasks have all been completed or not
+     */
+    private TextView completed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +104,7 @@ public class SubtaskActivity extends AppCompatActivity {
         itemsSubTask = findViewById(R.id.SubTaskActivityList);
         newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
         newSubTaskItemName = findViewById(R.id.EnterNewSubTaskItem);
+        completed = findViewById(R.id.textViewCompleted);
 
         mQueue = Volley.newRequestQueue(this);
         titleForSubTask.setText(title);
@@ -120,6 +125,7 @@ public class SubtaskActivity extends AppCompatActivity {
                 newSubTaskItemNameString = newSubTaskItemName.getText().toString();
                 postRequest();
                 newSubTaskItemName.setText("");
+                completed.setText("");
             }
         });
     }
@@ -168,7 +174,12 @@ public class SubtaskActivity extends AppCompatActivity {
             String toToast = items.get(position);
             items.remove(position);
             adapter.notifyDataSetChanged();
-            Toast.makeText(SubtaskActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
+            if(items.size()==0){
+                Toast.makeText(SubtaskActivity.this, "Congratulations you've completed all the subtasks!", Toast.LENGTH_LONG).show();
+                completed.setText("You have completed all subtasks!");
+            }else{
+                Toast.makeText(SubtaskActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
