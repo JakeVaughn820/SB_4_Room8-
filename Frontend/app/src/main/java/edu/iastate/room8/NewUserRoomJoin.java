@@ -123,12 +123,12 @@ public class NewUserRoomJoin extends AppCompatActivity {
         list.setAdapter(adapter);
 
         ids = new ArrayList<String>();
-        ids.add("Test Room 1");
-        ids.add("Test Room 2");
+        ids.add("1");
+        ids.add("2");
 
-        for(String s : ids){
-            sessionManager.addRoom(s);
-        }
+        sessionManager.addRoom("Test Room 1", "1");
+        sessionManager.addRoom("Test Room 2", "2");
+
 
 
         jsonParse();
@@ -197,7 +197,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 ids.add(List.getString("Id"));
-                                sessionManager.addRoom(List.getString("Id"));
+                                sessionManager.addRoom(List.getString("Title"), List.getString("Id"));
                             }
                             adapter.notifyDataSetChanged();
 
@@ -334,7 +334,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                         try {
                             String success = response.getString("Response");
                             if(success.equals("Success")){
-                                sessionManager.addRoom(joinRoomEditText.getText().toString());
+                                //sessionManager.addRoom(joinRoomEditText.getText().toString());
                                 items.clear();
                                 ids.clear();
                                 jsonParse();

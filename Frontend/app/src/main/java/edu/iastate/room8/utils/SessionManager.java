@@ -85,13 +85,14 @@ public class SessionManager {
 
     public void createSession(String name, String email, String id){
 
+        Set<String> set = new HashSet<>();
         editor.putBoolean(LOGIN, true);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
         editor.putString(ID, id);
         editor.putString(ROOM, null);
-        editor.putStringSet(ROOMS, null);
-        editor.putStringSet(ROOMSID, null);
+        editor.putStringSet(ROOMS, set);
+        editor.putStringSet(ROOMSID, set);
         editor.apply();
     }
 
@@ -100,10 +101,16 @@ public class SessionManager {
      * @param room room to set for the user
      */
     public void addRoom (String room, String id){
-        Set<String> set;
-        set = (sharedPreferences.getStringSet(ROOMS, null));
-        set.add(room);
-        editor.putStringSet(ROOMS, set);
+        Set<String> setRooms;
+        Set<String> setid;
+
+        setRooms = (sharedPreferences.getStringSet(ROOMS, null));
+        setRooms.add(room);
+        editor.putStringSet(ROOMS, setRooms);
+
+        setid = (sharedPreferences.getStringSet(ROOMSID, null));
+        setid.add(id);
+        editor.putStringSet(ROOMS, setid);
         editor.apply();
     }
 
@@ -158,6 +165,14 @@ public class SessionManager {
      */
     public String getRoom(){
         return sharedPreferences.getString(ROOM, null);
+    }
+
+    /**
+     * Returns all the rooms id the user is a part of.
+     * @return all rooms id the user is in
+     */
+    public Set<String> getRoomsId(){
+        return sharedPreferences.getStringSet(ROOMSID, null);
     }
 
     /**
@@ -242,10 +257,17 @@ public class SessionManager {
      * Removes the specified room from the ROOMS that the user is in
      * @param room is in a room that the user is in.
      */
-    public void removeRoom(String room){
+    public void removeRoom(String room, String id){
         if(this.isRoom(room)){
-            Set<String> set = this.getRooms();
-            set.remove(room);
+            Set<String> setRoom = this.getRooms();
+            Set<String> setid = this.getRoomsId();
+            setRoom.remove(room);
+            setid.remove(id);
+
+            editor.putStringSet(ROOMS, setRoom);
+            editor.putStringSet(ROOMSID, setid);
+
+            editor.apply();
         }
     }
 
