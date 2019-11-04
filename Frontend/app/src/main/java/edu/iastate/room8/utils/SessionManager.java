@@ -50,6 +50,10 @@ public class SessionManager {
      */
     private static final String ROOMS = "ROOMS";
     /**
+     * Contains the ID of the ROOMS
+     */
+    private static final String ROOMSID = "ROOMSID";
+    /**
      * Constant name string
      */
     public static final String NAME = "NAME";
@@ -81,31 +85,30 @@ public class SessionManager {
 
     public void createSession(String name, String email, String id){
 
-        Set<String> set = new HashSet<>();
         editor.putBoolean(LOGIN, true);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
         editor.putString(ID, id);
         editor.putString(ROOM, null);
-        editor.putStringSet(ROOMS, set);
+        editor.putStringSet(ROOMS, null);
+        editor.putStringSet(ROOMSID, null);
         editor.apply();
     }
 
     /**
-     * Adds a room to ROOMS and sets it as current room.
+     * Adds a room to ROOMS list.
      * @param room room to set for the user
      */
-    public void addRoom (String room){
+    public void addRoom (String room, String id){
         Set<String> set;
         set = (sharedPreferences.getStringSet(ROOMS, null));
         set.add(room);
         editor.putStringSet(ROOMS, set);
-        editor.putString(ROOM, room);
         editor.apply();
     }
 
     /**
-     * True if user is currently in a room false if otherwise
+     * True if user is in a the specified room false if otherwise
      * @param room is in a room or not
      * @return if user is in a room
      */
@@ -233,6 +236,17 @@ public class SessionManager {
         Intent i = new Intent(context, NewUserRoomJoin.class);
         context.startActivity(i);
         ((Activity) context).finish();
+    }
+
+    /**
+     * Removes the specified room from the ROOMS that the user is in
+     * @param room is in a room that the user is in.
+     */
+    public void removeRoom(String room){
+        if(this.isRoom(room)){
+            Set<String> set = this.getRooms();
+            set.remove(room);
+        }
     }
 
     /**
