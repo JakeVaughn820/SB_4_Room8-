@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //This if matches the (username or email) and password with those on the database
         if((userName_Email.equals(getUser) || userName_Email.equals(getEmail)) && (userPassword.equals(getPassword))){
-            sessionManager.createSession(getUser, getEmail, id);  //Creates a new session where the user is logged in
+            sessionManager.createSession("TestUser", "TestEmail", "TestPassword");  //Creates a new session where the user is logged in
 
                 Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
                 startActivity(i);
