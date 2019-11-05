@@ -51,12 +51,12 @@ public class Tasks
 	@JoinColumn(name = "list_id", referencedColumnName = "id")
 	private Long list;
 
-	/**
-	 * SubTask Id's associated with this Task.
-	 */
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "subtask_id", referencedColumnName = "id")
-	private List<Long> subtasks;
+//	/**
+//	 * SubTask Id's associated with this Task.
+//	 */
+//	@OneToMany(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "subtask_id", referencedColumnName = "id")
+//	private List<Long> subtasks;
 
 	/**
 	 * Default Constructor
@@ -151,23 +151,23 @@ public class Tasks
 		this.list = listId;
 	}
 
-	/**
-	 * Gets all subtasks for this task.
-	 * 
-	 * @return
-	 */
-	public List<Long> getSubTasks() {
-		return subtasks;
-	}
-
-	/**
-	 * Adds one subtask to this task.
-	 * 
-	 * @param subtask
-	 */
-	public void setSubTask(Long subtask) {
-		this.subtasks.add(subtask);
-	}
+//	/**
+//	 * Gets all subtasks for this task.
+//	 * 
+//	 * @return
+//	 */
+//	public List<Long> getSubTasks() {
+//		return subtasks;
+//	}
+//
+//	/**
+//	 * Adds one subtask to this task.
+//	 * 
+//	 * @param subtask
+//	 */
+//	public void setSubTask(Long subtask) {
+//		this.subtasks.add(subtask);
+//	}
 
 	/**
 	 * Returns: "User: " ~~~~ "Contents: " ~~~~~
@@ -193,6 +193,7 @@ public class Tasks
 			return false;
 		Tasks task = (Tasks) o;
 		return this.id == task.id && this.contents.equals(task.contents) && this.users.equals(task.users)
-				&& this.list == task.list && this.subtasks.equals(task.subtasks);
+				&& this.list == task.list; 
+				//&& this.subtasks.equals(task.subtasks);
 	}
 }

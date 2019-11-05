@@ -31,22 +31,22 @@ public class Bulletin
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="bulletinid", nullable = false)
+	@Column(name="id", nullable = false)
 	private Long id; 
 	
 	/**
 	 * Room Id associated with this bulletin.
 	 */
 	@OneToOne(fetch=FetchType.LAZY, targetEntity=com.database.rooms.Rooms.class)
-    @JoinColumn(name="bulletinroomid", referencedColumnName = "roomid")
+    @JoinColumn(name="bulletinroomid", referencedColumnName = "id")
 	private Long roomId; 
 	
-	/**
-	 * Pin Id's associated with this schedule.
-	 */
-	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name="bulletinpinid", referencedColumnName = "id")
-	private List<Long> pins;
+//	/**
+//	 * Pin Id's associated with this schedule.
+//	 */
+//	@OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name="bulletinpinid", referencedColumnName = "id")
+//	private List<Long> pins;
 	
 	/**
 	 * Default Constructor
@@ -82,15 +82,15 @@ public class Bulletin
 		return roomId;
 	}
 	
-	/**
-	 * Gets the pin's Id
-	 * 
-	 * @return
-	 */
-	public List<Long> getPinId() 
-	{
-		return pins; 
-	}
+//	/**
+//	 * Gets the pin's Id
+//	 * 
+//	 * @return
+//	 */
+//	public List<Long> getPinId() 
+//	{
+//		return pins; 
+//	}
 	
 	/**
 	 * Sets the bulletin Id. 
@@ -112,15 +112,15 @@ public class Bulletin
 		this.roomId = roomId; 
 	}
 	
-	/**
-	 * Sets one pin Id. 
-	 * 
-	 * @param pinId
-	 */
-	public void setPinId(Long pinId)
-	{
-		this.pins.add(pinId); 
-	}
+//	/**
+//	 * Sets one pin Id. 
+//	 * 
+//	 * @param pinId
+//	 */
+//	public void setPinId(Long pinId)
+//	{
+//		this.pins.add(pinId); 
+//	}
 	
 	/**
 	 * Checks if two bulletin objects are the same. 
@@ -133,6 +133,7 @@ public class Bulletin
 		if(!(o instanceof Bulletin))
 			return false; 
 		Bulletin bulletin = (Bulletin) o;
-		return this.id == bulletin.id && this.roomId == bulletin.roomId && this.pins.equals(bulletin.pins);
+		return this.id == bulletin.id && this.roomId == bulletin.roomId; 
+				//&& this.pins.equals(bulletin.pins);
 	}	
 }

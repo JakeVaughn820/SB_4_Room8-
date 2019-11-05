@@ -40,13 +40,13 @@ public class RoomList
 	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name="room_list_id", foreignKey = @ForeignKey(name="room_list_id"))
 	private Long roomId; 
-	
-	/**
-	 * Task Id's associated with this list.
-	 */
-	@OneToMany(fetch=FetchType.LAZY)
-    @JoinColumn(name="task_id", referencedColumnName = "id")
-	private List<Long> tasks;
+//	
+//	/**
+//	 * Task Id's associated with this list.
+//	 */
+//	@OneToMany(fetch=FetchType.LAZY)
+//    @JoinColumn(name="task_id", referencedColumnName = "id")
+//	private List<Long> tasks;
 	
 	/**
 	 * Holds the title of this list. 
@@ -159,25 +159,25 @@ public class RoomList
 		this.description = description;
 	}
 	
-	/**
-	 * Gets all tasks belonging to this list. 
-	 * 
-	 * @return
-	 */
-	public List<Long> getTasks()
-	{
-		return tasks; 
-	}
+//	/**
+//	 * Gets all tasks belonging to this list. 
+//	 * 
+//	 * @return
+//	 */
+//	public List<Long> getTasks()
+//	{
+//		return tasks; 
+//	}
 	
-	/**
-	 * Adds one task to this list. 
-	 * 
-	 * @param task
-	 */
-	public void setTask(Long task)
-	{
-		this.tasks.add(task);
-	}
+//	/**
+//	 * Adds one task to this list. 
+//	 * 
+//	 * @param task
+//	 */
+//	public void setTask(Long task)
+//	{
+//		this.tasks.add(task);
+//	}
 	
 	/**
 	 * Checks if two roomLists are the same. 
@@ -192,8 +192,8 @@ public class RoomList
 		RoomList roomList = (RoomList) o;
 
 		return this.id == roomList.id && this.title.equals(roomList.title) 
-				&& this.roomId == roomList.roomId && this.description.equals(roomList.description)
-				&& this.tasks.equals(roomList.tasks); 
+				&& this.roomId == roomList.roomId && this.description.equals(roomList.description);
+				//&& this.tasks.equals(roomList.tasks); 
 	}
 
 

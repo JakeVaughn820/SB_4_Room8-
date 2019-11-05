@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -39,15 +40,15 @@ public class Pin
 	/**
 	 * Assigns each pin to a userId. A user can have multiple pins.  
 	 */
-	@ManyToOne(fetch=FetchType.LAZY, targetEntity=com.database.user.User.class)
-    @JoinColumn(name="pinuserid", referencedColumnName = "id")
+	@OneToMany(fetch=FetchType.LAZY, targetEntity=com.database.user.User.class)
+    @JoinColumn(name="pin_user_id", referencedColumnName = "id")
 	private List<Long> users; 
 	
 	/**
 	 * Holds the bulletin this event was created in. 
 	 */
 	@ManyToOne(fetch=FetchType.LAZY, targetEntity=com.database.bulletin.Bulletin.class)
-    @JoinColumn(name="pinbulletinid", referencedColumnName = "id")
+    @JoinColumn(name="pin_bulletin_id", referencedColumnName = "id")
 	private Long bulletin; 
 	
 	/**

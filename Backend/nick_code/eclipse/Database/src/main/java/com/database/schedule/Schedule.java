@@ -37,12 +37,12 @@ public class Schedule
     @JoinColumn(name="room_schedule_id", referencedColumnName = "id")
 	private Long roomId; 
 	
-	/**
-	 * Event Id's associated with this schedule.
-	 */
-	@OneToMany(fetch=FetchType.LAZY)
-    @JoinColumn(name="event_schedu_id", referencedColumnName = "id")
-	private List<Long> events;
+//	/**
+//	 * Event Id's associated with this schedule.
+//	 */
+//	@OneToMany(fetch=FetchType.LAZY)
+//    @JoinColumn(name="event_schedu_id", referencedColumnName = "id")
+//	private List<Long> events;
 	
 	/**
 	 * Default Constructor. 
@@ -82,14 +82,14 @@ public class Schedule
 	}
 	
 	/**
-	 * Returns the event id's.  
-	 * 
-	 * @return
-	 */
-	public List<Long> getEventId()
-	{
-		return events; 
-	}
+//	 * Returns the event id's.  
+//	 * 
+//	 * @return
+//	 */
+//	public List<Long> getEventId()
+//	{
+//		return events; 
+//	}
 	
 	/**
 	 * Sets the schedule id. 
@@ -111,23 +111,23 @@ public class Schedule
 		this.roomId = roomId;
 	}
 	
-	public void setManyEventIds(List<Long> eventIds)
-	{
-		for(Long i: eventIds)
-		{
-			events.add(i);
-		}
-	}
+//	public void setManyEventIds(List<Long> eventIds)
+//	{
+//		for(Long i: eventIds)
+//		{
+//			events.add(i);
+//		}
+//	}
 	
-	/**
-	 * Sets the event id. 
-	 * 
-	 * @param eventId
-	 */
-	public void setEventId(Long eventId)
-	{
-		events.add(eventId); 
-	}
+//	/**
+//	 * Sets the event id. 
+//	 * 
+//	 * @param eventId
+//	 */
+//	public void setEventId(Long eventId)
+//	{
+//		events.add(eventId); 
+//	}
 	
 	/**
 	 * Checks if two schedules are the same. 
@@ -140,6 +140,7 @@ public class Schedule
 		if(!(o instanceof Schedule))
 			return false; 
 		Schedule schedule = (Schedule) o;
-		return this.id == schedule.id && this.roomId == schedule.roomId && this.events.equals(schedule.events);
+		return this.id == schedule.id && this.roomId == schedule.roomId;
+				//&& this.events.equals(schedule.events);
 	}
 }
