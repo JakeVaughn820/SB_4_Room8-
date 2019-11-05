@@ -182,8 +182,8 @@ public class ListActivity extends AppCompatActivity {
      * @throws JSONException
      */
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/jqfcl";
-//        String url =
+        //String url = "https://api.myjson.com/bins/jqfcl";
+        String url =""; //TODO has been changed to "" to show websocket experiment
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

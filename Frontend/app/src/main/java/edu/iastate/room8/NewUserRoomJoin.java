@@ -172,6 +172,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             sessionManager.setRoom(ids.get(position));
             Intent i = new Intent(NewUserRoomJoin.this, HomeActivity.class);
+            i.putExtra("NAME", items.get(position));
             startActivity(i);
         }
     };
