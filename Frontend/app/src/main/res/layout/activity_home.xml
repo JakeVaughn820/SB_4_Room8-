@@ -7,6 +7,25 @@
     android:orientation="vertical"
     tools:context=".HomeActivity">
 
+    <TextView
+        android:id="@+id/RoomNameTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10sp"
+        android:textSize="20sp"
+        android:layout_below="@id/homeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/RoomIdTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/RoomNameTextView"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
     <Button
         android:id="@+id/tempButton"
         android:layout_width="150dp"
@@ -51,22 +70,4 @@
         android:layout_marginTop="20dp"
         android:text="Room8" />
 
-    <TextView
-        android:id="@+id/RoomNameTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10sp"
-        android:textSize="20sp"
-        android:layout_below="@id/homeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/RoomIdTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/RoomNameTextView"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 </RelativeLayout>

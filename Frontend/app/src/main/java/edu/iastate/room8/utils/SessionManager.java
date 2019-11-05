@@ -142,7 +142,7 @@ public class SessionManager {
      * @return returns if the user is in a room
      */
     public boolean isInRoom(){
-        if (sharedPreferences.getString(ROOM, null) != null){
+        if (this.getRoom() != null){
             return true;
         }
         return false;
