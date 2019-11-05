@@ -50,6 +50,10 @@ public class SessionManager {
      */
     private static final String ROOMS = "ROOMS";
     /**
+     * Contains the ID of the ROOMS
+     */
+    private static final String ROOMSID = "ROOMSID";
+    /**
      * Constant name string
      */
     public static final String NAME = "NAME";
@@ -88,24 +92,30 @@ public class SessionManager {
         editor.putString(ID, id);
         editor.putString(ROOM, null);
         editor.putStringSet(ROOMS, set);
+        editor.putStringSet(ROOMSID, set);
         editor.apply();
     }
 
     /**
-     * Adds a room to ROOMS and sets it as current room.
+     * Adds a room to ROOMS list.
      * @param room room to set for the user
      */
-    public void addRoom (String room){
-        Set<String> set;
-        set = (sharedPreferences.getStringSet(ROOMS, null));
-        set.add(room);
-        editor.putStringSet(ROOMS, set);
-        editor.putString(ROOM, room);
+    public void addRoom (String room, String id){
+        Set<String> setRooms;
+        Set<String> setid;
+
+        setRooms = (sharedPreferences.getStringSet(ROOMS, null));
+        setRooms.add(room);
+        editor.putStringSet(ROOMS, setRooms);
+
+        setid = (sharedPreferences.getStringSet(ROOMSID, null));
+        setid.add(id);
+        editor.putStringSet(ROOMS, setid);
         editor.apply();
     }
 
     /**
-     * True if user is currently in a room false if otherwise
+     * True if user is in a the specified room false if otherwise
      * @param room is in a room or not
      * @return if user is in a room
      */
@@ -155,6 +165,14 @@ public class SessionManager {
      */
     public String getRoom(){
         return sharedPreferences.getString(ROOM, null);
+    }
+
+    /**
+     * Returns all the rooms id the user is a part of.
+     * @return all rooms id the user is in
+     */
+    public Set<String> getRoomsId(){
+        return sharedPreferences.getStringSet(ROOMSID, null);
     }
 
     /**
@@ -233,6 +251,24 @@ public class SessionManager {
         Intent i = new Intent(context, NewUserRoomJoin.class);
         context.startActivity(i);
         ((Activity) context).finish();
+    }
+
+    /**
+     * Removes the specified room from the ROOMS that the user is in
+     * @param room is in a room that the user is in.
+     */
+    public void removeRoom(String room, String id){
+        if(this.isRoom(room)){
+            Set<String> setRoom = this.getRooms();
+            Set<String> setid = this.getRoomsId();
+            setRoom.remove(room);
+            setid.remove(id);
+
+            editor.putStringSet(ROOMS, setRoom);
+            editor.putStringSet(ROOMSID, setid);
+
+            editor.apply();
+        }
     }
 
     /**

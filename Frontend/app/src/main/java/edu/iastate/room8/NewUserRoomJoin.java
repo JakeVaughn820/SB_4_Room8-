@@ -115,13 +115,20 @@ public class NewUserRoomJoin extends AppCompatActivity {
 
         items = new ArrayList<String>();
 
-        items.add("Test Room");
+        //TODO: Right from the start we need to json get all the rooms that the user is a part of and add them to items and sessionsManager.
+        items.add("Test Room 1");
+        items.add("Test Room 2");
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         list.setAdapter(adapter);
 
         ids = new ArrayList<String>();
-        ids.add("Test Room");
+        ids.add("1");
+        ids.add("2");
+
+        sessionManager.addRoom("Test Room 1", "1");
+        sessionManager.addRoom("Test Room 2", "2");
+
 
 
         jsonParse();
@@ -163,7 +170,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            sessionManager.addRoom(ids.get(position));
+            sessionManager.setRoom(ids.get(position));
             Intent i = new Intent(NewUserRoomJoin.this, HomeActivity.class);
             startActivity(i);
         }
@@ -190,6 +197,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 ids.add(List.getString("Id"));
+                                sessionManager.addRoom(List.getString("Title"), List.getString("Id"));
                             }
                             adapter.notifyDataSetChanged();
 
@@ -326,7 +334,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                         try {
                             String success = response.getString("Response");
                             if(success.equals("Success")){
-                                sessionManager.addRoom(joinRoomEditText.getText().toString());
+                                //sessionManager.addRoom(joinRoomEditText.getText().toString());
                                 items.clear();
                                 ids.clear();
                                 jsonParse();

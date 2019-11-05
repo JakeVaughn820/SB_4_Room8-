@@ -29,6 +29,12 @@ import com.database.roomMembers.*;
 import com.database.rooms.*;
 import com.database.user.*;
 
+/**
+ * This class contains all of our endpoints for communication. 
+ * 
+ * @author Thane, Nick
+ *
+ */
 @SpringBootApplication
 public class DatabaseApplication {
 	
@@ -45,12 +51,13 @@ public class DatabaseApplication {
 		  @Autowired private UserService userService;
 		  @Autowired private ErrorAttributes errorAttributes;
 		  @Autowired private RoomMembersService roomMembersService;
-		 
-		  @RequestMapping("/hello/{name}")
-		  String hello(@PathVariable String name) {
-		      return "Hello, " + name + "!";
-		  }
 		  
+		  /**
+		   * Takes in a room Id and returns the roomList for that room.  
+		   * 
+		   * @param room
+		   * @return
+		   */
 		  @GetMapping("/list/{room}")
 		  public String getRoomList(@PathVariable String room) {
 //			  List<RoomList> roomLists = roomListService.getLists();
@@ -64,16 +71,29 @@ public class DatabaseApplication {
 		      return ret;
 		  }
 		  
+		  /**
+		   * Creates a new roomList in the provided room. 
+		   * 
+		   * @param item
+		   * @param room
+		   * @return
+		   */
 		  @PostMapping(path = "/list/{room}", consumes = "application/json", produces = "application/json")
 		  public String addRoomList(@RequestBody String item, @PathVariable String room) {
 			  JSONObject body = new JSONObject(item);
-			  int intRoom = Integer.parseInt(room);
+			  Long intRoom = Long.parseLong(room);
 			  String Title = body.getString("Title");
 			  String Description = body.getString("Description");
 			  roomListService.addRoomList(new RoomList(intRoom, Title, Description));
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
+		  /**
+		   * Takes in a room Id and returns the bulletin for that room. 
+		   * 
+		   * @param room
+		   * @return
+		   */
 		  @GetMapping("/bulletin/{room}")
 		  public String getBulletin(@PathVariable String room) {
 	//		  List<Pin> pins = bulletinService.getPins();
@@ -87,6 +107,13 @@ public class DatabaseApplication {
 		      return ret;
 		  }
 		  
+		  /**
+		   * Creates a bulletin for the corresponding room. 
+		   * 
+		   * @param item
+		   * @param room
+		   * @return
+		   */
 		  @PostMapping(path = "/bulletin/{room}", consumes = "application/json", produces = "application/json")
 		  public String addToBulletin(@RequestBody String item, @PathVariable String room) {
 			  JSONObject body = new JSONObject(item);
@@ -105,7 +132,7 @@ public class DatabaseApplication {
 		   */
 		  @GetMapping("/room/{user}")
 		  public String getRooms(@PathVariable String user) {
-			  List<Rooms> rooms = roomMembersService.getRoomsByUserId(Integer.parseInt(user));
+			  List<Rooms> rooms = roomMembersService.getRoomsByUserId(Long.parseLong(user));
 			  String ret = "{\"Rooms\":[";
 			  if(rooms.isEmpty())
 				  ret += " ";
@@ -125,13 +152,16 @@ public class DatabaseApplication {
 		   * @return
 		   */
 		  @PostMapping(path = "/room/{user}", consumes = "application/json", produces = "application/json")
-		  public String addRoom(@RequestBody String item, @PathVariable String user) {
+		  public String addRoom(@RequestBody String item, @PathVariable String user)
+		  {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  Rooms toAdd = new Rooms(Title);
-			  Integer roomsId = new Integer(toAdd.getId());
+			  Long roomsId = new Long(toAdd.getId());
+			  //Integer roomsId = new Integer(toAdd.getId());	  
 			  roomService.addRoom(toAdd);
-			  Integer userId = Integer.parseInt(user);
+			  Long userId = Long.parseLong(user); 
+			  //Integer userId = Integer.parseInt(user);
 			  RoomMembers adding = new RoomMembers(userId, roomsId);
 			  roomMembersService.addRoomMembers(adding);
 			  adding.setUserRole("Owner");
@@ -148,12 +178,19 @@ public class DatabaseApplication {
 		   * @return
 		   */
 //		  @GetMapping(path = "/room/delete/{user}")
-//		  public String deleteRoom(@PathVariable String room, @PathVariable String user)
+//		  public String deleteRoom(@PathVariable Integer roomId, @PathVariable Integer userId)
 //		  {
-//			  RoomMembers roleCheck = roomMembersService.getRoom()
+//			  RoomMembers roleCheck = roomMembersService.getRoomByRoomId(roomId, userId);
 //			  if()
 //		  }
 		  
+		  /**
+		   * User login, sends back wether the user exists and if the login was successful
+		   * or not. 
+		   * 
+		   * @param item
+		   * @return
+		   */
 		  @PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
 		  public String attemptLogin(@RequestBody String item) {
 			  //TODO Add login system, actually do something to Log in, instead of returning 'match' or 'no match'
@@ -174,6 +211,12 @@ public class DatabaseApplication {
 			  return "{\"Response\":\"User Does Not Exist\"}";
 		  }
 		  
+		  /**
+		   * User registration, registers a user to the database and sends back a success. 
+		   * 
+		   * @param item
+		   * @return
+		   */
 		  @PostMapping(path = "/register", consumes = "application/json", produces = "application/json")
 		  public String createUser(@RequestBody String item) {
 			  JSONObject body = new JSONObject(item);
