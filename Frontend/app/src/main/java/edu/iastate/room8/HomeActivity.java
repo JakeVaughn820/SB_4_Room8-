@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
-        sessionManager.checkRoom();
+//        sessionManager.checkRoom();
 
         tempButton = findViewById(R.id.tempButton);
         tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
@@ -60,8 +60,8 @@ public class HomeActivity extends AppCompatActivity {
         roomIdTextView = findViewById(R.id.RoomIdTextView);
         roomNameTextView = findViewById(R.id.RoomNameTextView);
 
-        roomIdTextView.setText("Room ID: "+sessionManager.getRoom());
-        roomNameTextView.setText("Room Name: "+getIntent().getStringExtra("NAME"));
+        roomIdTextView.setText("Room ID: "+sessionManager.getRoomid());
+        roomNameTextView.setText("Room Name: "+sessionManager.getRoom());
 
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override

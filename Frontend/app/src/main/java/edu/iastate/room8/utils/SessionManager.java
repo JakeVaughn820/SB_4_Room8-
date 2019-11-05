@@ -46,6 +46,10 @@ public class SessionManager {
      */
     private static final String ROOM = "ROOM";
     /**
+     * Constant roomid string
+     */
+    private static final String ROOMID = "ROOMID";
+    /**
      * Constant rooms string
      */
     private static final String ROOMS = "ROOMS";
@@ -91,6 +95,7 @@ public class SessionManager {
         editor.putString(EMAIL, email);
         editor.putString(ID, id);
         editor.putString(ROOM, null);
+        editor.putString(ROOMID, null);
         editor.putStringSet(ROOMS, set);
         editor.putStringSet(ROOMSID, set);
         editor.apply();
@@ -131,12 +136,20 @@ public class SessionManager {
      * @param room sets the room for the user
      */
     public void setRoom (String room){
-        if(isRoom(room)){
+//        if(isRoom(room)){
             editor.putString(ROOM, room);
             editor.apply();
-        }
+//        }
     }
 
+    /**
+     * Sets the current roomid the user is in
+     * @param roomid sets the roomid for the user
+     */
+    public void setRoomid(String roomid){
+        editor.putString(ROOMID, roomid);
+        editor.apply();
+    }
     /**
      * Returns true if the user is in a room false if otherwise
      * @return returns if the user is in a room
@@ -167,6 +180,13 @@ public class SessionManager {
         return sharedPreferences.getString(ROOM, null);
     }
 
+    /**
+     * Returns current roomid if user is in room
+     * @return the room the user is in
+     */
+    public String getRoomid(){
+        return sharedPreferences.getString(ROOMID, null);
+    }
     /**
      * Returns all the rooms id the user is a part of.
      * @return all rooms id the user is in
