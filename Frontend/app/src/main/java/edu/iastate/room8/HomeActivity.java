@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         roomNameTextView = findViewById(R.id.RoomNameTextView);
 
         roomIdTextView.setText("Room ID: "+sessionManager.getRoom());
-        roomNameTextView.setText("Room Name: "+getIntent().getStringExtra("NAME"));
+        roomNameTextView.setText("Room Name: "+sessionManager.getRoom());
 
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
