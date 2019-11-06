@@ -70,6 +70,8 @@ public class SessionManager {
      */
     public static final String ID = "ID";
 
+    public static final String PERMISSION = "PERMISSION";
+
     /**
      * Session Manager constructor
      * @param context what activity it was constructed in
@@ -98,6 +100,7 @@ public class SessionManager {
         editor.putString(ROOMID, null);
         editor.putStringSet(ROOMS, set);
         editor.putStringSet(ROOMSID, set);
+        editor.putString(PERMISSION, null);
         editor.apply();
     }
 
@@ -289,6 +292,24 @@ public class SessionManager {
 
             editor.apply();
         }
+    }
+
+    /**
+     * Sets permission
+     * @param permission permission of the user for this specific room
+     */
+    public void setPermission(String permission){
+        editor.putString(PERMISSION, permission);
+        editor.apply();
+    }
+
+    /**
+     * Gets permission
+     * @return permission of the user for this specific room
+     */
+    public String getPermission(){
+        return sharedPreferences.getString(PERMISSION, null);
+
     }
 
     /**

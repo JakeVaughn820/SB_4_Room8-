@@ -70,4 +70,11 @@
         android:layout_marginTop="20dp"
         android:text="Room8" />
 
+    <Button
+        android:id="@+id/buttonSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Settings" />
+
 </RelativeLayout>

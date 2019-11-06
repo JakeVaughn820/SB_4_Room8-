@@ -94,6 +94,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * ids of the rooms parsed
      */
     private ArrayList<String> ids;
+    /**
+     * Holds permissions for users
+     */
+    private ArrayList<String> permissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +122,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
         //TODO: Right from the start we need to json get all the rooms that the user is a part of and add them to items and sessionsManager.
         items.add("Test Room 1");
         items.add("Test Room 2");
+        items.add("Test Room 3");
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         list.setAdapter(adapter);
@@ -125,6 +130,12 @@ public class NewUserRoomJoin extends AppCompatActivity {
         ids = new ArrayList<String>();
         ids.add("1");
         ids.add("2");
+        ids.add("3");
+
+        permissions = new ArrayList<>();
+        permissions.add("Owner");
+        permissions.add("Editor");
+        permissions.add("Viewer");
 
         sessionManager.addRoom("Test Room 1", "1");
         sessionManager.addRoom("Test Room 2", "2");
@@ -142,6 +153,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     postRequestCreate();
                     items.clear();
                     ids.clear();
+                    permissions.clear();
                     jsonParse();
                 }
             }
@@ -172,6 +184,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             sessionManager.setRoom(items.get(position));
             sessionManager.setRoomid(ids.get(position));
+            sessionManager.setPermission(permissions.get(position));
             Intent i = new Intent(NewUserRoomJoin.this, HomeActivity.class);
             startActivity(i);
         }
@@ -198,6 +211,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 ids.add(List.getString("Id"));
+                                permissions.add(List.getString("Permission"));
                                 sessionManager.addRoom(List.getString("Title"), List.getString("Id"));
                             }
                             adapter.notifyDataSetChanged();
@@ -338,6 +352,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 //sessionManager.addRoom(joinRoomEditText.getText().toString());
                                 items.clear();
                                 ids.clear();
+                                permissions.clear();
                                 jsonParse();
                             }else{
                                 Toast.makeText(NewUserRoomJoin.this, "Room does not exist!", Toast.LENGTH_SHORT).show();
