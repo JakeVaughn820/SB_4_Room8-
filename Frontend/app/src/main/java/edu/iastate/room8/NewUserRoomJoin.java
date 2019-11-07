@@ -29,31 +29,70 @@ import org.json.JSONObject;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity NewUserRoomJoin. You can create a new room which you can access in this.
+ * You can join a new room too with the room ID. You can access any of the rooms you have already joined too.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class NewUserRoomJoin extends AppCompatActivity {
-
+    /**
+     * Button that when pressed creates a new room with the name of the edit text
+     */
     private Button newRoomCreate;
+    /**
+     * Button that will join the room with ID the user input
+     */
     private Button joinRoom;
+    /**
+     * Button that logs out
+     */
     private Button logout;
+    /**
+     * Request Queue
+     */
     private RequestQueue mQueue;
-
+    /**
+     * User input for ID of room to join
+     */
     private EditText joinRoomEditText;
+    /**
+     * User input for the name of the new room they want to create
+     */
     private EditText newRoomCreateEditText;
+    /**
+     * List View with all the rooms the user is in
+     */
     private ListView list;
+    /**
+     * Tag with the activity currently in
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
-
-    // These tags will be used to cancel the requests
+    /**
+     *     These tags will be used to cancel the requests
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
-
+    /**
+     * ArrayList with items for List View
+     */
     private ArrayList<String> items;
+    /**
+     * Adapter for List View
+     */
     private ArrayAdapter<String> adapter;
-
+    /**
+     * ids of the rooms parsed
+     */
     private ArrayList<String> ids;
 
     @Override
@@ -75,21 +114,36 @@ public class NewUserRoomJoin extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
 
         items = new ArrayList<String>();
+
+        //TODO: Right from the start we need to json get all the rooms that the user is a part of and add them to items and sessionsManager.
+        items.add("Test Room 1");
+        items.add("Test Room 2");
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        list.setAdapter(adapter);
 
         ids = new ArrayList<String>();
+        ids.add("1");
+        ids.add("2");
+
+        sessionManager.addRoom("Test Room 1", "1");
+        sessionManager.addRoom("Test Room 2", "2");
+
+
 
         jsonParse();
 
         newRoomCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                postRequestCreate();
-                items.clear();
-                ids.clear();
-                jsonParse();
-
+                if(newRoomCreateEditText.getText().toString().equals("")){
+                    Toast.makeText(NewUserRoomJoin.this, "Must input a room name!", Toast.LENGTH_SHORT).show();
+                }else{
+                    postRequestCreate();
+                    items.clear();
+                    ids.clear();
+                    jsonParse();
+                }
             }
         });
 
@@ -98,8 +152,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
             public void onClick(View view) {
 
                 postRequestJoin();
-
-
             }
         });
 
@@ -113,15 +165,24 @@ public class NewUserRoomJoin extends AppCompatActivity {
         list.setOnItemClickListener(messageClickedHandler);
     }
 
-
+    /**
+     * list onClickListener. Goes to homeActivity and sets the room of the user to the correct room.
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            sessionManager.addRoom(ids.get(position));
+            sessionManager.setRoom(items.get(position));
+            sessionManager.setRoomid(ids.get(position));
             Intent i = new Intent(NewUserRoomJoin.this, HomeActivity.class);
             startActivity(i);
         }
     };
 
+    /**
+     * Used to parse JSON Objects in NewUserRoomJoin
+     * Will get the rooms the user has joined and display them in a list
+     * Receives Header: Rooms. Keys: Title, ID
+     * @throws JSONException
+     */
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
@@ -137,6 +198,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 ids.add(List.getString("Id"));
+                                sessionManager.addRoom(List.getString("Title"), List.getString("Id"));
                             }
                             adapter.notifyDataSetChanged();
 
@@ -155,6 +217,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
 
     }
 
+    /**
+     * post that creates a new room in the database.
+     * Sends Keys: Title
+     */
     private void postRequestCreate() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
@@ -248,6 +314,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
 //        };
 //        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 //    }
+    /**
+     * post that lets the user join a new room
+     * Sends Keys: Title, RoomId
+     */
     private void postRequestJoin() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
@@ -265,7 +335,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                         try {
                             String success = response.getString("Response");
                             if(success.equals("Success")){
-                                sessionManager.addRoom(joinRoomEditText.getText().toString());
+                                //sessionManager.addRoom(joinRoomEditText.getText().toString());
                                 items.clear();
                                 ids.clear();
                                 jsonParse();

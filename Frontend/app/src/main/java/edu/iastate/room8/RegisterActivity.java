@@ -23,23 +23,60 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
-
+/**
+ * This class is used for the activity Register. You can register for the app here.
+ * The server will check if the email or username is already in use. The password will be entered twice and has to be 8 characters at least.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class RegisterActivity extends AppCompatActivity {
-
+    /**
+     * Edit Text with the user input for the new registered users username
+     */
     private EditText userNameEditText;
+    /**
+     * Edit Text with the user input for the new registered users email
+     */
     private EditText userEmailEditText;
+    /**
+     * Edit Text with the user input for the new registered users password
+     */
     private EditText passwordEditText;
+    /**
+     * Edit Text with the user input for the new registered users password check
+     */
     private EditText passwordEditTextCheck;
+    /**
+     * String with the user input for the new registered users username
+     */
     private String userNameEditTextString;
+    /**
+     * String with the user input for the new registered users email
+     */
     private String userEmailEditTextString;
+    /**
+     * String with the user input for the new registered users password
+     */
     private String passwordEditTextString;
+    /**
+     * String with the user input for the new registered users password check
+     */
     private String passwordCheckTextString;
-
+    /**
+     * Button that registers user
+     */
     private Button btnRegister;
+    /**
+     * Button that takes user back to login if they are already registered
+     */
     private Button btnLogin;
+    /**
+     * Tag with the current activity
+     */
     private String TAG = NewListActivity.class.getSimpleName();
-
-    // These tags will be used to cancel the requests
+    /**
+     * These tags will be used to cancel the requests
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
     @Override
@@ -89,6 +126,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * post that creates a new user in the database
+     * Sends keys: Name, Email, Password
+     * Receives keys: Response which tells whether or not the user could be created
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
 

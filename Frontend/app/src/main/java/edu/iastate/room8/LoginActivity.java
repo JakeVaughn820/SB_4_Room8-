@@ -26,17 +26,44 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of login. If you don't have a login you can press the register button.
+ * Use email and password to login.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class LoginActivity extends AppCompatActivity {
-
-
+    /**
+     * User input for email
+     */
     private EditText userEmailEditText;
+    /**
+     * User input for password
+     */
     private EditText passwordEditText;
+    /**
+     * Button that will send the email and password to be checked for logging in
+     */
     private Button loginbtn;
+    /**
+     * Button that will send user to register page
+     */
     private Button signUpBtn;
+    /**
+     * Integer with amount of login attempts they get
+     */
     private int loginAttemps = 5;
-    private TextView loginAttemptTextView;
+    /**
+     * Text View that shows the amount of login attempts left
+     */
+    private TextView loginAttempsTextView;
+    /**
+     * Tag with current activity name
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
 
     // These tags will be used to cancel the requests
@@ -53,13 +80,12 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         loginbtn = findViewById(R.id.loginbtn);
         signUpBtn = findViewById(R.id.signUpBtn);
-        loginAttemptTextView = findViewById(R.id.loginAttemptsTextView);
+        loginAttempsTextView = findViewById(R.id.loginAttemptsTextView);
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 validate(userEmailEditText.getText().toString(), passwordEditText.getText().toString());
-//                validate(userEmailEditText.getText().toString(), passwordEditText.getText().toString());
                 //postRequest();
             }
         });
@@ -73,6 +99,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Validation method to see if the email and password correspond to a user in the database. (Old method for testing)
+     * @param userName_Email email the user typed in
+     * @param userPassword password the user typed in
+     */
     private void validate(String userName_Email, String userPassword){
         //TOD Get user names email and password see if any match.
         //TOD these will need to be gotten from the database
@@ -87,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //This if matches the (username or email) and password with those on the database
         if((userName_Email.equals(getUser) || userName_Email.equals(getEmail)) && (userPassword.equals(getPassword))){
-            sessionManager.createSession(getUser, getEmail, id);  //Creates a new session where the user is logged in
+            sessionManager.createSession("TestUser", "TestEmail", "TestPassword");  //Creates a new session where the user is logged in
 
                 Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
                 startActivity(i);
@@ -96,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
         }else{
 
             loginAttemps--;
-            loginAttemptTextView.setText("Incorrect User Name or Password" + "\n" +
+            loginAttempsTextView.setText("Incorrect User Name or Password" + "\n" +
                     "Login Attemps Left: " + loginAttemps
                     + "\n" + userName_Email + " " + userPassword);
 
@@ -108,6 +139,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Validation method to see if the email and password correspond to a user in the database.
+     * @param success Whether or not the login attempt was successful
+     * @param userID ID of the user that logged in
+     * @param userEmail email of the user that logged in
+     * @param userName username of the user that logged in
+     */
     private void validate2(String success, String userID, String userEmail, String userName){
         if(success.equals("Success")){
 
@@ -118,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
         }else{
 
             loginAttemps--;
-            loginAttemptTextView.setText("Incorrect User Name or Password" + "\n" +
+            loginAttempsTextView.setText("Incorrect User Name or Password" + "\n" +
                     "Login Attemps Left: " + loginAttemps
                     + "\n");
 
@@ -129,6 +167,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * PostRequest used to see if the email and password are in the server.
+     * If the email and password correspond to a user in the database the server will
+     * return a "Success" and the user will be brought the the rooms activity
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/login";
 

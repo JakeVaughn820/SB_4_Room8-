@@ -29,19 +29,49 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity NewList. You can create a new list which you can access back in MainList.
+ * You can add a description for the list but don't have to.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class NewListActivity extends AppCompatActivity {
-
+    /**
+     * Edit Text with the user inputs for name of the new list item
+     */
     private EditText newListName;
+    /**
+     * Edit Text with the user inputs for the description of the new list item
+     */
     private EditText descriptionText;
+    /**
+     * String that holds description
+     */
     private String descriptionTextString;
+    /**
+     * Button that takes you back to the Main List Activity
+     */
     private Button btn_back;
+    /**
+     * Button that when pressed adds new list
+     */
     private Button newList;
+    /**
+     * String that holds the name of the new list
+     */
     private String newListNameString;
+    /**
+     * Tag with current activity
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
 
-    // These tags will be used to cancel the requests
+    /**
+     *     These tags will be used to cancel the requests
+      */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
     @Override
@@ -77,6 +107,10 @@ public class NewListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * PostRequest that tells the server it wants to add a new list.
+     * Sends Keys: Title, Description
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 

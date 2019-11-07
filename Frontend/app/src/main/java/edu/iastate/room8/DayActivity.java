@@ -25,26 +25,71 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of the specific day chosen from the schedule.
+ * Can see what is happening on the day for everyone in your room.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class DayActivity extends AppCompatActivity {
+    /**
+     * text view for the date
+     */
     private TextView date;
+    /**
+     * string for the date
+     */
     private String dateString;
+    /**
+     * TAG used for json stuff
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * String for day
+     */
     private String day;
+    /**
+     * String for month
+     */
     private String month;
+    /**
+     * String for year
+     */
     private String year;
+    /**
+     * Button when clicked will go to new schedule activity
+     */
     private Button buttonAddScheduleItem;
-
+    /**
+     * request queue
+     */
     private RequestQueue mQueue;
-
+    /**
+     * ArrayList with the information for the events
+     */
     private ArrayList<String> items;
+    /**
+     * ArrayList with event names
+     */
     private ArrayList<String> eventNames;
+    /**
+     * adapter for list view
+     */
     private ArrayAdapter<String> adapter;
+    /**
+     * list view that holds events for the day
+     */
     private ListView listView;
+    /**
+     * Session manager
+     */
     SessionManager sessionManager;
 
-    // These tags will be used to cancel the requests
+    /**
+     *     These tags will be used to cancel the requests
+      */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +137,12 @@ public class DayActivity extends AppCompatActivity {
         return null;
     }
 
-
+    /**
+     * Used to parse JSON Objects in DayActivity
+     * Will get the events for the day selected by the User and display them in a list
+     * Receives: Header: Schedule. Keys: StartTime. EndTime. EventName. User.
+     * @throws JSONException
+     */
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
 //        String url = "https://api.myjson.com/bins/w6jix";
@@ -133,6 +183,10 @@ public class DayActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+    /**
+     * An onClickListener for a list. Used to look at the description of an event.
+     * Will open up a new activity when any event is clicked on.
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             Intent i = new Intent(DayActivity.this, ScheduleDescriptionActivity.class);

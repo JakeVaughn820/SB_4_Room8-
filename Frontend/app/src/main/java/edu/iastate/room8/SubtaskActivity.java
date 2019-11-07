@@ -33,23 +33,66 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity SubTask. You will be able to see and create subtasks in this class.
+ * You get to this class by clicking on the task in ListActivity.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class SubtaskActivity extends AppCompatActivity {
-
+    /**
+     * Text View with title for subtasks
+     */
     private TextView titleForSubTask;
-
+    /**
+     * Request Queue
+     */
     private RequestQueue mQueue;
+    /**
+     * List View with the subtasks
+     */
     private ListView itemsSubTask;
+    /**
+     * Button that adds a new sub task
+     */
     private Button newSubTaskItem;
+    /**
+     * User input for the new subtask item name
+     */
     private EditText newSubTaskItemName;
+    /**
+     * String with the user input for the new subtask item
+     */
     private String newSubTaskItemNameString;
+    /**
+     * ArrayList for List View
+     */
     private ArrayList<String> items;
+    /**
+     * Adapter for List View
+     */
     private ArrayAdapter<String> adapter;
+    /**
+     * String with the title of the page
+     */
     private String title;
+    /**
+     * Tag with the activity currently in
+     */
     private String TAG = SubtaskActivity.class.getSimpleName();
+    /**
+     * Used to stop requests
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
 
+    /**
+     * Text View that shows if the subtasks have all been completed or not
+     */
+    private TextView completed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +104,7 @@ public class SubtaskActivity extends AppCompatActivity {
         itemsSubTask = findViewById(R.id.SubTaskActivityList);
         newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
         newSubTaskItemName = findViewById(R.id.EnterNewSubTaskItem);
+        completed = findViewById(R.id.textViewCompleted);
 
         mQueue = Volley.newRequestQueue(this);
         titleForSubTask.setText(title);
@@ -81,10 +125,16 @@ public class SubtaskActivity extends AppCompatActivity {
                 newSubTaskItemNameString = newSubTaskItemName.getText().toString();
                 postRequest();
                 newSubTaskItemName.setText("");
+                completed.setText("");
             }
         });
     }
-
+//
+    /**
+     * Used to parse JSON Objects in SubtaskActivity
+     * Will get the subtasks for the task selected by the user and displays them in a list.
+     * @throws JSONException
+     */
     private void jsonParse() {
         String url = "https://api.myjson.com/bins/jqfcl";
 //        String url =
@@ -116,15 +166,27 @@ public class SubtaskActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+    /**
+     * Used as an onClickedListener for a list that will delete a subtask
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             String toToast = items.get(position);
             items.remove(position);
             adapter.notifyDataSetChanged();
-            Toast.makeText(SubtaskActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
+            if(items.size()==0){
+                Toast.makeText(SubtaskActivity.this, "Congratulations you've completed all the subtasks!", Toast.LENGTH_LONG).show();
+                completed.setText("You have completed all subtasks!");
+            }else{
+                Toast.makeText(SubtaskActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
+    /**
+     * post that creates a new subtask
+     * Sends keys: ListName, Task
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 

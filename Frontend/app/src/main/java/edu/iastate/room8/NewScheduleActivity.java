@@ -23,27 +23,68 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity NewSchedule. You can create a new event in the schedule for the day on your rooms events page.
+ * The new event added will be viewable in DayActivity.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class NewScheduleActivity extends AppCompatActivity {
-
+    /**
+     * Text View with the title of the page
+     */
     private TextView addNewEventTextView;
-
+    /**
+     * Button that adds the new event
+     */
     private Button addNewEventButton;
-
+    /**
+     * Edit Text with the user input for the start time
+     */
     private EditText startTime;
+    /**
+     * Edit Text with the user input for the end time
+     */
     private EditText endTime;
+    /**
+     * Edit Text with the user input for the event name
+     */
     private EditText eventName;
+    /**
+     * Edit Text with the user input for the event description
+     */
     private EditText eventDescription;
-
+    /**
+     * String that holds the start time
+     */
     private String startTimeString;
+    /**
+     * String that holds the end time
+     */
     private String endTimeString;
+    /**
+     * String that holds the event name
+     */
     private String eventNameString;
+    /**
+     * String that holds the event description
+     */
     private String eventDescriptionString;
+    /**
+     * String that golds the date
+     */
+    private String date;
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
-
+    /**
+     * Tag with the current activity
+     */
     private String TAG = NewListActivity.class.getSimpleName();
-
-    // These tags will be used to cancel the requests
+    /**
+     *     These tags will be used to cancel the requests
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
     @Override
@@ -60,7 +101,7 @@ public class NewScheduleActivity extends AppCompatActivity {
         eventName = findViewById(R.id.eventName);
         eventDescription = findViewById(R.id.eventDescription);
 
-
+        date = getIntent().getStringExtra("DATE");
 
         addNewEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +115,10 @@ public class NewScheduleActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * PostRequest that creates a new event on a day specified by the user.
+     * Sends Keys: EventName, StartTime, EndTime, EventDescription, date.
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
@@ -82,6 +127,7 @@ public class NewScheduleActivity extends AppCompatActivity {
         params.put("StartTime", startTimeString);
         params.put("EndTime", endTimeString);
         params.put("EventDescription", eventDescriptionString);
+        params.put("Date", date);
 
 
 //        Toast.makeText(this, params.get("Title"), Toast.LENGTH_SHORT).show();
@@ -114,6 +160,7 @@ public class NewScheduleActivity extends AppCompatActivity {
                 params.put("StartTime", startTimeString);
                 params.put("EndTime", endTimeString);
                 params.put("EventDescription", eventDescriptionString);
+                params.put("Date", date);
                 return params;
             }
         };

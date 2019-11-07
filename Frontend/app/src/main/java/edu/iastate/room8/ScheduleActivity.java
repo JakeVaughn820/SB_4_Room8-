@@ -12,18 +12,48 @@ import android.widget.Toast;
 
 import edu.iastate.room8.utils.DateParser;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity Schedule. There is a calender and you can select a day on the calender
+ * and see what events exist between you and your roommates and add more by clicking the button for adding new events.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class ScheduleActivity extends AppCompatActivity {
-
+    /**
+     * Button that goes to the schedule of the selected day on the calender
+     */
     private Button goToScheduleDay;
+    /**
+     * Calender that you can select the day and see the schedule for that day
+     */
     private CalendarView calender;
+    /**
+     * String holding the date selected
+     */
     private String date;
+    /**
+     * String holding the day selected
+     */
     private String day;
+    /**
+     * String holding the month selected
+     */
     private String month;
+    /**
+     * String holding the year selected
+     */
     private String year;
+    /**
+     * DateParser that will parse the date based on the onClickListener of the calender
+     */
     private DateParser dateParser;
+    /**
+     * Boolean with whether or not the user has selected anything yet
+     */
     boolean clicked;
-
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
 
     @Override
@@ -74,6 +104,10 @@ public class ScheduleActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Calls the date parser to parse the date that is to be used for the schedule.
+     * @return returns the parsed date
+     */
     public String callDateParser(){
         return dateParser.parseDate();
     }

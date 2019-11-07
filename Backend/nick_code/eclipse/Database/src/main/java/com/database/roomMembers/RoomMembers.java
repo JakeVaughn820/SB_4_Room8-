@@ -3,7 +3,7 @@ package com.database.roomMembers;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,57 +12,147 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
+/**
+ * This class implements the roomMembers entity. The roomMembers entity is simply 
+ * an extra table to handle the manytomany relationship between rooms and users. 
+ * 
+ * @author Nickolas Mitchell
+ */
 @Entity
 @Table(name="room_members")
 public class RoomMembers 
 {
+	/**
+	 * A unique Id which is automatically generated for each roomMember. 
+	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private int id; 
+	@Column(name="id", nullable = false)
+	public Long id; 
 	
-	@ManyToOne(targetEntity = com.database.user.User.class)
-	@JoinColumn(name="user_id", foreignKey = @ForeignKey(name = "user_id"))
-	private Integer userId;
+	/**
+	 * 	@ManyToOne(targetEntity = com.database.user.User.class)
+	    @JoinColumn(name="user_id", foreignKey = @ForeignKey(name = "user_id"))
+	 */
+    @ManyToOne(fetch=FetchType.LAZY, targetEntity=com.database.user.User.class)
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+	public Long userId;
+    
+    /**
+     * 	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
+	    @JoinColumn(name="room_id", foreignKey = @ForeignKey(name = "room_id"))
+     */
+	@ManyToOne(fetch=FetchType.LAZY, targetEntity=com.database.rooms.Rooms.class)
+    @JoinColumn(name="room_id", referencedColumnName = "id")
+	public Long roomId;
 	
-	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
-	@JoinColumn(name="room_id", foreignKey = @ForeignKey(name = "room_id"))
-	private Integer roomId;
+	/**
+	 * Holds the user role. A user can be an "Owner" Roommate" or "Viewer"
+	 */
+	@Column(name="user_role")
+	public String userRole; 
 	
-	public RoomMembers(Integer userId, Integer roomId)
+	/**
+	 * Default Constructor. 
+	 */
+	public RoomMembers()
+	{
+		
+	}
+
+	/**
+	 * Constructor which sets the below fields. 
+	 * 
+	 * @param userId
+	 * @param roomId
+	 */
+	public RoomMembers(Long userId, Long roomId)
 	{
 		this.userId = userId;
 		this.roomId = roomId; 
 	}
 	
-	public void setId(int id)
+	/**
+	 * Sets the roomMembers Id.
+	 * 
+	 * @param id
+	 */
+	public void setId(Long id)
 	{
 		this.id = id; 
 	}
 	
-	public void setUserId(int userId)
+	/**
+	 * Sets the users Id. 
+	 * 
+	 * @param userId
+	 */
+	public void setUserId(Long userId)
 	{
 		this.userId = userId; 
 	}
 	
-	public void setRoomId(int roomId)
+	/**
+	 * Sets the rooms Id. 
+	 * 
+	 * @param roomId
+	 */
+	public void setRoomId(Long roomId)
 	{
 		this.roomId = roomId; 
 	}
 	
-	public int getId()
+	/**
+	 * Gets the roomMembers Id. 
+	 * 
+	 * @return
+	 */
+	public Long getId()
 	{
 		return this.id;
 	}
 	
-	public Integer getUserId()
+	/**
+	 * Gets the users Id.
+	 * 
+	 * @return
+	 */
+	public Long getUserId()
 	{
 		return this.userId; 
 	}
 	
-	public Integer getRoomId()
+	/**
+	 * Gets the rooms Id. 
+	 * 
+	 * @return
+	 */
+	public Long getRoomId()
 	{
 		return this.roomId; 
+	}
+	
+	/**
+	 * Gets the users role. 
+	 * 
+	 * @return
+	 */
+	public String getUserRole()
+	{
+		return this.userRole; 
+	}
+	
+	/**
+	 * Sets the users role. 
+	 * 
+	 * @param userRole
+	 */
+	public void setUserRole(String userRole)
+	{
+		if(!userRole.equals("Owner") || !userRole.equals("Roommate"))
+			this.userRole = "Viewer";
+		else
+			this.userRole = userRole; 
 	}
 	
 	@Override
@@ -73,6 +163,7 @@ public class RoomMembers
 		if(!(o instanceof RoomMembers))
 			return false; 
 		RoomMembers RoomMembers = (RoomMembers) o;
-		return this.id == RoomMembers.id && this.userId == RoomMembers.userId && this.roomId == RoomMembers.roomId;
+		return this.id == RoomMembers.id && this.userId == RoomMembers.userId && this.roomId == RoomMembers.roomId 
+				&& this.userRole.equals(RoomMembers.userRole);
 	}
 }

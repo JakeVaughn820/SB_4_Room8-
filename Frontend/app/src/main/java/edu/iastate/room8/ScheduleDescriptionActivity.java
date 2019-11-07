@@ -27,23 +27,44 @@ import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of ScheduleDescription. You will be able to see the description of the created event.
+ * This includes the time frame, description, event name, and who created the event.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class ScheduleDescriptionActivity extends AppCompatActivity {
-
+    /**
+     * Text View with the event name
+     */
     private TextView eventName;
+    /**
+     * Text View with the person who created the event
+     */
     private TextView person;
+    /**
+     * Text View with the description of the event
+     */
     private TextView description;
+    /**
+     * Text View with the time frame of the event
+     */
     private TextView startEnd;
-
-    private String eventNameString;
-    private String personString;
-    private String descriptionString;
-    private String startEndString;
-
+    /**
+     * Tag with the current activity
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * Request Queue
+     */
     private RequestQueue mQueue;
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
-    // These tags will be used to cancel the requests
+    /**
+     *  These tags will be used to cancel the requests
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
     @Override
@@ -63,6 +84,11 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Post Request that is used for receiving the event information
+     * Sends Keys: EventName
+     * Receives Keys: EventName, User, Description, Start, End
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 

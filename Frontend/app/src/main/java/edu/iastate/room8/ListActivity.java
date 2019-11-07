@@ -3,6 +3,7 @@ package edu.iastate.room8;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,45 +26,106 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of the list you chose. The list you chose will have tasks and subtasks
+ * Clicking on a task in completion mode deletes it. Clicking on a task not in completion mode brings you to the subtask activity.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class ListActivity extends AppCompatActivity {
-
+    /**
+     * Text view with title for list activity
+     */
     private TextView titleForList;
+    /**
+     * Text view for the description under the title
+     */
     private TextView descriptionUnderTitle;
-
+    /**
+     * Request queue
+     */
     private RequestQueue mQueue;
+    /**
+     * integer that holds the position of the item
+     */
     private int whichOne;
+    /**
+     * String that holds the description
+     */
     private String description;
+    /**
+     * List View with list of tasks
+     */
     private ListView itemsList;
+    /**
+     * Button to add a new task to the list
+     */
     private Button newListItem;
+    /**
+     * Edit Text that will be added when the button is pressed
+     */
     private EditText newListItemName;
+    /**
+     * String that holds the user input
+     */
     private String newListItemNameString;
-
+    /**
+     * Switch that switches between completion mode and subtask mode
+     */
     private Switch switchList;
+    /**
+     * Boolean for whether or not the switch is on(true) or off(false)
+     */
     private Boolean switchOn;
-
+    /**
+     * ArrayList with the tasks for the list
+     */
     private ArrayList<String> items;
+    /**
+     * Adapter for the list view
+     */
     private ArrayAdapter<String> adapter;
+    /**
+     * String with the title
+     */
     private String title;
+    /**
+     * Tag with class
+     */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * Used to stop json request
+     */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    /**
+     * session manager
+     */
     SessionManager sessionManager;
+    /**
+     * mWebSocketClient used for connecting websocket to server.
+     */
+    private WebSocketClient mWebSocketClient;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
+        connectWebSocket();
         setContentView(R.layout.activity_list);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
         titleForList = findViewById(R.id.TitleForList);
@@ -95,7 +157,8 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 newListItemNameString = newListItemName.getText().toString();
-                postRequest();
+//                postRequest();
+                sendMessage(view);
                 newListItemName.setText("");
             }
         });
@@ -112,9 +175,15 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * Used to parse JSON Objects in ListActivity
+     * Will get the tasks for the list selected by the user and displays them in a list
+     * @throws JSONException
+     */
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/jqfcl";
-//        String url =
+        //String url = "https://api.myjson.com/bins/jqfcl";
+        String url =""; //TODO has been changed to "" to show websocket experiment
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -143,6 +212,10 @@ public class ListActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+    /**
+     * onClickedListener for the list. When the switch is on you can complete and delete items of the list.
+     * When the switch is off it will bring you to the subtasks for the task.
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             if(switchOn){
@@ -158,6 +231,11 @@ public class ListActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * PostRequest that creates a new task in the list. It sends the name of the list to add to and the task
+     * that the user wants to add
+     * Sending keys: ListName, Task
+     */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
 
@@ -196,6 +274,59 @@ public class ListActivity extends AppCompatActivity {
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 //        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
+    }
+
+    /**
+     * Connects to web sockets for bulletin
+     */
+    private void connectWebSocket() {
+        URI uri;
+        try {
+            uri = new URI("wss://echo.websocket.org");
+        } catch (
+                URISyntaxException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        mWebSocketClient = new WebSocketClient(uri) {
+            @Override
+            public void onOpen(ServerHandshake serverHandshake) {
+                Log.i("Websocket", "Opened");
+                mWebSocketClient.send("If this shows up onOpen is working");
+            }
+
+            @Override
+            public void onMessage(String s) {
+                final String message = s;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        items.add(message);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void onClose(int i, String s, boolean b) {
+                Log.i("Websocket", "Closed " + s);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.i("Websocket", "Error " + e.getMessage());
+            }
+        };
+        mWebSocketClient.connect();
+    }
+
+    /**
+     * Sends the message to the web socket
+     * @param view
+     */
+    public void sendMessage(View view) {
+        mWebSocketClient.send(newListItemNameString);
     }
 
 //    private void postRequestForParse() {

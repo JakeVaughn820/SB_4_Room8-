@@ -28,15 +28,40 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import edu.iastate.room8.utils.SessionManager;
-
+/**
+ * This class is used for the activity of MainList. List of lists that you can chose from. For example,
+ * you can create a to do list or a grocery list and select them here.
+ * @author Paul Degnan
+ * @author Jake Vaughn
+ */
 public class MainListActivity extends AppCompatActivity {
-
+    /**
+     * Request Queue
+     */
     private RequestQueue mQueue;
+    /**
+     * Button  that brings you to new list activity
+     */
     private Button btn_new_list;
+    /**
+     * List View with list of lists
+     */
     private ListView itemsList;
+    /**
+     * Items in the list view
+     */
     private ArrayList<String> items;
+    /**
+     * Adapter for List View
+     */
     private ArrayAdapter<String> adapter;
+    /**
+     * ArrayList with descriptions
+     */
     private ArrayList<String> description;
+    /**
+     * Session Manager
+     */
     SessionManager sessionManager;
 
     @Override
@@ -70,6 +95,9 @@ public class MainListActivity extends AppCompatActivity {
         itemsList.setOnItemClickListener(messageClickedHandler);//
     }
 
+    /**
+     * Method that is used to jsonParse every time the activity is resumed
+     */
     @Override
     public void onResume() { //after pressing "done" the list should now update
         super.onResume();
@@ -77,6 +105,12 @@ public class MainListActivity extends AppCompatActivity {
         jsonParse();   //Parses through the json given to frontend from back end
     }
 
+    /**
+     * Used to parse JSON Objects in MainListActivity
+     * Will get the lists and display them in a list.
+     * Receiving Header: RoomLists. Keys: Title, Description.
+     * @throws JSONException
+     */
     private void jsonParse() {
 //        String url = "https://api.myjson.com/bins/jqfcl";
 //        String url = "https://api.myjson.com/bins/w6jix";
@@ -112,6 +146,10 @@ public class MainListActivity extends AppCompatActivity {
         });
         mQueue.add(request);
     }
+
+    /**
+     * onClickedListener for a list. Will take the user to the tasks of the list the user picked.
+     */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             Intent i = new Intent(MainListActivity.this, ListActivity.class);
