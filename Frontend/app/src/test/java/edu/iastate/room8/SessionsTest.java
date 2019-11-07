@@ -88,11 +88,11 @@ public class SessionsTest {
 
     @Test
     public void isLoggin(){
-        assertEquals(false, sessionManager1.isLogin());
+        assertEquals(false, sessionManager1.isLoggin());
 
         Mockito.when(mockPrefs.getBoolean("IS_LOGIN", false)).thenReturn(true);
 
-        assertEquals(true, sessionManager1.isLogin());
+        assertEquals(true, sessionManager1.isLoggin());
     }
 }
 
