@@ -14,7 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".SubtaskActivity"></activity>
+        <activity
+            android:name=".MoreActivity"
+            android:label="@string/title_activity_more"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".SubtaskActivity" />
         <activity android:name=".NewRoomActivity" />
         <activity android:name=".NewUserRoomJoin" />
         <activity android:name=".ScheduleDescriptionActivity" />

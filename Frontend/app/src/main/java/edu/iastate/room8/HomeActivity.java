@@ -80,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
         tempButtonSchedule.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent i = new Intent(HomeActivity.this, ScheduleActivity.class);
+                Intent i = new Intent(HomeActivity.this, MoreActivity.class);
                 startActivity(i);
             }
         });
