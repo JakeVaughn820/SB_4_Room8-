@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import edu.iastate.room8.utils.SessionManager;
 /**
@@ -34,6 +35,14 @@ public class HomeActivity extends AppCompatActivity {
      * Session manager
      */
     SessionManager sessionManager;
+    /**
+     * Text View with the name of the room
+     */
+    private TextView roomNameTextView;
+    /**
+     * Text View with the ID of the room
+     */
+    private TextView roomIdTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +51,17 @@ public class HomeActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
-        sessionManager.checkRoom();
+//        sessionManager.checkRoom();
 
         tempButton = findViewById(R.id.tempButton);
         tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
         tempButtonSchedule = findViewById(R.id.tempButtonSchedule);
         btnLogout = findViewById(R.id.btnLogout);
+        roomIdTextView = findViewById(R.id.RoomIdTextView);
+        roomNameTextView = findViewById(R.id.RoomNameTextView);
+
+        roomIdTextView.setText("Room ID: "+sessionManager.getRoomid());
+        roomNameTextView.setText("Room Name: "+sessionManager.getRoom());
 
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override

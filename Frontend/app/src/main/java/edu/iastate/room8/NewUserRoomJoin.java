@@ -170,7 +170,8 @@ public class NewUserRoomJoin extends AppCompatActivity {
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            sessionManager.setRoom(ids.get(position));
+            sessionManager.setRoom(items.get(position));
+            sessionManager.setRoomid(ids.get(position));
             Intent i = new Intent(NewUserRoomJoin.this, HomeActivity.class);
             startActivity(i);
         }
