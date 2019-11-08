@@ -175,17 +175,25 @@ public class DatabaseApplication {
 		   * the owner can delete rooms.
 		   * 
 		   * @param item
+		   * @param user
 		   * @return
 		   */
-//		  @GetMapping(path = "/room/delete/{user}")
-//		  public String deleteRoom(@PathVariable Integer roomId, @PathVariable Integer userId)
-//		  {
-//			  RoomMembers roleCheck = roomMembersService.getRoomByRoomId(roomId, userId);
-//			  if()
-//		  }
+		  @PostMapping(path = "/room/delete/{user}", consumes = "application/json", produces = "application/json")
+		  public String deleteRoom(@RequestBody String item, @PathVariable String user)
+		  {
+			  JSONObject body = new JSONObject(item);
+			  long roomId = Long.parseLong((String) body.get("RoomID"));
+			  long userId = Long.parseLong(user);
+			  
+			  //TODO
+			  //If user has owner role in the room they have selected to delete, delete that room
+			  //RoomMembers roleCheck = 
+					  //roomMembersService.getRoomByRoomId(roomId, userId);
+			  return null;
+		  }
 		  
 		  /**
-		   * User login, sends back wether the user exists and if the login was successful
+		   * User login, sends back whether the user exists and if the login was successful
 		   * or not. 
 		   * 
 		   * @param item
