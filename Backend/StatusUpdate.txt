@@ -1,0 +1,11 @@
+Status Update (11/10/2019)
+
+*Updated application.properties with a mysql logger and new runtime engine to make creating tables within the database more consistent and easier to debug. 
+
+*Created a working relationship between rooms and users. 
+
+*Updated rooms and users with queries instead of hard coded processing. 
+
+*Fixed serveral bugs relating to obsolute varibles. 
+
+*Fully tested users login and registration (They both work with the above changes) 
