@@ -43,6 +43,10 @@ public class HomeActivity extends AppCompatActivity {
      * Text View with the ID of the room
      */
     private TextView roomIdTextView;
+    /**
+     * Button that takes you to the settings page
+     */
+    private Button buttonSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +63,16 @@ public class HomeActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
         roomIdTextView = findViewById(R.id.RoomIdTextView);
         roomNameTextView = findViewById(R.id.RoomNameTextView);
+        buttonSettings = findViewById(R.id.buttonSettings);
 
         roomIdTextView.setText("Room ID: "+sessionManager.getRoomid());
         roomNameTextView.setText("Room Name: "+sessionManager.getRoom());
+
+        if(sessionManager.getPermission().equals("Owner")){
+            buttonSettings.setVisibility(View.VISIBLE);
+        }else{
+            buttonSettings.setVisibility(View.INVISIBLE);
+        }
 
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -84,6 +84,12 @@ public class MainListActivity extends AppCompatActivity {
 
         //jsonParse();
 
+        if(sessionManager.getPermission().equals("Viewer")){
+            btn_new_list.setVisibility(View.INVISIBLE);
+        }else{
+            btn_new_list.setVisibility(View.VISIBLE);
+        }
+
         btn_new_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -116,8 +116,16 @@ public class SubtaskActivity extends AppCompatActivity {
         jsonParse();
         //postRequestForParse();
 
-        itemsSubTask.setOnItemClickListener(messageClickedHandler);
-
+        if(sessionManager.getPermission().equals("Viewer")){
+            newSubTaskItem.setVisibility(View.INVISIBLE);
+            newSubTaskItemName.setVisibility(View.INVISIBLE);
+        }else{
+            newSubTaskItem.setVisibility(View.VISIBLE);
+            newSubTaskItemName.setVisibility(View.VISIBLE);
+        }
+        if(!sessionManager.getPermission().equals("Viewer")) {
+            itemsSubTask.setOnItemClickListener(messageClickedHandler);
+        }
         newSubTaskItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
