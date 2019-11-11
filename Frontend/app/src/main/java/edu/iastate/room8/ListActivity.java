@@ -150,6 +150,16 @@ public class ListActivity extends AppCompatActivity {
         jsonParse();
         //postRequestForParse();
 
+        if(sessionManager.getPermission().equals("Viewer")){
+            newListItem.setVisibility(View.INVISIBLE);
+            newListItemName.setVisibility(View.INVISIBLE);
+            switchList.setVisibility(View.INVISIBLE);
+        }else{
+            newListItem.setVisibility(View.VISIBLE);
+            newListItemName.setVisibility(View.VISIBLE);
+            switchList.setVisibility(View.VISIBLE);
+        }
+
         itemsList.setOnItemClickListener(messageClickedHandler);
 
         newListItem.setOnClickListener(new View.OnClickListener() {

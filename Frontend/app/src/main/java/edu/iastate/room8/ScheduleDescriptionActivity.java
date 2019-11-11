@@ -94,6 +94,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("EventName", getIntent().getStringExtra("EXTRA_INFORMATION"));
+        params.put("DateString", getIntent().getStringExtra("DATE"));
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
