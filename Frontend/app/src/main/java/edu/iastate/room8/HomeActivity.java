@@ -74,6 +74,13 @@ public class HomeActivity extends AppCompatActivity {
             buttonSettings.setVisibility(View.INVISIBLE);
         }
 
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeActivity.this, RoomSettingsActivity.class);
+                startActivity(i);
+            }
+        });
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

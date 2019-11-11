@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -75,6 +76,8 @@ public class RoomSettingsActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
+        users = new ArrayList<>();
+        permissions = new ArrayList<>();
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
@@ -90,18 +93,29 @@ public class RoomSettingsActivity extends AppCompatActivity {
     }
 
     /**
-     * onClickedListener for a list. Will take the user to the tasks of the list the user picked.
+     * onClickedListener for a list. Will change permission of user.
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
 
             postRequest(users.get(position), permissions.get(position));
+            if(permissions.get(position).equals("Viewer")){
+                permissions.set(position, "Editor");
+                items.set(position, users.get(position)+": Editor");
+                Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to an Editor", Toast.LENGTH_SHORT).show();
+            }else if(permissions.get(position).equals("Editor")){
+                permissions.set(position, "Viewer");
+                items.set(position, users.get(position)+": Viewer");
+                Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to a Viewer", Toast.LENGTH_SHORT).show();
+            }
+            adapter.notifyDataSetChanged();
         }
     };
 
     private void jsonParse() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
-        url = url + "/" + sessionManager.getRoom();
+//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
+//        url = url + "/" + sessionManager.getRoom();
+        String url = "https://api.myjson.com/bins/6f5sa";
 
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
