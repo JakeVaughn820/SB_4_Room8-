@@ -1,6 +1,9 @@
 package com.database.rooms;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,7 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomsRepository extends JpaRepository<Rooms, Long> 
 {
-
-	Rooms getRoomById(Long long1);
-
+	@Query("select i from Rooms i where i.id = ?1")
+	Optional<Rooms> findById(Long roomId);
 }

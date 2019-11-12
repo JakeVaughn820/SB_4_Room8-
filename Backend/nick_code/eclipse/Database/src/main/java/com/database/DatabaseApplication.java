@@ -23,7 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import com.database.bulletin.*;
-import com.database.bulletin.pins.Pin;
+//import com.database.bulletin.pins.*;
 import com.database.roomList.*;
 import com.database.roomMembers.*;
 import com.database.rooms.*;
@@ -45,8 +45,8 @@ public class DatabaseApplication {
 	  @RestController
 	  class GreetingController implements ErrorController {
 			
-		  @Autowired private RoomListService roomListService;
-		  @Autowired private BulletinService bulletinService;
+//		  @Autowired private RoomListService roomListService;
+//		  @Autowired private BulletinService bulletinService;
 		  @Autowired private RoomsService roomService;
 		  @Autowired private UserService userService;
 		  @Autowired private ErrorAttributes errorAttributes;
@@ -84,7 +84,7 @@ public class DatabaseApplication {
 			  Long intRoom = Long.parseLong(room);
 			  String Title = body.getString("Title");
 			  String Description = body.getString("Description");
-			  roomListService.addRoomList(new RoomList(intRoom, Title, Description));
+//			  roomListService.addRoomList(new RoomList(intRoom, Title, Description));
 			  return "{\"Response\":\"Success\"}";
 		  }
 		  
@@ -132,7 +132,7 @@ public class DatabaseApplication {
 		   */
 		  @GetMapping("/room/{user}")
 		  public String getRooms(@PathVariable String user) {
-			  List<Rooms> rooms = roomMembersService.getRoomsByUserId(Long.parseLong(user));
+			  List<Rooms> rooms = roomMembersService.findRoomsByUserId(Long.parseLong(user));
 			  String ret = "{\"Rooms\":[";
 			  if(rooms.isEmpty())
 				  ret += " ";
@@ -152,20 +152,18 @@ public class DatabaseApplication {
 		   * @return
 		   */
 		  @PostMapping(path = "/room/{user}", consumes = "application/json", produces = "application/json")
-		  public String addRoom(@RequestBody String item, @PathVariable String user)
+		  public void addRoom(@RequestBody String item, @PathVariable String user)
 		  {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  Rooms toAdd = new Rooms(Title);
-			  Long roomsId = new Long(toAdd.getId());
-			  //Integer roomsId = new Integer(toAdd.getId());	  
+			  Long roomsId = toAdd.getId();  
 			  roomService.addRoom(toAdd);
-			  Long userId = Long.parseLong(user); 
-			  //Integer userId = Integer.parseInt(user);
-			  RoomMembers adding = new RoomMembers(userId, roomsId);
+			  Long userId = Long.valueOf(user);
+			  RoomMembers adding = new RoomMembers(userId, roomsId, "Owner");
 			  roomMembersService.addRoomMembers(adding);
 			  adding.setUserRole("Owner");
-			  return "{\"Response\":\"Success\"}";
+			  //return "{\"Response\":\"Success\"}";
 		  }
 		  
 		  /**
@@ -185,7 +183,7 @@ public class DatabaseApplication {
 //		  }
 		  
 		  /**
-		   * User login, sends back wether the user exists and if the login was successful
+		   * User login, sends back whether the user exists and if the login was successful
 		   * or not. 
 		   * 
 		   * @param item
@@ -223,7 +221,6 @@ public class DatabaseApplication {
 			  String Name = body.getString("Name");
 			  String Email = body.getString("Email");
 			  String Password = body.getString("Password");
-			  //int In_Room = body.getInt("In_Room"); 
 			  List<User> userList = userService.getUsers();
 			  for(User user : userList) {
 				  if(user.getName().equals(Name))

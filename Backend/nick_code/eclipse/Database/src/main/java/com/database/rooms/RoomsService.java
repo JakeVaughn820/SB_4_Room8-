@@ -1,8 +1,10 @@
 package com.database.rooms;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoomsService 
 {
-	/**
-	 * Holds the rooms repository object. 
-	 */
 	@Autowired
 	private RoomsRepository roomsRepository; 
+	
+	private final Logger logger = LoggerFactory.getLogger(RoomsService.class);
+
 	
 	/**
 	 * Returns all of the rooms within the database. 
@@ -37,19 +39,17 @@ public class RoomsService
 	 * @param roomId
 	 * @return
 	 */
-	public Rooms getRoomById(Long roomId)
+	public Optional<Rooms> getRoomById(Long roomId)
 	{
-		List<Rooms> temp = new ArrayList<Rooms>();
-		Rooms toReturn = null; 
-		for(Rooms i : temp)
-		{
-			if(i.getId().equals(roomId))
-			{
-				toReturn = i; 
-				break; 
-			}
+		Optional<Rooms> room = null;
+		try {
+			room = roomsRepository.findById(roomId);
+			if (room.equals(null))
+				throw new NullPointerException();
+		} catch (NullPointerException e) {
+			logger.info("Room does not exist");
 		}
-		return toReturn; 
+		return room;
 	}
 	
 	/**
@@ -75,17 +75,15 @@ public class RoomsService
     }
 	
     /**
-     * Deletes room from database. Throws IllegalArgumentException 
-     * if room does not exist. 
+     * Deletes room from database. 
      * 
      * @param roomId
      * @return
      * @throws IllegalArgumentException
      */
-	public boolean deleteById(Long roomId) throws IllegalArgumentException
+	public void deleteById(Long roomId)
 	{
 		roomsRepository.deleteById(roomId);
-		return true;
 	}
 
 }
