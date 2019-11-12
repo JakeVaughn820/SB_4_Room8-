@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -68,10 +69,14 @@ public class HomeActivity extends AppCompatActivity {
         roomIdTextView.setText("Room ID: "+sessionManager.getRoomid());
         roomNameTextView.setText("Room Name: "+sessionManager.getRoom());
 
-        if(sessionManager.getPermission().equals("Owner")){
-            buttonSettings.setVisibility(View.VISIBLE);
+        if(sessionManager.getPermission()==null){
+            sessionManager.logout();
         }else{
-            buttonSettings.setVisibility(View.INVISIBLE);
+            if(sessionManager.getPermission().equals("Owner")){
+                buttonSettings.setVisibility(View.VISIBLE);
+            }else{
+                buttonSettings.setVisibility(View.INVISIBLE);
+            }
         }
 
         buttonSettings.setOnClickListener(new View.OnClickListener() {
