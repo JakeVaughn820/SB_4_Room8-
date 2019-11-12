@@ -157,12 +157,23 @@ public class DatabaseApplication {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  Rooms toAdd = new Rooms(Title);
-			  Long roomsId = toAdd.getId();  
+			  //TODO confirm that a user is actually a user, then make a new room
 			  roomService.addRoom(toAdd);
-			  Long userId = Long.valueOf(user);
-			  RoomMembers adding = new RoomMembers(userId, roomsId, "Owner");
+			  Long roomsId = toAdd.getId();
+			  System.out.println("==============================");
+			  System.out.println(roomsId);
+			  Long userId = (Long) Long.valueOf(user);
+			  System.out.println("==============================");
+			  System.out.println(userId);
+			  RoomMembers adding = new RoomMembers(userService.findById(Long.valueOf("1")), toAdd, "Owner");
+			  //RoomMembers adding = new RoomMembers(userId, roomsId, "Owner");
+			  System.out.println("Funzies");
+			  System.out.println("RoomId: " + adding.getRoomId() + " Id: " + adding.getId() + " UserId: " + adding.getUserId());
+			  System.out.println("==============AFTER RoomMembers adding = new RoomMembers(userId, roomsId, \"Owner\");================");
 			  roomMembersService.addRoomMembers(adding);
-			  adding.setUserRole("Owner");
+			  System.out.println("=============AFTER roomMembersService.addRoomMembers(adding);================");
+
+			  ///adding.setUserRole("Owner");
 			  //return "{\"Response\":\"Success\"}";
 		  }
 		  

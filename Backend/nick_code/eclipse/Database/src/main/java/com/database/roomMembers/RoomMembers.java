@@ -1,6 +1,8 @@
 package com.database.roomMembers;
 
 
+import java.util.Optional;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.database.rooms.Rooms;
+import com.database.user.User;
 
 
 /**
@@ -36,14 +41,14 @@ public class RoomMembers
 	 */
     @OneToOne(fetch=FetchType.EAGER, targetEntity=com.database.user.User.class)
     @JoinColumn(name="user_id", referencedColumnName = "id")
-	public Long userId;
+	public Optional<User> userId;
     
     /**
      * RoomId relationship
      */
     @OneToOne(fetch=FetchType.EAGER, targetEntity=com.database.rooms.Rooms.class)
     @JoinColumn(name="room_id", referencedColumnName = "id")
-	public Long roomId;
+	public Rooms roomId;
 	
 	/**
 	 * Holds the user role. A user can be an "Owner" Roommate" or "Viewer"
@@ -62,12 +67,12 @@ public class RoomMembers
 	/**
 	 * Constructor which sets the below fields. 
 	 * 
-	 * @param userId
+	 * @param optional
 	 * @param roomId
 	 */
-	public RoomMembers(Long userId, Long roomId, String userRole)
+	public RoomMembers(Optional<User> optional, Rooms roomId, String userRole)
 	{
-		this.userId = userId;
+		this.userId = optional;
 		this.roomId = roomId; 
 		this.userRole = userRole; 
 	}
@@ -87,7 +92,7 @@ public class RoomMembers
 	 * 
 	 * @param userId
 	 */
-	public void setUserId(Long userId)
+	public void setUserId(Optional<User> userId)
 	{
 		this.userId = userId; 
 	}
@@ -97,7 +102,7 @@ public class RoomMembers
 	 * 
 	 * @param roomId
 	 */
-	public void setRoomId(Long roomId)
+	public void setRoomId(Rooms roomId)
 	{
 		this.roomId = roomId; 
 	}
@@ -117,7 +122,7 @@ public class RoomMembers
 	 * 
 	 * @return
 	 */
-	public Long getUserId()
+	public Optional<User> getUserId()
 	{
 		return this.userId; 
 	}
@@ -127,7 +132,7 @@ public class RoomMembers
 	 * 
 	 * @return
 	 */
-	public Long getRoomId()
+	public Rooms getRoomId()
 	{
 		return this.roomId; 
 	}
