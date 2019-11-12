@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -31,18 +32,16 @@ public class RoomMembers
 	public Long id; 
 	
 	/**
-	 * 	@ManyToOne(targetEntity = com.database.user.User.class)
-	    @JoinColumn(name="user_id", foreignKey = @ForeignKey(name = "user_id"))
+	 * UserId relationship
 	 */
-    @ManyToOne(fetch=FetchType.LAZY, targetEntity=com.database.user.User.class)
+    @OneToOne(fetch=FetchType.EAGER, targetEntity=com.database.user.User.class)
     @JoinColumn(name="user_id", referencedColumnName = "id")
 	public Long userId;
     
     /**
-     * 	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
-	    @JoinColumn(name="room_id", foreignKey = @ForeignKey(name = "room_id"))
+     * RoomId relationship
      */
-	@ManyToOne(fetch=FetchType.LAZY, targetEntity=com.database.rooms.Rooms.class)
+    @OneToOne(fetch=FetchType.EAGER, targetEntity=com.database.rooms.Rooms.class)
     @JoinColumn(name="room_id", referencedColumnName = "id")
 	public Long roomId;
 	
@@ -66,10 +65,11 @@ public class RoomMembers
 	 * @param userId
 	 * @param roomId
 	 */
-	public RoomMembers(Long userId, Long roomId)
+	public RoomMembers(Long userId, Long roomId, String userRole)
 	{
 		this.userId = userId;
 		this.roomId = roomId; 
+		this.userRole = userRole; 
 	}
 	
 	/**
