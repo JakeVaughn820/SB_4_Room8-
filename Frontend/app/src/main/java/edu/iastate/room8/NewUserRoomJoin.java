@@ -120,9 +120,9 @@ public class NewUserRoomJoin extends AppCompatActivity {
         items = new ArrayList<String>();
 
         //TODO: Right from the start we need to json get all the rooms that the user is a part of and add them to items and sessionsManager.
-        items.add("Test Room 1");
-        items.add("Test Room 2");
-        items.add("Test Room 3");
+        items.add("Test Room 1 Owner");
+        items.add("Test Room 2 Editor");
+        items.add("Test Room 3 Viewer");
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         list.setAdapter(adapter);
