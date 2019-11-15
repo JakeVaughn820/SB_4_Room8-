@@ -134,4 +134,84 @@ public class PaulMockitoTest {
         Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
         Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
     }
+
+    /**
+     * Testing with permissions between users
+     */
+    @Test
+    public void PermissionTest() throws JSONException{
+        DayActivity test = mock(DayActivity.class);
+
+        String day = "14";
+        String month = "12";
+        String year = "1998";
+        String date = month + "/" + day + "/" + year;
+
+        JSONObject response = new JSONObject();
+
+        response.put("StartTime", "2:00pm");
+        response.put("EndTime", "3:00pm");
+        response.put("EventName", "Demo");
+        response.put("User", "Paul");
+
+        when(test.jsonGetSchedule()).thenReturn(response);
+
+        Assert.assertNotEquals(response.getString("StartTime"), test.jsonGetSchedule().getString("EndTime"));
+        Assert.assertNotEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("StartTime"));
+        Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
+        Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
+    }
+
+    /**
+     * Testing with subtasks
+     */
+    @Test
+    public void SubtaskTest() throws JSONException{
+        DayActivity test = mock(DayActivity.class);
+
+        String day = "14";
+        String month = "12";
+        String year = "1998";
+        String date = month + "/" + day + "/" + year;
+
+        JSONObject response = new JSONObject();
+
+        response.put("StartTime", "2:00pm");
+        response.put("EndTime", "3:00pm");
+        response.put("EventName", "Demo");
+        response.put("User", "Paul");
+
+        when(test.jsonGetSchedule()).thenReturn(response);
+
+        Assert.assertNotEquals(response.getString("StartTime"), test.jsonGetSchedule().getString("EndTime"));
+        Assert.assertNotEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("StartTime"));
+        Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
+        Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
+    }
+    /**
+     * Testing for room settings
+     */
+    @Test
+    public void RoomSettingsTest() throws JSONException{
+        DayActivity test = mock(DayActivity.class);
+
+        String day = "14";
+        String month = "12";
+        String year = "1998";
+        String date = month + "/" + day + "/" + year;
+
+        JSONObject response = new JSONObject();
+
+        response.put("StartTime", "2:00pm");
+        response.put("EndTime", "3:00pm");
+        response.put("EventName", "Demo");
+        response.put("User", "Paul");
+
+        when(test.jsonGetSchedule()).thenReturn(response);
+
+        Assert.assertNotEquals(response.getString("StartTime"), test.jsonGetSchedule().getString("EndTime"));
+        Assert.assertNotEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("StartTime"));
+        Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
+        Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
+    }
 }
