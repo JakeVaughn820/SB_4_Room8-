@@ -115,4 +115,8 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    public int getButtonVisibility(){
+        return buttonSettings.getVisibility();
+    }
+
 }

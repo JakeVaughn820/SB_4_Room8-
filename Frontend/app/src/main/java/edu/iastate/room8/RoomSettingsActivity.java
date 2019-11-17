@@ -31,7 +31,7 @@ import java.util.Map;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
 
-public class RoomSettingsActivity extends AppCompatActivity {
+public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget to finish deletion of a room
     /**
      * List View with list of users
      */
