@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Websocket handler, Setups and runs websocket.
+ * Websocket handler, Setups and runs websocket. a
  * 
  * @author Nickolas Mitchell
  */
