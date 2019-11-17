@@ -150,6 +150,16 @@ public class ListActivity extends AppCompatActivity {
         jsonParse();
         //postRequestForParse();
 
+        if(sessionManager.getPermission().equals("Viewer")){
+            newListItem.setVisibility(View.INVISIBLE);
+            newListItemName.setVisibility(View.INVISIBLE);
+            switchList.setVisibility(View.INVISIBLE);
+        }else{
+            newListItem.setVisibility(View.VISIBLE);
+            newListItemName.setVisibility(View.VISIBLE);
+            switchList.setVisibility(View.VISIBLE);
+        }
+
         itemsList.setOnItemClickListener(messageClickedHandler);
 
         newListItem.setOnClickListener(new View.OnClickListener() {
@@ -182,8 +192,8 @@ public class ListActivity extends AppCompatActivity {
      * @throws JSONException
      */
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/jqfcl";
-//        String url =
+        //String url = "https://api.myjson.com/bins/jqfcl";
+        String url =""; //TODO has been changed to "" to show websocket experiment
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

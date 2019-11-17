@@ -98,6 +98,15 @@ public class BulletinActivity extends AppCompatActivity {
         toAddText = findViewById(R.id.messageToAdd);
         arr = new ArrayList<String>();
 
+        if(sessionManager.getPermission().equals("Viewer")){
+            toAddButton.setVisibility(View.INVISIBLE);
+            toAddText.setVisibility(View.INVISIBLE);
+        }else{
+            toAddButton.setVisibility(View.VISIBLE);
+            toAddText.setVisibility(View.VISIBLE);
+        }
+
+
 //        try{
 //            jsonParse();  //Parses through the json given to frontend from back end
 //        }catch(JSONException e){

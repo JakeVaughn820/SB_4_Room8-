@@ -103,6 +103,12 @@ public class DayActivity extends AppCompatActivity {
 
         mQueue = Volley.newRequestQueue(this);
 
+        if(sessionManager.getPermission().equals("Viewer")){
+            buttonAddScheduleItem.setVisibility(View.INVISIBLE);
+        }else{
+            buttonAddScheduleItem.setVisibility(View.VISIBLE);
+        }
+
 
         date.setText(getIntent().getStringExtra("EXTRA_INFORMATION"));
         dateString = date.getText().toString();
@@ -191,6 +197,7 @@ public class DayActivity extends AppCompatActivity {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             Intent i = new Intent(DayActivity.this, ScheduleDescriptionActivity.class);
             i.putExtra("EXTRA_INFORMATION", eventNames.get(position));
+            i.putExtra("DATE", dateString);
             startActivity(i);
         }
     };

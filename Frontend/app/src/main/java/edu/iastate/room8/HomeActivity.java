@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import edu.iastate.room8.utils.SessionManager;
 /**
@@ -34,6 +36,18 @@ public class HomeActivity extends AppCompatActivity {
      * Session manager
      */
     SessionManager sessionManager;
+    /**
+     * Text View with the name of the room
+     */
+    private TextView roomNameTextView;
+    /**
+     * Text View with the ID of the room
+     */
+    private TextView roomIdTextView;
+    /**
+     * Button that takes you to the settings page
+     */
+    private Button buttonSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +56,36 @@ public class HomeActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
-        sessionManager.checkRoom();
+//        sessionManager.checkRoom();
 
         tempButton = findViewById(R.id.tempButton);
         tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
         tempButtonSchedule = findViewById(R.id.tempButtonSchedule);
         btnLogout = findViewById(R.id.btnLogout);
+        roomIdTextView = findViewById(R.id.RoomIdTextView);
+        roomNameTextView = findViewById(R.id.RoomNameTextView);
+        buttonSettings = findViewById(R.id.buttonSettings);
 
+        roomIdTextView.setText("Room ID: "+sessionManager.getRoomid());
+        roomNameTextView.setText("Room Name: "+sessionManager.getRoom());
+
+        if(sessionManager.getPermission()==null){
+            sessionManager.logout();
+        }else{
+            if(sessionManager.getPermission().equals("Owner")){
+                buttonSettings.setVisibility(View.VISIBLE);
+            }else{
+                buttonSettings.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        buttonSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeActivity.this, RoomSettingsActivity.class);
+                startActivity(i);
+            }
+        });
         tempButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -94,6 +94,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * ids of the rooms parsed
      */
     private ArrayList<String> ids;
+    /**
+     * Holds permissions for users
+     */
+    private ArrayList<String> permissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +120,9 @@ public class NewUserRoomJoin extends AppCompatActivity {
         items = new ArrayList<String>();
 
         //TODO: Right from the start we need to json get all the rooms that the user is a part of and add them to items and sessionsManager.
-        items.add("Test Room 1");
-        items.add("Test Room 2");
+        items.add("Test Room 1 Owner");
+        items.add("Test Room 2 Editor");
+        items.add("Test Room 3 Viewer");
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         list.setAdapter(adapter);
@@ -125,13 +130,19 @@ public class NewUserRoomJoin extends AppCompatActivity {
         ids = new ArrayList<String>();
         ids.add("1");
         ids.add("2");
+        ids.add("3");
+
+        permissions = new ArrayList<>();
+        permissions.add("Owner");
+        permissions.add("Editor");
+        permissions.add("Viewer");
 
         sessionManager.addRoom("Test Room 1", "1");
         sessionManager.addRoom("Test Room 2", "2");
 
 
 
-        jsonParse();
+        //jsonParse();
 
         newRoomCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +153,8 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     postRequestCreate();
                     items.clear();
                     ids.clear();
-                    jsonParse();
+                    permissions.clear();
+                    //jsonParse();
                 }
             }
         });
@@ -170,7 +182,9 @@ public class NewUserRoomJoin extends AppCompatActivity {
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            sessionManager.setRoom(ids.get(position));
+            sessionManager.setRoom(items.get(position));
+            sessionManager.setRoomid(ids.get(position));
+            sessionManager.setPermission(permissions.get(position));
             Intent i = new Intent(NewUserRoomJoin.this, HomeActivity.class);
             startActivity(i);
         }
@@ -197,6 +211,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 ids.add(List.getString("Id"));
+                                permissions.add(List.getString("Permission"));
                                 sessionManager.addRoom(List.getString("Title"), List.getString("Id"));
                             }
                             adapter.notifyDataSetChanged();
@@ -234,14 +249,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
-
-//                        try {
-//                            sessionManager.addRoom(response.getString("RoomId"));
-//                            Intent j = new Intent(NewUserRoomJoin.this, HomeActivity.class);
-//                            startActivity(j);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -318,11 +325,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * Sends Keys: Title, RoomId
      */
     private void postRequestJoin() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/join";
         url = url + "/" + sessionManager.getID();
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("User", sessionManager.getID());
         params.put("RoomId", joinRoomEditText.getText().toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -337,6 +343,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 //sessionManager.addRoom(joinRoomEditText.getText().toString());
                                 items.clear();
                                 ids.clear();
+                                permissions.clear();
                                 jsonParse();
                             }else{
                                 Toast.makeText(NewUserRoomJoin.this, "Room does not exist!", Toast.LENGTH_SHORT).show();
