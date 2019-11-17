@@ -32,4 +32,13 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Click on a user to switch them from a Viewer to an Editor or an Editor to a Viewer" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="Delete Room" />
 </RelativeLayout>
