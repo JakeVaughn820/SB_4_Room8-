@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.ServerEndpoint;
+
 import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,6 @@ public class DatabaseApplication {
 	  class GreetingController implements ErrorController {
 			
 //		  @Autowired private RoomListService roomListService;
-//		  @Autowired private BulletinService bulletinService;
 		  @Autowired private RoomsService roomService;
 		  @Autowired private UserService userService;
 		  @Autowired private ErrorAttributes errorAttributes;

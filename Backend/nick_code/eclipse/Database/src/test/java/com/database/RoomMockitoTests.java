@@ -18,7 +18,7 @@ import com.database.rooms.RoomsRepository;
 import com.database.rooms.RoomsService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RoomMockitoTests 
 {
 	@Autowired

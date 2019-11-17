@@ -1,4 +1,4 @@
-package com.database;
+package com.database.websockets;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Websocket handler, Setups and runs websocket. a
+ * Websocket handler, Setups and runs websocket. 
  * 
  * @author Nickolas Mitchell
  */

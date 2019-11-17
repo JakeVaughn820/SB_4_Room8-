@@ -17,7 +17,7 @@ import com.database.user.UserRepository;
 import com.database.user.UserService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UsersMockitoTests 
 {
 	@Autowired
