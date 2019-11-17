@@ -17,14 +17,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * Websocket handler, Setups and runs websocket. 
+ * Websocket handler, Setups and runs websocket.
  * 
  * @author Nickolas Mitchell
  */
-@ServerEndpoint("/room/{username}")	
+@ServerEndpoint("/room/{username}")
 @Component
-public class WebSocketServer 
-{
+public class WebSocketServer {
 
 	// Store all socket session's and their corresponding username's.
 	private static Map<Session, String> sessionUsernameMap = new HashMap<>();
@@ -33,21 +32,15 @@ public class WebSocketServer
 	private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
 
 	@OnOpen
-	public void onOpen(Session session, @PathParam("username") String username, @PathParam("roomid") String roomid) throws IOException, InterruptedException {
+	public void onOpen(Session session, @PathParam("username") String username, @PathParam("roomid") String roomid)
+			throws IOException, InterruptedException {
 		logger.info("Entered into Open");
-
-//		if(sessionUsernameMap.containsKey(username))
-//			broadcast("This username is already in use, please choose another");
-//		else
-//		{
-			sessionUsernameMap.put(session, username);
-			usernameSessionMap.put(username, session);
-			Thread.sleep(500);
-//		}
+		sessionUsernameMap.put(session, username);
+		usernameSessionMap.put(username, session);
+		Thread.sleep(500);
 
 		String message = "User:" + username + " has Joined the Chat";
 		broadcast(message);
-
 	}
 
 	@OnMessage
