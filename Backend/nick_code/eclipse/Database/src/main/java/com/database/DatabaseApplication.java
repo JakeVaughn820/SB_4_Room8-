@@ -157,11 +157,18 @@ public class DatabaseApplication {
 			  JSONObject body = new JSONObject(item);
 			  String Title = body.getString("Title");
 			  Rooms toAdd = new Rooms(Title);
+			  System.out.println("Created Room object " + toAdd);
 			  roomService.addRoom(toAdd);
-			  Long roomsId = toAdd.getId();  
+			  System.out.println("Added " + toAdd + " to the database");
+			  Long roomsId = toAdd.getId(); 
+			  System.out.println("Get room id " + roomsId);
 			  Long userId = Long.valueOf(user);
+			  System.out.println("Get user id " + userId);
 			  RoomMembers adding = new RoomMembers(userId, roomsId, "Owner");
+			  System.out.println("Create room members object " + adding);
 			  roomMembersService.addRoomMembers(adding);
+			  System.out.println("Add room members object to datababse" + adding);
+
 			 // adding.setUserRole("Owner");
 			  //return "{\"Response\":\"Success\"}";
 		  }

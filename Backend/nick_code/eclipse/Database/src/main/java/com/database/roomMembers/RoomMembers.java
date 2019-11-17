@@ -155,6 +155,12 @@ public class RoomMembers
 			this.userRole = userRole; 
 	}
 	
+	@Override 
+	public String toString()
+	{
+		return "RoomId: " + roomId + " userId: "+ userId; 
+	}
+	
 	@Override
 	public boolean equals(Object o)
 	{
