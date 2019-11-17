@@ -162,7 +162,7 @@ public class DatabaseApplication {
 			  Long userId = Long.valueOf(user);
 			  RoomMembers adding = new RoomMembers(userId, roomsId, "Owner");
 			  roomMembersService.addRoomMembers(adding);
-			  adding.setUserRole("Owner");
+			 // adding.setUserRole("Owner");
 			  //return "{\"Response\":\"Success\"}";
 		  }
 		  
