@@ -59,4 +59,23 @@
                 android:textSize="24sp" />
         </LinearLayout>
     </ScrollView>
+
+<!--    <Button-->
+<!--        android:id="@+id/buttonConnect"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@id/messageToAdd"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:text="Connect" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/editTextConnect"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentTop="true"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:hint="Enter Name"/>-->
 </RelativeLayout>

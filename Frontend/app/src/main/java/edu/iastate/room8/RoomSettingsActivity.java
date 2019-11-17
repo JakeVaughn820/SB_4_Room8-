@@ -146,6 +146,10 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
         mQueue.add(request);
     }
 
+    public JSONObject jsonGetRoomSettings(){
+        return null;
+    }
+
     /**
      * PostRequest that tells the server it wants to change the users permission
      * Sends Keys:

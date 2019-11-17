@@ -1,5 +1,7 @@
 package edu.iastate.room8;
 
+import android.view.View;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -136,150 +138,110 @@ public class PaulMockitoTest {
         Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
     }
 
-//    /**
-//     * Testing with permissions between users
-//     */
-//    @Test
-//    public void PermissionTest1() throws JSONException{
-//        HomeActivity test = mock(HomeActivity.class);
-////        SessionManager sessionManager = new SessionManager(test);
-////        sessionManager.setPermission("Owner");
-////        sessionManager.setRoomid("1");
-////        sessionManager.setRoom("Room");
-//
-////        when(test.jsonGetSchedule()).thenReturn(response); dont need when for this test, just need to mock the class
-//
-//        Assert.assertEquals(test.getButtonVisibility(), 1);
-//    }
-//    /**
-//     * Testing with permissions between users
-//     */
-//    @Test
-//    public void PermissionTest2() throws JSONException{
-//        DayActivity test = mock(DayActivity.class);
-//
-//        String day = "14";
-//        String month = "12";
-//        String year = "1998";
-//        String date = month + "/" + day + "/" + year;
-//
-//        JSONObject response = new JSONObject();
-//
-//        response.put("StartTime", "2:00pm");
-//        response.put("EndTime", "3:00pm");
-//        response.put("EventName", "Demo");
-//        response.put("User", "Paul");
-//
-//        when(test.jsonGetSchedule()).thenReturn(response);
-//
-//        Assert.assertNotEquals(response.getString("StartTime"), test.jsonGetSchedule().getString("EndTime"));
-//        Assert.assertNotEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("StartTime"));
-//        Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
-//    }
-//    /**
-//     * Testing with permissions between users
-//     */
-//    @Test
-//    public void PermissionTest3() throws JSONException{
-//        DayActivity test = mock(DayActivity.class);
-//
-//        String day = "14";
-//        String month = "12";
-//        String year = "1998";
-//        String date = month + "/" + day + "/" + year;
-//
-//        JSONObject response = new JSONObject();
-//
-//        response.put("StartTime", "2:00pm");
-//        response.put("EndTime", "3:00pm");
-//        response.put("EventName", "Demo");
-//        response.put("User", "Paul");
-//
-//        when(test.jsonGetSchedule()).thenReturn(response);
-//
-//        Assert.assertNotEquals(response.getString("StartTime"), test.jsonGetSchedule().getString("EndTime"));
-//        Assert.assertNotEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("StartTime"));
-//        Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
-//    }
-//    /**
-//     * Testing with permissions between users
-//     */
-//    @Test
-//    public void PermissionTest4() throws JSONException{
-//        DayActivity test = mock(DayActivity.class);
-//
-//        String day = "14";
-//        String month = "12";
-//        String year = "1998";
-//        String date = month + "/" + day + "/" + year;
-//
-//        JSONObject response = new JSONObject();
-//
-//        response.put("StartTime", "2:00pm");
-//        response.put("EndTime", "3:00pm");
-//        response.put("EventName", "Demo");
-//        response.put("User", "Paul");
-//
-//        when(test.jsonGetSchedule()).thenReturn(response);
-//
-//        Assert.assertNotEquals(response.getString("StartTime"), test.jsonGetSchedule().getString("EndTime"));
-//        Assert.assertNotEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("StartTime"));
-//        Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
-//    }
-//
-//    /**
-//     * Testing with subtasks
-//     */
-//    @Test
-//    public void SubtaskTest() throws JSONException{
-//        DayActivity test = mock(DayActivity.class);
-//
-//        String day = "14";
-//        String month = "12";
-//        String year = "1998";
-//        String date = month + "/" + day + "/" + year;
-//
-//        JSONObject response = new JSONObject();
-//
-//        response.put("StartTime", "2:00pm");
-//        response.put("EndTime", "3:00pm");
-//        response.put("EventName", "Demo");
-//        response.put("User", "Paul");
-//
-//        when(test.jsonGetSchedule()).thenReturn(response);
-//
-//        Assert.assertNotEquals(response.getString("StartTime"), test.jsonGetSchedule().getString("EndTime"));
-//        Assert.assertNotEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("StartTime"));
-//        Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
-//    }
-//    /**
-//     * Testing for room settings
-//     */
-//    @Test
-//    public void RoomSettingsTest() throws JSONException{
-//        DayActivity test = mock(DayActivity.class);
-//
-//        String day = "14";
-//        String month = "12";
-//        String year = "1998";
-//        String date = month + "/" + day + "/" + year;
-//
-//        JSONObject response = new JSONObject();
-//
-//        response.put("StartTime", "2:00pm");
-//        response.put("EndTime", "3:00pm");
-//        response.put("EventName", "Demo");
-//        response.put("User", "Paul");
-//
-//        when(test.jsonGetSchedule()).thenReturn(response);
-//
-//        Assert.assertNotEquals(response.getString("StartTime"), test.jsonGetSchedule().getString("EndTime"));
-//        Assert.assertNotEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("StartTime"));
-//        Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
-//    }
+    /**
+     * Testing with permissions between users
+     */
+    @Test
+    public void PermissionTest1() throws JSONException{
+        HomeActivity test = mock(HomeActivity.class);
+//        SessionManager sessionManager = new SessionManager(test);
+//        sessionManager.setPermission("Owner");
+//        sessionManager.setRoomid("1");
+//        sessionManager.setRoom("Room");
+
+        when(test.getPermissionHome()).thenReturn("Owner");
+
+        test.setPermissionForTesting("Owner");
+        String temp = test.getPermissionHome();
+
+        Assert.assertEquals("Owner", temp);
+
+        Assert.assertEquals(View.VISIBLE, test.getButtonVisibility());
+        Assert.assertNotEquals(View.INVISIBLE, test.getButtonVisibility());
+    }
+    /**
+     * Testing with permissions between users
+     */
+    @Test
+    public void PermissionTest2() throws JSONException{
+        HomeActivity test = mock(HomeActivity.class);
+//        SessionManager sessionManager = new SessionManager(test);
+//        sessionManager.setPermission("Owner");
+//        sessionManager.setRoomid("1");
+//        sessionManager.setRoom("Room");
+
+        when(test.getPermissionHome()).thenReturn("Editor");
+
+        test.setPermissionForTesting("Editor");
+        String temp = test.getPermissionHome();
+
+        Assert.assertEquals("Editor", temp);
+
+        Assert.assertEquals(View.VISIBLE, test.getButtonVisibility());
+        Assert.assertNotEquals(View.INVISIBLE, test.getButtonVisibility());
+    }
+    /**
+     * Testing with permissions between users
+     */
+    @Test
+    public void PermissionTest3() throws JSONException{
+        HomeActivity test = mock(HomeActivity.class);
+//        SessionManager sessionManager = new SessionManager(test);
+//        sessionManager.setPermission("Owner");
+//        sessionManager.setRoomid("1");
+//        sessionManager.setRoom("Room");
+        when(test.getPermissionHome()).thenReturn("Viewer");
+
+        test.setPermissionForTesting("Viewer");
+        String temp = test.getPermissionHome();
+
+        Assert.assertEquals("Viewer", temp);
+
+        Assert.assertEquals(View.VISIBLE, test.getButtonVisibility());
+        Assert.assertNotEquals(View.INVISIBLE, test.getButtonVisibility());
+    }
+
+
+    /**
+     * Testing with subtasks
+     */
+    @Test
+    public void SubtaskTest() throws JSONException{
+        SubtaskActivity test = mock(SubtaskActivity.class);
+
+        String contents = "Subtask Test Task";
+        String day = "Today";
+        JSONObject response = new JSONObject();
+
+        response.put("contents", contents);
+        response.put("dateCreate", day);
+        when(test.jsonGetSubtask()).thenReturn(response);
+
+        Assert.assertEquals(response.getString("contents"), test.jsonGetSubtask().getString("contents"));
+        Assert.assertEquals(response.getString("dateCreate"), test.jsonGetSubtask().getString("dateCreate"));
+        Assert.assertNotEquals(response.getString("contents"), test.jsonGetSubtask().getString("dateCreate"));
+        Assert.assertNotEquals(response.getString("dateCreate"), test.jsonGetSubtask().getString("contents"));
+    }
+    /**
+     * Testing for room settings
+     */
+    @Test
+    public void RoomSettingsTest() throws JSONException{
+        RoomSettingsActivity test = mock(RoomSettingsActivity.class);
+
+        String user = "Paul";
+        String permission = "Owner";
+
+        JSONObject response = new JSONObject();
+
+        response.put("User", user);
+        response.put("Permission", permission);
+
+        when(test.jsonGetRoomSettings()).thenReturn(response);
+
+        Assert.assertEquals(response.getString("User"), test.jsonGetRoomSettings().getString("User"));
+        Assert.assertEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("Permission"));
+        Assert.assertNotEquals(response.getString("User"), test.jsonGetRoomSettings().getString("Permission"));
+        Assert.assertNotEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("User"));
+    }
 }
