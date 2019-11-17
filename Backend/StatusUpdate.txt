@@ -8,4 +8,13 @@ Status Update (11/10/2019)
 
 *Fixed serveral bugs relating to obsolute varibles. 
 
-*Fully tested users login and registration (They both work with the above changes) 
+*Fully tested users login and registration (They both work with the above changes)
+
+
+
+Status Update (11/17/2019)
+
+*Since last Monday I've been debugging the java.lang.long issue. I have worked several hours each and every day since this issue first showed up Monday. 
+I have not been successful in fixing this issue. 
+
+*Inbetween debugging the above issue I have been setting up our websocket to replace our bulletin with a chat.   
