@@ -48,6 +48,10 @@ public class HomeActivity extends AppCompatActivity {
      * Button that takes you to the settings page
      */
     private Button buttonSettings;
+    /**
+     * Button that takes you to the user settings page
+     */
+    private Button btnUserSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         roomIdTextView = findViewById(R.id.RoomIdTextView);
         roomNameTextView = findViewById(R.id.RoomNameTextView);
         buttonSettings = findViewById(R.id.buttonSettings);
+        btnUserSettings = findViewById(R.id.btnUserSettings);
 
         roomIdTextView.setText("Room ID: "+sessionManager.getRoomid());
         roomNameTextView.setText("Room Name: "+sessionManager.getRoom());
@@ -83,6 +88,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HomeActivity.this, RoomSettingsActivity.class);
+                startActivity(i);
+            }
+        });
+        btnUserSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeActivity.this, SettingsActivity.class);
                 startActivity(i);
             }
         });

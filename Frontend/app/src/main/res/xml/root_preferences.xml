@@ -1,0 +1,65 @@
+<!--
+  ~ Copyright 2018 The app Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="User Preferences">
+
+        <EditTextPreference
+            app:key="userName"
+            app:title="Change Username"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="userEmail"
+            app:title="Change Email"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="userPass"
+            app:title="Change Password"
+            app:useSimpleSummaryProvider="true" />
+
+
+        <ListPreference
+            app:defaultValue="reply"
+            app:entries="@array/reply_entries"
+            app:entryValues="@array/reply_values"
+            app:key="reply"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Notifications">
+
+        <SwitchPreferenceCompat
+            app:key="Notifications"
+            app:title="Notifications" />
+
+        <SwitchPreferenceCompat
+            app:dependency="Notifications"
+            app:key="Post_Notifications"
+            app:title="Post Notifications" />
+
+        <SwitchPreferenceCompat
+            app:dependency="Notifications"
+            app:key="Email_Notifications"
+            app:summaryOff="Email Notifications are off"
+            app:summaryOn="Email Notifications are on"
+            app:title="Email Notifications" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
