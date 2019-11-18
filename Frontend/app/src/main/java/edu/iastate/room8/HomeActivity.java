@@ -33,6 +33,10 @@ public class HomeActivity extends AppCompatActivity {
      */
     private Button btnLogout;
     /**
+     * Button used to LeaveRoom
+     */
+    private Button btnLeaveRoom;
+    /**
      * Session manager
      */
     SessionManager sessionManager;
@@ -62,6 +66,7 @@ public class HomeActivity extends AppCompatActivity {
         tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
         tempButtonSchedule = findViewById(R.id.tempButtonSchedule);
         btnLogout = findViewById(R.id.btnLogout);
+        btnLeaveRoom = findViewById(R.id.btnLeaveRoom);
         roomIdTextView = findViewById(R.id.RoomIdTextView);
         roomNameTextView = findViewById(R.id.RoomNameTextView);
         buttonSettings = findViewById(R.id.buttonSettings);
@@ -103,6 +108,12 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 sessionManager.logout();
+            }
+        });
+        btnLeaveRoom.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                sessionManager.leaveRoom();
             }
         });
     }
