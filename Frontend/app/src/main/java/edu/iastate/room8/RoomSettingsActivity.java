@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -65,6 +66,10 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
      */
     SessionManager sessionManager;
     /**
+     * Deletes room when clicked
+     */
+    private Button deleteRoom;
+    /**
      *     These tags will be used to cancel the requests
      */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -73,6 +78,7 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_settings);
         itemsList = findViewById(R.id.userList);
+        deleteRoom = findViewById(R.id.deleteRoom);
 
         sessionManager = new SessionManager(this);
 
@@ -86,6 +92,14 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
 
 
         itemsList.setOnItemClickListener(messageClickedHandler);
+
+        deleteRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                postRequestDelete();
+                sessionManager.logout();
+            }
+        });
 
         jsonParse();
 
@@ -160,6 +174,47 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
         Map<String, String> params = new HashMap<String, String>();
         params.put("Title", user);
         params.put("Description", permission);
+        JSONObject toPost = new JSONObject(params);
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, toPost,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Title", "ye");
+                params.put("Description","if u see this i messed up");
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
+    /**
+     * PostRequest that tells the server it wants to change the users permission
+     * Sends Keys:
+     */
+    private void postRequestDelete() {
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/delete";
+        url = url + "/" + sessionManager.getID();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("RoomId", sessionManager.getRoomid());
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,

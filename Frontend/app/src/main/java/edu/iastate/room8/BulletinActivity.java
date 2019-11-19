@@ -399,15 +399,11 @@ public class BulletinActivity extends AppCompatActivity {
         editText.setText("");
     }
 
+    /**
+     * Web socket that was created to be used with the backend
+     */
     public void webSocketWithBackend(){
         Draft[] drafts = {new Draft_6455()};
-
-        /**
-         * If running this on an android device, make sure it is on the same network as your
-         * computer, and change the ip address to that of your computer.
-         * If running on the emulator, you can use localhost.
-         */
-//                String w = "ws://10.26.13.93:8080/websocket/"+editTextConnect.getText().toString();
         String w = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         w = w + "/" + sessionManager.getName();
         try {
@@ -417,12 +413,9 @@ public class BulletinActivity extends AppCompatActivity {
                 public void onMessage(String message) {
                     Log.d("", "run() returned: " + message);
                     String s=textView.getText().toString();
-                    //t1.setText("hello world");
-                    //Log.d("first", "run() returned: " + s);
-                    //s=t1.getText().toString();
-                    //Log.d("second", "run() returned: " + s);
+
                     String messageTemp = message + "\n";
-                    textView.setText(s+messageTemp);
+                    textView.setText(messageTemp+s);
                 }
 
                 @Override

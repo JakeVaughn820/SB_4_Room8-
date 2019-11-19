@@ -112,8 +112,9 @@ public class NewListActivity extends AppCompatActivity {
      * Sends Keys: Title, Description
      */
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
-        //TODO add the extension
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addlist";
+        url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID()+ "/";
+        Toast.makeText(this, url, Toast.LENGTH_LONG).show();
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("Title", newListNameString);
@@ -121,7 +122,7 @@ public class NewListActivity extends AppCompatActivity {
 //        Toast.makeText(this, params.get("Title"), Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this, params.get("Description"), Toast.LENGTH_SHORT).show();
         JSONObject toPost = new JSONObject(params);
-//        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, toPost.toString(), Toast.LENGTH_LONG).show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
                 new Response.Listener<JSONObject>() {
