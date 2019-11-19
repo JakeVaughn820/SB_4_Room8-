@@ -238,7 +238,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
     private void postRequestCreate() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
-
         Map<String, String> params = new HashMap<String, String>();
 //        params.put("User", sessionManager.getID());
         params.put("Title", newRoomCreateEditText.getText().toString());
