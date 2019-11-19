@@ -1,13 +1,19 @@
 package com.database.user;
 
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
+import com.database.roomMembers.RoomMembers;
+
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * This class provides the implementation for the users entity.
@@ -42,6 +48,12 @@ public class User {
 	 */
 	@Column(name = "password")
 	private String Password;
+	
+	/**
+	 * Room members stuff
+	 */
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<RoomMembers> roomMembers; 
 
 	/**
 	 * Default constructor
@@ -132,6 +144,14 @@ public class User {
 	 */
 	public void setPassword(String pswd) {
 		this.Password = pswd;
+	}
+	
+	public Set<RoomMembers> getRoomMembers() {
+		return roomMembers;
+	}
+
+	public void setRoomMembers(Set<RoomMembers> roomMembers) {
+		this.roomMembers = roomMembers;
 	}
 
 	/**

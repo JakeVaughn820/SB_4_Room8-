@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.database.rooms.Rooms;
 //import com.database.rooms.RoomsRepository;
+import com.database.user.User;
 
 
 /**
@@ -49,12 +50,6 @@ public class RoomMembersService
 	{
 		return roomMembersRepository.findRoomsByUserId(userId); 
 	}
-	
-//	List<Rooms> getRooms()
-	{
-		
-	}
-
 	
 	/**
 	 * Deletes a roomMembers object from the database.

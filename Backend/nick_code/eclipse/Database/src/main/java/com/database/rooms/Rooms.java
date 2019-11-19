@@ -2,12 +2,19 @@ package com.database.rooms;
 
 
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.database.roomMembers.RoomMembers;
 
 /**
  * This class implements the rooms entity. 
@@ -31,6 +38,13 @@ public class Rooms
 	 */
 	@Column(name="title")
 	public String title;
+	
+	/**
+	 * @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    private Set<BookPublisher> bookPublishers = new HashSet<>();
+	 */
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+	private Set<RoomMembers> roomMembers = new HashSet<>(); 
 
 	/**
 	 * Default Constructor.
@@ -88,6 +102,14 @@ public class Rooms
 	public String getTitle()
 	{
 		return this.title; 
+	}
+	
+	public Set<RoomMembers> getRoomMembers() {
+		return roomMembers;
+	}
+
+	public void setRoomMembers(Set<RoomMembers> roomMembers) {
+		this.roomMembers = roomMembers;
 	}
 
 	/**
