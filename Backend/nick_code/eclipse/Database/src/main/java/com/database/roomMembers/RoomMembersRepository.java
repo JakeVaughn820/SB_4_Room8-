@@ -22,8 +22,8 @@ public interface RoomMembersRepository extends JpaRepository<RoomMembers, Long>
 	//select * from RoomMembers u where u.user_id in :user_id
 	
 	
-	@Query(value = "SELECT * FROM RoomMembers WHERE user_id = ?1", nativeQuery = true)
-	List<Rooms> findRoomsByUserId(@Param("user_id") Long userId);
+	@Query(value = "SELECT * FROM room_members WHERE user_id = ?1", nativeQuery = true)
+	List<RoomMembers> findRoomsByUserId(@Param("user_id") Long userId);
 	
 //	@Query("select i from RoomMembers i where i.id = ?1")
 //	List<Rooms> getRooms(); 

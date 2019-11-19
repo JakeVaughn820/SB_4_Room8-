@@ -46,7 +46,8 @@ public class DatabaseApplication {
 	@RestController
 	class GreetingController implements ErrorController {
 
-//		  @Autowired private RoomListService roomListService;
+		@Autowired
+		private RoomListService roomListService;
 		@Autowired
 		private RoomsService roomService;
 		@Autowired
@@ -99,34 +100,14 @@ public class DatabaseApplication {
 		 */
 		@GetMapping("/getrooms/{user}")
 		public String getRooms(@PathVariable String user) {
-			System.out.println("-----Starting Get rooms endpoint-----");
-			System.out.println();
-			//Optional<User> tempUser = userService.findById(Long.parseLong(user));
-			System.out.println("----------Found user----------");
-			System.out.println();
-			//User currentUser = null;
-//			try {
-			//	currentUser = tempUser.get();
-//			} catch (NoSuchElementException e) {
-//				System.out.println("No such user exists");
-//			}
-			List<Rooms> rooms = roomMembersService.findRoomsByUserId(Long.parseLong(user));
-			//List<Rooms> rooms = roomMembersService.findRoomsByUserId(currentUser);
-			System.out.println("-----After searching for rooms a user is in.-----");
-			System.out.println();
+			List<Rooms> rooms = roomMembersService.findRoomsByUserId(Long.valueOf(user));
 			String ret = "{\"Rooms\":[";
 			if (rooms.isEmpty()) {
-				System.out.println("-----If statement checking if not rooms returned.-----");
-				System.out.println();
 				ret += " ";
 			}
 			for (Rooms temp : rooms) {
-				System.out.println("For loop making json deal");
-				System.out.println();
 				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Id\":\"" + temp.getId() + "\"},";
 			}
-			System.out.println("Rright before returning json thingy");
-			System.out.println();
 			ret = ret.substring(0, ret.length() - 1) + "]}";
 			return ret;
 		}
@@ -144,18 +125,18 @@ public class DatabaseApplication {
 			JSONObject body = new JSONObject(item);
 			String Title = body.getString("Title");
 			Rooms toAdd = new Rooms(Title);
-			//System.out.println("Created Room object " + toAdd);
+			// System.out.println("Created Room object " + toAdd);
 			roomService.addRoom(toAdd);
-			//System.out.println("Added " + toAdd + " to the database");
-			//Long roomsId = toAdd.getId();
-			//System.out.println("Get room id " + roomsId);
-			//Long userId = Long.valueOf(user);
-			//System.out.println("Get user id " + userId);
-			
+			// System.out.println("Added " + toAdd + " to the database");
+			// Long roomsId = toAdd.getId();
+			// System.out.println("Get room id " + roomsId);
+			// Long userId = Long.valueOf(user);
+			// System.out.println("Get user id " + userId);
+
 			Optional<User> admin = userService.findById(Long.valueOf(user));
-			User adminTemp = null; 
+			User adminTemp = null;
 			Optional<Rooms> room = roomService.findById(toAdd.getId());
-			Rooms roomTemp = null; 
+			Rooms roomTemp = null;
 
 			try {
 				adminTemp = admin.get();
@@ -168,12 +149,12 @@ public class DatabaseApplication {
 			} catch (NoSuchElementException e) {
 				System.out.println("No such room exits");
 			}
-			
+
 //			Long userId = adminTemp.getId();
 //			Long roomId = roomTemp.getId(); 
-			
+
 			RoomMembers roomMember = new RoomMembers(adminTemp, roomTemp, "OWNER");
-			
+
 			System.out.println("Create room members object " + roomMember);
 			roomMembersService.addRoomMembers(roomMember);
 			System.out.println("Add room members object to datababse" + roomMember);
