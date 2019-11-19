@@ -59,6 +59,11 @@ public class RoomMembersService
 		return toReturn; 
 	}
 	
+	public List<RoomMembers> findRoomMembersByRoomId(Long roomId)
+	{
+		return roomMembersRepository.findRoomMembersByRoomId(roomId); 
+	}
+	
 	public RoomMembers findRoomMemberByIds(Long userId, Long roomId) {
 		List<RoomMembers> temp = roomMembersRepository.findRoomMembersByUserId(userId);
 		for(RoomMembers x : temp)

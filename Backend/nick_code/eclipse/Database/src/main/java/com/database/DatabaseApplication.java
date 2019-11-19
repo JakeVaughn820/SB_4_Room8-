@@ -158,15 +158,17 @@ public class DatabaseApplication {
 		 * @param item
 		 * @return
 		 */
-		  @PostMapping(path = "/room/delete/{user}")
-		  public String deleteRoom(@RequestBody String item, @PathVariable String user) {
+		  @PostMapping(path = "/room/kick/{user}")
+		  public String kickUser(@RequestBody String item, @PathVariable String user) {
 			JSONObject body = new JSONObject(item);
 			String RoomId = body.getString("RoomId");
+			String toKick = body.getString("UserId");
 			
-			RoomMembers toDel = roomMembersService.findRoomMemberByIds(Long.valueOf(user), Long.valueOf(RoomId));
+			RoomMembers toDel = roomMembersService.findRoomMemberByIds(Long.valueOf(toKick), Long.valueOf(RoomId));
+			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(Long.valueOf(user), Long.valueOf(RoomId));
 			if(toDel==null)
 				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
-			if(toDel.getUserRole().equals("OWNER")) {
+			if(isOwner.getUserRole().equals("OWNER")) {
 				roomMembersService.deleteById(toDel.getId());
 				return "{\"Response\":\"Success\"}";
 			}
@@ -203,6 +205,27 @@ public class DatabaseApplication {
 			System.out.println("Add room members object to datababse" + roomMember);
 			return "{\"Response\":\"Success\"}";
 		}
+		
+		@PostMapping(path = "/room/delete/{user}")
+		  public String deleteRoom(@RequestBody String item, @PathVariable String user) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(body.getString("RoomId"));
+			
+			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isOwner==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isOwner.getUserRole().equals("OWNER")) {
+				roomService.deleteById(roomId);
+				List<RoomMembers> temp = roomMembersService.findRoomMembersByRoomId(roomId);
+				for(RoomMembers x : temp) {
+					roomMembersService.deleteById(x.getId());
+				}
+				return "{\"Response\":\"Success\"}";
+			}
+			else
+				return "{\"Response\":\"User is not an OWNER\"}";
+		  }
 		
 		/**
 		 * User login, sends back whether the user exists and if the login was
