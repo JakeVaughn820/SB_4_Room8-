@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory app:title="User Preferences">
 
@@ -29,16 +30,7 @@
         <EditTextPreference
             app:key="userPass"
             app:title="Change Password"
-            app:useSimpleSummaryProvider="true" />
-
-
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="false" />
 
     </PreferenceCategory>
 
@@ -60,6 +52,14 @@
             app:summaryOn="Email Notifications are on"
             app:title="Email Notifications" />
 
+        <ListPreference
+            app:dependency="Notifications"
+            app:defaultValue="alert"
+            app:entries="@array/alert_entries"
+            app:entryValues="@array/alert_values"
+            app:key="alert"
+            app:title="Alerts"
+            app:useSimpleSummaryProvider="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>
