@@ -49,7 +49,7 @@ public class RoomMembersService
 
 	public List<Rooms> findRoomsByUserId(Long userId)
 	{
-		List<RoomMembers> temp = roomMembersRepository.findRoomsByUserId(userId);
+		List<RoomMembers> temp = roomMembersRepository.findRoomMembersByUserId(userId);
 		List<Rooms> toReturn = new ArrayList<Rooms>();
 		for(RoomMembers x : temp)
 		{
@@ -57,6 +57,16 @@ public class RoomMembersService
 			toReturn.add(room);
 		}
 		return toReturn; 
+	}
+	
+	public RoomMembers findRoomMemberByIds(Long userId, Long roomId) {
+		List<RoomMembers> temp = roomMembersRepository.findRoomMembersByUserId(userId);
+		for(RoomMembers x : temp)
+		{
+			if(x.getRoom().getId().equals(roomId) && x.getUser().getId().equals(userId))
+				return x;	
+		}
+		return null;
 	}
 	
 	/**
