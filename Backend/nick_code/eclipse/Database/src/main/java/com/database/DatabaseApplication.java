@@ -176,7 +176,7 @@ public class DatabaseApplication {
 				return "{\"Response\":\"User is not an OWNER\"}";
 		  }
 
-		@PostMapping(path = "/join/{user}", consumes = "application/json", produces = "application/json")
+		@PostMapping(path = "/room/join/{user}", consumes = "application/json", produces = "application/json")
 		public String joinRoom(@RequestBody String item, @PathVariable String user) {
 			JSONObject body = new JSONObject(item);
 			Long userId = Long.valueOf(user);
