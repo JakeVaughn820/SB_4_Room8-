@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.*;
 import org.springframework.stereotype.Repository;
 
 import com.database.rooms.Rooms;
+import com.database.user.User;
 
 /**
  * This interface holds the roomMembers repository. 
@@ -17,8 +18,11 @@ import com.database.rooms.Rooms;
  */
 @Repository
 public interface RoomMembersRepository extends JpaRepository<RoomMembers, Long> 
-{	
-	@Query(value = "select u from RoomMembers u where u.user_id in :user_id", nativeQuery = true)
+{	//"SELECT * FROM RoomMembers WHERE user_id = ?"
+	//select * from RoomMembers u where u.user_id in :user_id
+	
+	
+	@Query(value = "SELECT * FROM RoomMembers WHERE user_id = ?1", nativeQuery = true)
 	List<Rooms> findRoomsByUserId(@Param("user_id") Long userId);
 	
 //	@Query("select i from RoomMembers i where i.id = ?1")

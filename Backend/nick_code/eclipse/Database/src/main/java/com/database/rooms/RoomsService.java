@@ -39,17 +39,17 @@ public class RoomsService
 	 * @param roomId
 	 * @return
 	 */
-	public Optional<Rooms> getRoomById(Long roomId)
+	public Optional<Rooms> findById(Long roomId)
 	{
-		Optional<Rooms> room = null;
+		Optional<Rooms> user = null;
 		try {
-			room = roomsRepository.findById(roomId);
-			if (room.equals(null))
+			user = roomsRepository.findById(roomId);
+			if (user.equals(null))
 				throw new NullPointerException();
 		} catch (NullPointerException e) {
-			logger.info("Room does not exist");
+			logger.info("User does not exist");
 		}
-		return room;
+		return user;
 	}
 	
 	/**
