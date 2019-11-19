@@ -23,7 +23,7 @@ import com.database.user.User;
  * @author Nickolas Mitchell
  */
 @Entity
-@Table(name="room_members")
+@Table(name="RoomMembers")
 public class RoomMembers 
 {
 	/**

@@ -46,7 +46,8 @@ public class DatabaseApplication {
 	@RestController
 	class GreetingController implements ErrorController {
 
-//		  @Autowired private RoomListService roomListService;
+		@Autowired
+		private RoomListService roomListService;
 		@Autowired
 		private RoomsService roomService;
 		@Autowired
@@ -99,34 +100,14 @@ public class DatabaseApplication {
 		 */
 		@GetMapping("/getrooms/{user}")
 		public String getRooms(@PathVariable String user) {
-			System.out.println("-----Starting Get rooms endpoint-----");
-			System.out.println();
-			//Optional<User> tempUser = userService.findById(Long.parseLong(user));
-			System.out.println("----------Found user----------");
-			System.out.println();
-			//User currentUser = null;
-//			try {
-			//	currentUser = tempUser.get();
-//			} catch (NoSuchElementException e) {
-//				System.out.println("No such user exists");
-//			}
-			List<Rooms> rooms = roomMembersService.findRoomsByUserId(Long.parseLong(user));
-			//List<Rooms> rooms = roomMembersService.findRoomsByUserId(currentUser);
-			System.out.println("-----After searching for rooms a user is in.-----");
-			System.out.println();
+			List<Rooms> rooms = roomMembersService.findRoomsByUserId(Long.valueOf(user));
 			String ret = "{\"Rooms\":[";
 			if (rooms.isEmpty()) {
-				System.out.println("-----If statement checking if not rooms returned.-----");
-				System.out.println();
 				ret += " ";
 			}
 			for (Rooms temp : rooms) {
-				System.out.println("For loop making json deal");
-				System.out.println();
 				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Id\":\"" + temp.getId() + "\"},";
 			}
-			System.out.println("Rright before returning json thingy");
-			System.out.println();
 			ret = ret.substring(0, ret.length() - 1) + "]}";
 			return ret;
 		}
@@ -140,43 +121,34 @@ public class DatabaseApplication {
 		 * @return
 		 */
 		@PostMapping(path = "/room/{user}", consumes = "application/json", produces = "application/json")
-		public void addRoom(@RequestBody String item, @PathVariable String user) {
+		public String addRoom(@RequestBody String item, @PathVariable String user) {
 			JSONObject body = new JSONObject(item);
 			String Title = body.getString("Title");
 			Rooms toAdd = new Rooms(Title);
-			//System.out.println("Created Room object " + toAdd);
 			roomService.addRoom(toAdd);
-			//System.out.println("Added " + toAdd + " to the database");
-			//Long roomsId = toAdd.getId();
-			//System.out.println("Get room id " + roomsId);
-			//Long userId = Long.valueOf(user);
-			//System.out.println("Get user id " + userId);
-			
+
 			Optional<User> admin = userService.findById(Long.valueOf(user));
-			User adminTemp = null; 
+			User adminTemp = null;
 			Optional<Rooms> room = roomService.findById(toAdd.getId());
-			Rooms roomTemp = null; 
+			Rooms roomTemp = null;
 
 			try {
 				adminTemp = admin.get();
 			} catch (NoSuchElementException e) {
-				System.out.println("No such user exists");
-				return;
+				return "{\"Response\":\"No such user exists\"}";
 			}
 			try {
 				roomTemp = room.get();
 			} catch (NoSuchElementException e) {
-				System.out.println("No such room exits");
+				return "{\"Response\":\"No such room exists\"}";
 			}
 			
-//			Long userId = adminTemp.getId();
-//			Long roomId = roomTemp.getId(); 
-			
 			RoomMembers roomMember = new RoomMembers(adminTemp, roomTemp, "OWNER");
-			
+
 			System.out.println("Create room members object " + roomMember);
 			roomMembersService.addRoomMembers(roomMember);
 			System.out.println("Add room members object to datababse" + roomMember);
+			return "{\"Response\":\"Success\"}";
 		}
 
 		/**
@@ -186,13 +158,75 @@ public class DatabaseApplication {
 		 * @param item
 		 * @return
 		 */
-//		  @GetMapping(path = "/room/delete/{user}")
-//		  public String deleteRoom(@PathVariable Integer roomId, @PathVariable Integer userId)
-//		  {
-//			  RoomMembers roleCheck = roomMembersService.getRoomByRoomId(roomId, userId);
-//			  if()
-//		  }
+		  @PostMapping(path = "/room/kick/{user}")
+		  public String kickUser(@RequestBody String item, @PathVariable String user) {
+			JSONObject body = new JSONObject(item);
+			String RoomId = body.getString("RoomId");
+			String toKick = body.getString("UserId");
+			
+			RoomMembers toDel = roomMembersService.findRoomMemberByIds(Long.valueOf(toKick), Long.valueOf(RoomId));
+			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(Long.valueOf(user), Long.valueOf(RoomId));
+			if(toDel==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isOwner.getUserRole().equals("OWNER")) {
+				roomMembersService.deleteById(toDel.getId());
+				return "{\"Response\":\"Success\"}";
+			}
+			else
+				return "{\"Response\":\"User is not an OWNER\"}";
+		  }
 
+		@PostMapping(path = "/room/join/{user}", consumes = "application/json", produces = "application/json")
+		public String joinRoom(@RequestBody String item, @PathVariable String user) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(body.getString("RoomId"));
+			
+			Optional<User> admin = userService.findById(userId);
+			User adminTemp = null;
+			Optional<Rooms> room = roomService.findById(roomId);
+			Rooms roomTemp = null;
+
+			try {
+				adminTemp = admin.get();
+			} catch (NoSuchElementException e) {
+				return "{\"Response\":\"No such user exists\"}";
+			}
+			try {
+				roomTemp = room.get();
+			} catch (NoSuchElementException e) {
+				return "{\"Response\":\"No such room exists\"}";
+			}
+			
+			RoomMembers roomMember = new RoomMembers(adminTemp, roomTemp, "VIEWER");
+			
+			System.out.println("Create room members object " + roomMember);
+			roomMembersService.addRoomMembers(roomMember);
+			System.out.println("Add room members object to datababse" + roomMember);
+			return "{\"Response\":\"Success\"}";
+		}
+		
+		@PostMapping(path = "/room/delete/{user}")
+		  public String deleteRoom(@RequestBody String item, @PathVariable String user) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(body.getString("RoomId"));
+			
+			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isOwner==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isOwner.getUserRole().equals("OWNER")) {
+				roomService.deleteById(roomId);
+				List<RoomMembers> temp = roomMembersService.findRoomMembersByRoomId(roomId);
+				for(RoomMembers x : temp) {
+					roomMembersService.deleteById(x.getId());
+				}
+				return "{\"Response\":\"Success\"}";
+			}
+			else
+				return "{\"Response\":\"User is not an OWNER\"}";
+		  }
+		
 		/**
 		 * User login, sends back whether the user exists and if the login was
 		 * successful or not.

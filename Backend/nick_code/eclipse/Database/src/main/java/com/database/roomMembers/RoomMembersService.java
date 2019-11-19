@@ -1,5 +1,6 @@
 package com.database.roomMembers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,29 @@ public class RoomMembersService
 
 	public List<Rooms> findRoomsByUserId(Long userId)
 	{
-		return roomMembersRepository.findRoomsByUserId(userId); 
+		List<RoomMembers> temp = roomMembersRepository.findRoomMembersByUserId(userId);
+		List<Rooms> toReturn = new ArrayList<Rooms>();
+		for(RoomMembers x : temp)
+		{
+			Rooms room = x.getRoom();
+			toReturn.add(room);
+		}
+		return toReturn; 
+	}
+	
+	public List<RoomMembers> findRoomMembersByRoomId(Long roomId)
+	{
+		return roomMembersRepository.findRoomMembersByRoomId(roomId); 
+	}
+	
+	public RoomMembers findRoomMemberByIds(Long userId, Long roomId) {
+		List<RoomMembers> temp = roomMembersRepository.findRoomMembersByUserId(userId);
+		for(RoomMembers x : temp)
+		{
+			if(x.getRoom().getId().equals(roomId) && x.getUser().getId().equals(userId))
+				return x;	
+		}
+		return null;
 	}
 	
 	/**
