@@ -408,6 +408,36 @@ public class DatabaseApplication {
 			System.out.println("Add room members object to datababse" + roomMember);
 			return "{\"Response\":\"Success\"}";
 		}
+		
+		@GetMapping("/getroommembers/{room}/{user}/")
+		public String getRoomMembers(@PathVariable String room, @PathVariable String user) {
+			Long roomId = Long.valueOf(room);
+			Long userId = Long.valueOf(user);
+			
+			List<RoomMembers> roomMembers = new ArrayList<RoomMembers>();
+			String response = "";
+			
+			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(userId, roomId);
+			
+			if(isOwner==null)
+				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
+			else if(isOwner.getUserRole().equals("OWNER")) {
+				roomMembers = roomMembersService.findRoomMembersByRoomId(roomId);
+				response = "\"Response\":\"Success\"";
+			}
+			else 
+				response = "\"Response\":\"Current user does  not have permission to access this information\"";
+
+			String ret = "{\"Users\":[";
+			if (roomMembers.isEmpty()) {
+				ret += " ";
+			}
+			for (RoomMembers temp : roomMembers) {
+				ret += "{\"Name\":\"" + temp.getUser().getName() + "\",\"Email\":\"" + temp.getUser().getEmail() + "\",\"Role\":\"" + temp.getUserRole() + "\",\"Id\":\"" + temp.getUser().getId() + "\"},";
+			}
+			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
+			return ret;
+		}
 
 		/**
 		 * Kick User From Room. 
@@ -430,10 +460,42 @@ public class DatabaseApplication {
 			RoomMembers toDel = roomMembersService.findRoomMemberByIds(Long.valueOf(toKick), Long.valueOf(RoomId));
 			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(Long.valueOf(user), Long.valueOf(RoomId));
 			if(toDel==null)
-				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+				return "{\"Response\":\"No such RoomMembers object for given parameters (room and user being kicked)\"}";
+			else if(isOwner==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters (room and current user)\"}";
+			else if(!(isOwner.getRoom().equals(toDel.getRoom()))) //not in the same room
+				return "{\"Response\":\"Current user is not in the same room as the user being kicked\"}";
 			if(isOwner.getUserRole().equals("OWNER")) {
 				roomMembersService.deleteById(toDel.getId());
 				return "{\"Response\":\"Success\"}";
+			}
+			else
+				return "{\"Response\":\"User is not an OWNER\"}";
+		  }
+		  
+		  @PostMapping(path = "/room/setrole/{user}")
+		  public String setRole(@RequestBody String item, @PathVariable String user) {
+			JSONObject body = new JSONObject(item);
+			String RoomId = body.getString("RoomId");
+			String setUser = body.getString("UserId");
+			String role = body.getString("Role");
+			role = role.toUpperCase();
+			
+			RoomMembers toSet = roomMembersService.findRoomMemberByIds(Long.valueOf(setUser), Long.valueOf(RoomId));
+			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(Long.valueOf(user), Long.valueOf(RoomId));
+			if(toSet==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters (room and user being set)\"}";
+			else if(isOwner==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters (room and current user)\"}";
+			else if(!(isOwner.getRoom().equals(toSet.getRoom()))) //not in the same room
+				return "{\"Response\":\"Current user is not in the same room as the user being set\"}";
+			else if(isOwner.getUserRole().equals("OWNER")) {
+				if(role.equals("VIEWER") || role.equals("ROOMATE")) {
+					toSet.setUserRole(role);
+					return "{\"Response\":\"Success\"}";
+				}
+				else
+					return "{\"Response\":\"Invalid Role\"}";
 			}
 			else
 				return "{\"Response\":\"User is not an OWNER\"}";
