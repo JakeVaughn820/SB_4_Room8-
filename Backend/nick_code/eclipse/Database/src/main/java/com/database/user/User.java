@@ -1,6 +1,5 @@
 package com.database.user;
 
-
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -48,12 +47,12 @@ public class User {
 	 */
 	@Column(name = "password")
 	private String Password;
-	
+
 	/**
-	 * Room members stuff
+	 * Bidirectional Many to Many relationship with rooms. 
 	 */
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<RoomMembers> roomMembers; 
+	private Set<RoomMembers> roomMembers;
 
 	/**
 	 * Default constructor
@@ -145,11 +144,21 @@ public class User {
 	public void setPassword(String pswd) {
 		this.Password = pswd;
 	}
-	
+
+	/**
+	 * Returns roomMembers
+	 * 
+	 * @return
+	 */
 	public Set<RoomMembers> getRoomMembers() {
 		return roomMembers;
 	}
 
+	/**
+	 * Sets roomMembers
+	 * 
+	 * @param roomMembers
+	 */
 	public void setRoomMembers(Set<RoomMembers> roomMembers) {
 		this.roomMembers = roomMembers;
 	}
@@ -165,7 +174,7 @@ public class User {
 			return false;
 		User user = (User) o;
 		return this.id == user.id && this.Name.equals(user.Name) && this.Email.equals(user.Email)
-				&& this.Password.equals(user.Password);
+				&& this.Password.equals(user.Password) && this.roomMembers.equals(user.roomMembers);
 	}
 
 }

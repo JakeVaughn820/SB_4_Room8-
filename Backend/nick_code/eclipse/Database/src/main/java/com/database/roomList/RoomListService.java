@@ -64,6 +64,12 @@ public class RoomListService
         return true; 
     }
 
+    /**
+     * Returns all roomLists associated with the given room. 
+     * 
+     * @param roomId
+     * @return
+     */
 	public List<RoomList> findListByRoomId(Long roomId) {
 		return roomListRepository.findListByRoomId(roomId);
 	}
