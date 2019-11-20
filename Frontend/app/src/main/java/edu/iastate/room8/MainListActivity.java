@@ -63,6 +63,7 @@ public class MainListActivity extends AppCompatActivity {
      * Session Manager
      */
     SessionManager sessionManager;
+    private ArrayList<String> listid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class MainListActivity extends AppCompatActivity {
 
         items = new ArrayList<String>();
         description = new ArrayList<>();
+        listid = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
@@ -135,6 +137,7 @@ public class MainListActivity extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 description.add(List.getString("Description"));
+                                listid.add(List.getString("Id"));
 //                                Toast.makeText(MainListActivity.this, temp, Toast.LENGTH_SHORT).show();
                             }
                             adapter.notifyDataSetChanged();
@@ -161,6 +164,7 @@ public class MainListActivity extends AppCompatActivity {
             i.putExtra("EXTRA_INFORMATION", items.get(position));
             i.putExtra("WHICH", position);
             i.putExtra("DESCRIPTION_INFORMATION", description.get(position));
+            i.putExtra("LISTID", listid.get(position));
             startActivity(i);
         }
     };

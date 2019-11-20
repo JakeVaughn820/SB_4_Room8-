@@ -119,6 +119,10 @@ public class ListActivity extends AppCompatActivity {
      * mWebSocketClient used for connecting websocket to server.
      */
     private WebSocketClient mWebSocketClient;
+    /**
+     * Task ID array list
+     */
+    private ArrayList<String> taskID;
 
 
     @Override
@@ -142,6 +146,7 @@ public class ListActivity extends AppCompatActivity {
         titleForList.setText(title);
 
         items = new ArrayList<String>();
+        taskID = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
@@ -167,7 +172,7 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 newListItemNameString = newListItemName.getText().toString();
-//                postRequest();//TODO use this
+                postRequest();
 //                sendMessage(view);
                 newListItemName.setText("");
             }
@@ -193,20 +198,21 @@ public class ListActivity extends AppCompatActivity {
      */
     private void jsonParse() {
         //String url = "https://api.myjson.com/bins/jqfcl";
-        String url =""; //TODO has been changed to "" to show websocket experiment
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/gettasks";
+        url = url + "/" + sessionManager.getRoomid() + "/" + getIntent().getStringExtra("LISTID") + "/";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("List");
+                            JSONArray jsonArray = response.getJSONArray("TaskList");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
 
-                                items.add(List.getString("contents"));
-                                items.add(List.getString("dateCreate"));
+                                items.add(List.getString("Contents"));
+                                taskID.add(List.getString("Id"));
                             }
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
@@ -247,11 +253,11 @@ public class ListActivity extends AppCompatActivity {
      * Sending keys: ListName, Task
      */
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addtask";
+        url = url + "/" + sessionManager.getRoomid() + "/" + getIntent().getStringExtra("LISTID") + "/" + sessionManager.getID() + "/";
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("ListName", title);
-        params.put("Task", newListItemNameString);
+        params.put("Contents", newListItemNameString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
