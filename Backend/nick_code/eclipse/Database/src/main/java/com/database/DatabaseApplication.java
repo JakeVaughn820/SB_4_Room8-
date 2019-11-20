@@ -78,22 +78,13 @@ public class DatabaseApplication {
 			}
 			else
 				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
-			
-//			String ret = "{\"RoomLists\":[";
-//			  if(lists.isEmpty())
-//				  ret += " ";
-//			  for (RoomList temp : lists) {
-//				ret += temp.toString() + ",";
-//			  	}
-//			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
-//			return ret;
-			
+
 			String ret = "{\"RoomLists\":[";
 			if (lists.isEmpty()) {
 				ret += " ";
 			}
 			for (RoomList temp : lists) {
-				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription() + "\"},";
+				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription() + "\",\"Id\":\"" + temp.getId() + "\"},";
 			}
 			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;
