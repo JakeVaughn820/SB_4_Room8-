@@ -28,6 +28,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.roomList.*;
 import com.database.roomList.tasks.*;
+import com.database.roomList.tasks.subtasks.SubTasks;
+import com.database.roomList.tasks.subtasks.SubTasksService;
 import com.database.roomMembers.*;
 import com.database.rooms.*;
 import com.database.user.*;
@@ -60,7 +62,97 @@ public class DatabaseApplication {
 		private RoomMembersService roomMembersService;
 		@Autowired
 		private TasksService taskService;
+		@Autowired
+		private SubTasksService subTaskService;
 
+		/**
+		 * Takes in a room Id and returns the roomList for that room.
+		 * 
+		 * @param room
+		 * @return
+		 */
+		@GetMapping("/getsubtasks/{list}/{task}/")
+		public String getSubTasks(@PathVariable String list, @PathVariable String task) {
+			Long listId = Long.valueOf(list);
+			Long taskId = Long.valueOf(task);
+
+			List<SubTasks> subTasks = new ArrayList<SubTasks>();
+			String response = "";
+			
+			if(taskService.findTasksByListId(listId).isEmpty())
+				response =  "\"Response\":\"No such Task for given parameters\"";
+			else {
+				subTasks = subTaskService.findSubTasksByTaskId(taskId);
+				response = "\"Response\":\"Success\"";
+			}
+				
+			String ret = "{\"SubTaskList\":[";
+			if (subTasks.isEmpty()) {
+				ret += " ";
+			}
+			for (SubTasks temp : subTasks) {
+				ret += "{\"Contents\":\"" + temp.getContents() + "\",\"Id\":\"" + temp.getId() + "\"},";
+			}
+			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
+			return ret;
+		}
+
+		/**
+		 * Creates a new list in the provided room.
+		 * 
+		 * @param item
+		 * @param room
+		 * @param user
+		 * @return
+		 */
+		@PostMapping(path = "/addsubtask/{room}/{task}/{user}", consumes = "application/json", produces = "application/json")
+		public String addSubTask(@PathVariable("room") String room, @PathVariable("task") String task, @PathVariable("user") String user, @RequestBody String item) {
+			Long roomId = Long.valueOf(room);
+			Long userId = Long.valueOf(user);
+			Long taskId = Long.valueOf(task);
+			
+			JSONObject body = new JSONObject(item);
+			String Contents = body.getString("Contents");
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null) {
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			}
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have the permissions to take this action\"}";
+
+			Optional<Tasks> toAdd = taskService.findById(taskId);
+			Tasks toAddTemp = null;
+			
+			try {
+				toAddTemp = toAdd.get();
+			} catch (NoSuchElementException e) {
+				return "{\"Response\":\"No such Task exists\"}";
+			}
+			
+			subTaskService.addSubTask(new SubTasks(Contents, toAddTemp));
+			return "{\"Response\":\"Success\"}";
+			
+		}
+		
+		@PostMapping(path = "/deletesubtask/{room}/{user}", consumes = "application/json", produces = "application/json")
+		public String deleteSubTask(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(room);
+			Long subTaskId = Long.valueOf(body.getString("subTaskId"));
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have permission to complete this action\"}";
+			else {
+				subTaskService.deleteById(subTaskId);
+				return "{\"Response\":\"Success\"}";
+			}
+		 }
+		
 		/**
 		 * Takes in a room Id and returns the roomList for that room.
 		 * 
@@ -76,7 +168,7 @@ public class DatabaseApplication {
 			String response = "";
 			
 			if(roomListService.findListsByRoomId(roomId).isEmpty())
-				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
+				response =  "\"Response\":\"No such List for given parameters\"";
 			else {
 				tasks = taskService.findTasksByListId(listId);
 				response = "\"Response\":\"Success\"";
@@ -87,7 +179,7 @@ public class DatabaseApplication {
 				ret += " ";
 			}
 			for (Tasks temp : tasks) {
-				ret += "{\"Contents\":\"" + temp.getContents()  + "\",\"Id\":\"" + temp.getId() + "\"},";
+				ret += "{\"Contents\":\"" + temp.getContents() + "\",\"Id\":\"" + temp.getId() + "\"},";
 			}
 			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;
@@ -122,7 +214,7 @@ public class DatabaseApplication {
 			try {
 				toAddTemp = toAdd.get();
 			} catch (NoSuchElementException e) {
-				return "{\"Response\":\"No such user exists\"}";
+				return "{\"Response\":\"No such List exists\"}";
 			}
 			
 			taskService.addTask(new Tasks(Contents, toAddTemp));
@@ -130,7 +222,27 @@ public class DatabaseApplication {
 			
 		}
 		
-		
+		@PostMapping(path = "/deletetask/{room}/{user}", consumes = "application/json", produces = "application/json")
+		public String deleteTask(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(room);
+			Long taskId = Long.valueOf(body.getString("taskId"));
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have permission to complete this action\"}";
+			else {
+				List<SubTasks> temp = subTaskService.findSubTasksByTaskId(taskId);
+				for(SubTasks x : temp) {
+					subTaskService.deleteById(x.getId());
+				}
+				taskService.deleteById(taskId);
+				return "{\"Response\":\"Success\"}";
+			}
+		 }
 		
 		/**
 		 * Takes in a room Id and returns the roomList for that room.
@@ -205,6 +317,32 @@ public class DatabaseApplication {
 			return "{\"Response\":\"Success\"}";
 		}
 
+		@PostMapping(path = "/deletelist/{room}/{user}", consumes = "application/json", produces = "application/json")
+		public String deletelist(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(room);
+			Long listId = Long.valueOf(body.getString("listId"));
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have permission to complete this action\"}";
+			else {
+				List<Tasks> temp = taskService.findTasksByListId(listId);
+				for(Tasks x : temp) {
+					List<SubTasks> temp2 = subTaskService.findSubTasksByTaskId(x.getId());
+					for(SubTasks y : temp2) {
+						subTaskService.deleteById(y.getId());
+					}
+					taskService.deleteById(x.getId());
+				}
+				roomListService.deleteById(listId);
+				return "{\"Response\":\"Success\"}";
+			}
+		  }
+		
 		/**
 		 * Get Rooms.
 		 * 
@@ -270,6 +408,36 @@ public class DatabaseApplication {
 			System.out.println("Add room members object to datababse" + roomMember);
 			return "{\"Response\":\"Success\"}";
 		}
+		
+		@GetMapping("/getroommembers/{room}/{user}/")
+		public String getRoomMembers(@PathVariable String room, @PathVariable String user) {
+			Long roomId = Long.valueOf(room);
+			Long userId = Long.valueOf(user);
+			
+			List<RoomMembers> roomMembers = new ArrayList<RoomMembers>();
+			String response = "";
+			
+			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(userId, roomId);
+			
+			if(isOwner==null)
+				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
+			else if(isOwner.getUserRole().equals("OWNER")) {
+				roomMembers = roomMembersService.findRoomMembersByRoomId(roomId);
+				response = "\"Response\":\"Success\"";
+			}
+			else 
+				response = "\"Response\":\"Current user does  not have permission to access this information\"";
+
+			String ret = "{\"Users\":[";
+			if (roomMembers.isEmpty()) {
+				ret += " ";
+			}
+			for (RoomMembers temp : roomMembers) {
+				ret += "{\"Name\":\"" + temp.getUser().getName() + "\",\"Email\":\"" + temp.getUser().getEmail() + "\",\"Role\":\"" + temp.getUserRole() + "\",\"Id\":\"" + temp.getUser().getId() + "\"},";
+			}
+			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
+			return ret;
+		}
 
 		/**
 		 * Kick User From Room. 
@@ -292,10 +460,42 @@ public class DatabaseApplication {
 			RoomMembers toDel = roomMembersService.findRoomMemberByIds(Long.valueOf(toKick), Long.valueOf(RoomId));
 			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(Long.valueOf(user), Long.valueOf(RoomId));
 			if(toDel==null)
-				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+				return "{\"Response\":\"No such RoomMembers object for given parameters (room and user being kicked)\"}";
+			else if(isOwner==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters (room and current user)\"}";
+			else if(!(isOwner.getRoom().equals(toDel.getRoom()))) //not in the same room
+				return "{\"Response\":\"Current user is not in the same room as the user being kicked\"}";
 			if(isOwner.getUserRole().equals("OWNER")) {
 				roomMembersService.deleteById(toDel.getId());
 				return "{\"Response\":\"Success\"}";
+			}
+			else
+				return "{\"Response\":\"User is not an OWNER\"}";
+		  }
+		  
+		  @PostMapping(path = "/room/setrole/{user}")
+		  public String setRole(@RequestBody String item, @PathVariable String user) {
+			JSONObject body = new JSONObject(item);
+			String RoomId = body.getString("RoomId");
+			String setUser = body.getString("UserId");
+			String role = body.getString("Role");
+			role = role.toUpperCase();
+			
+			RoomMembers toSet = roomMembersService.findRoomMemberByIds(Long.valueOf(setUser), Long.valueOf(RoomId));
+			RoomMembers isOwner = roomMembersService.findRoomMemberByIds(Long.valueOf(user), Long.valueOf(RoomId));
+			if(toSet==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters (room and user being set)\"}";
+			else if(isOwner==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters (room and current user)\"}";
+			else if(!(isOwner.getRoom().equals(toSet.getRoom()))) //not in the same room
+				return "{\"Response\":\"Current user is not in the same room as the user being set\"}";
+			else if(isOwner.getUserRole().equals("OWNER")) {
+				if(role.equals("VIEWER") || role.equals("ROOMATE")) {
+					toSet.setUserRole(role);
+					return "{\"Response\":\"Success\"}";
+				}
+				else
+					return "{\"Response\":\"Invalid Role\"}";
 			}
 			else
 				return "{\"Response\":\"User is not an OWNER\"}";

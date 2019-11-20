@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,11 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.database.roomList.tasks.Tasks;
+
 /**
  * This class implements the subtasks entity. Each task can have 
  * multiple subtasks. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
 @Table(name="subtasks")
@@ -37,18 +40,11 @@ public class SubTasks
 	private String contents;
 
 	/**
-	 * Assigns each subtask to a user. A user can have multiple tasks.
-	 */
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = com.database.user.User.class)
-	@JoinColumn(name = "user_subtask_id", referencedColumnName = "id")
-	private List<Long> users;
-
-	/**
 	 * Holds the task this task was created in.
 	 */
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = com.database.roomList.tasks.Tasks.class)
+	@ManyToOne(targetEntity = com.database.roomList.tasks.Tasks.class)
 	@JoinColumn(name = "task_id", referencedColumnName = "id")
-	private Long task;
+	private Tasks task;
 
 	/**
 	 * Default Constructor
@@ -63,10 +59,9 @@ public class SubTasks
 	 * @param contents
 	 * @param users
 	 */
-	public SubTasks(String contents, Long users, Long task) 
+	public SubTasks(String contents, Tasks task) 
 	{
 		this.contents = contents;
-		this.users.add(users);
 		this.task = task;
 	}
 
@@ -89,20 +84,11 @@ public class SubTasks
 	}
 
 	/**
-	 * Gets the users associated with this subtask.
-	 * 
-	 * @return
-	 */
-	public List<Long> getUser() {
-		return users;
-	}
-
-	/**
 	 * Gets task Id associated with this subtask.
 	 * 
 	 * @return
 	 */
-	public Long getListId() {
+	public Tasks getTask() {
 		return task;
 	}
 
@@ -125,34 +111,12 @@ public class SubTasks
 	}
 
 	/**
-	 * Sets one user Id.
-	 *
-	 * @param userId
-	 */
-	public void setUserId(Long userId) {
-		users.add(userId);
-	}
-
-	/**
 	 * Sets the task Id.
 	 * 
 	 * @param task
 	 */
-	public void setListId(Long task) {
+	public void setListId(Tasks task) {
 		this.task = task;
-	}
-
-	/**
-	 * Returns: "User: " ~~~~ "Contents: " ~~~~~
-	 */
-	@Override
-	public String toString() {
-		String temp = "";
-		for (Long i : users) {
-			temp += "User: " + users.get(Math.toIntExact(i)) + "Contents: " + contents;
-			temp += "\n";
-		}
-		return temp;
 	}
 
 	/**
@@ -165,7 +129,7 @@ public class SubTasks
 		if (!(o instanceof SubTasks))
 			return false;
 		SubTasks subtask = (SubTasks) o;
-		return this.id == subtask.id && this.contents.equals(subtask.contents) && this.users.equals(subtask.users)
+		return this.id == subtask.id && this.contents.equals(subtask.contents)
 				&& this.task == subtask.task;
 	}
 

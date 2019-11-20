@@ -1,9 +1,18 @@
 package com.database.roomList.tasks;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.database.roomList.RoomList;
+import com.database.rooms.RoomsService;
+
+import com.database.roomList.RoomList;
+
 
 /**
  * This class implements the task repository.
@@ -16,7 +25,10 @@ public class TasksService {
 	 * Holds the task repository object.
 	 */
 	@Autowired
-	private TasksRepository taskRepository;
+	private TasksRepository taskRepository; 
+	
+	private final Logger logger = LoggerFactory.getLogger(RoomsService.class);
+	
 
 	/**
 	 * Gets all tasks in the database.
@@ -26,7 +38,20 @@ public class TasksService {
 	public List<Tasks> getTask() {
 		return taskRepository.findAll();
 	}
-
+	
+	public Optional<Tasks> findById(Long taskId)
+	{
+		Optional<Tasks> task = null;
+		try {
+			task = taskRepository.findById(taskId);
+			if (task.equals(null))
+				throw new NullPointerException();
+		} catch (NullPointerException e) {
+			logger.info("User does not exist");
+		}
+		return task;
+	}
+	
 	/**
 	 * Adds a task to the database.
 	 * 

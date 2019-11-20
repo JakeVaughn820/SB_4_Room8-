@@ -119,7 +119,8 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
             @Override
             public void onClick(View view) {
                 postRequestDelete();
-                sessionManager.logout();
+                sessionManager.removeRoom(sessionManager.getRoom(), sessionManager.getID());
+                sessionManager.leaveRoom();
             }
         });
 

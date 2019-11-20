@@ -60,20 +60,27 @@ public class SessionManager {
     /**
      * Constant name string
      */
-    public static final String NAME = "NAME";
+    private static final String NAME = "NAME";
     /**
      * Constant email string
      */
-    public static final String EMAIL = "EMAIL";
+    private static final String EMAIL = "EMAIL";
     /**
      * Constant ID string
      */
-    public static final String ID = "ID";
-
-    public static final String PERMISSION = "PERMISSION";
-
-    Set<String> RoomsSet = new HashSet<>();
-    Set<String> RoomsIDSet = new HashSet<>();
+    private static final String ID = "ID";
+    /**
+     * Constant Permissions String
+     */
+    private static final String PERMISSION = "PERMISSION";
+    /**
+     * Constant RoomsSet Set<String>
+     */
+    private Set<String> RoomsSet = new HashSet<>();
+    /**
+     * Constant RoomsEDSet Set<String>
+     */
+    private Set<String> RoomsIDSet = new HashSet<>();
 
 
     /**
@@ -171,6 +178,14 @@ public class SessionManager {
         editor.apply();
     }
     /**
+     * Sets permission
+     * @param permission permission of the user for this specific room
+     */
+    public void setPermission(String permission){
+        editor.putString(PERMISSION, permission);
+        editor.apply();
+    }
+    /**
      * Returns true if the user is in a room false if otherwise
      * @return returns if the user is in a room
      */
@@ -246,7 +261,11 @@ public class SessionManager {
     public String getID(){
         return sharedPreferences.getString(ID, null);
     }
-
+    /**
+     * Gets permission
+     * @return permission of the user for this specific room
+     */
+    public String getPermission(){ return sharedPreferences.getString(PERMISSION, null);}
     /**
      * Returns true if the user is logged in false if otherwise.
      * @return returns if the user is logged in
@@ -266,7 +285,6 @@ public class SessionManager {
             ((Activity) context).finish();
         }
     }
-
     /**
      * Returns all of the users Details as a HashMap<"Keyword", "Thing">
      * @return returns user details
@@ -283,18 +301,17 @@ public class SessionManager {
 
         return user;
     }
-
     /**
      * Leaves the current room and switches screen to NewUserRoomJoin.
      */
     public void leaveRoom(){
         editor.putString(ROOM, null);
+        editor.putString(ROOMID, null);
         editor.apply();
         Intent i = new Intent(context, NewUserRoomJoin.class);
         context.startActivity(i);
         ((Activity) context).finish();
     }
-
     /**
      * Removes the specified room from the ROOMS that the user is in
      * @param room is in a room that the user is in.
@@ -312,25 +329,6 @@ public class SessionManager {
             editor.apply();
         }
     }
-
-    /**
-     * Sets permission
-     * @param permission permission of the user for this specific room
-     */
-    public void setPermission(String permission){
-        editor.putString(PERMISSION, permission);
-        editor.apply();
-    }
-
-    /**
-     * Gets permission
-     * @return permission of the user for this specific room
-     */
-    public String getPermission(){
-        return sharedPreferences.getString(PERMISSION, null);
-
-    }
-
     /**
      * Logs out of the session clearing all of the users data from shared preferences.
      */

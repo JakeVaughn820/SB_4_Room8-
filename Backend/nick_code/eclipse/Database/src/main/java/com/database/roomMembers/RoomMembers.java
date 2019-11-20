@@ -45,7 +45,7 @@ public class RoomMembers {
 	private Rooms room;
 
 	/**
-	 * Holds the user role. A user can be an "Owner" "Roommate" or "Viewer"
+	 * Holds the user role. A user can be an "OWNER" "ROOMATE" or "VIEWER"
 	 */
 	@Column(name = "user_role")
 	public String userRole;

@@ -46,10 +46,10 @@ public class SettingsActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.settings, new SettingsFragment())
                 .commit();
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//        }
 
 
     }
