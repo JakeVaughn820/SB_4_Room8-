@@ -27,6 +27,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 
 import com.database.roomList.*;
+import com.database.roomList.tasks.*;
 import com.database.roomMembers.*;
 import com.database.rooms.*;
 import com.database.user.*;
@@ -34,7 +35,7 @@ import com.database.user.*;
 /**
  * This class contains all of our endpoints for communication.
  * 
- * @author Thane, Nick
+ * @author Thane Storley, Nick
  *
  */
 @SpringBootApplication
@@ -57,6 +58,8 @@ public class DatabaseApplication {
 		private ErrorAttributes errorAttributes;
 		@Autowired
 		private RoomMembersService roomMembersService;
+		@Autowired
+		private TasksService taskService;
 
 		/**
 		 * Takes in a room Id and returns the roomList for that room.
@@ -64,6 +67,71 @@ public class DatabaseApplication {
 		 * @param room
 		 * @return
 		 */
+		@GetMapping("/gettasks/{room}/{list}/")
+		public String gettasks(@PathVariable String room, @PathVariable String list) {
+			Long roomId = Long.valueOf(room);
+			Long listId = Long.valueOf(list);
+
+			List<Tasks> tasks = new ArrayList<Tasks>();
+			String response = "";
+			
+			if(roomListService.findListsByRoomId(roomId).isEmpty())
+				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
+			else {
+				tasks = taskService.findTasksByListId(listId);
+				response = "\"Response\":\"Success\"";
+			}
+				
+			String ret = "{\"TaskList\":[";
+			if (tasks.isEmpty()) {
+				ret += " ";
+			}
+			for (Tasks temp : tasks) {
+				ret += "{\"Contents\":\"" + temp.getContents()  + "\",\"Id\":\"" + temp.getId() + "\"},";
+			}
+			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
+			return ret;
+		}
+
+		/**
+		 * Creates a new list in the provided room.
+		 * 
+		 * @param item
+		 * @param room
+		 * @param user
+		 * @return
+		 */
+		@PostMapping(path = "/addtask/{room}/{list}/{user}", consumes = "application/json", produces = "application/json")
+		public String addTask(@PathVariable("room") String room, @PathVariable("list") String list, @PathVariable("user") String user, @RequestBody String item) {
+			Long roomId = Long.valueOf(room);
+			Long userId = Long.valueOf(user);
+			Long listId = Long.valueOf(list);
+			JSONObject body = new JSONObject(item);
+			String Contents = body.getString("Contents");
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null) {
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			}
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have the permissions to take this action\"}";
+			
+			Optional<RoomList> toAdd = roomListService.findById(listId);
+			RoomList toAddTemp = null;
+			
+			try {
+				toAddTemp = toAdd.get();
+			} catch (NoSuchElementException e) {
+				return "{\"Response\":\"No such user exists\"}";
+			}
+			
+			taskService.addTask(new Tasks(Contents, toAddTemp));
+			return "{\"Response\":\"Success\"}";
+			
+		}
+		
+		
+		
 		/**
 		 * Takes in a room Id and returns the roomList for that room.
 		 * 
@@ -79,34 +147,35 @@ public class DatabaseApplication {
 			String response = "";
 			
 			if(roomMembersService.findRoomMemberByIds(userId, roomId)!=null) {
-				lists = roomListService.findListByRoomId(roomId);
+				lists = roomListService.findListsByRoomId(roomId);
 				response = "\"Response\":\"Success\"";
 			}
 			else
 				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
-			
+
 			String ret = "{\"RoomLists\":[";
-			  if(lists.isEmpty())
-				  ret += " ";
-			  for (RoomList temp : lists) {
-				ret += temp.toString() + ",";
-			  	}
+			if (lists.isEmpty()) {
+				ret += " ";
+			}
+			for (RoomList temp : lists) {
+				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription() + "\",\"Id\":\"" + temp.getId() + "\"},";
+			}
 			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;
 		}
 
 		/**
-		 * Creates a new roomList in the provided room.
+		 * Creates a new list in the provided room.
 		 * 
 		 * @param item
 		 * @param room
+		 * @param user
 		 * @return
 		 */
 		@PostMapping(path = "/addlist/{room}/{user}", consumes = "application/json", produces = "application/json")
 		public String addRoomList(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
 			Long roomId = Long.valueOf(room);
 			Long userId = Long.valueOf(user);
-			System.out.println("DEBUG: RoomId: " + roomId + " userId: " + userId);
 			JSONObject body = new JSONObject(item);
 			String Title = body.getString("Title");
 			String Description = body.getString("Description");
@@ -117,7 +186,16 @@ public class DatabaseApplication {
 			if(isAdmin.getUserRole().equals("VIEWER"))
 				return "{\"Response\":\"User does not have the permissions to take this action\"}";
 			
-			roomListService.addRoomList(new RoomList(roomId, Title, Description));
+			Optional<Rooms> toAdd = roomService.findById(roomId);
+			Rooms toAddTemp = null;
+			
+			try {
+				toAddTemp = toAdd.get();
+			} catch (NoSuchElementException e) {
+				return "{\"Response\":\"No such user exists\"}";
+			}
+			
+			roomListService.addRoomList(new RoomList(toAddTemp, Title, Description));
 			return "{\"Response\":\"Success\"}";
 		}
 
@@ -129,13 +207,14 @@ public class DatabaseApplication {
 		 */
 		@GetMapping("/getrooms/{user}")
 		public String getRooms(@PathVariable String user) {
-			List<Rooms> rooms = roomMembersService.findRoomsByUserId(Long.valueOf(user));
+			Long userId = Long.valueOf(user);
+			List<Rooms> rooms = roomMembersService.findRoomsByUserId(userId);
 			String ret = "{\"Rooms\":[";
 			if (rooms.isEmpty()) {
 				ret += " ";
 			}
 			for (Rooms temp : rooms) {
-				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Id\":\"" + temp.getId() + "\"},";
+				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Id\":\"" + temp.getId() + "\",\"Role\":\"" + roomMembersService.findRoomMemberByIds(userId, temp.getId()).getUserRole() + "\"},";
 			}
 			ret = ret.substring(0, ret.length() - 1) + "]}";
 			return ret;

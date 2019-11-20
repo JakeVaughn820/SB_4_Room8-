@@ -41,15 +41,15 @@ public class RoomsService
 	 */
 	public Optional<Rooms> findById(Long roomId)
 	{
-		Optional<Rooms> user = null;
+		Optional<Rooms> room = null;
 		try {
-			user = roomsRepository.findById(roomId);
-			if (user.equals(null))
+			room = roomsRepository.findById(roomId);
+			if (room.equals(null))
 				throw new NullPointerException();
 		} catch (NullPointerException e) {
 			logger.info("User does not exist");
 		}
-		return user;
+		return room;
 	}
 	
 	/**
