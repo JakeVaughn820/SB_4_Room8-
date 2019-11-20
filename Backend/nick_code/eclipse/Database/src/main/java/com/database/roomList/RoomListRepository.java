@@ -18,6 +18,6 @@ import com.database.roomMembers.RoomMembers;
 public interface RoomListRepository extends JpaRepository<RoomList, Long> 
 {
 	@Query(value = "SELECT * FROM room_lists WHERE room_id = ?1", nativeQuery = true)
-	List<RoomList> findRoomMembersByUserId(@Param("room_id") Long roomId);
+	List<RoomList> findListByRoomId(@Param("room_id") Long roomId);
 	
 }

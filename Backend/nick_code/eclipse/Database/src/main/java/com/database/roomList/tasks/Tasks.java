@@ -19,7 +19,7 @@ import com.database.roomList.RoomList;
  * This class implements the tasks entity. Each roomList can have 
  * multiple tasks. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
 @Table(name="tasks")
