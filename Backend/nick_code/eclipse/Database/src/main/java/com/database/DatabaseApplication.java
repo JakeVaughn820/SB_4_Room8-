@@ -28,6 +28,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.roomList.*;
 import com.database.roomList.tasks.*;
+import com.database.roomList.tasks.subtasks.SubTasks;
+import com.database.roomList.tasks.subtasks.SubTasksService;
 import com.database.roomMembers.*;
 import com.database.rooms.*;
 import com.database.user.*;
@@ -60,7 +62,79 @@ public class DatabaseApplication {
 		private RoomMembersService roomMembersService;
 		@Autowired
 		private TasksService taskService;
+		@Autowired
+		private SubTasksService subTaskService;
 
+		/**
+		 * Takes in a room Id and returns the roomList for that room.
+		 * 
+		 * @param room
+		 * @return
+		 */
+		@GetMapping("/getsubtasks/{list}/{task}/")
+		public String getSubTasks(@PathVariable String list, @PathVariable String task) {
+			Long listId = Long.valueOf(list);
+			Long taskId = Long.valueOf(task);
+
+			List<SubTasks> subTasks = new ArrayList<SubTasks>();
+			String response = "";
+			
+			if(taskService.findTasksByListId(listId).isEmpty())
+				response =  "\"Response\":\"No such Task for given parameters\"";
+			else {
+				subTasks = subTaskService.findSubTasksByTaskId(taskId);
+				response = "\"Response\":\"Success\"";
+			}
+				
+			String ret = "{\"SubTaskList\":[";
+			if (subTasks.isEmpty()) {
+				ret += " ";
+			}
+			for (SubTasks temp : subTasks) {
+				ret += "{\"Contents\":\"" + temp.getContents() + "\"},";
+			}
+			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
+			return ret;
+		}
+
+		/**
+		 * Creates a new list in the provided room.
+		 * 
+		 * @param item
+		 * @param room
+		 * @param user
+		 * @return
+		 */
+		@PostMapping(path = "/addsubtask/{room}/{task}/{user}", consumes = "application/json", produces = "application/json")
+		public String addSubTask(@PathVariable("room") String room, @PathVariable("task") String task, @PathVariable("user") String user, @RequestBody String item) {
+			Long roomId = Long.valueOf(room);
+			Long userId = Long.valueOf(user);
+			Long taskId = Long.valueOf(task);
+			
+			JSONObject body = new JSONObject(item);
+			String Contents = body.getString("Contents");
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null) {
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			}
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have the permissions to take this action\"}";
+
+			Optional<Tasks> toAdd = taskService.findById(taskId);
+			Tasks toAddTemp = null;
+			
+			try {
+				toAddTemp = toAdd.get();
+			} catch (NoSuchElementException e) {
+				return "{\"Response\":\"No such Task exists\"}";
+			}
+			
+			subTaskService.addSubTask(new SubTasks(Contents, toAddTemp));
+			return "{\"Response\":\"Success\"}";
+			
+		}
+		
 		/**
 		 * Takes in a room Id and returns the roomList for that room.
 		 * 
@@ -76,7 +150,7 @@ public class DatabaseApplication {
 			String response = "";
 			
 			if(roomListService.findListsByRoomId(roomId).isEmpty())
-				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
+				response =  "\"Response\":\"No such List for given parameters\"";
 			else {
 				tasks = taskService.findTasksByListId(listId);
 				response = "\"Response\":\"Success\"";
@@ -122,7 +196,7 @@ public class DatabaseApplication {
 			try {
 				toAddTemp = toAdd.get();
 			} catch (NoSuchElementException e) {
-				return "{\"Response\":\"No such user exists\"}";
+				return "{\"Response\":\"No such List exists\"}";
 			}
 			
 			taskService.addTask(new Tasks(Contents, toAddTemp));

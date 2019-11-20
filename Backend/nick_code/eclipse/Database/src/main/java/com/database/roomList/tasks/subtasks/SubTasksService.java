@@ -10,7 +10,7 @@ import com.database.roomList.tasks.subtasks.SubTasks;
 /**
  * This class implements the subtask repository. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Service
 public class SubTasksService 
@@ -52,6 +52,10 @@ public class SubTasksService
         return subtaskRepository.count();
     }
 
+    public List<SubTasks> findSubTasksByTaskId(Long taskId) {
+    	return subtaskRepository.findSubTasksByTaskId(taskId);
+    }
+    
     /**
      * Deletes a subtask from the database. Throws IllegalArgumentException 
      * if the subtask does not exist. 
