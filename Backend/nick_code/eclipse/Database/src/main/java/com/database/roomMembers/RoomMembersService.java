@@ -14,7 +14,7 @@ import com.database.user.User;
 /**
  * This class implements the roomMembers repository. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Service
 public class RoomMembersService 

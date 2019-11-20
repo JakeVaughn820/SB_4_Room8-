@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 /**
  * This class provides the implementation for the users entity.
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
 @Table(name = "users")

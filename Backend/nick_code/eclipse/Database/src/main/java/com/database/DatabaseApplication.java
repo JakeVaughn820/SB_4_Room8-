@@ -1,5 +1,6 @@
 package com.database;
 
+import java.util.ArrayList;
 //import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,16 +64,34 @@ public class DatabaseApplication {
 		 * @param room
 		 * @return
 		 */
-		@GetMapping("/list/{room}")
-		public String getRoomList(@PathVariable String room) {
-//			  List<RoomList> roomLists = roomListService.getLists();
+		/**
+		 * Takes in a room Id and returns the roomList for that room.
+		 * 
+		 * @param room
+		 * @return
+		 */
+		@GetMapping("/getlists/{room}/{user}/")
+		public String getRoomList(@PathVariable String room, @PathVariable String user) {
+			Long roomId = Long.valueOf(room);
+			Long userId = Long.valueOf(user);
+			
+			List<RoomList> lists = new ArrayList<RoomList>();
+			String response = "";
+			
+			if(roomMembersService.findRoomMemberByIds(userId, roomId)!=null) {
+				lists = roomListService.findListByRoomId(roomId);
+				response = "\"Response\":\"Success\"";
+			}
+			else
+				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
+			
 			String ret = "{\"RoomLists\":[";
-//			  if(roomLists.isEmpty())
-//				  ret += " ";
-//			  for (RoomList temp : roomLists) {
-//				ret += temp.toString() + ",";
-//			  	}
-			ret = ret.substring(0, ret.length() - 1) + "]}";
+			  if(lists.isEmpty())
+				  ret += " ";
+			  for (RoomList temp : lists) {
+				ret += temp.toString() + ",";
+			  	}
+			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;
 		}
 
@@ -83,12 +102,22 @@ public class DatabaseApplication {
 		 * @param room
 		 * @return
 		 */
-		@PostMapping(path = "/list/{room}", consumes = "application/json", produces = "application/json")
-		public String addRoomList(@RequestBody String item, @PathVariable String room) {
+		@PostMapping(path = "/addlist/{room}/{user}", consumes = "application/json", produces = "application/json")
+		public String addRoomList(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
+			Long roomId = Long.valueOf(room);
+			Long userId = Long.valueOf(user);
+			System.out.println("DEBUG: RoomId: " + roomId + " userId: " + userId);
 			JSONObject body = new JSONObject(item);
 			String Title = body.getString("Title");
 			String Description = body.getString("Description");
-//			  roomListService.addRoomList(new RoomList(intRoom, Title, Description));
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null) {
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			}
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have the permissions to take this action\"}";
+			
+			roomListService.addRoomList(new RoomList(roomId, Title, Description));
 			return "{\"Response\":\"Success\"}";
 		}
 
