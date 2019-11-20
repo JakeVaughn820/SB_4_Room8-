@@ -198,12 +198,13 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
      * Sends Keys:
      */
     private void postRequest(String user, String permission, String userID) {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/RoomSettings";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/roomsettings";
+        url = url + "/" + sessionManager.getRoomid() + "/" + userID;
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("Title", user);
-        params.put("Description", permission);
-        params.put("UserId", userID);
+//        params.put("Title", user);
+        params.put("Permission", permission);
+//        params.put("UserId", userID);
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
