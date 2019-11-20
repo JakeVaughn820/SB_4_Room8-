@@ -60,20 +60,27 @@ public class SessionManager {
     /**
      * Constant name string
      */
-    public static final String NAME = "NAME";
+    private static final String NAME = "NAME";
     /**
      * Constant email string
      */
-    public static final String EMAIL = "EMAIL";
+    private static final String EMAIL = "EMAIL";
     /**
      * Constant ID string
      */
-    public static final String ID = "ID";
-
-    public static final String PERMISSION = "PERMISSION";
-
-    Set<String> RoomsSet = new HashSet<>();
-    Set<String> RoomsIDSet = new HashSet<>();
+    private static final String ID = "ID";
+    /**
+     * Constant Permissions String
+     */
+    private static final String PERMISSION = "PERMISSION";
+    /**
+     * Constant RoomsSet Set<String>
+     */
+    private Set<String> RoomsSet = new HashSet<>();
+    /**
+     * Constant RoomsEDSet Set<String>
+     */
+    private Set<String> RoomsIDSet = new HashSet<>();
 
 
     /**
@@ -171,6 +178,14 @@ public class SessionManager {
         editor.apply();
     }
     /**
+     * Sets permission
+     * @param permission permission of the user for this specific room
+     */
+    public void setPermission(String permission){
+        editor.putString(PERMISSION, permission);
+        editor.apply();
+    }
+    /**
      * Returns true if the user is in a room false if otherwise
      * @return returns if the user is in a room
      */
@@ -246,7 +261,11 @@ public class SessionManager {
     public String getID(){
         return sharedPreferences.getString(ID, null);
     }
-
+    /**
+     * Gets permission
+     * @return permission of the user for this specific room
+     */
+    public String getPermission(){ return sharedPreferences.getString(PERMISSION, null);}
     /**
      * Returns true if the user is logged in false if otherwise.
      * @return returns if the user is logged in
@@ -314,23 +333,6 @@ public class SessionManager {
         }
     }
 
-    /**
-     * Sets permission
-     * @param permission permission of the user for this specific room
-     */
-    public void setPermission(String permission){
-        editor.putString(PERMISSION, permission);
-        editor.apply();
-    }
-
-    /**
-     * Gets permission
-     * @return permission of the user for this specific room
-     */
-    public String getPermission(){
-        return sharedPreferences.getString(PERMISSION, null);
-
-    }
 
     /**
      * Logs out of the session clearing all of the users data from shared preferences.
