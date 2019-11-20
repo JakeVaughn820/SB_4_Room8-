@@ -24,6 +24,8 @@ import org.springframework.stereotype.Component;
 @ServerEndpoint("/room/{username}")
 @Component
 public class WebSocketServer {
+	
+//	private BulletinService bulletinService; 
 
 	// Store all socket session's and their corresponding username's.
 	private static Map<Session, String> sessionUsernameMap = new HashMap<>();
@@ -57,6 +59,8 @@ public class WebSocketServer {
 			sendMessageToPArticularUser(username, "[DM] " + username + ": " + message);
 		} else // Message goes to entire chat.
 		{
+//			Bulletin addPin = new Bulletin(username, message);
+//			bulletinService.addBulletin(addPin); 
 			broadcast(username + ": " + message);
 			Thread.sleep(500);
 		}
