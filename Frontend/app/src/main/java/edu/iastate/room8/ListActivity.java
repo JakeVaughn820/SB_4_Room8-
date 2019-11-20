@@ -125,7 +125,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
-        connectWebSocket();
+        //connectWebSocket();
         setContentView(R.layout.activity_list);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
         titleForList = findViewById(R.id.TitleForList);
@@ -167,8 +167,8 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 newListItemNameString = newListItemName.getText().toString();
-//                postRequest();
-                sendMessage(view);
+//                postRequest();//TODO use this
+//                sendMessage(view);
                 newListItemName.setText("");
             }
         });

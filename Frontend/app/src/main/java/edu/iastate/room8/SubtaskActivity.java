@@ -192,6 +192,15 @@ public class SubtaskActivity extends AppCompatActivity {
     };
 
     /**
+     * Used for testing mockito like they do in the tutorial
+     * @return JSONObject to be used
+     */
+    public JSONObject jsonGetSubtask(){
+        return null;
+    }
+
+
+    /**
      * post that creates a new subtask
      * Sends keys: ListName, Task
      */

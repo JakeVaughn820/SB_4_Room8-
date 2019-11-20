@@ -11,8 +11,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Table;
 
+import com.database.rooms.Rooms;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -20,7 +23,7 @@ import javax.persistence.OneToOne;
  * This class implements the roomList object. Each room will only have 
  * one room list. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
 @Table(name="roomLists")
@@ -37,16 +40,10 @@ public class RoomList
 	/**
 	 * Holds the room Id this list belongs to. 
 	 */
-	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
-	@JoinColumn(name="room_list_id", foreignKey = @ForeignKey(name="room_list_id"))
-	private Long roomId; 
-//	
-//	/**
-//	 * Task Id's associated with this list.
-//	 */
-//	@OneToMany(fetch=FetchType.LAZY)
-//    @JoinColumn(name="task_id", referencedColumnName = "id")
-//	private List<Long> tasks;
+	@ManyToOne(targetEntity=com.database.rooms.Rooms.class)
+	@JoinColumn(name="room_id", foreignKey = @ForeignKey(name="id"))
+	private Rooms room; 
+
 	
 	/**
 	 * Holds the title of this list. 
@@ -72,9 +69,9 @@ public class RoomList
 	 * @param roomId
 	 * @param title
 	 */
-	public RoomList(Long roomId, String title, String description)
+	public RoomList(Rooms room, String title, String description)
 	{
-		this.roomId = roomId;  
+		this.room = room;  
 		this.title = title; 
 		this.description = description; 
 	}
@@ -94,9 +91,9 @@ public class RoomList
 	 * 
 	 * @return
 	 */
-	public Long getRoomId()
+	public Rooms getRoom()
 	{
-		return roomId;
+		return room;
 	}
 	
 	/**
@@ -134,9 +131,9 @@ public class RoomList
 	 * 
 	 * @param roomId
 	 */
-	public void setRoomId(Long roomId)
+	public void setRoom(Rooms room)
 	{
-		this.roomId = roomId;
+		this.room = room;
 	}
 	
 	/**
@@ -192,7 +189,7 @@ public class RoomList
 		RoomList roomList = (RoomList) o;
 
 		return this.id == roomList.id && this.title.equals(roomList.title) 
-				&& this.roomId == roomList.roomId && this.description.equals(roomList.description);
+				&& this.room == roomList.room && this.description.equals(roomList.description);
 				//&& this.tasks.equals(roomList.tasks); 
 	}
 

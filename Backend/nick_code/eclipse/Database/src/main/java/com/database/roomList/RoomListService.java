@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 /**
  * This class implements the roomList repository. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Service
 public class RoomListService 
@@ -63,4 +63,8 @@ public class RoomListService
     	roomListRepository.deleteById(roomList);
         return true; 
     }
+
+	public List<RoomList> findListByRoomId(Long roomId) {
+		return roomListRepository.findListByRoomId(roomId);
+	}
 }

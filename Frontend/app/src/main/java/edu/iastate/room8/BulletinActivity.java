@@ -33,6 +33,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.java_websocket.drafts.Draft;
+import org.java_websocket.drafts.Draft_6455;
+import org.java_websocket.handshake.ServerHandshake;
+
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.JsonParser;
 import edu.iastate.room8.utils.SessionManager;
@@ -83,6 +87,18 @@ public class BulletinActivity extends AppCompatActivity {
      * session manager used for settings and information for the specific user
      */
     SessionManager sessionManager;
+//    /**
+//     * Button to connect to server
+//     */
+//    private Button buttonConnect;
+//    /**
+//     * Name to connect to server
+//     */
+//    private EditText editTextConnect;
+    /**
+     * Another web socket client
+     */
+    private WebSocketClient cc;
 //TODO maybe try and make each person color coded?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +106,14 @@ public class BulletinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bulletin);
 
         sessionManager = new SessionManager(this);
-        connectWebSocket();
+        //connectWebSocket();
 
         mQueue = Volley.newRequestQueue(this);
         textView = findViewById(R.id.textView);
         toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
+//        buttonConnect = findViewById(R.id.buttonConnect);
+//        editTextConnect = findViewById(R.id.editTextConnect);
         arr = new ArrayList<String>();
 
         if(sessionManager.getPermission().equals("Viewer")){
@@ -122,19 +140,82 @@ public class BulletinActivity extends AppCompatActivity {
                     Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
                 }else{
                     //postRequest();
-                    sendMessage(view);
+//                    sendMessage(view);
+                    try {
+                        cc.send(toAddText.getText().toString());
+                    }
+                    catch (Exception e)
+                    {
+                        Log.d("ExceptionSendMessage:", e.getMessage().toString());
+                    }
+
                 }
                 toAddText.setText("");
             }
         });
+
+        webSocketWithBackend();
+//        buttonConnect.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Draft[] drafts = {new Draft_6455()};
+//
+//                /**
+//                 * If running this on an android device, make sure it is on the same network as your
+//                 * computer, and change the ip address to that of your computer.
+//                 * If running on the emulator, you can use localhost.
+//                 */
+////                String w = "ws://10.26.13.93:8080/websocket/"+editTextConnect.getText().toString();
+//                String w = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
+//                w = w + "/" + sessionManager.getName();
+//                try {
+//                    Log.d("Socket:", "Trying socket");
+//                    cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
+//                        @Override
+//                        public void onMessage(String message) {
+//                            Log.d("", "run() returned: " + message);
+//                            String s=textView.getText().toString();
+//                            //t1.setText("hello world");
+//                            //Log.d("first", "run() returned: " + s);
+//                            //s=t1.getText().toString();
+//                            //Log.d("second", "run() returned: " + s);
+//                            String messageTemp = message + "\n";
+//                            textView.setText(s+messageTemp);
+//                        }
+//
+//                        @Override
+//                        public void onOpen(ServerHandshake handshake) {
+//                            Log.d("OPEN", "run() returned: " + "is connecting");
+//                        }
+//
+//                        @Override
+//                        public void onClose(int code, String reason, boolean remote) {
+//                            Log.d("CLOSE", "onClose() returned: " + reason);
+//                        }
+//
+//                        @Override
+//                        public void onError(Exception e)
+//                        {
+//                            Log.d("Exception:", e.toString());
+//                        }
+//                    };
+//                }
+//                catch (URISyntaxException e) {
+//                    Log.d("Exception:", e.getMessage().toString());
+//                    e.printStackTrace();
+//                }
+//                cc.connect();
+//
+//            }
+//        });
     }
 
-    /**
-     * Used to parse JSON Objects in BulletinActivity
-     * Will get the chats from each person in the room and display them
-     * Receives: Header: BulletinBoard. Keys: User. Contents.
-     * @throws JSONException
-     */
+//    /**
+//     * Used to parse JSON Objects in BulletinActivity
+//     * Will get the chats from each person in the room and display them
+//     * Receives: Header: BulletinBoard. Keys: User. Contents.
+//     * @throws JSONException
+//     */
 //    public void jsonParse() throws JSONException {
 //        String url = "https://api.myjson.com/bins/1g4fnt";
 //        String url = "https://api.myjson.com/bins/k7wvo";
@@ -280,7 +361,7 @@ public class BulletinActivity extends AppCompatActivity {
             @Override
             public void onOpen(ServerHandshake serverHandshake) {
                 Log.i("Websocket", "Opened");
-                mWebSocketClient.send("Hello from " + Build.MANUFACTURER + " " + Build.MODEL);
+                //mWebSocketClient.send("Hello from " + Build.MANUFACTURER + " " + Build.MODEL);
             }
 
             @Override
@@ -318,4 +399,46 @@ public class BulletinActivity extends AppCompatActivity {
         editText.setText("");
     }
 
+    /**
+     * Web socket that was created to be used with the backend
+     */
+    public void webSocketWithBackend(){
+        Draft[] drafts = {new Draft_6455()};
+        String w = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
+        w = w + "/" + sessionManager.getName();
+        try {
+            Log.d("Socket:", "Trying socket");
+            cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
+                @Override
+                public void onMessage(String message) {
+                    Log.d("", "run() returned: " + message);
+                    String s=textView.getText().toString();
+
+                    String messageTemp = message + "\n";
+                    textView.setText(messageTemp+s);
+                }
+
+                @Override
+                public void onOpen(ServerHandshake handshake) {
+                    Log.d("OPEN", "run() returned: " + "is connecting");
+                }
+
+                @Override
+                public void onClose(int code, String reason, boolean remote) {
+                    Log.d("CLOSE", "onClose() returned: " + reason);
+                }
+
+                @Override
+                public void onError(Exception e)
+                {
+                    Log.d("Exception:", e.toString());
+                }
+            };
+        }
+        catch (URISyntaxException e) {
+            Log.d("Exception:", e.getMessage().toString());
+            e.printStackTrace();
+        }
+        cc.connect();
+    }
 }

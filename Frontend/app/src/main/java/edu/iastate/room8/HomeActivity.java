@@ -33,6 +33,10 @@ public class HomeActivity extends AppCompatActivity {
      */
     private Button btnLogout;
     /**
+     * Button used to LeaveRoom
+     */
+    private Button btnLeaveRoom;
+    /**
      * Session manager
      */
     SessionManager sessionManager;
@@ -48,6 +52,10 @@ public class HomeActivity extends AppCompatActivity {
      * Button that takes you to the settings page
      */
     private Button buttonSettings;
+    /**
+     * Button that takes you to the user settings page
+     */
+    private Button btnUserSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,27 +70,28 @@ public class HomeActivity extends AppCompatActivity {
         tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
         tempButtonSchedule = findViewById(R.id.tempButtonSchedule);
         btnLogout = findViewById(R.id.btnLogout);
+        btnLeaveRoom = findViewById(R.id.btnLeaveRoom);
         roomIdTextView = findViewById(R.id.RoomIdTextView);
         roomNameTextView = findViewById(R.id.RoomNameTextView);
         buttonSettings = findViewById(R.id.buttonSettings);
+        btnUserSettings = findViewById(R.id.btnUserSettings);
 
         roomIdTextView.setText("Room ID: "+sessionManager.getRoomid());
         roomNameTextView.setText("Room Name: "+sessionManager.getRoom());
 
-        if(sessionManager.getPermission()==null){
-            sessionManager.logout();
-        }else{
-            if(sessionManager.getPermission().equals("Owner")){
-                buttonSettings.setVisibility(View.VISIBLE);
-            }else{
-                buttonSettings.setVisibility(View.INVISIBLE);
-            }
-        }
+        setButtonVisibility();
 
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(HomeActivity.this, RoomSettingsActivity.class);
+                startActivity(i);
+            }
+        });
+        btnUserSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(HomeActivity.this, SettingsActivity.class);
                 startActivity(i);
             }
         });
@@ -113,6 +122,39 @@ public class HomeActivity extends AppCompatActivity {
                 sessionManager.logout();
             }
         });
+        btnLeaveRoom.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                sessionManager.leaveRoom();
+            }
+        });
+    }
+
+    public int getButtonVisibility(){
+        return buttonSettings.getVisibility();
+    }
+
+    public String getPermissionHome(){
+        return sessionManager.getPermission();
+    }
+
+    public void setPermissionForTesting(String permission1){
+        sessionManager.setPermission(permission1);
+    }
+
+    public int setButtonVisibility(){
+        if(sessionManager.getPermission()==null){
+            sessionManager.logout();
+        }else{
+            if(getPermissionHome().equals("Owner")){
+                buttonSettings.setVisibility(View.VISIBLE);
+                return View.VISIBLE;
+            }else{
+                buttonSettings.setVisibility(View.INVISIBLE);
+                return View.INVISIBLE;
+            }
+        }
+        return 1;
     }
 
 }

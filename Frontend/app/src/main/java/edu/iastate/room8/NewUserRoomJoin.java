@@ -98,7 +98,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * Holds permissions for users
      */
     private ArrayList<String> permissions;
-
+    /**
+     * Button that updates the rooms the user is in.
+     */
+    private Button updateButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,43 +109,47 @@ public class NewUserRoomJoin extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
 
-        //postRequestForParse();
-
         newRoomCreate = findViewById(R.id.NewRoomCreate);
         newRoomCreateEditText = findViewById(R.id.RoomNameCreate);
         joinRoom = findViewById(R.id.RoomJoin);
         joinRoomEditText = findViewById(R.id.roomIdEditText);
         list = findViewById(R.id.RoomList);
         logout = findViewById(R.id.logoutButton);
+        updateButton = findViewById(R.id.buttonUpdateRooms);
 
         mQueue = Volley.newRequestQueue(this);
 
         items = new ArrayList<String>();
 
         //TODO: Right from the start we need to json get all the rooms that the user is a part of and add them to items and sessionsManager.
-        items.add("Test Room 1 Owner");
-        items.add("Test Room 2 Editor");
-        items.add("Test Room 3 Viewer");
+//        items.add("Test Room 1 Owner");
+//        items.add("Test Room 2 Editor");
+//        items.add("Test Room 3 Viewer");
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         list.setAdapter(adapter);
 
         ids = new ArrayList<String>();
-        ids.add("1");
-        ids.add("2");
-        ids.add("3");
+//        ids.add("1");
+//        ids.add("2");
+//        ids.add("3");
 
         permissions = new ArrayList<>();
-        permissions.add("Owner");
-        permissions.add("Editor");
-        permissions.add("Viewer");
+//        permissions.add("Owner");
+//        permissions.add("Editor");
+//        permissions.add("Viewer");
 
-        sessionManager.addRoom("Test Room 1", "1");
-        sessionManager.addRoom("Test Room 2", "2");
+//        sessionManager.addRoom("Test Room 1", "1");
+//        sessionManager.addRoom("Test Room 2", "2");
 
 
 
-        //jsonParse();
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jsonParse();
+            }
+        });
 
         newRoomCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,7 +161,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     items.clear();
                     ids.clear();
                     permissions.clear();
-                    //jsonParse();
+//                    jsonParse();
                 }
             }
         });
@@ -164,6 +171,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
             public void onClick(View view) {
 
                 postRequestJoin();
+
             }
         });
 
@@ -197,7 +205,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * @throws JSONException
      */
     private void jsonParse() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getrooms";
         url = url + "/" + sessionManager.getID();
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -205,13 +213,21 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
                             JSONArray jsonArray = response.getJSONArray("Rooms");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 ids.add(List.getString("Id"));
-                                permissions.add(List.getString("Permission"));
+                                String role = List.getString("Role");
+                                if(role.equals("OWNER")){
+                                    permissions.add("Owner");
+                                }else if(role.equals("ADMIN")){
+                                    permissions.add("Editor");
+                                }else{
+                                    permissions.add("Viewer");
+                                }
                                 sessionManager.addRoom(List.getString("Title"), List.getString("Id"));
                             }
                             adapter.notifyDataSetChanged();
@@ -238,7 +254,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
     private void postRequestCreate() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
-
         Map<String, String> params = new HashMap<String, String>();
 //        params.put("User", sessionManager.getID());
         params.put("Title", newRoomCreateEditText.getText().toString());
@@ -325,7 +340,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * Sends Keys: Title, RoomId
      */
     private void postRequestJoin() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/join";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/join";
         url = url + "/" + sessionManager.getID();
 
         Map<String, String> params = new HashMap<String, String>();
@@ -344,7 +359,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 items.clear();
                                 ids.clear();
                                 permissions.clear();
-                                jsonParse();
+//                                jsonParse();
                             }else{
                                 Toast.makeText(NewUserRoomJoin.this, "Room does not exist!", Toast.LENGTH_SHORT).show();
                             }

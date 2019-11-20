@@ -32,4 +32,21 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:text="Click on a user to switch them from a Viewer to an Editor or an Editor to a Viewer" />
+
+    <Button
+        android:id="@+id/deleteRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="Delete Room" />
+
+    <Switch
+        android:id="@+id/switchDeleteFromRoom"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/deleteRoom"
+        android:text="Turn on to delete room members" />
 </RelativeLayout>

@@ -72,6 +72,10 @@ public class SessionManager {
 
     public static final String PERMISSION = "PERMISSION";
 
+    Set<String> RoomsSet = new HashSet<>();
+    Set<String> RoomsIDSet = new HashSet<>();
+
+
     /**
      * Session Manager constructor
      * @param context what activity it was constructed in
@@ -91,34 +95,47 @@ public class SessionManager {
 
     public void createSession(String name, String email, String id){
 
-        Set<String> set = new HashSet<>();
         editor.putBoolean(LOGIN, true);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
         editor.putString(ID, id);
         editor.putString(ROOM, null);
         editor.putString(ROOMID, null);
-        editor.putStringSet(ROOMS, set);
-        editor.putStringSet(ROOMSID, set);
+        editor.putStringSet(ROOMS, RoomsSet);
+        editor.putStringSet(ROOMSID, RoomsIDSet);
         editor.putString(PERMISSION, null);
         editor.apply();
     }
-
+    /**
+     * Sets the users name to a new name.
+     * @param newName the users new name
+     */
+    public void setName (String newName){
+        editor.putString(NAME, newName);
+        editor.apply();
+    }
+    /**
+     * Sets the users Email to a new email.
+     * @param newEmail the users new name
+     */
+    public void setEmail (String newEmail){
+        editor.putString(EMAIL, newEmail);
+        editor.apply();
+    }
     /**
      * Adds a room to ROOMS list.
      * @param room room to set for the user
      */
     public void addRoom (String room, String id){
-        Set<String> setRooms;
-        Set<String> setid;
 
-        setRooms = (sharedPreferences.getStringSet(ROOMS, null));
-        setRooms.add(room);
-        editor.putStringSet(ROOMS, setRooms);
 
-        setid = (sharedPreferences.getStringSet(ROOMSID, null));
-        setid.add(id);
-        editor.putStringSet(ROOMS, setid);
+        RoomsSet = (sharedPreferences.getStringSet(ROOMS, null));
+        RoomsSet.add(room);
+        editor.putStringSet(ROOMS, RoomsSet);
+
+        RoomsIDSet = (sharedPreferences.getStringSet(ROOMSID, null));
+        RoomsIDSet.add(id);
+        editor.putStringSet(ROOMSID, RoomsIDSet);
         editor.apply();
     }
 
@@ -261,6 +278,8 @@ public class SessionManager {
         user.put(EMAIL, sharedPreferences.getString(EMAIL, null));
         user.put(ID, sharedPreferences.getString(ID, null));
         user.put(ROOM, sharedPreferences.getString(ROOM, null));
+        user.put(ROOMID, null);
+        user.put(PERMISSION, null);
 
         return user;
     }

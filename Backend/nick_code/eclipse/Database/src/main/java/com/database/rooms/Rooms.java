@@ -19,7 +19,7 @@ import com.database.roomMembers.RoomMembers;
 /**
  * This class implements the rooms entity. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
 @Table(name="rooms")

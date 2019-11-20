@@ -57,9 +57,17 @@
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@id/tempButtonSchedule"
+        android:layout_centerHorizontal="true"
         android:text="Logout" />
+
+    <Button
+        android:id="@+id/btnLeaveRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnLogout"
+        android:layout_centerHorizontal="true"
+        android:text="LeaveRoom" />
 
     <TextView
         android:id="@+id/homeTextView"
@@ -75,6 +83,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="Settings" />
+        android:text="Room Settings" />
+
+    <Button
+        android:id="@+id/btnUserSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="UserSettings" />
 
 </RelativeLayout>
