@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -70,6 +72,14 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
      */
     private Button deleteRoom;
     /**
+     * Switch that turns on or off deleting a user
+     */
+    private Switch deleteSwitch;
+    /**
+     * Holds whether or not the switch is on
+     */
+    private boolean switchOn;
+    /**
      *     These tags will be used to cancel the requests
      */
     private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
@@ -79,7 +89,7 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
         setContentView(R.layout.activity_room_settings);
         itemsList = findViewById(R.id.userList);
         deleteRoom = findViewById(R.id.deleteRoom);
-
+        deleteSwitch = findViewById(R.id.switchDeleteFromRoom);
         sessionManager = new SessionManager(this);
 
         users = new ArrayList<>();
@@ -90,7 +100,16 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
 
         mQueue = Volley.newRequestQueue(this);
 
-
+        deleteSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    switchOn = true;
+                }else{
+                    switchOn = false;
+                }
+            }
+        });
         itemsList.setOnItemClickListener(messageClickedHandler);
 
         deleteRoom.setOnClickListener(new View.OnClickListener() {
@@ -111,18 +130,25 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-
-            postRequest(users.get(position), permissions.get(position));
-            if(permissions.get(position).equals("Viewer")){
-                permissions.set(position, "Editor");
-                items.set(position, users.get(position)+": Editor");
-                Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to an Editor", Toast.LENGTH_SHORT).show();
-            }else if(permissions.get(position).equals("Editor")){
-                permissions.set(position, "Viewer");
-                items.set(position, users.get(position)+": Viewer");
-                Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to a Viewer", Toast.LENGTH_SHORT).show();
+            if(!switchOn){
+                postRequest(users.get(position), permissions.get(position));
+                if(permissions.get(position).equals("Viewer")){
+                    permissions.set(position, "Editor");
+                    items.set(position, users.get(position)+": Editor");
+                    Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to an Editor", Toast.LENGTH_SHORT).show();
+                }else if(permissions.get(position).equals("Editor")){
+                    permissions.set(position, "Viewer");
+                    items.set(position, users.get(position)+": Viewer");
+                    Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to a Viewer", Toast.LENGTH_SHORT).show();
+                }
+                adapter.notifyDataSetChanged();
+            }else{
+                postRequestDeleteUserFromRoom(position);
+                items.remove(position);
+                users.remove(position);
+                permissions.remove(position);
+                adapter.notifyDataSetChanged();
             }
-            adapter.notifyDataSetChanged();
         }
     };
 
@@ -215,6 +241,47 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("RoomId", sessionManager.getRoomid());
+        JSONObject toPost = new JSONObject(params);
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, toPost,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Title", "ye");
+                params.put("Description","if u see this i messed up");
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
+    /**
+     * PostRequest that tells the server it wants to change the users permission
+     * Sends Keys:
+     */
+    private void postRequestDeleteUserFromRoom(int position) {
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/deleteuser";
+        url = url + "/" + sessionManager.getRoomid();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("UserId", users.get(position));
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
