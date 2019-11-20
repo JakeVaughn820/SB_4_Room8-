@@ -289,6 +289,7 @@ public class SessionManager {
      */
     public void leaveRoom(){
         editor.putString(ROOM, null);
+        editor.putString(ROOMID, null);
         editor.apply();
         Intent i = new Intent(context, NewUserRoomJoin.class);
         context.startActivity(i);
