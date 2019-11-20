@@ -14,7 +14,7 @@ import com.database.user.User;
 /**
  * This interface holds the roomMembers repository. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Repository
 public interface RoomMembersRepository extends JpaRepository<RoomMembers, Long> 

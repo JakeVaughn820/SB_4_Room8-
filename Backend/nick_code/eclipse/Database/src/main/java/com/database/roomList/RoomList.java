@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -20,7 +21,7 @@ import javax.persistence.OneToOne;
  * This class implements the roomList object. Each room will only have 
  * one room list. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
 @Table(name="roomLists")
@@ -37,8 +38,8 @@ public class RoomList
 	/**
 	 * Holds the room Id this list belongs to. 
 	 */
-	@OneToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
-	@JoinColumn(name="room_list_id", foreignKey = @ForeignKey(name="room_list_id"))
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = com.database.rooms.Rooms.class)
+	@JoinColumn(name="room_id")
 	private Long roomId; 
 //	
 //	/**
