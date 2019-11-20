@@ -433,7 +433,7 @@ public class DatabaseApplication {
 				ret += " ";
 			}
 			for (RoomMembers temp : roomMembers) {
-				ret += "{\"Name\":\"" + temp.getUser().getName() + "\",\"Email\":\"" + temp.getUser().getEmail() + "\",\"Role\":\"" + temp.getUserRole() + "\",\"Id\":\"" + temp.getUser().getId() + "\"},";
+				ret += "{\"Name\":\"" + temp.getUser().getName() + "\",\"Email\":\"" + temp.getUser().getEmail() + "\",\"Role\":\"" + temp.getUserRole() + "\",\"UserId\":\"" + temp.getUser().getId() + "\"},";
 			}
 			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;
@@ -490,7 +490,7 @@ public class DatabaseApplication {
 			else if(!(isOwner.getRoom().equals(toSet.getRoom()))) //not in the same room
 				return "{\"Response\":\"Current user is not in the same room as the user being set\"}";
 			else if(isOwner.getUserRole().equals("OWNER")) {
-				if(role.equals("VIEWER") || role.equals("ROOMATE")) {
+				if(role.equals("VIEWER") || role.equals("ROOMMATE")) {
 					toSet.setUserRole(role);
 					return "{\"Response\":\"Success\"}";
 				}
