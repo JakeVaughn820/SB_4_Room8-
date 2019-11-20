@@ -223,7 +223,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 String role = List.getString("Role");
                                 if(role.equals("OWNER")){
                                     permissions.add("Owner");
-                                }else if(role.equals("ADMIN")){
+                                }else if(role.equals("ROOMMATE")){
                                     permissions.add("Editor");
                                 }else{
                                     permissions.add("Viewer");

@@ -11,7 +11,7 @@
         android:id="@+id/itemsList"
         android:layout_width="411dp"
         android:layout_height="667dp"
-        android:layout_above="@+id/btn_create_new_list"
+        android:layout_above="@+id/switchDeleteList"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -40,5 +40,13 @@
         android:layout_marginBottom="11dp"
         android:textSize="24sp"
         tools:text="+" />
+
+    <Switch
+        android:id="@+id/switchDeleteList"
+        android:layout_width="wrap_content"
+        android:layout_above="@id/btn_create_new_list"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:text="Turn on Completion Mode" />
 
 </RelativeLayout>

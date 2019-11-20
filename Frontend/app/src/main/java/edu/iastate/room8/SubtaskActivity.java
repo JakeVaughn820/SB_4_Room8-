@@ -93,6 +93,7 @@ public class SubtaskActivity extends AppCompatActivity {
      * Text View that shows if the subtasks have all been completed or not
      */
     private TextView completed;
+    private ArrayList<String> subtaskId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +111,7 @@ public class SubtaskActivity extends AppCompatActivity {
         titleForSubTask.setText(title);
 
         items = new ArrayList<String>();
+        subtaskId = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsSubTask.setAdapter(adapter);
 
@@ -159,6 +161,7 @@ public class SubtaskActivity extends AppCompatActivity {
                                 JSONObject List = jsonArray.getJSONObject(i);
 
                                 items.add(List.getString("Contents"));
+                                subtaskId.add(List.getString("Id"));
                             }
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
@@ -180,7 +183,9 @@ public class SubtaskActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             String toToast = items.get(position);
+            postRequestDelete(subtaskId.get(position));
             items.remove(position);
+            subtaskId.remove(position);
             adapter.notifyDataSetChanged();
             if(items.size()==0){
                 Toast.makeText(SubtaskActivity.this, "Congratulations you've completed all the subtasks!", Toast.LENGTH_LONG).show();
@@ -244,4 +249,47 @@ public class SubtaskActivity extends AppCompatActivity {
 //        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 
+    /**
+     * post that deletes a new subtask
+     * Sends keys: ListName, Task
+     */
+    private void postRequestDelete(String subtaskId) {
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/deletesubtask";
+        url = url + "/" + sessionManager.getRoomid() + "/"+  sessionManager.getID() + "/";
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("subTaskId", subtaskId);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("ListName", title);
+                params.put("Task", newSubTaskItemNameString);
+
+//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
+    }
 }

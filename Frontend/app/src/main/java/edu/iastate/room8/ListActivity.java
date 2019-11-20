@@ -237,7 +237,10 @@ public class ListActivity extends AppCompatActivity {
             if(switchOn){
                 String toToast = items.get(position);
                 items.remove(position);
+                postRequestDelete(taskID.get(position));
+                taskID.remove(position);
                 adapter.notifyDataSetChanged();
+
                 Toast.makeText(ListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
             }else{
                 Intent i = new Intent(ListActivity.this, SubtaskActivity.class);
@@ -397,4 +400,48 @@ public class ListActivity extends AppCompatActivity {
 //        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 ////        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
 //    }
+    /**
+     * PostRequest that creates a new task in the list. It sends the name of the list to add to and the task
+     * that the user wants to add
+     * Sending keys: ListName, Task
+     */
+    private void postRequestDelete(String taskId) {
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/deletetask";
+        url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("taskId", taskId);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("ListName", title);
+                params.put("Task", newListItemNameString);
+
+//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
+    }
 }

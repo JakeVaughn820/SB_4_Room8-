@@ -100,6 +100,7 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
+        switchOn = false;
         mQueue = Volley.newRequestQueue(this);
 
         deleteSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -133,7 +134,13 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             if(!switchOn){
-                postRequest(users.get(position), permissions.get(position), usersID.get(position));
+                String toSend;
+                if(permissions.get(position).equals("Viewer")){
+                    toSend = "ADMIN";
+                }else{
+                    toSend = "VIEWER";
+                }
+                postRequest(users.get(position), toSend, usersID.get(position));
                 if(permissions.get(position).equals("Viewer")){
                     permissions.set(position, "Editor");
                     items.set(position, users.get(position)+": Editor");
@@ -149,15 +156,16 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
                 items.remove(position);
                 users.remove(position);
                 permissions.remove(position);
+                usersID.remove(position);
                 adapter.notifyDataSetChanged();
             }
         }
     };
 
     private void jsonParse() {
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/roomsettings";
-//        url = url + "/" + sessionManager.getRoom() + "/";
-        String url = "https://api.myjson.com/bins/6f5sa";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getroommembers";
+        url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
+//        String url = "https://api.myjson.com/bins/6f5sa";
 
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -165,13 +173,13 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("RoomSettings");
+                            JSONArray jsonArray = response.getJSONArray("Users");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
-                                items.add(List.getString("User") + ": " + List.getString("Permission"));
-                                permissions.add(List.getString("Permission"));
-                                users.add(List.getString("User"));
+                                items.add(List.getString("Name") + ": " + List.getString("Role"));
+                                permissions.add(List.getString("Role"));
+                                users.add(List.getString("Name"));
                                 usersID.add(List.getString("UserId"));
                             }
                             adapter.notifyDataSetChanged();
@@ -203,7 +211,7 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
 
         Map<String, String> params = new HashMap<String, String>();
 //        params.put("Title", user);
-        params.put("Permission", permission);
+        params.put("Role", permission);
 //        params.put("UserId", userID);
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -282,11 +290,12 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
      * Sends Keys:
      */
     private void postRequestDeleteUserFromRoom(int position) {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/deleteuser";
-        url = url + "/" + sessionManager.getRoomid();
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/kick";
+        url = url + "/" + sessionManager.getID();
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("UserId", users.get(position));
+        params.put("UserId", usersID.get(position));
+        params.put("RoomId", sessionManager.getRoomid());
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
