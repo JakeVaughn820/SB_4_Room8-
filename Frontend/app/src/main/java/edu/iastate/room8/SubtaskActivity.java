@@ -144,8 +144,9 @@ public class SubtaskActivity extends AppCompatActivity {
      * @throws JSONException
      */
     private void jsonParse() {
-        String url = "https://api.myjson.com/bins/jqfcl";
-//        String url =
+//        String url = "https://api.myjson.com/bins/jqfcl";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getsubtasks";
+        url = url + "/" + sessionManager.getRoomid() + "/" + getIntent().getStringExtra("LISTID") + "/" + getIntent().getStringExtra("TASKID") + "/";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -205,7 +206,8 @@ public class SubtaskActivity extends AppCompatActivity {
      * Sends keys: ListName, Task
      */
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addsubtasks";
+        url = url + "/" + sessionManager.getRoomid() + "/" + getIntent().getStringExtra("LISTID") + "/" + getIntent().getStringExtra("TASKID") + "/";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("ListName", title);

@@ -242,6 +242,8 @@ public class ListActivity extends AppCompatActivity {
             }else{
                 Intent i = new Intent(ListActivity.this, SubtaskActivity.class);
                 i.putExtra("EXTRA_INFORMATION", items.get(position));
+                i.putExtra("TASKID", taskID.get(position));
+                i.putExtra("LISTID", getIntent().getStringExtra("LISTID"));
                 startActivity(i);
             }
         }
