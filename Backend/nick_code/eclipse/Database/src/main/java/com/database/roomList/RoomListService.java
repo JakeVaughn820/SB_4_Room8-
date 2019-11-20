@@ -1,9 +1,15 @@
 package com.database.roomList;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.database.rooms.Rooms;
+import com.database.rooms.RoomsService;
 
 /**
  * This class implements the roomList repository. 
@@ -17,7 +23,9 @@ public class RoomListService
 	 * Holds the roomList repository. 
 	 */
 	@Autowired
-	private RoomListRepository roomListRepository; 
+	private RoomListRepository roomListRepository;
+	
+	private final Logger logger = LoggerFactory.getLogger(RoomsService.class);
 	
 	/**
 	 * Gets all roomLists in the database.
@@ -27,6 +35,19 @@ public class RoomListService
 	public List<RoomList> getRoomList() 
 	{
 		return roomListRepository.findAll();
+	}
+	
+	public Optional<RoomList> findById(Long listId)
+	{
+		Optional<RoomList> list = null;
+		try {
+			list = roomListRepository.findById(listId);
+			if (list.equals(null))
+				throw new NullPointerException();
+		} catch (NullPointerException e) {
+			logger.info("User does not exist");
+		}
+		return list;
 	}
 	
 	/**
@@ -64,7 +85,7 @@ public class RoomListService
         return true; 
     }
 
-	public List<RoomList> findListByRoomId(Long roomId) {
+	public List<RoomList> findListsByRoomId(Long roomId) {
 		return roomListRepository.findListByRoomId(roomId);
 	}
 }
