@@ -48,5 +48,5 @@
         android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
         android:layout_above="@id/deleteRoom"
-        android:text="Switch" />
+        android:text="Turn on to delete room members" />
 </RelativeLayout>
