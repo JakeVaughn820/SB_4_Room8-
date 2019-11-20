@@ -14,6 +14,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomsRepository extends JpaRepository<Rooms, Long> 
 {
+	/**
+	 * Query which returns a room with the provided roomId. 
+	 */
 	@Query("select i from Rooms i where i.id = ?1")
 	Optional<Rooms> findById(Long roomId);
 }

@@ -1,30 +1,26 @@
 package com.database.roomList.tasks;
 
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.database.roomList.RoomList;
 
 /**
- * This class implements the tasks entity. Each roomList can have 
- * multiple tasks. 
+ * This class implements the tasks entity. Each roomList can have multiple
+ * tasks.
  * 
  * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
-@Table(name="tasks")
-public class Tasks 
-{
+@Table(name = "tasks")
+public class Tasks {
 	/**
 	 * A unique Id which is automatically generated for each task.
 	 */
@@ -40,18 +36,11 @@ public class Tasks
 	private String contents;
 
 	/**
-	 * Holds the roomList this task was created in.
+	 * Many to One relationship with roomLists.
 	 */
 	@ManyToOne(targetEntity = com.database.roomList.RoomList.class)
 	@JoinColumn(name = "list_id", referencedColumnName = "id")
 	private RoomList list;
-
-//	/**
-//	 * SubTask Id's associated with this Task.
-//	 */
-//	@OneToMany(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "subtask_id", referencedColumnName = "id")
-//	private List<Long> subtasks;
 
 	/**
 	 * Default Constructor
@@ -65,8 +54,7 @@ public class Tasks
 	 * @param list
 	 * @param contents
 	 */
-	public Tasks(String contents, RoomList list)
-	{
+	public Tasks(String contents, RoomList list) {
 		this.contents = contents;
 		this.list = list;
 	}
@@ -76,8 +64,7 @@ public class Tasks
 	 * 
 	 * @return
 	 */
-	public Long getId() 
-	{
+	public Long getId() {
 		return id;
 	}
 
@@ -117,7 +104,6 @@ public class Tasks
 		this.contents = contents;
 	}
 
-
 	/**
 	 * Sets the List Id.
 	 * 
@@ -127,23 +113,6 @@ public class Tasks
 		this.list = list;
 	}
 
-//	/**
-//	 * Gets all subtasks for this task.
-//	 * 
-//	 * @return
-//	 */
-//	public List<Long> getSubTasks() {
-//		return subtasks;
-//	}
-//
-//	/**
-//	 * Adds one subtask to this task.
-//	 * 
-//	 * @param subtask
-//	 */
-//	public void setSubTask(Long subtask) {
-//		this.subtasks.add(subtask);
-//	}
 	/**
 	 * Checks if two tasks are the same.
 	 */
@@ -154,8 +123,6 @@ public class Tasks
 		if (!(o instanceof Tasks))
 			return false;
 		Tasks task = (Tasks) o;
-		return this.id == task.id && this.contents.equals(task.contents)
-				&& this.list == task.list; 
-				//&& this.subtasks.equals(task.subtasks);
+		return this.id == task.id && this.contents.equals(task.contents) && this.list == task.list;
 	}
 }
