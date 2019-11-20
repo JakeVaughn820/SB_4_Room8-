@@ -8,6 +8,15 @@
     tools:context=".HomeActivity">
 
     <TextView
+        android:id="@+id/homeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Room8" />
+
+    <TextView
         android:id="@+id/RoomNameTextView"
         android:layout_centerHorizontal="true"
         android:layout_margin="10sp"
@@ -69,15 +78,6 @@
         android:layout_centerHorizontal="true"
         android:text="LeaveRoom" />
 
-    <TextView
-        android:id="@+id/homeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Room8" />
-
     <Button
         android:id="@+id/buttonSettings"
         android:layout_width="wrap_content"
@@ -90,6 +90,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:text="UserSettings" />
+        android:text=" User Settings" />
 
 </RelativeLayout>

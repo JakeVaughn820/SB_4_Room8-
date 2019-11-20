@@ -285,7 +285,6 @@ public class SessionManager {
             ((Activity) context).finish();
         }
     }
-
     /**
      * Returns all of the users Details as a HashMap<"Keyword", "Thing">
      * @return returns user details
@@ -302,7 +301,6 @@ public class SessionManager {
 
         return user;
     }
-
     /**
      * Leaves the current room and switches screen to NewUserRoomJoin.
      */
@@ -314,7 +312,6 @@ public class SessionManager {
         context.startActivity(i);
         ((Activity) context).finish();
     }
-
     /**
      * Removes the specified room from the ROOMS that the user is in
      * @param room is in a room that the user is in.
@@ -332,8 +329,6 @@ public class SessionManager {
             editor.apply();
         }
     }
-
-
     /**
      * Logs out of the session clearing all of the users data from shared preferences.
      */
