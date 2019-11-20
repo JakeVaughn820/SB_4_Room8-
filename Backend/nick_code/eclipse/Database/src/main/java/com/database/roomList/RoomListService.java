@@ -65,6 +65,6 @@ public class RoomListService
     }
 
 	public List<RoomList> findListByRoomId(Long roomId) {
-		return roomListRepository.findRoomMembersByUserId(roomId);
+		return roomListRepository.findListByRoomId(roomId);
 	}
 }

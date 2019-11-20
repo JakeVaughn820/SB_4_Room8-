@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.database.roomList.RoomList;
+
 /**
  * This class implements the task repository. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Service
 public class TasksService 
@@ -49,7 +51,11 @@ public class TasksService
     {
         return taskRepository.count();
     }
-
+    
+    public List<Tasks> findTasksByListId(Long listId) {
+		return taskRepository.findTasksByListId(listId);
+	}
+    
     /**
      * Deletes a task from the database. Throws IllegalArgumentException 
      * if the task does not exist. 
