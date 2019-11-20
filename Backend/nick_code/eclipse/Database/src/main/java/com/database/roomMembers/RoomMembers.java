@@ -1,203 +1,164 @@
 package com.database.roomMembers;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.database.rooms.Rooms;
 import com.database.user.User;
 
-
 /**
- * This class implements the roomMembers entity. The roomMembers entity is simply 
- * an extra table to handle the manytomany relationship between rooms and users. 
+ * This class implements the roomMembers entity. The roomMembers entity is
+ * simply an extra table to handle the manytomany relationship between rooms and
+ * users.
  * 
  * @author Nickolas Mitchell
  */
 @Entity
-@Table(name="RoomMembers")
-public class RoomMembers 
-{
+@Table(name = "RoomMembers")
+public class RoomMembers {
 	/**
-	 * A unique Id which is automatically generated for each roomMember. 
+	 * A unique Id which is automatically generated for each roomMember.
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id", nullable = false)
-	public Long id; 
-	
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user; 
+	@Column(name = "id", nullable = false)
+	public Long id;
 
+	/**
+	 * Bidirectional Many to Many relationship with users.
+	 */
 	@ManyToOne
-	@JoinColumn(name="room_id")
-	private Rooms room; 
-	
-//	/**
-//	 * UserId relationship
-//	 */
-//    @OneToOne(fetch=FetchType.EAGER, targetEntity=com.database.user.User.class)
-//    @JoinColumn(name="user_id", referencedColumnName = "id")
-//	public Long userId;
-    
-//    /**
-//     * RoomId relationship
-//     */
-//    @OneToOne(fetch=FetchType.EAGER, targetEntity=com.database.rooms.Rooms.class)
-//    @JoinColumn(name="room_id", referencedColumnName = "id")
-//	public Long roomId;
-	
+	@JoinColumn(name = "user_id")
+	private User user;
+
 	/**
-	 * Holds the user role. A user can be an "Owner" Roommate" or "Viewer"
+	 * Bidirectional Many to Many relationship with rooms.
 	 */
-	@Column(name="user_role")
-	public String userRole; 
-	
+	@ManyToOne
+	@JoinColumn(name = "room_id")
+	private Rooms room;
+
 	/**
-	 * Default Constructor. 
+	 * Holds the user role. A user can be an "Owner" "Roommate" or "Viewer"
 	 */
-	public RoomMembers()
-	{
-		
+	@Column(name = "user_role")
+	public String userRole;
+
+	/**
+	 * Default Constructor.
+	 */
+	public RoomMembers() {
+
 	}
 
 	/**
-	 * Constructor which sets the below fields. 
+	 * Constructor which sets the below fields.
 	 * 
 	 * @param userId
 	 * @param roomId
 	 */
-	public RoomMembers(User user, Rooms room, String userRole)
-	{
+	public RoomMembers(User user, Rooms room, String userRole) {
 		this.user = user;
-		this.room = room; 
-		this.userRole = userRole; 
+		this.room = room;
+		this.userRole = userRole;
 	}
-	
+
 	/**
 	 * Sets the roomMembers Id.
 	 * 
 	 * @param id
 	 */
-	public void setId(Long id)
-	{
-		this.id = id; 
+	public void setId(Long id) {
+		this.id = id;
 	}
-	
-//	/**
-//	 * Sets the users Id. 
-//	 * 
-//	 * @param userId
-//	 */
-//	public void setUserId(Long userId)
-//	{
-//		this.userId = userId; 
-//	}
-//	
-//	/**
-//	 * Sets the rooms Id. 
-//	 * 
-//	 * @param roomId
-//	 */
-//	public void setRoomId(Long roomId)
-//	{
-//		this.roomId = roomId; 
-//	}
-	
+
 	/**
-	 * Gets the roomMembers Id. 
+	 * Gets the roomMembers Id.
 	 * 
 	 * @return
 	 */
-	public Long getId()
-	{
+	public Long getId() {
 		return this.id;
 	}
-	
-//	/**
-//	 * Gets the users Id.
-//	 * 
-//	 * @return
-//	 */
-//	public Long getUserId()
-//	{
-//		return this.userId; 
-//	}
-//	
-//	/**
-//	 * Gets the rooms Id. 
-//	 * 
-//	 * @return
-//	 */
-//	public Long getRoomId()
-//	{
-//		return this.roomId; 
-//	}
-	
+
 	/**
-	 * Gets the users role. 
+	 * Gets the users role.
 	 * 
 	 * @return
 	 */
-	public String getUserRole()
-	{
-		return this.userRole; 
+	public String getUserRole() {
+		return this.userRole;
 	}
-	
+
 	/**
-	 * Sets the users role. 
+	 * Sets the users role.
 	 * 
 	 * @param userRole
 	 */
-	public void setUserRole(String userRole)
-	{
-		if(!userRole.equals("Owner") || !userRole.equals("Roommate"))
+	public void setUserRole(String userRole) {
+		if (!userRole.equals("Owner") || !userRole.equals("Roommate"))
 			this.userRole = "Viewer";
 		else
-			this.userRole = userRole; 
+			this.userRole = userRole;
 	}
-	
+
+	/**
+	 * Gets the user.
+	 * 
+	 * @return
+	 */
 	public User getUser() {
 		return user;
 	}
 
+	/**
+	 * Sets the user
+	 * 
+	 * @param user
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
 
+	/**
+	 * Gets the room.
+	 * 
+	 * @return
+	 */
 	public Rooms getRoom() {
 		return room;
 	}
 
+	/**
+	 * Sets the room.
+	 * 
+	 * @param room
+	 */
 	public void setRoom(Rooms room) {
 		this.room = room;
 	}
-	
-	@Override 
-	public String toString()
-	{
-		return "RoomId: " + room + " userId: "+ user; 
-	}
-	
+
 	@Override
-	public boolean equals(Object o)
-	{
-		if(o == this)
+	public String toString() {
+		return "RoomId: " + room + " userId: " + user;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
 			return true;
-		if(!(o instanceof RoomMembers))
-			return false; 
+		if (!(o instanceof RoomMembers))
+			return false;
 		RoomMembers RoomMembers = (RoomMembers) o;
-		return this.id == RoomMembers.id 
-				//&& this.userId == RoomMembers.userId && this.roomId == RoomMembers.roomId 
-				&& this.userRole.equals(RoomMembers.userRole);
+		return this.id == RoomMembers.id
+				&& this.userRole.equals(RoomMembers.userRole)
+				&& this.user.equals(RoomMembers.user)
+				&& this.room.equals(RoomMembers.room);
 	}
 }
