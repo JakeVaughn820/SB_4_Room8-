@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
 
         }else{
-
+            Toast.makeText(this, "Invalid Login", Toast.LENGTH_SHORT).show();
             loginAttemps--;
             loginAttempsTextView.setText("Incorrect User Name or Password" + "\n" +
                     "Login Attemps Left: " + loginAttemps
