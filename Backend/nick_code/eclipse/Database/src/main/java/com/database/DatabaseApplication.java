@@ -91,7 +91,7 @@ public class DatabaseApplication {
 				ret += " ";
 			}
 			for (SubTasks temp : subTasks) {
-				ret += "{\"Contents\":\"" + temp.getContents() + "\"},";
+				ret += "{\"Contents\":\"" + temp.getContents() + "\",\"Id\":\"" + temp.getId() + "\"},";
 			}
 			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;
@@ -135,6 +135,24 @@ public class DatabaseApplication {
 			
 		}
 		
+		@PostMapping(path = "/deletesubtask/{room}/{user}", consumes = "application/json", produces = "application/json")
+		public String deleteSubTask(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(room);
+			Long subTaskId = Long.valueOf(body.getString("subTaskId"));
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have permission to complete this action\"}";
+			else {
+				subTaskService.deleteById(subTaskId);
+				return "{\"Response\":\"Success\"}";
+			}
+		 }
+		
 		/**
 		 * Takes in a room Id and returns the roomList for that room.
 		 * 
@@ -161,7 +179,7 @@ public class DatabaseApplication {
 				ret += " ";
 			}
 			for (Tasks temp : tasks) {
-				ret += "{\"Contents\":\"" + temp.getContents()  + "\",\"Id\":\"" + temp.getId() + "\"},";
+				ret += "{\"Contents\":\"" + temp.getContents() + "\",\"Id\":\"" + temp.getId() + "\"},";
 			}
 			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;
@@ -204,7 +222,27 @@ public class DatabaseApplication {
 			
 		}
 		
-		
+		@PostMapping(path = "/deletetask/{room}/{user}", consumes = "application/json", produces = "application/json")
+		public String deleteTask(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(room);
+			Long taskId = Long.valueOf(body.getString("taskId"));
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have permission to complete this action\"}";
+			else {
+				List<SubTasks> temp = subTaskService.findSubTasksByTaskId(taskId);
+				for(SubTasks x : temp) {
+					subTaskService.deleteById(x.getId());
+				}
+				taskService.deleteById(taskId);
+				return "{\"Response\":\"Success\"}";
+			}
+		 }
 		
 		/**
 		 * Takes in a room Id and returns the roomList for that room.
@@ -279,6 +317,32 @@ public class DatabaseApplication {
 			return "{\"Response\":\"Success\"}";
 		}
 
+		@PostMapping(path = "/deletelist/{room}/{user}", consumes = "application/json", produces = "application/json")
+		public String deletelist(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(room);
+			Long listId = Long.valueOf(body.getString("listId"));
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have permission to complete this action\"}";
+			else {
+				List<Tasks> temp = taskService.findTasksByListId(listId);
+				for(Tasks x : temp) {
+					List<SubTasks> temp2 = subTaskService.findSubTasksByTaskId(x.getId());
+					for(SubTasks y : temp2) {
+						subTaskService.deleteById(y.getId());
+					}
+					taskService.deleteById(x.getId());
+				}
+				roomListService.deleteById(listId);
+				return "{\"Response\":\"Success\"}";
+			}
+		  }
+		
 		/**
 		 * Get Rooms.
 		 * 

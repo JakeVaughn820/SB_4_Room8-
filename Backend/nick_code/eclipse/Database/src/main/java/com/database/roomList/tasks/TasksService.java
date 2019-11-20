@@ -8,15 +8,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import com.database.roomList.RoomList;
 import com.database.rooms.RoomsService;
 
-||||||| merged common ancestors
 import com.database.roomList.RoomList;
 
-=======
->>>>>>> 99ebb0f2cd0038b69d08ce9f48315fde1fc32181
+
 /**
  * This class implements the task repository.
  * 
@@ -28,18 +25,11 @@ public class TasksService {
 	 * Holds the task repository object.
 	 */
 	@Autowired
-<<<<<<< HEAD
 	private TasksRepository taskRepository; 
 	
 	private final Logger logger = LoggerFactory.getLogger(RoomsService.class);
 	
-||||||| merged common ancestors
-	private TasksRepository taskRepository; 
-	
-=======
-	private TasksRepository taskRepository;
 
->>>>>>> 99ebb0f2cd0038b69d08ce9f48315fde1fc32181
 	/**
 	 * Gets all tasks in the database.
 	 * 
@@ -48,7 +38,6 @@ public class TasksService {
 	public List<Tasks> getTask() {
 		return taskRepository.findAll();
 	}
-<<<<<<< HEAD
 	
 	public Optional<Tasks> findById(Long taskId)
 	{
@@ -63,11 +52,6 @@ public class TasksService {
 		return task;
 	}
 	
-||||||| merged common ancestors
-	
-=======
-
->>>>>>> 99ebb0f2cd0038b69d08ce9f48315fde1fc32181
 	/**
 	 * Adds a task to the database.
 	 * 
