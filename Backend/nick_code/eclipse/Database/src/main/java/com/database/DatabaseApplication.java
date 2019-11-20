@@ -64,12 +64,6 @@ public class DatabaseApplication {
 		 * @param room
 		 * @return
 		 */
-		/**
-		 * Takes in a room Id and returns the roomList for that room.
-		 * 
-		 * @param room
-		 * @return
-		 */
 		@GetMapping("/getlists/{room}/{user}/")
 		public String getRoomList(@PathVariable String room, @PathVariable String user) {
 			Long roomId = Long.valueOf(room);
@@ -85,21 +79,32 @@ public class DatabaseApplication {
 			else
 				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
 			
+//			String ret = "{\"RoomLists\":[";
+//			  if(lists.isEmpty())
+//				  ret += " ";
+//			  for (RoomList temp : lists) {
+//				ret += temp.toString() + ",";
+//			  	}
+//			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
+//			return ret;
+			
 			String ret = "{\"RoomLists\":[";
-			  if(lists.isEmpty())
-				  ret += " ";
-			  for (RoomList temp : lists) {
-				ret += temp.toString() + ",";
-			  	}
+			if (lists.isEmpty()) {
+				ret += " ";
+			}
+			for (RoomList temp : lists) {
+				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription() + "\"},";
+			}
 			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;
 		}
 
 		/**
-		 * Creates a new roomList in the provided room.
+		 * Creates a new list in the provided room.
 		 * 
 		 * @param item
 		 * @param room
+		 * @param user
 		 * @return
 		 */
 		@PostMapping(path = "/addlist/{room}/{user}", consumes = "application/json", produces = "application/json")
@@ -117,7 +122,16 @@ public class DatabaseApplication {
 			if(isAdmin.getUserRole().equals("VIEWER"))
 				return "{\"Response\":\"User does not have the permissions to take this action\"}";
 			
-			roomListService.addRoomList(new RoomList(roomId, Title, Description));
+			Optional<Rooms> toAdd = roomService.findById(roomId);
+			Rooms toAddTemp = null;
+			
+			try {
+				toAddTemp = toAdd.get();
+			} catch (NoSuchElementException e) {
+				return "{\"Response\":\"No such user exists\"}";
+			}
+			
+			roomListService.addRoomList(new RoomList(toAddTemp, Title, Description));
 			return "{\"Response\":\"Success\"}";
 		}
 
@@ -129,13 +143,14 @@ public class DatabaseApplication {
 		 */
 		@GetMapping("/getrooms/{user}")
 		public String getRooms(@PathVariable String user) {
-			List<Rooms> rooms = roomMembersService.findRoomsByUserId(Long.valueOf(user));
+			Long userId = Long.valueOf(user);
+			List<Rooms> rooms = roomMembersService.findRoomsByUserId(userId);
 			String ret = "{\"Rooms\":[";
 			if (rooms.isEmpty()) {
 				ret += " ";
 			}
 			for (Rooms temp : rooms) {
-				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Id\":\"" + temp.getId() + "\"},";
+				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Id\":\"" + temp.getId() + "\",\"Role\":\"" + roomMembersService.findRoomMemberByIds(userId, temp.getId()).getUserRole() + "\"},";
 			}
 			ret = ret.substring(0, ret.length() - 1) + "]}";
 			return ret;
