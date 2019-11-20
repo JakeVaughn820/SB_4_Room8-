@@ -239,7 +239,13 @@ public class DatabaseApplication {
 		}
 
 		/**
-		 * Creates a new list in the provided room.
+		 * Create RoomList. 
+		 * 
+		 * This method takes in the roomId of the room for the room list to be created and also takes in the userId
+		 * of the user creating the room. This method is called whenever a user on the frontend selects the create room
+		 * option. A successful response is sent to the frontend if the user is a member of the room. If the user is not 
+		 * a member of the room then the room list is not created and a response of "No such RoomMembers object for given parameters"
+		 * is sent to the frontend. The frontend is handling user permissions for this endpoint.
 		 * 
 		 * @param item
 		 * @param room
@@ -274,7 +280,9 @@ public class DatabaseApplication {
 		}
 
 		/**
-		 * Get all rooms a particular user is in
+		 * Get Rooms.
+		 * 
+		 * This method returns all of the rooms a particular user is in.  
 		 * 
 		 * @param user
 		 * @return
@@ -295,8 +303,12 @@ public class DatabaseApplication {
 		}
 
 		/**
+		 * Create Room. 
+		 * 
 		 * This method creates a room therefore assigning which ever user created this
-		 * room is now the owner of the room
+		 * room is now the owner of the room. If the room does not exist a response of "No such room exists" is 
+		 * returned or if a user does not exist a response of "No such user exists" is returned. Otherwise a success response 
+		 * is returned. 
 		 * 
 		 * @param item
 		 * @param user
@@ -334,8 +346,13 @@ public class DatabaseApplication {
 		}
 
 		/**
-		 * This method deletes a room This method checks if the user requesting to
-		 * delete the room is a Owner since only the owner can delete rooms.
+		 * Kick User From Room. 
+		 * 
+		 * This method kicks a particular user from a room. Only the OWNER can kick a user out 
+		 * of a room. If the user trying to kick another user from the room is not an OWNER, a 
+		 * response of "User is not an OWNER" is returned. If the user to be kicked from the room 
+		 * does not exist then a response of "No such RoomMembers object for given parameters" is 
+		 * returned. Otherwise a success response is returned.
 		 * 
 		 * @param item
 		 * @return
@@ -358,6 +375,18 @@ public class DatabaseApplication {
 				return "{\"Response\":\"User is not an OWNER\"}";
 		  }
 
+		  /**
+		   * Join Room. 
+		   * 
+		   * This method allows a user to join a room. If the room does not exist a response of "No such room exists"
+		   * is returned and if the room the user requested to join does not exist a response of "No such room exists"
+		   * is returned. Otherwise a success response is returned and the viewer's permissions are automatically set to 
+		   * VIEWER. The frontend allows for the OWNER to give a VIEWER more permission at their discretion.  
+		   * 
+		   * @param item
+		   * @param user
+		   * @return
+		   */
 		@PostMapping(path = "/room/join/{user}", consumes = "application/json", produces = "application/json")
 		public String joinRoom(@RequestBody String item, @PathVariable String user) {
 			JSONObject body = new JSONObject(item);
@@ -388,6 +417,20 @@ public class DatabaseApplication {
 			return "{\"Response\":\"Success\"}";
 		}
 		
+		/**
+		 * Delete Room. 
+		 * 
+		 * This method deletes a the requested room. Only ADMIN's can delete rooms. If the user is not an 
+		 * ADMIN a response of "User is not an OWNER" is returned. If the room does not exist a response 
+		 * of "No such RoomMembers object for given parameters" is returned. Otherwise a success response 
+		 * is returned and the room is removed from the database and all users in said room will no longer 
+		 * have accesss to that room. Also, all of the roomMembers objects with the target roomId will also 
+		 * be removed from the database.   
+		 * 
+		 * @param item
+		 * @param user
+		 * @return
+		 */
 		@PostMapping(path = "/room/delete/{user}")
 		  public String deleteRoom(@RequestBody String item, @PathVariable String user) {
 			JSONObject body = new JSONObject(item);
@@ -410,8 +453,12 @@ public class DatabaseApplication {
 		  }
 		
 		/**
-		 * User login, sends back whether the user exists and if the login was
-		 * successful or not.
+		 * Login.
+		 * 
+		 * This method checks if the user is inside of the database and the correct password is 
+		 * provided. If not then a response of "Incorrect Password" is returned. If the user is 
+		 * within the database and has entered the correct password then a success response is 
+		 * returned. 
 		 * 
 		 * @param item
 		 * @return
@@ -439,7 +486,11 @@ public class DatabaseApplication {
 		}
 
 		/**
-		 * User registration, registers a user to the database and sends back a success.
+		 * Registration.
+		 * 
+		 * This method adds a user to the database. If the entered email or name is already within the database, 
+		 * then a response of "Email Already In Use" or "Name Already In Use" respectively. Otherwise a success 
+		 * response is returned and the user is added to the database. 
 		 * 
 		 * @param item
 		 * @return

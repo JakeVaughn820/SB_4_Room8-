@@ -79,6 +79,7 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
      * Holds whether or not the switch is on
      */
     private boolean switchOn;
+    private ArrayList<String> usersID;
     /**
      *     These tags will be used to cancel the requests
      */
@@ -94,6 +95,7 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
 
         users = new ArrayList<>();
         permissions = new ArrayList<>();
+        usersID = new ArrayList<>();
         items = new ArrayList<String>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
@@ -131,7 +133,7 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             if(!switchOn){
-                postRequest(users.get(position), permissions.get(position));
+                postRequest(users.get(position), permissions.get(position), usersID.get(position));
                 if(permissions.get(position).equals("Viewer")){
                     permissions.set(position, "Editor");
                     items.set(position, users.get(position)+": Editor");
@@ -153,8 +155,8 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
     };
 
     private void jsonParse() {
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
-//        url = url + "/" + sessionManager.getRoom();
+//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/roomsettings";
+//        url = url + "/" + sessionManager.getRoom() + "/";
         String url = "https://api.myjson.com/bins/6f5sa";
 
 
@@ -170,6 +172,7 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
                                 items.add(List.getString("User") + ": " + List.getString("Permission"));
                                 permissions.add(List.getString("Permission"));
                                 users.add(List.getString("User"));
+                                usersID.add(List.getString("UserId"));
                             }
                             adapter.notifyDataSetChanged();
 
@@ -194,12 +197,13 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
      * PostRequest that tells the server it wants to change the users permission
      * Sends Keys:
      */
-    private void postRequest(String user, final String permission) {
+    private void postRequest(String user, String permission, String userID) {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/RoomSettings";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("Title", user);
         params.put("Description", permission);
+        params.put("UserId", userID);
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,

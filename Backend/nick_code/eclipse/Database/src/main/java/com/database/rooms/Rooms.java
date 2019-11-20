@@ -1,7 +1,5 @@
 package com.database.rooms;
 
-
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,113 +15,114 @@ import javax.persistence.Table;
 import com.database.roomMembers.RoomMembers;
 
 /**
- * This class implements the rooms entity. 
+ * This class implements the rooms entity.
  * 
  * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
-@Table(name="rooms")
-public class Rooms 
-{
+@Table(name = "rooms")
+public class Rooms {
 	/**
-	 * A unique Id which is automatically generated for each room. 
+	 * A unique Id which is automatically generated for each room.
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id", nullable = false)
-	public Long id; 
-	
+	@Column(name = "id", nullable = false)
+	public Long id;
+
 	/**
-	 * Title of the room. 
+	 * Title of the room.
 	 */
-	@Column(name="title")
+	@Column(name = "title")
 	public String title;
-	
+
 	/**
-	 * @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
-    private Set<BookPublisher> bookPublishers = new HashSet<>();
+	 * Bidirectional Many to Many relationship with users. 
 	 */
 	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-	private Set<RoomMembers> roomMembers = new HashSet<>(); 
+	private Set<RoomMembers> roomMembers = new HashSet<>();
 
 	/**
 	 * Default Constructor.
 	 */
-	public Rooms()
-	{
-		
+	public Rooms() {
+
 	}
-	
+
 	/**
-	 * Constructor which sets the room title. 
+	 * Constructor which sets the room title.
 	 * 
 	 * @param title
 	 */
-	public Rooms(String title)
-	{
+	public Rooms(String title) {
 		this.title = title;
 	}
-	
+
 	/**
-	 * Sets the room Id. 
+	 * Sets the room Id.
 	 * 
 	 * @param id
 	 */
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	/**
-	 * Sets the room name. 
+	 * Sets the room name.
 	 * 
 	 * @param roomName
 	 */
-	public void setRoomName(String roomName)
-	{
-		this.title = roomName; 
+	public void setRoomName(String roomName) {
+		this.title = roomName;
 	}
-	
+
 	/**
 	 * Returns the room Id.
 	 * 
 	 * @return
 	 */
-	public Long getId()
-	{
-		return this.id; 
+	public Long getId() {
+		return this.id;
 	}
-	
+
 	/**
-	 * Returns the rooms name. 
+	 * Returns the rooms name.
 	 * 
 	 * @return
 	 */
-	public String getTitle()
-	{
-		return this.title; 
+	public String getTitle() {
+		return this.title;
 	}
-	
+
+	/**
+	 * Returns all roomMembers. 
+	 * 
+	 * @return
+	 */
 	public Set<RoomMembers> getRoomMembers() {
 		return roomMembers;
 	}
 
+	/**
+	 * Sets room members.
+	 * 
+	 * @param roomMembers
+	 */
 	public void setRoomMembers(Set<RoomMembers> roomMembers) {
 		this.roomMembers = roomMembers;
 	}
 
 	/**
-	 * Checks if two rooms are equal. 
+	 * Checks if two rooms are equal.
 	 */
-	@Override 
-	public boolean equals(Object o)
-	{
-		if(o == this)
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
 			return true;
-		if(!(o instanceof Rooms))
-			return false; 
+		if (!(o instanceof Rooms))
+			return false;
 		Rooms room = (Rooms) o;
-		return this.id == room.id && this.title.equals(room.title);
+		return this.id == room.id && this.title.equals(room.title) && this.roomMembers.equals(room.roomMembers);
 	}
 
 }
