@@ -106,7 +106,22 @@ public class SessionManager {
         editor.putString(PERMISSION, null);
         editor.apply();
     }
-
+    /**
+     * Sets the users name to a new name.
+     * @param newName the users new name
+     */
+    public void setName (String newName){
+        editor.putString(NAME, newName);
+        editor.apply();
+    }
+    /**
+     * Sets the users Email to a new email.
+     * @param newEmail the users new name
+     */
+    public void setEmail (String newEmail){
+        editor.putString(EMAIL, newEmail);
+        editor.apply();
+    }
     /**
      * Adds a room to ROOMS list.
      * @param room room to set for the user

@@ -98,7 +98,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * Holds permissions for users
      */
     private ArrayList<String> permissions;
-
+    /**
+     * Button that updates the rooms the user is in.
+     */
+    private Button updateButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,14 +109,13 @@ public class NewUserRoomJoin extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
 
-        //postRequestForParse();
-
         newRoomCreate = findViewById(R.id.NewRoomCreate);
         newRoomCreateEditText = findViewById(R.id.RoomNameCreate);
         joinRoom = findViewById(R.id.RoomJoin);
         joinRoomEditText = findViewById(R.id.roomIdEditText);
         list = findViewById(R.id.RoomList);
         logout = findViewById(R.id.logoutButton);
+        updateButton = findViewById(R.id.buttonUpdateRooms);
 
         mQueue = Volley.newRequestQueue(this);
 
@@ -133,16 +135,21 @@ public class NewUserRoomJoin extends AppCompatActivity {
 //        ids.add("3");
 
         permissions = new ArrayList<>();
-        permissions.add("Owner");
-        permissions.add("Editor");
-        permissions.add("Viewer");
+//        permissions.add("Owner");
+//        permissions.add("Editor");
+//        permissions.add("Viewer");
 
-        sessionManager.addRoom("Test Room 1", "1");
-        sessionManager.addRoom("Test Room 2", "2");
+//        sessionManager.addRoom("Test Room 1", "1");
+//        sessionManager.addRoom("Test Room 2", "2");
 
 
 
-//        jsonParse();
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                jsonParse();
+            }
+        });
 
         newRoomCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +171,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
             public void onClick(View view) {
 
                 postRequestJoin();
+
             }
         });
 
@@ -205,13 +213,21 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+
                             JSONArray jsonArray = response.getJSONArray("Rooms");
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 ids.add(List.getString("Id"));
-//                                permissions.add(List.getString("Permission"));
+                                String role = List.getString("Role");
+                                if(role.equals("OWNER")){
+                                    permissions.add("Owner");
+                                }else if(role.equals("ADMIN")){
+                                    permissions.add("Editor");
+                                }else{
+                                    permissions.add("Viewer");
+                                }
                                 sessionManager.addRoom(List.getString("Title"), List.getString("Id"));
                             }
                             adapter.notifyDataSetChanged();
@@ -324,54 +340,53 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * Sends Keys: Title, RoomId
      */
     private void postRequestJoin() {
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/join";
-//        url = url + "/" + sessionManager.getID();
-//
-//        Map<String, String> params = new HashMap<String, String>();
-//        params.put("RoomId", joinRoomEditText.getText().toString());
-//
-//        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-//                url, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        Log.d(TAG, response.toString());
-//                        try {
-//                            String success = response.getString("Response");
-//                            if(success.equals("Success")){
-//                                //sessionManager.addRoom(joinRoomEditText.getText().toString());
-//                                items.clear();
-//                                ids.clear();
-//                                permissions.clear();
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/join";
+        url = url + "/" + sessionManager.getID();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("RoomId", joinRoomEditText.getText().toString());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        try {
+                            String success = response.getString("Response");
+                            if(success.equals("Success")){
+                                //sessionManager.addRoom(joinRoomEditText.getText().toString());
+                                items.clear();
+                                ids.clear();
+                                permissions.clear();
 //                                jsonParse();
-//                            }else{
-//                                Toast.makeText(NewUserRoomJoin.this, "Room does not exist!", Toast.LENGTH_SHORT).show();
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                VolleyLog.d(TAG, "Error: " + error.getMessage());
-//            }
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Content-Type", "application/json");
-//                return headers;
-//            }
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("User", getIntent().getStringExtra("USER_ID"));
-//                params.put("CreateRoom", "Yes");
-//                return params;
-//            }
-//        };
-//        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-        jsonParse();
+                            }else{
+                                Toast.makeText(NewUserRoomJoin.this, "Room does not exist!", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("User", getIntent().getStringExtra("USER_ID"));
+                params.put("CreateRoom", "Yes");
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }
