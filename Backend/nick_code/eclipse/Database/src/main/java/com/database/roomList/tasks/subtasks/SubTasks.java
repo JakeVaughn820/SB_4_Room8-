@@ -1,11 +1,7 @@
 package com.database.roomList.tasks.subtasks;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,15 +12,14 @@ import javax.persistence.Table;
 import com.database.roomList.tasks.Tasks;
 
 /**
- * This class implements the subtasks entity. Each task can have 
- * multiple subtasks. 
+ * This class implements the subtasks entity. Each task can have multiple
+ * subtasks.
  * 
  * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
-@Table(name="subtasks")
-public class SubTasks 
-{
+@Table(name = "subtasks")
+public class SubTasks {
 	/**
 	 * A unique Id which is automatically generated for each subtask.
 	 */
@@ -40,6 +35,12 @@ public class SubTasks
 	private String contents;
 
 	/**
+	 * Signifies if this task has been completed or not.
+	 */
+	@Column(name = "completed")
+	private boolean completed;
+
+	/**
 	 * Holds the task this task was created in.
 	 */
 	@ManyToOne(targetEntity = com.database.roomList.tasks.Tasks.class)
@@ -53,16 +54,16 @@ public class SubTasks
 	}
 
 	/**
-	 * Constructor which sets the below parameters. 
+	 * Constructor which sets the below parameters.
 	 * 
 	 * @param task
 	 * @param contents
 	 * @param users
 	 */
-	public SubTasks(String contents, Tasks task) 
-	{
+	public SubTasks(String contents, Tasks task) {
 		this.contents = contents;
 		this.task = task;
+		this.completed = false;
 	}
 
 	/**
@@ -120,6 +121,24 @@ public class SubTasks
 	}
 
 	/**
+	 * Gets completed.
+	 * 
+	 * @return
+	 */
+	public boolean getCompleted() {
+		return completed;
+	}
+
+	/**
+	 * Sets Completed.
+	 * 
+	 * @param completed
+	 */
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+
+	/**
 	 * Checks if two subtasks are the same.
 	 */
 	@Override
@@ -129,9 +148,8 @@ public class SubTasks
 		if (!(o instanceof SubTasks))
 			return false;
 		SubTasks subtask = (SubTasks) o;
-		return this.id == subtask.id && this.contents.equals(subtask.contents)
-				&& this.task == subtask.task;
+		return this.id == subtask.id && this.contents.equals(subtask.contents) && this.task == subtask.task
+				&& this.completed == subtask.completed;
 	}
-
 
 }
