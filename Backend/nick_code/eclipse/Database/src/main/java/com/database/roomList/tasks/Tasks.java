@@ -1,6 +1,5 @@
 package com.database.roomList.tasks;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +35,12 @@ public class Tasks {
 	private String contents;
 
 	/**
+	 * Signifies if this task has been completed or not.
+	 */
+	@Column(name = "completed")
+	private boolean completed;
+
+	/**
 	 * Many to One relationship with roomLists.
 	 */
 	@ManyToOne(targetEntity = com.database.roomList.RoomList.class)
@@ -57,6 +62,7 @@ public class Tasks {
 	public Tasks(String contents, RoomList list) {
 		this.contents = contents;
 		this.list = list;
+		this.completed = false;
 	}
 
 	/**
@@ -114,6 +120,24 @@ public class Tasks {
 	}
 
 	/**
+	 * Gets completed. 
+	 * 
+	 * @return
+	 */
+	public boolean getCompleted() {
+		return completed;
+	}
+
+	/**
+	 * Sets Completed.
+	 * 
+	 * @param completed
+	 */
+	public void setCompleted(boolean completed) {
+		this.completed = completed;
+	}
+
+	/**
 	 * Checks if two tasks are the same.
 	 */
 	@Override
@@ -123,6 +147,7 @@ public class Tasks {
 		if (!(o instanceof Tasks))
 			return false;
 		Tasks task = (Tasks) o;
-		return this.id == task.id && this.contents.equals(task.contents) && this.list == task.list;
+		return this.id == task.id && this.contents.equals(task.contents) && this.list == task.list
+				&& this.completed == task.completed;
 	}
 }

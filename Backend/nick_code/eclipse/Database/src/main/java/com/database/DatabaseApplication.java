@@ -1,7 +1,6 @@
 package com.database;
 
 import java.util.ArrayList;
-//import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -66,9 +65,12 @@ public class DatabaseApplication {
 		private SubTasksService subTaskService;
 
 		/**
-		 * Takes in a room Id and returns the roomList for that room.
+		 * Get Subtasks.
 		 * 
-		 * @param room
+		 * Returns all subtasks for a particular room. 
+		 * 
+		 * @param list
+		 * @param task
 		 * @return
 		 */
 		@GetMapping("/getsubtasks/{list}/{task}/")
@@ -98,11 +100,14 @@ public class DatabaseApplication {
 		}
 
 		/**
-		 * Creates a new list in the provided room.
+		 * Create Subtask.
 		 * 
-		 * @param item
+		 * Creates a subtask for the provided room. 
+		 * 
 		 * @param room
+		 * @param task
 		 * @param user
+		 * @param item
 		 * @return
 		 */
 		@PostMapping(path = "/addsubtask/{room}/{task}/{user}", consumes = "application/json", produces = "application/json")
@@ -135,6 +140,16 @@ public class DatabaseApplication {
 			
 		}
 		
+		/**
+		 * Delete Subtask.
+		 * 
+		 * Deletes a provided subtask for a provided room. 
+		 * 
+		 * @param room
+		 * @param user
+		 * @param item
+		 * @return
+		 */
 		@PostMapping(path = "/deletesubtask/{room}/{user}", consumes = "application/json", produces = "application/json")
 		public String deleteSubTask(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
 			JSONObject body = new JSONObject(item);
@@ -154,9 +169,12 @@ public class DatabaseApplication {
 		 }
 		
 		/**
-		 * Takes in a room Id and returns the roomList for that room.
+		 * Get Tasks.
+		 * 
+		 * Gets all of the tasks for a provided room. 
 		 * 
 		 * @param room
+		 * @param list
 		 * @return
 		 */
 		@GetMapping("/gettasks/{room}/{list}/")
@@ -186,11 +204,14 @@ public class DatabaseApplication {
 		}
 
 		/**
-		 * Creates a new list in the provided room.
+		 * Create Task. 
 		 * 
-		 * @param item
+		 * Creates a task for a provided room. 
+		 * 
 		 * @param room
+		 * @param list
 		 * @param user
+		 * @param item
 		 * @return
 		 */
 		@PostMapping(path = "/addtask/{room}/{list}/{user}", consumes = "application/json", produces = "application/json")
@@ -222,6 +243,16 @@ public class DatabaseApplication {
 			
 		}
 		
+		/**
+		 * Delete Task.
+		 * 
+		 * Deletes a provided task. 
+		 * 
+		 * @param room
+		 * @param user
+		 * @param item
+		 * @return
+		 */
 		@PostMapping(path = "/deletetask/{room}/{user}", consumes = "application/json", produces = "application/json")
 		public String deleteTask(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
 			JSONObject body = new JSONObject(item);
@@ -245,9 +276,12 @@ public class DatabaseApplication {
 		 }
 		
 		/**
-		 * Takes in a room Id and returns the roomList for that room.
+		 * Get Lists.
+		 * 
+		 * Gets all of the lists of a provided room. 
 		 * 
 		 * @param room
+		 * @param user
 		 * @return
 		 */
 		@GetMapping("/getlists/{room}/{user}/")
@@ -317,6 +351,16 @@ public class DatabaseApplication {
 			return "{\"Response\":\"Success\"}";
 		}
 
+		/**
+		 * Delete List.
+		 * 
+		 * Deletes a provided list. 
+		 * 
+		 * @param room
+		 * @param user
+		 * @param item
+		 * @return
+		 */
 		@PostMapping(path = "/deletelist/{room}/{user}", consumes = "application/json", produces = "application/json")
 		public String deletelist(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
 			JSONObject body = new JSONObject(item);
@@ -409,6 +453,15 @@ public class DatabaseApplication {
 			return "{\"Response\":\"Success\"}";
 		}
 		
+		/**
+		 * Get RoomMembers. 
+		 * 
+		 * Returns all rooms a user is a member of. 
+		 * 
+		 * @param room
+		 * @param user
+		 * @return
+		 */
 		@GetMapping("/getroommembers/{room}/{user}/")
 		public String getRoomMembers(@PathVariable String room, @PathVariable String user) {
 			Long roomId = Long.valueOf(room);
@@ -473,6 +526,15 @@ public class DatabaseApplication {
 				return "{\"Response\":\"User is not an OWNER\"}";
 		  }
 		  
+		  /**
+		   * Set User Role. 
+		   * 
+		   * Sets the user role. The user role can only be set by the OWNER of the room. 
+		   * 
+		   * @param item
+		   * @param user
+		   * @return
+		   */
 		  @PostMapping(path = "/room/setrole/{user}")
 		  public String setRole(@RequestBody String item, @PathVariable String user) {
 			JSONObject body = new JSONObject(item);
