@@ -115,8 +115,8 @@ public class DayActivity extends AppCompatActivity {
         day = getIntent().getStringExtra("Day");
         month = getIntent().getStringExtra("Month");
         year = getIntent().getStringExtra("Year");
-        eventNames = new ArrayList<String>();
-        items = new ArrayList<String>();
+        eventNames = new ArrayList<>();
+        items = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         listView.setAdapter(adapter);
 
@@ -150,9 +150,6 @@ public class DayActivity extends AppCompatActivity {
      * @throws JSONException
      */
     private void jsonParse() {
-//        String url = "https://api.myjson.com/bins/jqfcl";
-//        String url = "https://api.myjson.com/bins/w6jix";
-//        String url = "https://api.myjson.com/bins/l3r1l";
 //        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
         String url = "https://api.myjson.com/bins/xf1fk";
 
@@ -165,7 +162,6 @@ public class DayActivity extends AppCompatActivity {
 
                             for (int i = 0; i < jsonArray.length(); i++){
                                 JSONObject List = jsonArray.getJSONObject(i);
-                                //TODO figure out what we want to get from backend, probably the times and things happening at that time
                                 String start = List.getString("StartTime");
                                 String end = List.getString("EndTime");
                                 String eventName = List.getString("EventName");
