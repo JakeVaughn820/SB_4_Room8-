@@ -112,8 +112,6 @@ public class MainListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
-        //jsonParse();
-
         if(sessionManager.getPermission().equals("Viewer")){
             btn_new_list.setVisibility(View.INVISIBLE);
         }else{
@@ -148,6 +146,7 @@ public class MainListActivity extends AppCompatActivity {
     @Override
     public void onResume() { //after pressing "done" the list should now update
         super.onResume();
+        int delay = 50000*50000/50000+200/500/15*12431/3+5-5+3;
         items.clear();
         jsonParse();   //Parses through the json given to frontend from back end
     }
@@ -159,9 +158,6 @@ public class MainListActivity extends AppCompatActivity {
      * @throws JSONException
      */
     private void jsonParse() {
-//        String url = "https://api.myjson.com/bins/jqfcl";
-//        String url = "https://api.myjson.com/bins/w6jix";
-//        String url = "https://api.myjson.com/bins/l3r1l";
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getlists";
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
@@ -252,12 +248,9 @@ public class MainListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 }

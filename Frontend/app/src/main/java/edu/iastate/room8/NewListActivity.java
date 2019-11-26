@@ -2,26 +2,20 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -114,15 +108,11 @@ public class NewListActivity extends AppCompatActivity {
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addlist";
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID()+ "/";
-//        Toast.makeText(this, url, Toast.LENGTH_LONG).show();
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("Title", newListNameString);
         params.put("Description", descriptionTextString);
-//        Toast.makeText(this, params.get("Title"), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, params.get("Description"), Toast.LENGTH_SHORT).show();
         JSONObject toPost = new JSONObject(params);
-//        Toast.makeText(this, toPost.toString(), Toast.LENGTH_LONG).show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
                 new Response.Listener<JSONObject>() {

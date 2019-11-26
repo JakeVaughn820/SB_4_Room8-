@@ -2,7 +2,6 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -116,7 +115,6 @@ public class SubtaskActivity extends AppCompatActivity {
         itemsSubTask.setAdapter(adapter);
 
         jsonParse();
-        //postRequestForParse();
 
         if(sessionManager.getPermission().equals("Viewer")){
             newSubTaskItem.setVisibility(View.INVISIBLE);
@@ -139,14 +137,13 @@ public class SubtaskActivity extends AppCompatActivity {
             }
         });
     }
-//
+
     /**
      * Used to parse JSON Objects in SubtaskActivity
      * Will get the subtasks for the task selected by the user and displays them in a list.
      * @throws JSONException
      */
     private void jsonParse() {
-//        String url = "https://api.myjson.com/bins/jqfcl";
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getsubtasks";
         url = url + "/" + getIntent().getStringExtra("LISTID") + "/" + getIntent().getStringExtra("TASKID") + "/";
 
@@ -240,13 +237,10 @@ public class SubtaskActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("ListName", title);
                 params.put("Task", newSubTaskItemNameString);
-
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 
     /**
@@ -284,12 +278,9 @@ public class SubtaskActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("ListName", title);
                 params.put("Task", newSubTaskItemNameString);
-
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 }

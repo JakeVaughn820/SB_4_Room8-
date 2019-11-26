@@ -3,7 +3,6 @@ package edu.iastate.room8;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -129,7 +128,6 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
-        //connectWebSocket();
         setContentView(R.layout.activity_list);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
         titleForList = findViewById(R.id.TitleForList);
@@ -153,7 +151,6 @@ public class ListActivity extends AppCompatActivity {
         switchOn=false;
 
         jsonParse();
-        //postRequestForParse();
 
         if(sessionManager.getPermission().equals("Viewer")){
             newListItem.setVisibility(View.INVISIBLE);
@@ -173,7 +170,6 @@ public class ListActivity extends AppCompatActivity {
 
                 newListItemNameString = newListItemName.getText().toString();
                 postRequest();
-//                sendMessage(view);
                 newListItemName.setText("");
             }
         });
@@ -197,7 +193,6 @@ public class ListActivity extends AppCompatActivity {
      * @throws JSONException
      */
     private void jsonParse() {
-        //String url = "https://api.myjson.com/bins/jqfcl";
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/gettasks";
         url = url + "/" + sessionManager.getRoomid() + "/" + getIntent().getStringExtra("LISTID") + "/";
 
@@ -289,12 +284,10 @@ public class ListActivity extends AppCompatActivity {
                 params.put("ListName", title);
                 params.put("Task", newListItemNameString);
 
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 
     /**
@@ -350,56 +343,7 @@ public class ListActivity extends AppCompatActivity {
         mWebSocketClient.send(newListItemNameString);
     }
 
-//    private void postRequestForParse() {
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
-//
-//        Map<String, String> params = new HashMap<String, String>();
-//        params.put("ListName", title);
-//
-//        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-//                url, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        Log.d(TAG, response.toString());
-//                        try {
-//                            JSONArray jsonArray = response.getJSONArray("List");
-//
-//                            for (int i = 0; i < jsonArray.length(); i++){
-//                                JSONObject List = jsonArray.getJSONObject(i);
-//
-//                                items.add(List.getString("Contents"));
-//                            }
-//                            adapter.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                VolleyLog.d(TAG, "Error: " + error.getMessage());
-//            }
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Content-Type", "application/json");
-//                return headers;
-//            }
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("ListName", title);
-//                params.put("Task", newListItemNameString);
-//
-////                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
-//                return params;
-//            }
-//        };
-//        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-////        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
-//    }
+
     /**
      * PostRequest that creates a new task in the list. It sends the name of the list to add to and the task
      * that the user wants to add
@@ -437,11 +381,9 @@ public class ListActivity extends AppCompatActivity {
                 params.put("ListName", title);
                 params.put("Task", newListItemNameString);
 
-//                params.put("body", "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}");
                 return params;
             }
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//        String x = "{\"contents\":\"Hi its Paul\",\"dateCreate\":\"sep 9\"}";
     }
 }

@@ -105,11 +105,6 @@ public class LoginActivity extends AppCompatActivity {
      * @param userPassword password the user typed in
      */
     private void validate(String userName_Email, String userPassword){
-        //TOD Get user names email and password see if any match.
-        //TOD these will need to be gotten from the database
-        //TOD I would recommend posting a request for the userName which can
-        //TOD be given as either the user name or the Email of the person
-        //TOD and then also getting their password. So it can be checked below.
         String getUser = "";
         String getEmail = "";
         String getPassword = "";
@@ -132,7 +127,6 @@ public class LoginActivity extends AppCompatActivity {
                     + "\n" + userName_Email + " " + userPassword);
 
             if (loginAttemps == 0){
-                //TOD set up a timeout for this so it is not perma disabled.
                 loginbtn.setEnabled(false);
 
             }
