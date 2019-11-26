@@ -72,7 +72,7 @@ public class ScheduleActivity extends AppCompatActivity {
         goToScheduleDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(clicked==false ){
+                if(!clicked){
                     Toast.makeText(ScheduleActivity.this, "Please select a date first", Toast.LENGTH_SHORT).show();
                 }else{
                     Intent i = new Intent(ScheduleActivity.this, DayActivity.class);
@@ -96,10 +96,6 @@ public class ScheduleActivity extends AppCompatActivity {
                 year = dateParser.parseYear();
                 date = callDateParser();
                 clicked = true;
-//                date = (i1 + 1) + "/" + i2 + "/" + i;
-//                day = i2 + "";
-//                month = (i1 + 1) + "";
-//                year = i + "";
             }
         });
     }

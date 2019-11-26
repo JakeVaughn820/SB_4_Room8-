@@ -26,10 +26,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.iastate.room8.app.AppController;
@@ -119,30 +117,14 @@ public class NewUserRoomJoin extends AppCompatActivity {
 
         mQueue = Volley.newRequestQueue(this);
 
-        items = new ArrayList<String>();
-
-        //TODO: Right from the start we need to json get all the rooms that the user is a part of and add them to items and sessionsManager.
-//        items.add("Test Room 1 Owner");
-//        items.add("Test Room 2 Editor");
-//        items.add("Test Room 3 Viewer");
+        items = new ArrayList<>();
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         list.setAdapter(adapter);
 
-        ids = new ArrayList<String>();
-//        ids.add("1");
-//        ids.add("2");
-//        ids.add("3");
+        ids = new ArrayList<>();
 
         permissions = new ArrayList<>();
-//        permissions.add("Owner");
-//        permissions.add("Editor");
-//        permissions.add("Viewer");
-
-//        sessionManager.addRoom("Test Room 1", "1");
-//        sessionManager.addRoom("Test Room 2", "2");
-
-
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,7 +143,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     items.clear();
                     ids.clear();
                     permissions.clear();
-//                    jsonParse();
                 }
             }
         });
@@ -243,8 +224,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
             }
         });
         AppController.getInstance().addToRequestQueue(request);
-//        mQueue.add(request);
-
     }
 
     /**
@@ -255,7 +234,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
         Map<String, String> params = new HashMap<String, String>();
-//        params.put("User", sessionManager.getID());
         params.put("Title", newRoomCreateEditText.getText().toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -288,53 +266,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
-//    private void postRequestForParse() {
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/listadd";
-//
-//        Map<String, String> params = new HashMap<String, String>();
-//        params.put("UserID", getIntent().getStringExtra("USER_ID"));
-//
-//        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-//                url, new JSONObject(params),
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        Log.d(TAG, response.toString());
-//                        try {
-//                            JSONArray jsonArray = response.getJSONArray("Rooms");
-//
-//                            for (int i = 0; i < jsonArray.length(); i++){
-//                                JSONObject List = jsonArray.getJSONObject(i);
-//
-//                                items.add(List.getString("Room"));
-//                            }
-//                            adapter.notifyDataSetChanged();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                VolleyLog.d(TAG, "Error: " + error.getMessage());
-//            }
-//        }) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                HashMap<String, String> headers = new HashMap<String, String>();
-//                headers.put("Content-Type", "application/json");
-//                return headers;
-//            }
-//            @Override
-//            protected Map<String, String> getParams() {
-//                Map<String, String> params = new HashMap<String, String>();
-//                params.put("UserID", getIntent().getStringExtra("USER_ID"));
-//
-//                return params;
-//            }
-//        };
-//        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
-//    }
     /**
      * post that lets the user join a new room
      * Sends Keys: Title, RoomId
@@ -355,11 +286,9 @@ public class NewUserRoomJoin extends AppCompatActivity {
                         try {
                             String success = response.getString("Response");
                             if(success.equals("Success")){
-                                //sessionManager.addRoom(joinRoomEditText.getText().toString());
                                 items.clear();
                                 ids.clear();
                                 permissions.clear();
-//                                jsonParse();
                             }else{
                                 Toast.makeText(NewUserRoomJoin.this, "Room does not exist!", Toast.LENGTH_SHORT).show();
                             }

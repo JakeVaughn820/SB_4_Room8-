@@ -129,11 +129,7 @@ public class NewScheduleActivity extends AppCompatActivity {
         params.put("EventDescription", eventDescriptionString);
         params.put("Date", date);
 
-
-//        Toast.makeText(this, params.get("Title"), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, params.get("Description"), Toast.LENGTH_SHORT).show();
         JSONObject toPost = new JSONObject(params);
-//        Toast.makeText(this, toPost.toString(), Toast.LENGTH_SHORT).show();
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
                 new Response.Listener<JSONObject>() {

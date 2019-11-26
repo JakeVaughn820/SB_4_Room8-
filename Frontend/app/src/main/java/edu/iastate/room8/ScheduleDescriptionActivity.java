@@ -4,10 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,7 +18,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,7 +85,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
      * Sends Keys: EventName
      * Receives Keys: EventName, User, Description, Start, End
      */
-    private void postRequest() {
+    private void postRequest() { //TODO may want to change to a jsonparse? depends on how backend wants to do it
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
         Map<String, String> params = new HashMap<String, String>();

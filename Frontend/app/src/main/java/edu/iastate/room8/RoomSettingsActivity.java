@@ -2,7 +2,6 @@ package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +33,7 @@ import java.util.Map;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
 
-public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget to finish deletion of a room
+public class RoomSettingsActivity extends AppCompatActivity {
     /**
      * List View with list of users
      */
@@ -166,7 +165,6 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getroommembers";
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
-//        String url = "https://api.myjson.com/bins/6f5sa";
 
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -211,9 +209,7 @@ public class RoomSettingsActivity extends AppCompatActivity { //TODO dont forget
         url = url + "/" + sessionManager.getRoomid() + "/" + userID;
 
         Map<String, String> params = new HashMap<String, String>();
-//        params.put("Title", user);
         params.put("Role", permission);
-//        params.put("UserId", userID);
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
