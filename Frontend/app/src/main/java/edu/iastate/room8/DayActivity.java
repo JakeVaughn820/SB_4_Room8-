@@ -33,33 +33,9 @@ import edu.iastate.room8.utils.SessionManager;
  */
 public class DayActivity extends AppCompatActivity {
     /**
-     * text view for the date
-     */
-    private TextView date;
-    /**
      * string for the date
      */
     private String dateString;
-    /**
-     * TAG used for json stuff
-     */
-    private String TAG = NewListActivity.class.getSimpleName();
-    /**
-     * String for day
-     */
-    private String day;
-    /**
-     * String for month
-     */
-    private String month;
-    /**
-     * String for year
-     */
-    private String year;
-    /**
-     * Button when clicked will go to new schedule activity
-     */
-    private Button buttonAddScheduleItem;
     /**
      * request queue
      */
@@ -77,19 +53,9 @@ public class DayActivity extends AppCompatActivity {
      */
     private ArrayAdapter<String> adapter;
     /**
-     * list view that holds events for the day
-     */
-    private ListView listView;
-    /**
      * Session manager
      */
     SessionManager sessionManager;
-
-    /**
-     *     These tags will be used to cancel the requests
-      */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,9 +63,9 @@ public class DayActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        date = findViewById(R.id.date);
-        buttonAddScheduleItem = findViewById(R.id.buttonAddScheduledItem);
-        listView = findViewById(R.id.scheduleListView);
+        TextView date = findViewById(R.id.date);
+        Button buttonAddScheduleItem = findViewById(R.id.buttonAddScheduledItem);
+        ListView listView = findViewById(R.id.scheduleListView);
 
         mQueue = Volley.newRequestQueue(this);
 
@@ -112,9 +78,6 @@ public class DayActivity extends AppCompatActivity {
 
         date.setText(getIntent().getStringExtra("EXTRA_INFORMATION"));
         dateString = date.getText().toString();
-        day = getIntent().getStringExtra("Day");
-        month = getIntent().getStringExtra("Month");
-        year = getIntent().getStringExtra("Year");
         eventNames = new ArrayList<>();
         items = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
@@ -147,7 +110,6 @@ public class DayActivity extends AppCompatActivity {
      * Used to parse JSON Objects in DayActivity
      * Will get the events for the day selected by the User and display them in a list
      * Receives: Header: Schedule. Keys: StartTime. EndTime. EventName. User.
-     * @throws JSONException
      */
     private void jsonParse() {
 //        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
@@ -168,8 +130,6 @@ public class DayActivity extends AppCompatActivity {
                                 String user = List.getString("User");
                                 items.add(user + ": " + eventName + "\t" + start + " - " + end);
                                 eventNames.add(eventName);
-
-//                                Toast.makeText(MainListActivity.this, temp, Toast.LENGTH_SHORT).show();
                             }
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {

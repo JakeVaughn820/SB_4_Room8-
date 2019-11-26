@@ -16,45 +16,13 @@ import edu.iastate.room8.utils.SessionManager;
  */
 public class HomeActivity extends AppCompatActivity {
     /**
-     * Button used to go to lists
-     */
-    private Button tempButton;
-    /**
-     * Button used to go to bulletin
-     */
-    private Button tempButtonBulletin;
-    /**
-     * Button used to go to schedule
-     */
-    private Button tempButtonSchedule;
-    /**
-     * Button used to logout
-     */
-    private Button btnLogout;
-    /**
-     * Button used to LeaveRoom
-     */
-    private Button btnLeaveRoom;
-    /**
-     * Session manager
+     * Session Manager variable
      */
     SessionManager sessionManager;
-    /**
-     * Text View with the name of the room
-     */
-    private TextView roomNameTextView;
-    /**
-     * Text View with the ID of the room
-     */
-    private TextView roomIdTextView;
     /**
      * Button that takes you to the settings page
      */
     private Button buttonSettings;
-    /**
-     * Button that takes you to the user settings page
-     */
-    private Button btnUserSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,18 +33,19 @@ public class HomeActivity extends AppCompatActivity {
         sessionManager.checkLogin();
         sessionManager.checkRoom();
 
-        tempButton = findViewById(R.id.tempButton);
-        tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
-        tempButtonSchedule = findViewById(R.id.tempButtonSchedule);
-        btnLogout = findViewById(R.id.btnLogout);
-        btnLeaveRoom = findViewById(R.id.btnLeaveRoom);
-        roomIdTextView = findViewById(R.id.RoomIdTextView);
-        roomNameTextView = findViewById(R.id.RoomNameTextView);
+        Button tempButton = findViewById(R.id.tempButton);
+        Button tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
+        Button tempButtonSchedule = findViewById(R.id.tempButtonSchedule);
+        Button btnLogout = findViewById(R.id.btnLogout);
+        Button btnLeaveRoom = findViewById(R.id.btnLeaveRoom);
+        TextView roomIdTextView = findViewById(R.id.RoomIdTextView);
+        TextView roomNameTextView = findViewById(R.id.RoomNameTextView);
         buttonSettings = findViewById(R.id.buttonSettings);
-        btnUserSettings = findViewById(R.id.btnUserSettings);
-
-        roomIdTextView.setText("Room ID: "+sessionManager.getRoomid());
-        roomNameTextView.setText("Room Name: "+sessionManager.getRoom());
+        Button btnUserSettings = findViewById(R.id.btnUserSettings);
+        String tempRoomIdTextViewToSet = "Room ID: "+sessionManager.getRoomid();
+        roomIdTextView.setText(tempRoomIdTextViewToSet);
+        String tempRoomNameTextViewSet = "Room Name: "+sessionManager.getRoom();
+        roomNameTextView.setText(tempRoomNameTextViewSet);
 
         setButtonVisibility();
 
@@ -141,19 +110,16 @@ public class HomeActivity extends AppCompatActivity {
         sessionManager.setPermission(permission1);
     }
 
-    public int setButtonVisibility(){
+    public void setButtonVisibility(){
         if(sessionManager.getPermission()==null){
             sessionManager.logout();
         }else{
             if(getPermissionHome().equals("Owner")){
                 buttonSettings.setVisibility(View.VISIBLE);
-                return View.VISIBLE;
             }else{
                 buttonSettings.setVisibility(View.INVISIBLE);
-                return View.INVISIBLE;
             }
         }
-        return 1;
     }
 
 }

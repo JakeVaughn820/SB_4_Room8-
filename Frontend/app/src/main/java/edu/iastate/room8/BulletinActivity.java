@@ -10,9 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -36,14 +33,6 @@ public class BulletinActivity extends AppCompatActivity {
      */
     private TextView textView;
     /**
-     * request queue
-     */
-    private RequestQueue mQueue;
-    /**
-     * when clicked will add message to bulletin
-     */
-    private Button toAddButton;
-    /**
      * text the user inputs to be added to bulletin
      */
     private EditText toAddText;
@@ -56,14 +45,6 @@ public class BulletinActivity extends AppCompatActivity {
      */
     private String stringToAddText;
     /**
-     * TAG used for the class the request came from
-     */
-    private String TAG = NewListActivity.class.getSimpleName();
-    /**
-     * tag for json's object or json array requests
-     */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
-    /**
      * mWebSocketClient used for connecting websocket to server.
      */
     private WebSocketClient mWebSocketClient;
@@ -75,7 +56,6 @@ public class BulletinActivity extends AppCompatActivity {
      * Another web socket client
      */
     private WebSocketClient cc;
-//TODO maybe try and make each person color coded?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,9 +63,8 @@ public class BulletinActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        mQueue = Volley.newRequestQueue(this);
         textView = findViewById(R.id.textView);
-        toAddButton = findViewById(R.id.buttonForAdd);
+        Button toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
         arr = new ArrayList<>();
 
@@ -109,7 +88,7 @@ public class BulletinActivity extends AppCompatActivity {
                     }
                     catch (Exception e)
                     {
-                        Log.d("ExceptionSendMessage:", e.getMessage());
+                        Log.d("ExceptionSendMessage:", "Exception in Web Sockets");
                     }
 
                 }
@@ -145,7 +124,7 @@ public class BulletinActivity extends AppCompatActivity {
      */
     private ArrayList<String> reverseArrayList(ArrayList<String> arr1)
     {
-        ArrayList<String> reverse = new ArrayList<String>();
+        ArrayList<String> reverse = new ArrayList<>();
         for (int i = arr1.size() - 1; i >= 0; i--) {
             reverse.add(arr1.get(i));
         }
@@ -178,8 +157,9 @@ public class BulletinActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        TextView textView = (TextView) findViewById(R.id.textView);
-                        textView.setText(textView.getText() + "\n" + message);
+                        TextView textView = findViewById(R.id.textView);
+                        String temp = textView.getText() + "\n" + message;
+                        textView.setText(temp);
                     }
                 });
             }
@@ -199,7 +179,7 @@ public class BulletinActivity extends AppCompatActivity {
 
     /**
      * Sends the message to the web socket
-     * @param view
+     * @param view view used
      */
     public void sendMessage(View view) {
         EditText editText = findViewById(R.id.messageToAdd);
@@ -210,20 +190,21 @@ public class BulletinActivity extends AppCompatActivity {
     /**
      * Web socket that was created to be used with the backend
      */
-    public void webSocketWithBackend(){
+    private void webSocketWithBackend(){
         Draft[] drafts = {new Draft_6455()};
         String w = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         w = w + "/" + sessionManager.getName();
         try {
             Log.d("Socket:", "Trying socket");
-            cc = new WebSocketClient(new URI(w),(Draft) drafts[0]) {
+            cc = new WebSocketClient(new URI(w), drafts[0]) {
                 @Override
                 public void onMessage(String message) {
                     Log.d("", "run() returned: " + message);
                     String s=textView.getText().toString();
 
                     String messageTemp = message + "\n";
-                    textView.setText(messageTemp+s);
+                    String toSet = messageTemp+s;
+                    textView.setText(toSet);
                 }
 
                 @Override
@@ -244,7 +225,7 @@ public class BulletinActivity extends AppCompatActivity {
             };
         }
         catch (URISyntaxException e) {
-            Log.d("Exception:", e.getMessage().toString());
+            Log.d("Exception:", "URISyntaxException");
             e.printStackTrace();
         }
         cc.connect();
