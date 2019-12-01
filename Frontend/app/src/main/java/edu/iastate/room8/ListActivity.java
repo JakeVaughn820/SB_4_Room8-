@@ -16,7 +16,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -25,14 +24,10 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,33 +42,9 @@ import edu.iastate.room8.utils.SessionManager;
  */
 public class ListActivity extends AppCompatActivity {
     /**
-     * Text view with title for list activity
-     */
-    private TextView titleForList;
-    /**
-     * Text view for the description under the title
-     */
-    private TextView descriptionUnderTitle;
-    /**
      * Request queue
      */
     private RequestQueue mQueue;
-    /**
-     * integer that holds the position of the item
-     */
-    private int whichOne;
-    /**
-     * String that holds the description
-     */
-    private String description;
-    /**
-     * List View with list of tasks
-     */
-    private ListView itemsList;
-    /**
-     * Button to add a new task to the list
-     */
-    private Button newListItem;
     /**
      * Edit Text that will be added when the button is pressed
      */
@@ -82,10 +53,6 @@ public class ListActivity extends AppCompatActivity {
      * String that holds the user input
      */
     private String newListItemNameString;
-    /**
-     * Switch that switches between completion mode and subtask mode
-     */
-    private Switch switchList;
     /**
      * Boolean for whether or not the switch is on(true) or off(false)
      */
@@ -109,15 +76,11 @@ public class ListActivity extends AppCompatActivity {
     /**
      * Used to stop json request
      */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    private String tag_json_obj = "jobj_req";
     /**
      * session manager
      */
     SessionManager sessionManager;
-    /**
-     * mWebSocketClient used for connecting websocket to server.
-     */
-    private WebSocketClient mWebSocketClient;
     /**
      * Task ID array list
      */
@@ -130,20 +93,19 @@ public class ListActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_list);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
-        titleForList = findViewById(R.id.TitleForList);
-        itemsList = findViewById(R.id.ListActivityList);
-        newListItem = findViewById(R.id.AddNewListItem);
+        TextView titleForList = findViewById(R.id.TitleForList);
+        ListView itemsList = findViewById(R.id.ListActivityList);
+        Button newListItem = findViewById(R.id.AddNewListItem);
         newListItemName = findViewById(R.id.EnterNewListItem);
-        descriptionUnderTitle = findViewById(R.id.descriptionUnderTitle);
-        switchList = findViewById(R.id.switchList);
+        TextView descriptionUnderTitle = findViewById(R.id.descriptionUnderTitle);
+        Switch switchList = findViewById(R.id.switchList);
 
         mQueue = Volley.newRequestQueue(this);
-        whichOne = getIntent().getIntExtra("WHICH", -1);
-        description = getIntent().getStringExtra("DESCRIPTION_INFORMATION");
+        String description = getIntent().getStringExtra("DESCRIPTION_INFORMATION");
         descriptionUnderTitle.setText(description);
         titleForList.setText(title);
 
-        items = new ArrayList<String>();
+        items = new ArrayList<>();
         taskID = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
@@ -177,11 +139,7 @@ public class ListActivity extends AppCompatActivity {
         switchList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    switchOn = true;
-                }else{
-                    switchOn = false;
-                }
+                switchOn = b;
             }
         });
     }
@@ -190,7 +148,6 @@ public class ListActivity extends AppCompatActivity {
     /**
      * Used to parse JSON Objects in ListActivity
      * Will get the tasks for the list selected by the user and displays them in a list
-     * @throws JSONException
      */
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/gettasks";
@@ -256,7 +213,7 @@ public class ListActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addtask";
         url = url + "/" + sessionManager.getRoomid() + "/" + getIntent().getStringExtra("LISTID") + "/" + sessionManager.getID() + "/";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Contents", newListItemNameString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -273,14 +230,14 @@ public class ListActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("ListName", title);
                 params.put("Task", newListItemNameString);
 
@@ -291,60 +248,6 @@ public class ListActivity extends AppCompatActivity {
     }
 
     /**
-     * Connects to web sockets for bulletin
-     */
-    private void connectWebSocket() {
-        URI uri;
-        try {
-            uri = new URI("wss://echo.websocket.org");
-        } catch (
-                URISyntaxException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        mWebSocketClient = new WebSocketClient(uri) {
-            @Override
-            public void onOpen(ServerHandshake serverHandshake) {
-                Log.i("Websocket", "Opened");
-                mWebSocketClient.send("If this shows up onOpen is working");
-            }
-
-            @Override
-            public void onMessage(String s) {
-                final String message = s;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        items.add(message);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-
-            @Override
-            public void onClose(int i, String s, boolean b) {
-                Log.i("Websocket", "Closed " + s);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                Log.i("Websocket", "Error " + e.getMessage());
-            }
-        };
-        mWebSocketClient.connect();
-    }
-
-    /**
-     * Sends the message to the web socket
-     * @param view
-     */
-    public void sendMessage(View view) {
-        mWebSocketClient.send(newListItemNameString);
-    }
-
-
-    /**
      * PostRequest that creates a new task in the list. It sends the name of the list to add to and the task
      * that the user wants to add
      * Sending keys: ListName, Task
@@ -353,7 +256,7 @@ public class ListActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/deletetask";
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("taskId", taskId);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -370,14 +273,14 @@ public class ListActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("ListName", title);
                 params.put("Task", newListItemNameString);
 
