@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -43,14 +42,6 @@ public class NewListActivity extends AppCompatActivity {
      */
     private String descriptionTextString;
     /**
-     * Button that takes you back to the Main List Activity
-     */
-    private Button btn_back;
-    /**
-     * Button that when pressed adds new list
-     */
-    private Button newList;
-    /**
      * String that holds the name of the new list
      */
     private String newListNameString;
@@ -63,20 +54,15 @@ public class NewListActivity extends AppCompatActivity {
      */
     SessionManager sessionManager;
 
-    /**
-     *     These tags will be used to cancel the requests
-      */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_list);
         sessionManager = new SessionManager(this);
 
-        newList = findViewById(R.id.newList);
+        Button newList = findViewById(R.id.newList);
         newListName = findViewById(R.id.newListName);
-        btn_back = findViewById(R.id.btn_back);
+        Button btn_back = findViewById(R.id.btn_back);
         descriptionText = findViewById(R.id.descriptionText);
 
         newList.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +95,7 @@ public class NewListActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addlist";
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID()+ "/";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Title", newListNameString);
         params.put("Description", descriptionTextString);
         JSONObject toPost = new JSONObject(params);
@@ -127,19 +113,21 @@ public class NewListActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Title", newListNameString);
                 params.put("Description", descriptionTextString);
                 return params;
             }
         };
+        //These tags will be used to cancel the requests
+        String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }

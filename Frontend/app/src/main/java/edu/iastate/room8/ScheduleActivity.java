@@ -20,14 +20,6 @@ import edu.iastate.room8.utils.SessionManager;
  */
 public class ScheduleActivity extends AppCompatActivity {
     /**
-     * Button that goes to the schedule of the selected day on the calender
-     */
-    private Button goToScheduleDay;
-    /**
-     * Calender that you can select the day and see the schedule for that day
-     */
-    private CalendarView calender;
-    /**
      * String holding the date selected
      */
     private String date;
@@ -63,8 +55,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        goToScheduleDay = findViewById(R.id.goToScheduleDay);
-        calender = findViewById(R.id.calendar);
+        Button goToScheduleDay = findViewById(R.id.goToScheduleDay);
+        CalendarView calender = findViewById(R.id.calendar);
 
         clicked = false;
         dateParser = new DateParser(21, 10, 2019);
