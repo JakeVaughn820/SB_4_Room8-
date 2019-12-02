@@ -33,7 +33,7 @@ public class Schedule {
 	 * Room Id associated with this schedule.
 	 */
 	@OneToOne(targetEntity = com.database.rooms.Rooms.class)
-	@JoinColumn(name = "room_id", foreignKey = @ForeignKey(name = "id"))
+	@JoinColumn(name = "room_schedule", foreignKey = @ForeignKey(name = "fk_schedule_room"))
 	private Rooms room;
 
 	/**
