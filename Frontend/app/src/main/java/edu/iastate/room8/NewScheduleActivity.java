@@ -7,9 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -30,14 +28,6 @@ import edu.iastate.room8.utils.SessionManager;
  * @author Jake Vaughn
  */
 public class NewScheduleActivity extends AppCompatActivity {
-    /**
-     * Text View with the title of the page
-     */
-    private TextView addNewEventTextView;
-    /**
-     * Button that adds the new event
-     */
-    private Button addNewEventButton;
     /**
      * Edit Text with the user input for the start time
      */
@@ -82,10 +72,6 @@ public class NewScheduleActivity extends AppCompatActivity {
      * Tag with the current activity
      */
     private String TAG = NewListActivity.class.getSimpleName();
-    /**
-     *     These tags will be used to cancel the requests
-     */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +80,7 @@ public class NewScheduleActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        addNewEventTextView = findViewById(R.id.addNewEventTextView);
-        addNewEventButton = findViewById(R.id.addNewEventButton);
+        Button addNewEventButton = findViewById(R.id.addNewEventButton);
         startTime = findViewById(R.id.startTime);
         endTime = findViewById(R.id.endTime);
         eventName = findViewById(R.id.eventName);
@@ -122,7 +107,7 @@ public class NewScheduleActivity extends AppCompatActivity {
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("EventName", eventNameString);
         params.put("StartTime", startTimeString);
         params.put("EndTime", endTimeString);
@@ -144,14 +129,14 @@ public class NewScheduleActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("EventName", eventNameString);
                 params.put("StartTime", startTimeString);
                 params.put("EndTime", endTimeString);
@@ -160,6 +145,8 @@ public class NewScheduleActivity extends AppCompatActivity {
                 return params;
             }
         };
+        //These tags will be used to cancel the requests
+         String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }

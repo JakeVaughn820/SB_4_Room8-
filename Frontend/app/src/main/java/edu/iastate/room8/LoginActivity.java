@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -46,10 +45,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     private Button loginbtn;
     /**
-     * Button that will send user to register page
-     */
-    private Button signUpBtn;
-    /**
      * Integer with amount of login attempts they get
      */
     private int loginAttemps = 5;
@@ -66,9 +61,6 @@ public class LoginActivity extends AppCompatActivity {
      */
     SessionManager sessionManager;
 
-    // These tags will be used to cancel the requests
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         loginbtn = findViewById(R.id.loginbtn);
-        signUpBtn = findViewById(R.id.signUpBtn);
+        Button signUpBtn = findViewById(R.id.signUpBtn);
         loginAttempsTextView = findViewById(R.id.loginAttempsTextView);
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
@@ -99,39 +91,41 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Validation method to see if the email and password correspond to a user in the database. (Old method for testing)
-     * @param userName_Email email the user typed in
-     * @param userPassword password the user typed in
-     */
-    private void validate(String userName_Email, String userPassword){
-        String getUser = "";
-        String getEmail = "";
-        String getPassword = "";
-        String id = "whatever we want the id to be";
-        String getRoom = "not null";  //Set this to equal if user is in a room. If it is null the user isn't in a room
-
-        //This if matches the (username or email) and password with those on the database
-        if((userName_Email.equals(getUser) || userName_Email.equals(getEmail)) && (userPassword.equals(getPassword))){
-            sessionManager.createSession("TestUser", "TestEmail", "TestPassword");  //Creates a new session where the user is logged in
-
-                Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
-                startActivity(i);
-
-
-        }else{
-
-            loginAttemps--;
-            loginAttempsTextView.setText("Incorrect User Name or Password" + "\n" +
-                    "Login Attemps Left: " + loginAttemps
-                    + "\n" + userName_Email + " " + userPassword);
-
-            if (loginAttemps == 0){
-                loginbtn.setEnabled(false);
-
-            }
-        }
-    }
+    //KEEP FOR TESTING PURPOSES
+//    /**
+//     * Validation method to see if the email and password correspond to a user in the database. (Old method for testing)
+//     * @param userName_Email email the user typed in
+//     * @param userPassword password the user typed in
+//     */
+//    private void validate(String userName_Email, String userPassword){
+//        String getUser = "";
+//        String getEmail = "";
+//        String getPassword = "";
+//        String id = "whatever we want the id to be";
+//        String getRoom = "not null";  //Set this to equal if user is in a room. If it is null the user isn't in a room
+//
+//        //This if matches the (username or email) and password with those on the database
+//        if((userName_Email.equals(getUser) || userName_Email.equals(getEmail)) && (userPassword.equals(getPassword))){
+//            sessionManager.createSession("TestUser", "TestEmail", "TestPassword");  //Creates a new session where the user is logged in
+//
+//                Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
+//                startActivity(i);
+//
+//
+//        }else{
+//
+//            loginAttemps--;
+//            String toSetText = "Incorrect User Name or Password" + "\n" +
+//                    "Login Attemps Left: " + loginAttemps
+//                    + "\n" + userName_Email + " " + userPassword;
+//            loginAttempsTextView.setText(toSetText);
+//
+//            if (loginAttemps == 0){
+//                loginbtn.setEnabled(false);
+//
+//            }
+//        }
+//    }
 
     /**
      * Validation method to see if the email and password correspond to a user in the database.
@@ -150,9 +144,10 @@ public class LoginActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, "Invalid Login", Toast.LENGTH_SHORT).show();
             loginAttemps--;
-            loginAttempsTextView.setText("Incorrect User Name or Password" + "\n" +
+            String toSetText = "Incorrect User Name or Password" + "\n" +
                     "Login Attemps Left: " + loginAttemps
-                    + "\n");
+                    + "\n";
+            loginAttempsTextView.setText(toSetText);
 
             if (loginAttemps == 0){
                 loginbtn.setEnabled(false);
@@ -169,7 +164,7 @@ public class LoginActivity extends AppCompatActivity {
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/login";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Email", userEmailEditText.getText().toString());
         params.put("Password", passwordEditText.getText().toString());
 
@@ -198,19 +193,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Email", userEmailEditText.getText().toString());
                 params.put("Password", passwordEditText.getText().toString());
                 return params;
             }
         };
+        // This tag will be used to cancel the requests
+        String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 

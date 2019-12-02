@@ -1,8 +1,6 @@
 package edu.iastate.room8;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.OnLifecycleEvent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +12,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -48,14 +44,6 @@ public class MainListActivity extends AppCompatActivity {
      */
     private RequestQueue mQueue;
     /**
-     * Button  that brings you to new list activity
-     */
-    private Button btn_new_list;
-    /**
-     * List View with list of lists
-     */
-    private ListView itemsList;
-    /**
      * Items in the list view
      */
     private ArrayList<String> items;
@@ -76,10 +64,6 @@ public class MainListActivity extends AppCompatActivity {
      */
     private ArrayList<String> listid;
     /**
-     * Switch for completion mode
-     */
-    private Switch complete;
-    /**
      * Boolean for if switch is on
      */
     private boolean switchOn;
@@ -87,10 +71,6 @@ public class MainListActivity extends AppCompatActivity {
      * Tag with class
      */
     private String TAG = NewListActivity.class.getSimpleName();
-    /**
-     * Used to stop json request
-     */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +79,14 @@ public class MainListActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        btn_new_list = findViewById(R.id.btn_create_new_list);
+        Button btn_new_list = findViewById(R.id.btn_create_new_list);
         mQueue = Volley.newRequestQueue(this);
-        itemsList = findViewById(R.id.itemsList);
-        complete = findViewById(R.id.switchDeleteList);
+        ListView itemsList = findViewById(R.id.itemsList);
+        Switch complete = findViewById(R.id.switchDeleteList);
 
         btn_new_list.setText("+"); //added this as a fix to the + not displaying
 
-        items = new ArrayList<String>();
+        items = new ArrayList<>();
         description = new ArrayList<>();
         listid = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
@@ -131,11 +111,7 @@ public class MainListActivity extends AppCompatActivity {
         complete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    switchOn = true;
-                }else{
-                    switchOn = false;
-                }
+                switchOn = b;
             }
         });
     }
@@ -146,7 +122,7 @@ public class MainListActivity extends AppCompatActivity {
     @Override
     public void onResume() { //after pressing "done" the list should now update
         super.onResume();
-        int delay = 50000*50000/50000+200/500/15*12431/3+5-5+3;
+//        int delay = 50000*50000/50000+200/500/15*12431/3+5-5+3;
         items.clear();
         jsonParse();   //Parses through the json given to frontend from back end
     }
@@ -155,7 +131,6 @@ public class MainListActivity extends AppCompatActivity {
      * Used to parse JSON Objects in MainListActivity
      * Will get the lists and display them in a list.
      * Receiving Header: RoomLists. Keys: Title, Description.
-     * @throws JSONException
      */
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getlists";
@@ -223,7 +198,7 @@ public class MainListActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/deletelist";
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("listId", listId);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -240,17 +215,18 @@ public class MainListActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                return params;
+                return new HashMap<>();
             }
         };
+        //Used to stop json request
+        String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }
