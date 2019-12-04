@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.iastate.room8.LoginActivity;
-import edu.iastate.room8.NewUserRoomJoin;
+import edu.iastate.room8.Login.LoginActivity;
+import edu.iastate.room8.NewRoom.NewUserRoomJoin;
 
 /**
  * Class used for session managing. Holds information like the UserID or Room they are in.

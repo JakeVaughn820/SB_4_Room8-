@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.Login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.List.NewListActivity;
+import edu.iastate.room8.NewRoom.NewUserRoomJoin;
+import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
 /**

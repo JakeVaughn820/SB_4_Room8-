@@ -11,7 +11,7 @@ import android.widget.TextView;
 import edu.iastate.room8.Bulletin.BulletinActivity;
 import edu.iastate.room8.List.MainListActivity;
 import edu.iastate.room8.R;
-import edu.iastate.room8.ScheduleActivity;
+import edu.iastate.room8.Schedule.ScheduleActivity;
 import edu.iastate.room8.Settings.RoomSettingsActivity;
 import edu.iastate.room8.Settings.SettingsActivity;
 import edu.iastate.room8.utils.SessionManager;
