@@ -13,14 +13,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,22 +37,6 @@ import edu.iastate.room8.utils.SessionManager;
  */
 public class NewUserRoomJoin extends AppCompatActivity {
     /**
-     * Button that when pressed creates a new room with the name of the edit text
-     */
-    private Button newRoomCreate;
-    /**
-     * Button that will join the room with ID the user input
-     */
-    private Button joinRoom;
-    /**
-     * Button that logs out
-     */
-    private Button logout;
-    /**
-     * Request Queue
-     */
-    private RequestQueue mQueue;
-    /**
      * User input for ID of room to join
      */
     private EditText joinRoomEditText;
@@ -63,10 +44,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * User input for the name of the new room they want to create
      */
     private EditText newRoomCreateEditText;
-    /**
-     * List View with all the rooms the user is in
-     */
-    private ListView list;
     /**
      * Tag with the activity currently in
      */
@@ -78,7 +55,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
     /**
      *     These tags will be used to cancel the requests
      */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    private String tag_json_obj = "jobj_req";
 
     /**
      * ArrayList with items for List View
@@ -96,10 +73,11 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * Holds permissions for users
      */
     private ArrayList<String> permissions;
+
     /**
-     * Button that updates the rooms the user is in.
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
      */
-    private Button updateButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,15 +85,13 @@ public class NewUserRoomJoin extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
 
-        newRoomCreate = findViewById(R.id.NewRoomCreate);
+        Button newRoomCreate = findViewById(R.id.NewRoomCreate);
         newRoomCreateEditText = findViewById(R.id.RoomNameCreate);
-        joinRoom = findViewById(R.id.RoomJoin);
+        Button joinRoom = findViewById(R.id.RoomJoin);
         joinRoomEditText = findViewById(R.id.roomIdEditText);
-        list = findViewById(R.id.RoomList);
-        logout = findViewById(R.id.logoutButton);
-        updateButton = findViewById(R.id.buttonUpdateRooms);
-
-        mQueue = Volley.newRequestQueue(this);
+        ListView list = findViewById(R.id.RoomList);
+        Button logout = findViewById(R.id.logoutButton);
+        Button updateButton = findViewById(R.id.buttonUpdateRooms);
 
         items = new ArrayList<>();
 
@@ -183,7 +159,6 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * Used to parse JSON Objects in NewUserRoomJoin
      * Will get the rooms the user has joined and display them in a list
      * Receives Header: Rooms. Keys: Title, ID
-     * @throws JSONException
      */
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getrooms";
@@ -233,7 +208,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
     private void postRequestCreate() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Title", newRoomCreateEditText.getText().toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -250,14 +225,14 @@ public class NewUserRoomJoin extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("User", getIntent().getStringExtra("USER_ID"));
                 params.put("CreateRoom", "Yes");
                 return params;
@@ -274,7 +249,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/join";
         url = url + "/" + sessionManager.getID();
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("RoomId", joinRoomEditText.getText().toString());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -303,14 +278,14 @@ public class NewUserRoomJoin extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("User", getIntent().getStringExtra("USER_ID"));
                 params.put("CreateRoom", "Yes");
                 return params;

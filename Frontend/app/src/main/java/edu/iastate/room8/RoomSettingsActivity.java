@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,10 +33,6 @@ import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
 
 public class RoomSettingsActivity extends AppCompatActivity {
-    /**
-     * List View with list of users
-     */
-    private ListView itemsList;
     /**
      * Items in the list view
      */
@@ -67,14 +62,6 @@ public class RoomSettingsActivity extends AppCompatActivity {
      */
     SessionManager sessionManager;
     /**
-     * Deletes room when clicked
-     */
-    private Button deleteRoom;
-    /**
-     * Switch that turns on or off deleting a user
-     */
-    private Switch deleteSwitch;
-    /**
      * Holds whether or not the switch is on
      */
     private boolean switchOn;
@@ -82,20 +69,20 @@ public class RoomSettingsActivity extends AppCompatActivity {
     /**
      *     These tags will be used to cancel the requests
      */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    private String tag_json_obj = "jobj_req";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_settings);
-        itemsList = findViewById(R.id.userList);
-        deleteRoom = findViewById(R.id.deleteRoom);
-        deleteSwitch = findViewById(R.id.switchDeleteFromRoom);
+        ListView itemsList = findViewById(R.id.userList);
+        Button deleteRoom = findViewById(R.id.deleteRoom);
+        Switch deleteSwitch = findViewById(R.id.switchDeleteFromRoom);
         sessionManager = new SessionManager(this);
 
         users = new ArrayList<>();
         permissions = new ArrayList<>();
         usersID = new ArrayList<>();
-        items = new ArrayList<String>();
+        items = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
@@ -105,11 +92,7 @@ public class RoomSettingsActivity extends AppCompatActivity {
         deleteSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    switchOn = true;
-                }else{
-                    switchOn = false;
-                }
+                switchOn=true;
             }
         });
         itemsList.setOnItemClickListener(messageClickedHandler);
@@ -140,7 +123,7 @@ public class RoomSettingsActivity extends AppCompatActivity {
                 }else{
                     toSend = "VIEWER";
                 }
-                postRequest(users.get(position), toSend, usersID.get(position));
+                postRequest(toSend, usersID.get(position));
                 if(permissions.get(position).equals("Viewer")){
                     permissions.set(position, "Editor");
                     items.set(position, users.get(position)+": Editor");
@@ -204,11 +187,11 @@ public class RoomSettingsActivity extends AppCompatActivity {
      * PostRequest that tells the server it wants to change the users permission
      * Sends Keys:
      */
-    private void postRequest(String user, String permission, String userID) {
+    private void postRequest(String permission, String userID) {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/roomsettings";
         url = url + "/" + sessionManager.getRoomid() + "/" + userID;
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Role", permission);
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -225,14 +208,14 @@ public class RoomSettingsActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Title", "ye");
                 params.put("Description","if u see this i messed up");
                 return params;
@@ -249,7 +232,7 @@ public class RoomSettingsActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/delete";
         url = url + "/" + sessionManager.getID();
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("RoomId", sessionManager.getRoomid());
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -266,14 +249,14 @@ public class RoomSettingsActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Title", "ye");
                 params.put("Description","if u see this i messed up");
                 return params;
@@ -290,7 +273,7 @@ public class RoomSettingsActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/kick";
         url = url + "/" + sessionManager.getID();
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("UserId", usersID.get(position));
         params.put("RoomId", sessionManager.getRoomid());
         JSONObject toPost = new JSONObject(params);
@@ -308,14 +291,14 @@ public class RoomSettingsActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Title", "ye");
                 params.put("Description","if u see this i messed up");
                 return params;

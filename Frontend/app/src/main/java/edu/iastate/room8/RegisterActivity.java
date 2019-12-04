@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -63,21 +62,9 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private String passwordCheckTextString;
     /**
-     * Button that registers user
-     */
-    private Button btnRegister;
-    /**
-     * Button that takes user back to login if they are already registered
-     */
-    private Button btnLogin;
-    /**
      * Tag with the current activity
      */
     private String TAG = NewListActivity.class.getSimpleName();
-    /**
-     * These tags will be used to cancel the requests
-     */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +75,8 @@ public class RegisterActivity extends AppCompatActivity {
         userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.userPasswordEditText);
         passwordEditTextCheck = findViewById(R.id.userPasswordCheckEditText);
-        btnRegister = findViewById(R.id.btnRegister);
-        btnLogin = findViewById(R.id.btnLogin);
+        Button btnRegister = findViewById(R.id.btnRegister);
+        Button btnLogin = findViewById(R.id.btnLogin);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Name", userNameEditTextString);
         params.put("Email", userEmailEditTextString);
         params.put("Password", passwordEditTextString);
@@ -164,20 +151,22 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Name", userNameEditTextString);
                 params.put("Email", userEmailEditTextString);
                 params.put("Password", passwordEditTextString);
                 return params;
             }
         };
+        //These tags will be used to cancel the requests
+        String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }
