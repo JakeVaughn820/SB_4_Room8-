@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginVertical="20dp"
     android:layout_marginHorizontal="20dp"
-    tools:context=".ScheduleDescriptionActivity">
+    tools:context=".Schedule.ScheduleDescriptionActivity">
 
     <TextView
         android:id="@+id/personTextView"

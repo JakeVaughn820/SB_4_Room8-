@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,11 +32,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity of the list you chose. The list you chose will have tasks and subtasks
  * Clicking on a task in completion mode deletes it. Clicking on a task not in completion mode brings you to the subtask activity.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -80,13 +83,25 @@ public class ListActivity extends AppCompatActivity {
     /**
      * session manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
     /**
      * Task ID array list
      */
     private ArrayList<String> taskID;
+    /**
+     * Button to add a new list item
+     */
+    private Button newListItem;
+    /**
+     * Switch for the completion mode for lists
+     */
+    private Switch switchList;
 
-
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,10 +110,10 @@ public class ListActivity extends AppCompatActivity {
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
         TextView titleForList = findViewById(R.id.TitleForList);
         ListView itemsList = findViewById(R.id.ListActivityList);
-        Button newListItem = findViewById(R.id.AddNewListItem);
+        newListItem = findViewById(R.id.AddNewListItem);
         newListItemName = findViewById(R.id.EnterNewListItem);
         TextView descriptionUnderTitle = findViewById(R.id.descriptionUnderTitle);
-        Switch switchList = findViewById(R.id.switchList);
+        switchList = findViewById(R.id.switchList);
 
         mQueue = Volley.newRequestQueue(this);
         String description = getIntent().getStringExtra("DESCRIPTION_INFORMATION");
@@ -110,29 +125,18 @@ public class ListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
-        switchOn=false;
+        switchOn = false;
 
         jsonParse();
 
-        if(sessionManager.getPermission().equals("Viewer")){
-            newListItem.setVisibility(View.INVISIBLE);
-            newListItemName.setVisibility(View.INVISIBLE);
-            switchList.setVisibility(View.INVISIBLE);
-        }else{
-            newListItem.setVisibility(View.VISIBLE);
-            newListItemName.setVisibility(View.VISIBLE);
-            switchList.setVisibility(View.VISIBLE);
-        }
+        setPermissions();
 
         itemsList.setOnItemClickListener(messageClickedHandler);
 
         newListItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                newListItemNameString = newListItemName.getText().toString();
-                postRequest();
-                newListItemName.setText("");
+                newListItemClicked();
             }
         });
 
@@ -144,6 +148,29 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method that runs when newListItem is clicked
+     */
+    private void newListItemClicked() {
+        newListItemNameString = newListItemName.getText().toString();
+        postRequest();
+        newListItemName.setText("");
+    }
+
+    /**
+     * Method that sets button visibility based on the permission of the user
+     */
+    private void setPermissions() {
+        if (sessionManager.getPermission().equals("Viewer")) {
+            newListItem.setVisibility(View.INVISIBLE);
+            newListItemName.setVisibility(View.INVISIBLE);
+            switchList.setVisibility(View.INVISIBLE);
+        } else {
+            newListItem.setVisibility(View.VISIBLE);
+            newListItemName.setVisibility(View.VISIBLE);
+            switchList.setVisibility(View.VISIBLE);
+        }
+    }
 
     /**
      * Used to parse JSON Objects in ListActivity
@@ -160,7 +187,7 @@ public class ListActivity extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = response.getJSONArray("TaskList");
 
-                            for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
 
                                 items.add(List.getString("Contents"));
@@ -186,15 +213,15 @@ public class ListActivity extends AppCompatActivity {
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            if(switchOn){
+            if (switchOn) {
                 String toToast = items.get(position);
                 items.remove(position);
                 postRequestDelete(taskID.get(position));
                 taskID.remove(position);
                 adapter.notifyDataSetChanged();
 
-                Toast.makeText(ListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
-            }else{
+                Toast.makeText(ListActivity.this, toToast + " Has been completed", Toast.LENGTH_SHORT).show();
+            } else {
                 Intent i = new Intent(ListActivity.this, SubtaskActivity.class);
                 i.putExtra("EXTRA_INFORMATION", items.get(position));
                 i.putExtra("TASKID", taskID.get(position));
@@ -235,6 +262,7 @@ public class ListActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -278,6 +306,7 @@ public class ListActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

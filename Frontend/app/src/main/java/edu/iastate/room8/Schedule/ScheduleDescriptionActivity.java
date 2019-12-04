@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.Schedule;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,14 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,11 +18,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iastate.room8.List.NewListActivity;
+import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity of ScheduleDescription. You will be able to see the description of the created event.
  * This includes the time frame, description, event name, and who created the event.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -51,18 +52,15 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
      */
     private String TAG = NewListActivity.class.getSimpleName();
     /**
-     * Request Queue
-     */
-    private RequestQueue mQueue;
-    /**
      * Session Manager
      */
     SessionManager sessionManager;
-    /**
-     *  These tags will be used to cancel the requests
-     */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +71,6 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
         person = findViewById(R.id.personTextView);
         description = findViewById(R.id.descriptionTextView);
         startEnd = findViewById(R.id.startEndTextView);
-
-        mQueue = Volley.newRequestQueue(this);
-
-
-
     }
 
     /**
@@ -88,7 +81,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
     private void postRequest() { //TODO may want to change to a jsonparse? depends on how backend wants to do it
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("EventName", getIntent().getStringExtra("EXTRA_INFORMATION"));
         params.put("DateString", getIntent().getStringExtra("DATE"));
         JSONObject toPost = new JSONObject(params);
@@ -118,18 +111,21 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("EventName", getIntent().getStringExtra("EXTRA_INFORMATION"));
                 return params;
             }
         };
+        //These tags will be used to cancel the requests
+        String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }

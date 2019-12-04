@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,31 +29,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity SubTask. You will be able to see and create subtasks in this class.
  * You get to this class by clicking on the task in ListActivity.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
 public class SubtaskActivity extends AppCompatActivity {
     /**
-     * Text View with title for subtasks
-     */
-    private TextView titleForSubTask;
-    /**
      * Request Queue
      */
     private RequestQueue mQueue;
-    /**
-     * List View with the subtasks
-     */
-    private ListView itemsSubTask;
-    /**
-     * Button that adds a new sub task
-     */
-    private Button newSubTaskItem;
     /**
      * User input for the new subtask item name
      */
@@ -82,25 +72,41 @@ public class SubtaskActivity extends AppCompatActivity {
     /**
      * Used to stop requests
      */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    private String tag_json_obj = "jobj_req";
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
 
     /**
      * Text View that shows if the subtasks have all been completed or not
      */
     private TextView completed;
+    /**
+     * Array list for subtaskIds
+     */
     private ArrayList<String> subtaskId;
+    /**
+     * Button for new subtask item
+     */
+    private Button newSubTaskItem;
+    /**
+     * ListView for the items subtasks
+     */
+    private ListView itemsSubTask;
 
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_subtask);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
-        titleForSubTask = findViewById(R.id.TitleForSubTask);
+        TextView titleForSubTask = findViewById(R.id.TitleForSubTask);
         itemsSubTask = findViewById(R.id.SubTaskActivityList);
         newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
         newSubTaskItemName = findViewById(R.id.EnterNewSubTaskItem);
@@ -109,39 +115,51 @@ public class SubtaskActivity extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
         titleForSubTask.setText(title);
 
-        items = new ArrayList<String>();
+        items = new ArrayList<>();
         subtaskId = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsSubTask.setAdapter(adapter);
 
         jsonParse();
 
-        if(sessionManager.getPermission().equals("Viewer")){
-            newSubTaskItem.setVisibility(View.INVISIBLE);
-            newSubTaskItemName.setVisibility(View.INVISIBLE);
-        }else{
-            newSubTaskItem.setVisibility(View.VISIBLE);
-            newSubTaskItemName.setVisibility(View.VISIBLE);
-        }
-        if(!sessionManager.getPermission().equals("Viewer")) {
-            itemsSubTask.setOnItemClickListener(messageClickedHandler);
-        }
+        setPermissions();
         newSubTaskItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                newSubTaskItemNameString = newSubTaskItemName.getText().toString();
-                postRequest();
-                newSubTaskItemName.setText("");
-                completed.setText("");
+                newSubTaskItemClicked();
             }
         });
     }
 
     /**
+     * Method that will be run when newSubtaskItem is clicked.
+     */
+    private void newSubTaskItemClicked() {
+        newSubTaskItemNameString = newSubTaskItemName.getText().toString();
+        postRequest();
+        newSubTaskItemName.setText("");
+        completed.setText("");
+    }
+
+    /**
+     * Method that sets button visibility based on the users permission
+     */
+    private void setPermissions() {
+        if (sessionManager.getPermission().equals("Viewer")) {
+            newSubTaskItem.setVisibility(View.INVISIBLE);
+            newSubTaskItemName.setVisibility(View.INVISIBLE);
+        } else {
+            newSubTaskItem.setVisibility(View.VISIBLE);
+            newSubTaskItemName.setVisibility(View.VISIBLE);
+        }
+        if (!sessionManager.getPermission().equals("Viewer")) {
+            itemsSubTask.setOnItemClickListener(messageClickedHandler);
+        }
+    }
+
+    /**
      * Used to parse JSON Objects in SubtaskActivity
      * Will get the subtasks for the task selected by the user and displays them in a list.
-     * @throws JSONException
      */
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getsubtasks";
@@ -154,7 +172,7 @@ public class SubtaskActivity extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = response.getJSONArray("SubTaskList");
 
-                            for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
 
                                 items.add(List.getString("Contents"));
@@ -184,20 +202,22 @@ public class SubtaskActivity extends AppCompatActivity {
             items.remove(position);
             subtaskId.remove(position);
             adapter.notifyDataSetChanged();
-            if(items.size()==0){
+            if (items.size() == 0) {
                 Toast.makeText(SubtaskActivity.this, "Congratulations you've completed all the subtasks!", Toast.LENGTH_LONG).show();
-                completed.setText("You have completed all subtasks!");
-            }else{
-                Toast.makeText(SubtaskActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
+                String tempCompleted = "You have completed all subtasks!";
+                completed.setText(tempCompleted);
+            } else {
+                Toast.makeText(SubtaskActivity.this, toToast + " Has been completed", Toast.LENGTH_SHORT).show();
             }
         }
     };
 
     /**
      * Used for testing mockito like they do in the tutorial
+     *
      * @return JSONObject to be used
      */
-    public JSONObject jsonGetSubtask(){
+    public JSONObject jsonGetSubtask() {
         return null;
     }
 
@@ -208,9 +228,9 @@ public class SubtaskActivity extends AppCompatActivity {
      */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addsubtask";
-        url = url + "/" + sessionManager.getRoomid() + "/"+ getIntent().getStringExtra("TASKID") + "/" + sessionManager.getID() + "/";
+        url = url + "/" + sessionManager.getRoomid() + "/" + getIntent().getStringExtra("TASKID") + "/" + sessionManager.getID() + "/";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Contents", newSubTaskItemNameString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -227,14 +247,15 @@ public class SubtaskActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("ListName", title);
                 params.put("Task", newSubTaskItemNameString);
                 return params;
@@ -249,9 +270,9 @@ public class SubtaskActivity extends AppCompatActivity {
      */
     private void postRequestDelete(String subtaskId) {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/deletesubtask";
-        url = url + "/" + sessionManager.getRoomid() + "/"+  sessionManager.getID() + "/";
+        url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("subTaskId", subtaskId);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -268,14 +289,15 @@ public class SubtaskActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("ListName", title);
                 params.put("Task", newSubTaskItemNameString);
                 return params;

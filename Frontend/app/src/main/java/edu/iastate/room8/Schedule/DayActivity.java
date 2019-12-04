@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.Schedule;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,10 +24,13 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity of the specific day chosen from the schedule.
  * Can see what is happening on the day for everyone in your room.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -53,9 +56,19 @@ public class DayActivity extends AppCompatActivity {
      */
     private ArrayAdapter<String> adapter;
     /**
+     * Button that when clicked adds the scheduled item
+     */
+    private Button buttonAddScheduleItem;
+    /**
      * Session manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
+
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,17 +77,12 @@ public class DayActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
 
         TextView date = findViewById(R.id.date);
-        Button buttonAddScheduleItem = findViewById(R.id.buttonAddScheduledItem);
+        buttonAddScheduleItem = findViewById(R.id.buttonAddScheduledItem);
         ListView listView = findViewById(R.id.scheduleListView);
 
         mQueue = Volley.newRequestQueue(this);
 
-        if(sessionManager.getPermission().equals("Viewer")){
-            buttonAddScheduleItem.setVisibility(View.INVISIBLE);
-        }else{
-            buttonAddScheduleItem.setVisibility(View.VISIBLE);
-        }
-
+        setPermissions();
 
         date.setText(getIntent().getStringExtra("EXTRA_INFORMATION"));
         dateString = date.getText().toString();
@@ -88,21 +96,39 @@ public class DayActivity extends AppCompatActivity {
         buttonAddScheduleItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(DayActivity.this, NewScheduleActivity.class);
-                i.putExtra("DATE", dateString);
-                startActivity(i);
+                buttonAddScheduleItemClicked();
             }
         });
 
         listView.setOnItemClickListener(messageClickedHandler);
     }
 
+    /**
+     * Method that runs whenever buttonAddScheduleItem is clicked
+     */
+    private void buttonAddScheduleItemClicked() {
+        Intent i = new Intent(DayActivity.this, NewScheduleActivity.class);
+        i.putExtra("DATE", dateString);
+        startActivity(i);
+    }
+
+    /**
+     * Method that that sets button visibility based on permission of user
+     */
+    private void setPermissions() {
+        if (sessionManager.getPermission().equals("Viewer")) {
+            buttonAddScheduleItem.setVisibility(View.INVISIBLE);
+        } else {
+            buttonAddScheduleItem.setVisibility(View.VISIBLE);
+        }
+    }
 
     /**
      * Used for testing mockito like they do in the tutorial
+     *
      * @return JSONObject to be used
      */
-    public JSONObject jsonGetSchedule(){
+    public JSONObject jsonGetSchedule() {
         return null;
     }
 
@@ -122,7 +148,7 @@ public class DayActivity extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = response.getJSONArray("Schedule");
 
-                            for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 String start = List.getString("StartTime");
                                 String end = List.getString("EndTime");

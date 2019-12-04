@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.RegisterLogin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,10 +21,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iastate.room8.List.NewListActivity;
+import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
+
 /**
  * This class is used for the activity Register. You can register for the app here.
  * The server will check if the email or username is already in use. The password will be entered twice and has to be 8 characters at least.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -59,26 +62,15 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private String passwordEditTextString;
     /**
-     * String with the user input for the new registered users password check
-     */
-    private String passwordCheckTextString;
-    /**
-     * Button that registers user
-     */
-    private Button btnRegister;
-    /**
-     * Button that takes user back to login if they are already registered
-     */
-    private Button btnLogin;
-    /**
      * Tag with the current activity
      */
     private String TAG = NewListActivity.class.getSimpleName();
-    /**
-     * These tags will be used to cancel the requests
-     */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
 
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +80,8 @@ public class RegisterActivity extends AppCompatActivity {
         userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.userPasswordEditText);
         passwordEditTextCheck = findViewById(R.id.userPasswordCheckEditText);
-        btnRegister = findViewById(R.id.btnRegister);
-        btnLogin = findViewById(R.id.btnLogin);
+        Button btnRegister = findViewById(R.id.btnRegister);
+        Button btnLogin = findViewById(R.id.btnLogin);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,29 +93,34 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userEmailEditTextString = userEmailEditText.getText().toString();
-                userNameEditTextString = userNameEditText.getText().toString();
-                passwordEditTextString = passwordEditText.getText().toString();
-                passwordCheckTextString = passwordEditTextCheck.getText().toString();
-
-                if(userNameEditTextString.equals("")){
-                    Toast.makeText(RegisterActivity.this, "Must input a username!", Toast.LENGTH_SHORT).show();
-                }else if(userEmailEditTextString.equals("")){
-                    Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
-                }else if(passwordEditTextString.equals("")){
-                    Toast.makeText(RegisterActivity.this, "Must input a password", Toast.LENGTH_SHORT).show();
-                }else if(passwordEditTextString.length()<8){
-                    Toast.makeText(RegisterActivity.this, "Password must be more than 8 characters", Toast.LENGTH_SHORT).show();
-                }else if(!passwordEditTextString.equals(passwordCheckTextString)){
-                    Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    postRequest();
-                }
+                btnRegisterClicked();
             }
         });
     }
 
+    /**
+     * Method that runs when btnRegister is clicked
+     */
+    private void btnRegisterClicked() {
+        userEmailEditTextString = userEmailEditText.getText().toString();
+        userNameEditTextString = userNameEditText.getText().toString();
+        passwordEditTextString = passwordEditText.getText().toString();
+        String passwordCheckTextString = passwordEditTextCheck.getText().toString();
+
+        if (userNameEditTextString.equals("")) {
+            Toast.makeText(RegisterActivity.this, "Must input a username!", Toast.LENGTH_SHORT).show();
+        } else if (userEmailEditTextString.equals("")) {
+            Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
+        } else if (passwordEditTextString.equals("")) {
+            Toast.makeText(RegisterActivity.this, "Must input a password", Toast.LENGTH_SHORT).show();
+        } else if (passwordEditTextString.length() < 8) {
+            Toast.makeText(RegisterActivity.this, "Password must be more than 8 characters", Toast.LENGTH_SHORT).show();
+        } else if (!passwordEditTextString.equals(passwordCheckTextString)) {
+            Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+        } else {
+            postRequest();
+        }
+    }
 
     /**
      * post that creates a new user in the database
@@ -133,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Name", userNameEditTextString);
         params.put("Email", userEmailEditTextString);
         params.put("Password", passwordEditTextString);
@@ -146,10 +143,10 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Response");
-                            if(success.equals("Success")){
+                            if (success.equals("Success")) {
                                 finish();
                                 Toast.makeText(RegisterActivity.this, "Successfully created account!", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 Toast.makeText(RegisterActivity.this, "Username/Email already in use.", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
@@ -164,20 +161,23 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("Name", userNameEditTextString);
                 params.put("Email", userEmailEditTextString);
                 params.put("Password", passwordEditTextString);
                 return params;
             }
         };
+        //These tags will be used to cancel the requests
+        String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }

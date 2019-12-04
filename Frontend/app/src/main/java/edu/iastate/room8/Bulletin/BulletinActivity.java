@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.Bulletin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,10 +19,12 @@ import java.net.URISyntaxException;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.utils.SessionManager;
 
 /**
  * This class is used for the activity of the bulletin feature. Send important messages to your roommates.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -40,23 +42,29 @@ public class BulletinActivity extends AppCompatActivity {
 //     * ArrayList that holds all of bulletin entries
 //     */
 //    private ArrayList<String> arr;
-    /**
-     * String with the text to be added
-     */
-    private String stringToAddText;
     //KEEP IN CASE WE NEED
 //    /**
 //     * mWebSocketClient used for connecting websocket to server.
 //     */
 //    private WebSocketClient mWebSocketClient;
     /**
+     * Button that when clicked will send message
+     */
+    private Button toAddButton;
+    /**
      * session manager used for settings and information for the specific user
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
     /**
      * Another web socket client
      */
     private WebSocketClient cc;
+
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,39 +73,51 @@ public class BulletinActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
 
         textView = findViewById(R.id.textView);
-        Button toAddButton = findViewById(R.id.buttonForAdd);
+        toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
         //arr = new ArrayList<>();      KEEP IN CASE WE NEED
 
-        if(sessionManager.getPermission().equals("Viewer")){
-            toAddButton.setVisibility(View.INVISIBLE);
-            toAddText.setVisibility(View.INVISIBLE);
-        }else{
-            toAddButton.setVisibility(View.VISIBLE);
-            toAddText.setVisibility(View.VISIBLE);
-        }
+        setVisibility();
 
         toAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stringToAddText = toAddText.getText().toString();
-                if(stringToAddText.equals("")){
-                    Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
-                }else{
-                    try {
-                        cc.send(toAddText.getText().toString());
-                    }
-                    catch (Exception e)
-                    {
-                        Log.d("ExceptionSendMessage:", "Exception in Web Sockets");
-                    }
-
-                }
-                toAddText.setText("");
+                toAddClicked();
             }
         });
 
         webSocketWithBackend();
+    }
+
+    /**
+     * Method that sets the visibility of buttons depending on the users permissions in this specific room
+     */
+    private void setVisibility() {
+        if (sessionManager.getPermission().equals("Viewer")) {
+            toAddButton.setVisibility(View.INVISIBLE);
+            toAddText.setVisibility(View.INVISIBLE);
+        } else {
+            toAddButton.setVisibility(View.VISIBLE);
+            toAddText.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Method that runs when toAdd button is clicked
+     */
+    private void toAddClicked() {
+        String stringToAddText = toAddText.getText().toString();
+        if (stringToAddText.equals("")) {
+            Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
+        } else {
+            try {
+                cc.send(toAddText.getText().toString());
+            } catch (Exception e) {
+                Log.d("ExceptionSendMessage:", "Exception in Web Sockets");
+            }
+
+        }
+        toAddText.setText("");
     }
 
 
@@ -194,7 +214,7 @@ public class BulletinActivity extends AppCompatActivity {
     /**
      * Web socket that was created to be used with the backend
      */
-    private void webSocketWithBackend(){
+    private void webSocketWithBackend() {
         Draft[] drafts = {new Draft_6455()};
         String w = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         w = w + "/" + sessionManager.getName();
@@ -204,10 +224,10 @@ public class BulletinActivity extends AppCompatActivity {
                 @Override
                 public void onMessage(String message) {
                     Log.d("", "run() returned: " + message);
-                    String s=textView.getText().toString();
+                    String s = textView.getText().toString();
 
                     String messageTemp = message + "\n";
-                    String toSet = messageTemp+s;
+                    String toSet = messageTemp + s;
                     textView.setText(toSet);
                 }
 
@@ -222,13 +242,11 @@ public class BulletinActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onError(Exception e)
-                {
+                public void onError(Exception e) {
                     Log.d("Exception:", e.toString());
                 }
             };
-        }
-        catch (URISyntaxException e) {
+        } catch (URISyntaxException e) {
             Log.d("Exception:", "URISyntaxException");
             e.printStackTrace();
         }

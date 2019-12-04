@@ -7,7 +7,7 @@
     android:layout_marginVertical="20dp"
     android:layout_marginHorizontal="20dp"
 
-    tools:context=".BulletinActivity">
+    tools:context=".Bulletin.BulletinActivity">
 
     <Button
         android:id="@+id/buttonForAdd"

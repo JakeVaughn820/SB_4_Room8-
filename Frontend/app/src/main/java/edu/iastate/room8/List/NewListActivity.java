@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,11 +20,14 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity NewList. You can create a new list which you can access back in MainList.
  * You can add a description for the list but don't have to.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -52,8 +55,13 @@ public class NewListActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
 
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,14 +76,7 @@ public class NewListActivity extends AppCompatActivity {
         newList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newListNameString = newListName.getText().toString();
-                descriptionTextString = descriptionText.getText().toString();
-                if(newListNameString.equals("")){
-                    Toast.makeText(NewListActivity.this, "Must put something in the 'enter name for new list' line!", Toast.LENGTH_LONG).show();
-                }else{
-                    postRequest();
-                    finish();
-                }
+                newListClicked();
             }
         });
 
@@ -88,12 +89,26 @@ public class NewListActivity extends AppCompatActivity {
     }
 
     /**
+     * Method that runs when newList button is clicked
+     */
+    private void newListClicked() {
+        newListNameString = newListName.getText().toString();
+        descriptionTextString = descriptionText.getText().toString();
+        if (newListNameString.equals("")) {
+            Toast.makeText(NewListActivity.this, "Must put something in the 'enter name for new list' line!", Toast.LENGTH_LONG).show();
+        } else {
+            postRequest();
+            finish();
+        }
+    }
+
+    /**
      * PostRequest that tells the server it wants to add a new list.
      * Sends Keys: Title, Description
      */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addlist";
-        url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID()+ "/";
+        url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
         Map<String, String> params = new HashMap<>();
         params.put("Title", newListNameString);
@@ -118,6 +133,7 @@ public class NewListActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

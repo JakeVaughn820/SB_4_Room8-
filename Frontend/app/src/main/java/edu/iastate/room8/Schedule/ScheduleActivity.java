@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.Schedule;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,11 +10,14 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.utils.DateParser;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity Schedule. There is a calender and you can select a day on the calender
  * and see what events exist between you and your roommates and add more by clicking the button for adding new events.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -48,6 +51,11 @@ public class ScheduleActivity extends AppCompatActivity {
      */
     SessionManager sessionManager;
 
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +63,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        Button goToScheduleDay = findViewById(R.id.goToScheduleDay);
-        CalendarView calender = findViewById(R.id.calendar);
+        final Button goToScheduleDay = findViewById(R.id.goToScheduleDay);
+        final CalendarView calender = findViewById(R.id.calendar);
 
         clicked = false;
         dateParser = new DateParser(21, 10, 2019);
@@ -64,39 +72,54 @@ public class ScheduleActivity extends AppCompatActivity {
         goToScheduleDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!clicked){
-                    Toast.makeText(ScheduleActivity.this, "Please select a date first", Toast.LENGTH_SHORT).show();
-                }else{
-                    Intent i = new Intent(ScheduleActivity.this, DayActivity.class);
-                    i.putExtra("EXTRA_INFORMATION", date);
-                    i.putExtra("Day", day);
-                    i.putExtra("Month", month);
-                    i.putExtra("Year", year);
-                    startActivity(i);
-                }
-
+                goToScheduleDayClicked();
             }
         });
+
         calender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
-                dateParser.setDay(i2);
-                dateParser.setMonth(i1);
-                dateParser.setYear(i);
-                day = dateParser.parseDay();
-                month = dateParser.parseMonth();
-                year = dateParser.parseYear();
-                date = callDateParser();
-                clicked = true;
+                calenderChange(i, i1, i2);
             }
         });
     }
 
     /**
+     * Method that runs whenever the calender date changes
+     */
+    private void calenderChange(int i, int i1, int i2) {
+        dateParser.setDay(i2);
+        dateParser.setMonth(i1);
+        dateParser.setYear(i);
+        day = dateParser.parseDay();
+        month = dateParser.parseMonth();
+        year = dateParser.parseYear();
+        date = callDateParser();
+        clicked = true;
+    }
+
+    /**
+     * Method that runs whenever goToScheduleDay is clicked
+     */
+    private void goToScheduleDayClicked() {
+        if (!clicked) {
+            Toast.makeText(ScheduleActivity.this, "Please select a date first", Toast.LENGTH_SHORT).show();
+        } else {
+            Intent i = new Intent(ScheduleActivity.this, DayActivity.class);
+            i.putExtra("EXTRA_INFORMATION", date);
+            i.putExtra("Day", day);
+            i.putExtra("Month", month);
+            i.putExtra("Year", year);
+            startActivity(i);
+        }
+    }
+
+    /**
      * Calls the date parser to parse the date that is to be used for the schedule.
+     *
      * @return returns the parsed date
      */
-    public String callDateParser(){
+    public String callDateParser() {
         return dateParser.parseDate();
     }
 

@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.Schedule;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,11 +19,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iastate.room8.List.NewListActivity;
+import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity NewSchedule. You can create a new event in the schedule for the day on your rooms events page.
  * The new event added will be viewable in DayActivity.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -73,6 +77,11 @@ public class NewScheduleActivity extends AppCompatActivity {
      */
     private String TAG = NewListActivity.class.getSimpleName();
 
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +89,7 @@ public class NewScheduleActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        Button addNewEventButton = findViewById(R.id.addNewEventButton);
+        final Button addNewEventButton = findViewById(R.id.addNewEventButton);
         startTime = findViewById(R.id.startTime);
         endTime = findViewById(R.id.endTime);
         eventName = findViewById(R.id.eventName);
@@ -91,13 +100,20 @@ public class NewScheduleActivity extends AppCompatActivity {
         addNewEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startTimeString = startTime.getText().toString();
-                endTimeString = endTime.getText().toString();
-                eventNameString = eventName.getText().toString();
-                eventDescriptionString = eventDescription.getText().toString();
-                postRequest();
+                addNewEventButtonClicked();
             }
         });
+    }
+
+    /**
+     * Method that runs whenever addNewEventButton is clicked
+     */
+    private void addNewEventButtonClicked() {
+        startTimeString = startTime.getText().toString();
+        endTimeString = endTime.getText().toString();
+        eventNameString = eventName.getText().toString();
+        eventDescriptionString = eventDescription.getText().toString();
+        postRequest();
     }
 
     /**
@@ -134,6 +150,7 @@ public class NewScheduleActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -146,7 +163,7 @@ public class NewScheduleActivity extends AppCompatActivity {
             }
         };
         //These tags will be used to cancel the requests
-         String tag_json_obj = "jobj_req";
+        String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }

@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,11 +30,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity of MainList. List of lists that you can chose from. For example,
  * you can create a to do list or a grocery list and select them here.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -58,7 +61,7 @@ public class MainListActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
     /**
      * Arraylist for list id's
      */
@@ -71,7 +74,20 @@ public class MainListActivity extends AppCompatActivity {
      * Tag with class
      */
     private String TAG = NewListActivity.class.getSimpleName();
+    /**
+     * Button for new list item
+     */
+    private Button btn_new_list;
+    /**
+     * Switch for completion mode
+     */
+    private Switch complete;
 
+    /**
+     * Method that runs on creation
+     *
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,10 +95,10 @@ public class MainListActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        Button btn_new_list = findViewById(R.id.btn_create_new_list);
+        btn_new_list = findViewById(R.id.btn_create_new_list);
         mQueue = Volley.newRequestQueue(this);
         ListView itemsList = findViewById(R.id.itemsList);
-        Switch complete = findViewById(R.id.switchDeleteList);
+        complete = findViewById(R.id.switchDeleteList);
 
         btn_new_list.setText("+"); //added this as a fix to the + not displaying
 
@@ -92,11 +108,7 @@ public class MainListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
-        if(sessionManager.getPermission().equals("Viewer")){
-            btn_new_list.setVisibility(View.INVISIBLE);
-        }else{
-            btn_new_list.setVisibility(View.VISIBLE);
-        }
+        setPermission();
 
         btn_new_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +126,19 @@ public class MainListActivity extends AppCompatActivity {
                 switchOn = b;
             }
         });
+    }
+
+    /**
+     * Method that makes buttons viewable depending on what permission you have
+     */
+    private void setPermission() {
+        if (sessionManager.getPermission().equals("Viewer")) {
+            btn_new_list.setVisibility(View.INVISIBLE);
+            complete.setVisibility(View.INVISIBLE);
+        } else {
+            btn_new_list.setVisibility(View.VISIBLE);
+            complete.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -143,7 +168,7 @@ public class MainListActivity extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = response.getJSONArray("RoomLists");
 
-                            for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 description.add(List.getString("Description"));
@@ -170,15 +195,15 @@ public class MainListActivity extends AppCompatActivity {
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            if(switchOn){
+            if (switchOn) {
                 String toToast = items.get(position);
                 postRequestDelete(listid.get(position));
                 items.remove(position);
                 description.remove(position);
                 listid.remove(position);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(MainListActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
-            }else {
+                Toast.makeText(MainListActivity.this, toToast + " Has been completed", Toast.LENGTH_SHORT).show();
+            } else {
                 Intent i = new Intent(MainListActivity.this, ListActivity.class);
                 i.putExtra("EXTRA_INFORMATION", items.get(position));
                 i.putExtra("WHICH", position);
@@ -220,6 +245,7 @@ public class MainListActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 return new HashMap<>();
