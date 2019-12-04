@@ -34,7 +34,7 @@ public class RoomList {
 	 * Many to One relationship with Rooms. 
 	 */
 	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
-	@JoinColumn(name = "room_id", foreignKey = @ForeignKey(name = "id"))
+	@JoinColumn(name = "room_list", foreignKey = @ForeignKey(name = "fk_roomlist_room"))
 	private Rooms room;
 
 	/**
