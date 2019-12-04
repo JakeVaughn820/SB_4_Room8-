@@ -8,37 +8,34 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.database.rooms.Rooms;
+//import com.database.rooms.Rooms;
 import com.database.rooms.RoomsService;
 
 /**
- * This class implements the roomList repository. 
+ * This class implements the roomList repository.
  * 
  * @author Thane Storley, Nickolas Mitchell
  */
 @Service
-public class RoomListService 
-{
+public class RoomListService {
 	/**
-	 * Holds the roomList repository. 
+	 * Holds the roomList repository.
 	 */
 	@Autowired
 	private RoomListRepository roomListRepository;
-	
+
 	private final Logger logger = LoggerFactory.getLogger(RoomsService.class);
-	
+
 	/**
 	 * Gets all roomLists in the database.
 	 * 
 	 * @return
 	 */
-	public List<RoomList> getRoomList() 
-	{
+	public List<RoomList> getRoomList() {
 		return roomListRepository.findAll();
 	}
-	
-	public Optional<RoomList> findById(Long listId)
-	{
+
+	public Optional<RoomList> findById(Long listId) {
 		Optional<RoomList> list = null;
 		try {
 			list = roomListRepository.findById(listId);
@@ -49,41 +46,38 @@ public class RoomListService
 		}
 		return list;
 	}
-	
+
 	/**
-	 * Adds a roomList to the database. 
+	 * Adds a roomList to the database.
 	 * 
 	 * @param roomList
 	 * @return
 	 */
-	public RoomList addRoomList(RoomList roomList)
-	{
+	public RoomList addRoomList(RoomList roomList) {
 		return roomListRepository.save(roomList);
 	}
-	
+
 	/**
 	 * Gets number of roomLists in database.
 	 * 
 	 * @return
 	 */
-    public Long count() 
-    {
-        return roomListRepository.count();
-    }
+	public Long count() {
+		return roomListRepository.count();
+	}
 
-    /**
-     * Deletes a roomList from the database. Throws IllegalArgumentException
-     * if the roomList does not exist. 
-     * 
-     * @param roomList
-     * @return
-     * @throws IllegalArgumentException
-     */
-    public boolean deleteById(Long roomList) throws IllegalArgumentException
-    {
-    	roomListRepository.deleteById(roomList);
-        return true; 
-    }
+	/**
+	 * Deletes a roomList from the database. Throws IllegalArgumentException if the
+	 * roomList does not exist.
+	 * 
+	 * @param roomList
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public boolean deleteById(Long roomList) throws IllegalArgumentException {
+		roomListRepository.deleteById(roomList);
+		return true;
+	}
 
 	public List<RoomList> findListsByRoomId(Long roomId) {
 		return roomListRepository.findListByRoomId(roomId);

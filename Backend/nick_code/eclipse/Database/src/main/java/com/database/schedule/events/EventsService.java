@@ -1,66 +1,62 @@
 package com.database.schedule.events;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
- * This class implements the events repository. 
+ * This class implements the events repository.
  * 
  * @author Nickolas Mitchell
  */
-public class EventsService 
-{
-	/**
-	 * Holds the events database object. 
-	 */
+@Service
+public class EventsService {
 	@Autowired
-	private EventsRepository eventsRepository; 
-	
+	private EventsRepository eventsRepository;
+
 	/**
-	 * Returns all events within the database. 
+	 * Returns all events within the database.
 	 * 
 	 * @return
 	 */
-	public List<Events> getEvents() 
-	{
+	public List<Events> getEvents() {
 		return eventsRepository.findAll();
 	}
-	
+
 	/**
-	 * Adds an event to the database. 
+	 * Adds an event to the database.
 	 * 
 	 * @param event
 	 * @return
 	 */
-	public Events addEvent(Events event)
-	{
+	public Events addEvent(Events event) {
 		return eventsRepository.save(event);
 	}
-	
+
 	/**
-	 * Returns the number of events within the database. 
+	 * Returns the number of events within the database.
 	 * 
 	 * @return
 	 */
-    public Long count() 
-    {
+	public Long count() {
 
-        return eventsRepository.count();
-    }
+		return eventsRepository.count();
+	}
 
-    /**
-     * Deletes an event from the database. Throws IllegalArgumentException
-     * if the event does not exist. 
-     * 
-     * @param eventId
-     * @return
-     * @throws IllegalArgumentException
-     */
-    public boolean deleteById(Long eventId) throws IllegalArgumentException
-    {
-    	eventsRepository.deleteById(eventId);
-        return true; 
-    }
+	/**
+	 * Deletes an event from the database. Throws IllegalArgumentException if the
+	 * event does not exist.
+	 * 
+	 * @param eventId
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public boolean deleteById(Long eventId) throws IllegalArgumentException {
+		eventsRepository.deleteById(eventId);
+		return true;
+	}
 
+	public List<Events> findEventsByRoomId(Long roomId) {
+		return eventsRepository.findEventsByRoomId(roomId);
+	}
 }

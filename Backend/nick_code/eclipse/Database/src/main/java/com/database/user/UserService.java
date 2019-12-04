@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This class implements the users repository.
@@ -27,7 +26,7 @@ public class UserService {
 	 * @return
 	 */
 	public List<User> getUsers() {
-		logger.info("Returning all users in database"); 
+		logger.info("Returning all users in database");
 		return userRepository.findAll();
 	}
 
@@ -80,7 +79,7 @@ public class UserService {
 	 * @throws IllegalArgumentException
 	 */
 	public void deleteById(Long userId) {
-		logger.info("Deleted " + findById(userId) + " from the database"); 
+		logger.info("Deleted " + findById(userId) + " from the database");
 		userRepository.deleteById(userId);
 	}
 }
