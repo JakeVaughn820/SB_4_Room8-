@@ -27,10 +27,10 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.database.roomList.*;
 import com.database.roomList.tasks.*;
-import com.database.roomList.tasks.subtasks.SubTasks;
-import com.database.roomList.tasks.subtasks.SubTasksService;
+import com.database.roomList.tasks.subtasks.*;
 import com.database.roomMembers.*;
 import com.database.rooms.*;
+import com.database.schedule.events.*;
 import com.database.user.*;
 
 /**
@@ -63,7 +63,124 @@ public class DatabaseApplication {
 		private TasksService taskService;
 		@Autowired
 		private SubTasksService subTaskService;
+		@Autowired
+		private EventsService eventService;
 
+		
+		/**
+		 * Get Events.
+		 * 
+		 * Gets all of the events of a provided room. 
+		 * 
+		 * @param room
+		 * @param user
+		 * @return
+		 */
+		@GetMapping("/getevent/{room}/{user}/")
+		public String getEvent(@PathVariable String room, @PathVariable String user) {
+			Long roomId = Long.valueOf(room);
+			Long userId = Long.valueOf(user);
+			
+			List<Events> events = new ArrayList<Events>();
+			String response = "";
+			
+			if(roomMembersService.findRoomMemberByIds(userId, roomId)!=null) {
+				events = eventService.findEventsByRoomId(roomId);
+				response = "\"Response\":\"Success\"";
+			}
+			else
+				response =  "\"Response\":\"No such RoomMembers object for given parameters\"";
+
+			String ret = "{\"Events\":[";
+			if (events.isEmpty()) {
+				ret += " ";
+			}
+			for (Events temp : events) {
+				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription() + "\",\"Id\":\"" + temp.getId() + "\"},";
+			}
+			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
+			return ret;
+		}
+
+		/**
+		 * Create Event. 
+		 * 
+		 * This method takes in the roomId of the room for the room list to be created and also takes in the userId
+		 * of the user creating the room. This method is called whenever a user on the frontend selects the create room
+		 * option. A successful response is sent to the frontend if the user is a member of the room. If the user is not 
+		 * a member of the room then the room list is not created and a response of "No such RoomMembers object for given parameters"
+		 * is sent to the frontend. The frontend is handling user permissions for this endpoint.
+		 * 
+		 * @param item
+		 * @param room
+		 * @param user
+		 * @return
+		 */
+		@PostMapping(path = "/addevent/{room}/{user}", consumes = "application/json", produces = "application/json")
+		public String addEvent(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
+			Long roomId = Long.valueOf(room);
+			Long userId = Long.valueOf(user);
+			JSONObject body = new JSONObject(item);
+			String Title = body.getString("Title");
+			String Description = body.getString("Description");
+			String StartTime = body.getString("StartTime");
+			String EndTime = body.getString("EndTime");
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null) {
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			}
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have the permissions to take this action\"}";
+			
+			Optional<Rooms> toAdd = roomService.findById(roomId);
+			Rooms toAddTemp = null;
+			
+			try {
+				toAddTemp = toAdd.get();
+			} catch (NoSuchElementException e) {
+				return "{\"Response\":\"No such user exists\"}";
+			}
+			
+			eventService.addEvent(new Events(toAddTemp, Title, Description));
+			return "{\"Response\":\"Success\"}";
+		}
+
+		/**
+		 * Delete Event.
+		 * 
+		 * Deletes a provided event. 
+		 * 
+		 * @param room
+		 * @param user
+		 * @param item
+		 * @return
+		 */
+		@PostMapping(path = "/deleteevent/{room}/{user}", consumes = "application/json", produces = "application/json")
+		public String deleteEvent(@PathVariable("room") String room, @PathVariable("user") String user, @RequestBody String item) {
+			JSONObject body = new JSONObject(item);
+			Long userId = Long.valueOf(user);
+			Long roomId = Long.valueOf(room);
+			Long listId = Long.valueOf(body.getString("listId"));
+			
+			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
+			if(isAdmin==null)
+				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
+			if(isAdmin.getUserRole().equals("VIEWER"))
+				return "{\"Response\":\"User does not have permission to complete this action\"}";
+			else {
+				List<Tasks> temp = taskService.findTasksByListId(listId);
+				for(Tasks x : temp) {
+					List<SubTasks> temp2 = subTaskService.findSubTasksByTaskId(x.getId());
+					for(SubTasks y : temp2) {
+						subTaskService.deleteById(y.getId());
+					}
+					taskService.deleteById(x.getId());
+				}
+				roomListService.deleteById(listId);
+				return "{\"Response\":\"Success\"}";
+			}
+		  }
+		
 		/**
 		 * Get Subtasks.
 		 * 

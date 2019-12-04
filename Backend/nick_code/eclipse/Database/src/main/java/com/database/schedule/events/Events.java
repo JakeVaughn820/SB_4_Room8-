@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,11 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.database.rooms.Rooms;
+import com.database.user.User;
+
 /**
  * This class provides the implementation for the Events entity. 
  * The schedule entity has a OneToMany relationship with events. 
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Entity
 @Table(name="events")
@@ -30,25 +34,34 @@ public class Events
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name="title")
+	private String title;
+
 	/**
 	 * Holds the contents of the event. 
 	 */
-	@Column(name="contents")
-	private String contents;
+	@Column(name="description")
+	private String description;
+	
+	@Column(name="starttime")
+	private String starttime;
+	
+	@Column(name="endtime")
+	private String endtime;
 	
 	/**
 	 * Assigns each event to a userId. A user can have multiple events.  
 	 */
-	@ManyToOne(fetch=FetchType.LAZY, targetEntity=com.database.user.User.class)
-    @JoinColumn(name="user_event_id", referencedColumnName = "id")
-	private List<Long> users; 
+	@ManyToOne(targetEntity=com.database.user.User.class)
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+	private User user;
 	
 	/**
-	 * Holds the schedule this event was created in. 
+	 * Many to One relationship with Rooms. 
 	 */
-	@ManyToOne(fetch=FetchType.LAZY, targetEntity=com.database.schedule.Schedule.class)
-    @JoinColumn(name="schedule_id", referencedColumnName = "id")
-	private Long schedule; 
+	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
+	@JoinColumn(name = "room_id", foreignKey = @ForeignKey(name = "id"))
+	private Rooms room;
 	
 	/**
 	 * Default constructor. 
@@ -63,106 +76,51 @@ public class Events
 	 * @param contents
 	 * @param userId
 	 */
-	public Events(String contents, Long userId, Long schedule)
+	public Events(Rooms room, String title, String description, String start, String end, User user)
 	{ 
-		this.contents = contents;
-		users.add(userId); 
-		this.schedule = schedule; 
+		this.room = room;
+		this.title = title;
+		this.description = description;
+		this.starttime = start;
+		this.endtime = end;
+		this.user = user;
+		this.room = room; 
 	}
-	
-	/**
-	 * Returns the event Id. 
-	 * 
-	 * @return
-	 */
-	public Long getId()
-	{
-		return id; 
+
+	public String getTitle() {
+		return title;
 	}
-	
-	/**
-	 * Returns the contents of the event. 
-	 * 
-	 * @return
-	 */
-	public String getContents()
-	{
-		return contents; 
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	
-	/**
-	 * Returns the user id associated with this event. 
-	 * 
-	 * @return
-	 */
-	public List<Long> getUsers()
-	{
-		return users;
+
+	public String getDescription() {
+		return description;
 	}
-	
-	/**
-	 * Sets the event id. 
-	 * 
-	 * @param id
-	 */
-	public void setId(Long id)
-	{
-		this.id = id; 
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	
-	/**
-	 * Sets the events contents. 
-	 * 
-	 * @param contents
-	 */
-	public void setContents(String contents)
-	{
-		this.contents = contents; 
+
+	public String getStarttime() {
+		return starttime;
 	}
-	
-	/**
-	 * Sets the user associated with this event. 
-	 * 
-	 * @param userId
-	 */
-	public void setUsers(Long users)
-	{
-		this.users.add(users); 
+
+	public void setStarttime(String starttime) {
+		this.starttime = starttime;
 	}
-	
-	/**
-	 * Returns "User: 'userId' Contents: 'contents' " 
-	 */
-	@Override 
-	public String toString() 
-	{ 
-		String temp = "";
-		for(Long i : users)
-		{
-			temp += "User: " + users.get(Math.toIntExact(i)) + " Contents: " + contents;
-			temp += "\n";
-		}
-        return temp; 
-    } 
-	
-	/**
-	 * Returns the schedule this event is associated with. 
-	 * 
-	 * @return
-	 */
-	public Long getSchedule()
-	{
-		return schedule; 
+
+	public String getEndtime() {
+		return endtime;
 	}
-	
-	/**
-	 * Adds this event to a schedule. 
-	 * 
-	 * @param schedule
-	 */
-	public void setSchedule(Long schedule)
-	{
-		this.schedule = schedule; 
+
+	public void setEndtime(String endtime) {
+		this.endtime = endtime;
+	}
+
+	public void setUsers(User user) {
+		this.user = user;
 	}
 	
 	/**
@@ -176,7 +134,7 @@ public class Events
 		if(!(o instanceof Events))
 			return false; 
 		Events event = (Events) o;
-		return this.id == event.id && this.contents.equals(event.contents) && this.users.equals(event.users); 
+		return this.id == event.id && this.description.equals(event.description) && this.users.equals(event.users); 
 	}
 
 }
