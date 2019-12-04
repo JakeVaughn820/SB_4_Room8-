@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,21 +39,9 @@ import edu.iastate.room8.utils.SessionManager;
  */
 public class SubtaskActivity extends AppCompatActivity {
     /**
-     * Text View with title for subtasks
-     */
-    private TextView titleForSubTask;
-    /**
      * Request Queue
      */
     private RequestQueue mQueue;
-    /**
-     * List View with the subtasks
-     */
-    private ListView itemsSubTask;
-    /**
-     * Button that adds a new sub task
-     */
-    private Button newSubTaskItem;
     /**
      * User input for the new subtask item name
      */
@@ -82,7 +69,7 @@ public class SubtaskActivity extends AppCompatActivity {
     /**
      * Used to stop requests
      */
-    private String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
+    private String tag_json_obj = "jobj_req";
     /**
      * Session Manager
      */
@@ -100,16 +87,16 @@ public class SubtaskActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_subtask);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
-        titleForSubTask = findViewById(R.id.TitleForSubTask);
-        itemsSubTask = findViewById(R.id.SubTaskActivityList);
-        newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
+        TextView titleForSubTask = findViewById(R.id.TitleForSubTask);
+        ListView itemsSubTask = findViewById(R.id.SubTaskActivityList);
+        Button newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
         newSubTaskItemName = findViewById(R.id.EnterNewSubTaskItem);
         completed = findViewById(R.id.textViewCompleted);
 
         mQueue = Volley.newRequestQueue(this);
         titleForSubTask.setText(title);
 
-        items = new ArrayList<String>();
+        items = new ArrayList<>();
         subtaskId = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsSubTask.setAdapter(adapter);
@@ -141,7 +128,6 @@ public class SubtaskActivity extends AppCompatActivity {
     /**
      * Used to parse JSON Objects in SubtaskActivity
      * Will get the subtasks for the task selected by the user and displays them in a list.
-     * @throws JSONException
      */
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getsubtasks";
@@ -186,7 +172,8 @@ public class SubtaskActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             if(items.size()==0){
                 Toast.makeText(SubtaskActivity.this, "Congratulations you've completed all the subtasks!", Toast.LENGTH_LONG).show();
-                completed.setText("You have completed all subtasks!");
+                String tempCompleted = "You have completed all subtasks!";
+                completed.setText(tempCompleted);
             }else{
                 Toast.makeText(SubtaskActivity.this, toToast +" Has been completed", Toast.LENGTH_SHORT).show();
             }
@@ -210,7 +197,7 @@ public class SubtaskActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addsubtask";
         url = url + "/" + sessionManager.getRoomid() + "/"+ getIntent().getStringExtra("TASKID") + "/" + sessionManager.getID() + "/";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Contents", newSubTaskItemNameString);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -227,14 +214,14 @@ public class SubtaskActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("ListName", title);
                 params.put("Task", newSubTaskItemNameString);
                 return params;
@@ -251,7 +238,7 @@ public class SubtaskActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/deletesubtask";
         url = url + "/" + sessionManager.getRoomid() + "/"+  sessionManager.getID() + "/";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("subTaskId", subtaskId);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -268,14 +255,14 @@ public class SubtaskActivity extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("ListName", title);
                 params.put("Task", newSubTaskItemNameString);
                 return params;
