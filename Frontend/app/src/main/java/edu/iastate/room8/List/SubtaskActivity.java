@@ -74,14 +74,28 @@ public class SubtaskActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
 
     /**
      * Text View that shows if the subtasks have all been completed or not
      */
     private TextView completed;
+    /**
+     * Array list for subtaskIds
+     */
     private ArrayList<String> subtaskId;
-
+    /**
+     * Button for new subtask item
+     */
+    private Button newSubTaskItem;
+    /**
+     * ListView for the items subtasks
+     */
+    private ListView itemsSubTask;
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,8 +103,8 @@ public class SubtaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_subtask);
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
         TextView titleForSubTask = findViewById(R.id.TitleForSubTask);
-        ListView itemsSubTask = findViewById(R.id.SubTaskActivityList);
-        Button newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
+        itemsSubTask = findViewById(R.id.SubTaskActivityList);
+        newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
         newSubTaskItemName = findViewById(R.id.EnterNewSubTaskItem);
         completed = findViewById(R.id.textViewCompleted);
 
@@ -104,6 +118,29 @@ public class SubtaskActivity extends AppCompatActivity {
 
         jsonParse();
 
+        setPermissions();
+        newSubTaskItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newSubTaskItemClicked();
+            }
+        });
+    }
+
+    /**
+     * Method that will be run when newSubtaskItem is clicked.
+     */
+    private void newSubTaskItemClicked(){
+        newSubTaskItemNameString = newSubTaskItemName.getText().toString();
+        postRequest();
+        newSubTaskItemName.setText("");
+        completed.setText("");
+    }
+
+    /**
+     * Method that sets button visibility based on the users permission
+     */
+    private void setPermissions(){
         if(sessionManager.getPermission().equals("Viewer")){
             newSubTaskItem.setVisibility(View.INVISIBLE);
             newSubTaskItemName.setVisibility(View.INVISIBLE);
@@ -114,18 +151,7 @@ public class SubtaskActivity extends AppCompatActivity {
         if(!sessionManager.getPermission().equals("Viewer")) {
             itemsSubTask.setOnItemClickListener(messageClickedHandler);
         }
-        newSubTaskItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                newSubTaskItemNameString = newSubTaskItemName.getText().toString();
-                postRequest();
-                newSubTaskItemName.setText("");
-                completed.setText("");
-            }
-        });
     }
-
     /**
      * Used to parse JSON Objects in SubtaskActivity
      * Will get the subtasks for the task selected by the user and displays them in a list.

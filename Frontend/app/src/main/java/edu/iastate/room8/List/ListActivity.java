@@ -81,13 +81,23 @@ public class ListActivity extends AppCompatActivity {
     /**
      * session manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
     /**
      * Task ID array list
      */
     private ArrayList<String> taskID;
-
-
+    /**
+     * Button to add a new list item
+     */
+    private Button newListItem;
+    /**
+     * Switch for the completion mode for lists
+     */
+    private Switch switchList;
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,10 +106,10 @@ public class ListActivity extends AppCompatActivity {
         title = getIntent().getStringExtra("EXTRA_INFORMATION");
         TextView titleForList = findViewById(R.id.TitleForList);
         ListView itemsList = findViewById(R.id.ListActivityList);
-        Button newListItem = findViewById(R.id.AddNewListItem);
+        newListItem = findViewById(R.id.AddNewListItem);
         newListItemName = findViewById(R.id.EnterNewListItem);
         TextView descriptionUnderTitle = findViewById(R.id.descriptionUnderTitle);
-        Switch switchList = findViewById(R.id.switchList);
+        switchList = findViewById(R.id.switchList);
 
         mQueue = Volley.newRequestQueue(this);
         String description = getIntent().getStringExtra("DESCRIPTION_INFORMATION");
@@ -115,25 +125,14 @@ public class ListActivity extends AppCompatActivity {
 
         jsonParse();
 
-        if(sessionManager.getPermission().equals("Viewer")){
-            newListItem.setVisibility(View.INVISIBLE);
-            newListItemName.setVisibility(View.INVISIBLE);
-            switchList.setVisibility(View.INVISIBLE);
-        }else{
-            newListItem.setVisibility(View.VISIBLE);
-            newListItemName.setVisibility(View.VISIBLE);
-            switchList.setVisibility(View.VISIBLE);
-        }
+        setPermissions();
 
         itemsList.setOnItemClickListener(messageClickedHandler);
 
         newListItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                newListItemNameString = newListItemName.getText().toString();
-                postRequest();
-                newListItemName.setText("");
+                newListItemClicked();
             }
         });
 
@@ -145,6 +144,29 @@ public class ListActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method that runs when newListItem is clicked
+     */
+    private void newListItemClicked(){
+        newListItemNameString = newListItemName.getText().toString();
+        postRequest();
+        newListItemName.setText("");
+    }
+
+    /**
+     * Method that sets button visibility based on the permission of the user
+     */
+    private void setPermissions(){
+        if(sessionManager.getPermission().equals("Viewer")){
+            newListItem.setVisibility(View.INVISIBLE);
+            newListItemName.setVisibility(View.INVISIBLE);
+            switchList.setVisibility(View.INVISIBLE);
+        }else{
+            newListItem.setVisibility(View.VISIBLE);
+            newListItemName.setVisibility(View.VISIBLE);
+            switchList.setVisibility(View.VISIBLE);
+        }
+    }
 
     /**
      * Used to parse JSON Objects in ListActivity

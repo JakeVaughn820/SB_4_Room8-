@@ -74,7 +74,10 @@ public class NewScheduleActivity extends AppCompatActivity {
      * Tag with the current activity
      */
     private String TAG = NewListActivity.class.getSimpleName();
-
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +85,7 @@ public class NewScheduleActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        Button addNewEventButton = findViewById(R.id.addNewEventButton);
+        final Button addNewEventButton = findViewById(R.id.addNewEventButton);
         startTime = findViewById(R.id.startTime);
         endTime = findViewById(R.id.endTime);
         eventName = findViewById(R.id.eventName);
@@ -93,13 +96,20 @@ public class NewScheduleActivity extends AppCompatActivity {
         addNewEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startTimeString = startTime.getText().toString();
-                endTimeString = endTime.getText().toString();
-                eventNameString = eventName.getText().toString();
-                eventDescriptionString = eventDescription.getText().toString();
-                postRequest();
+                addNewEventButtonClicked();
             }
         });
+    }
+
+    /**
+     * Method that runs whenever addNewEventButton is clicked
+     */
+    private void addNewEventButtonClicked(){
+        startTimeString = startTime.getText().toString();
+        endTimeString = endTime.getText().toString();
+        eventNameString = eventName.getText().toString();
+        eventDescriptionString = eventDescription.getText().toString();
+        postRequest();
     }
 
     /**

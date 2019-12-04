@@ -91,6 +91,7 @@ public class SessionManager {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = sharedPreferences.edit();
+        editor.apply();
     }
 
     /**
@@ -154,7 +155,6 @@ public class SessionManager {
     public boolean isRoom (String room){
         Set<String> set;
         set = (sharedPreferences.getStringSet(ROOMS, null));
-
         return set.contains(room);
     }
 
@@ -190,10 +190,7 @@ public class SessionManager {
      * @return returns if the user is in a room
      */
     public boolean isInRoom(){
-        if (this.getRoom() != null){
-            return true;
-        }
-        return false;
+        return this.getRoom()!=null;
     }
 
     /**

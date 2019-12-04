@@ -59,7 +59,7 @@ public class MainListActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
     /**
      * Arraylist for list id's
      */
@@ -72,7 +72,18 @@ public class MainListActivity extends AppCompatActivity {
      * Tag with class
      */
     private String TAG = NewListActivity.class.getSimpleName();
-
+    /**
+     * Button for new list item
+     */
+    private Button btn_new_list;
+    /**
+     * Switch for completion mode
+     */
+    private Switch complete;
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,10 +91,10 @@ public class MainListActivity extends AppCompatActivity {
 
         sessionManager = new SessionManager(this);
 
-        Button btn_new_list = findViewById(R.id.btn_create_new_list);
+        btn_new_list = findViewById(R.id.btn_create_new_list);
         mQueue = Volley.newRequestQueue(this);
         ListView itemsList = findViewById(R.id.itemsList);
-        Switch complete = findViewById(R.id.switchDeleteList);
+        complete = findViewById(R.id.switchDeleteList);
 
         btn_new_list.setText("+"); //added this as a fix to the + not displaying
 
@@ -93,11 +104,7 @@ public class MainListActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsList.setAdapter(adapter);
 
-        if(sessionManager.getPermission().equals("Viewer")){
-            btn_new_list.setVisibility(View.INVISIBLE);
-        }else{
-            btn_new_list.setVisibility(View.VISIBLE);
-        }
+        setPermission();
 
         btn_new_list.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +122,19 @@ public class MainListActivity extends AppCompatActivity {
                 switchOn = b;
             }
         });
+    }
+
+    /**
+     * Method that makes buttons viewable depending on what permission you have
+     */
+    private void setPermission(){
+        if(sessionManager.getPermission().equals("Viewer")){
+            btn_new_list.setVisibility(View.INVISIBLE);
+            complete.setVisibility(View.INVISIBLE);
+        }else{
+            btn_new_list.setVisibility(View.VISIBLE);
+            complete.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

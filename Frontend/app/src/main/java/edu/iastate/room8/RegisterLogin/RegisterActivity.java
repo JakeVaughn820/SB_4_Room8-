@@ -60,14 +60,13 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private String passwordEditTextString;
     /**
-     * String with the user input for the new registered users password check
-     */
-    private String passwordCheckTextString;
-    /**
      * Tag with the current activity
      */
     private String TAG = NewListActivity.class.getSimpleName();
-
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,29 +89,35 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userEmailEditTextString = userEmailEditText.getText().toString();
-                userNameEditTextString = userNameEditText.getText().toString();
-                passwordEditTextString = passwordEditText.getText().toString();
-                passwordCheckTextString = passwordEditTextCheck.getText().toString();
-
-                if(userNameEditTextString.equals("")){
-                    Toast.makeText(RegisterActivity.this, "Must input a username!", Toast.LENGTH_SHORT).show();
-                }else if(userEmailEditTextString.equals("")){
-                    Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
-                }else if(passwordEditTextString.equals("")){
-                    Toast.makeText(RegisterActivity.this, "Must input a password", Toast.LENGTH_SHORT).show();
-                }else if(passwordEditTextString.length()<8){
-                    Toast.makeText(RegisterActivity.this, "Password must be more than 8 characters", Toast.LENGTH_SHORT).show();
-                }else if(!passwordEditTextString.equals(passwordCheckTextString)){
-                    Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    postRequest();
-                }
+                btnRegisterClicked();
             }
         });
     }
 
+    /**
+     * Method that runs when btnRegister is clicked
+     */
+    private void btnRegisterClicked(){
+        userEmailEditTextString = userEmailEditText.getText().toString();
+        userNameEditTextString = userNameEditText.getText().toString();
+        passwordEditTextString = passwordEditText.getText().toString();
+        String passwordCheckTextString = passwordEditTextCheck.getText().toString();
+
+        if(userNameEditTextString.equals("")){
+            Toast.makeText(RegisterActivity.this, "Must input a username!", Toast.LENGTH_SHORT).show();
+        }else if(userEmailEditTextString.equals("")){
+            Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
+        }else if(passwordEditTextString.equals("")){
+            Toast.makeText(RegisterActivity.this, "Must input a password", Toast.LENGTH_SHORT).show();
+        }else if(passwordEditTextString.length()<8){
+            Toast.makeText(RegisterActivity.this, "Password must be more than 8 characters", Toast.LENGTH_SHORT).show();
+        }else if(!passwordEditTextString.equals(passwordCheckTextString)){
+            Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            postRequest();
+        }
+    }
 
     /**
      * post that creates a new user in the database
