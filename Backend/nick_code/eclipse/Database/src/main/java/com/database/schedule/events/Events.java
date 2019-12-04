@@ -2,7 +2,6 @@ package com.database.schedule.events;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -62,20 +61,13 @@ public class Events {
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
 
-//	@Column(name = "user_event_id")
-//	private String username;
-
 	/**
 	 * Many to One relationship with Rooms. Holds the schedule this event was
 	 * created in. Holds the schedule this event was created in.
 	 */
 	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
-	@JoinColumn(name = "room_id", foreignKey = @ForeignKey(name = "fk_event_id"))
+	@JoinColumn(name = "room_id", foreignKey = @ForeignKey(name = "fk_eventroom_id")) //
 	private Rooms room;
-
-//	@ManyToOne(fetch = FetchType.LAZY, targetEntity = com.database.schedule.Schedule.class)
-//	@JoinColumn(name = "schedule_id", referencedColumnName = "id")
-//	private Long schedule;
 
 	/**
 	 * Default constructor.
