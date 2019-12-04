@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.Schedule;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.utils.DateParser;
 import edu.iastate.room8.utils.SessionManager;
 /**

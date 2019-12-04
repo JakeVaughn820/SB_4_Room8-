@@ -15,29 +15,29 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Settings.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
-        <activity android:name=".RoomSettingsActivity" />
-        <activity android:name=".SubtaskActivity" />
+        <activity android:name=".Settings.RoomSettingsActivity" />
+        <activity android:name=".List.SubtaskActivity" />
         <activity android:name=".NewRoomActivity" />
-        <activity android:name=".NewUserRoomJoin" />
-        <activity android:name=".ScheduleDescriptionActivity" />
-        <activity android:name=".NewScheduleActivity" />
-        <activity android:name=".DayActivity" />
-        <activity android:name=".ScheduleActivity" />
-        <activity android:name=".ListActivity" />
-        <activity android:name=".BulletinActivity" />
-        <activity android:name=".MainListActivity" />
-        <activity android:name=".NewListActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".HomeActivity">
+        <activity android:name=".JoinRoom.NewUserRoomJoin" />
+        <activity android:name=".Schedule.ScheduleDescriptionActivity" />
+        <activity android:name=".Schedule.NewScheduleActivity" />
+        <activity android:name=".Schedule.DayActivity" />
+        <activity android:name=".Schedule.ScheduleActivity" />
+        <activity android:name=".List.ListActivity" />
+        <activity android:name=".Bulletin.BulletinActivity" />
+        <activity android:name=".List.MainListActivity" />
+        <activity android:name=".List.NewListActivity" />
+        <activity android:name=".RegisterLogin.RegisterActivity" />
+        <activity android:name=".Home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterLogin.LoginActivity" />
     </application>
 
 </manifest>

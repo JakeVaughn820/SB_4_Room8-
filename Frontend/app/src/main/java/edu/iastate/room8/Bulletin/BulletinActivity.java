@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.Bulletin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +19,7 @@ import java.net.URISyntaxException;
 import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.utils.SessionManager;
 
 /**
