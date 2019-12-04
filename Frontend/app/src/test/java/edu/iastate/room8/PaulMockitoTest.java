@@ -15,6 +15,7 @@ import static org.mockito.Mockito.*;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import edu.iastate.room8.Home.HomeActivity;
 import edu.iastate.room8.List.SubtaskActivity;
 import edu.iastate.room8.Schedule.DayActivity;
 import edu.iastate.room8.Settings.RoomSettingsActivity;

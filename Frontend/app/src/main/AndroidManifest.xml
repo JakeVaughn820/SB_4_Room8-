@@ -30,7 +30,7 @@
         <activity android:name=".List.MainListActivity" />
         <activity android:name=".List.NewListActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".HomeActivity">
+        <activity android:name=".Home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
