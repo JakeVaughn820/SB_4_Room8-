@@ -28,9 +28,11 @@ import edu.iastate.room8.JoinRoom.NewUserRoomJoin;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity of login. If you don't have a login you can press the register button.
  * Use email and password to login.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -63,8 +65,10 @@ public class LoginActivity extends AppCompatActivity {
      * Session Manager
      */
     private SessionManager sessionManager;
+
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -87,11 +91,11 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signUpBtn.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View view){
-               Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
-               startActivity(i);
+        signUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -134,19 +138,20 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Validation method to see if the email and password correspond to a user in the database.
-     * @param success Whether or not the login attempt was successful
-     * @param userID ID of the user that logged in
+     *
+     * @param success   Whether or not the login attempt was successful
+     * @param userID    ID of the user that logged in
      * @param userEmail email of the user that logged in
-     * @param userName username of the user that logged in
+     * @param userName  username of the user that logged in
      */
-    private void validate2(String success, String userID, String userEmail, String userName){
-        if(success.equals("Success")){
+    private void validate2(String success, String userID, String userEmail, String userName) {
+        if (success.equals("Success")) {
 
             Intent i = new Intent(LoginActivity.this, NewUserRoomJoin.class);
             sessionManager.createSession(userName, userEmail, userID);  //Creates a new session where the user is logged in
             startActivity(i);
 
-        }else{
+        } else {
             Toast.makeText(this, "Invalid Login", Toast.LENGTH_SHORT).show();
             loginAttemps--;
             String toSetText = "Incorrect User Name or Password" + "\n" +
@@ -154,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                     + "\n";
             loginAttempsTextView.setText(toSetText);
 
-            if (loginAttemps == 0){
+            if (loginAttemps == 0) {
                 loginbtn.setEnabled(false);
 
             }
@@ -203,6 +208,7 @@ public class LoginActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

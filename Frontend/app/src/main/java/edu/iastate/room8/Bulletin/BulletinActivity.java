@@ -24,6 +24,7 @@ import edu.iastate.room8.utils.SessionManager;
 
 /**
  * This class is used for the activity of the bulletin feature. Send important messages to your roommates.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -61,6 +62,7 @@ public class BulletinActivity extends AppCompatActivity {
 
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -90,11 +92,11 @@ public class BulletinActivity extends AppCompatActivity {
     /**
      * Method that sets the visibility of buttons depending on the users permissions in this specific room
      */
-    private void setVisibility(){
-        if(sessionManager.getPermission().equals("Viewer")){
+    private void setVisibility() {
+        if (sessionManager.getPermission().equals("Viewer")) {
             toAddButton.setVisibility(View.INVISIBLE);
             toAddText.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             toAddButton.setVisibility(View.VISIBLE);
             toAddText.setVisibility(View.VISIBLE);
         }
@@ -103,16 +105,14 @@ public class BulletinActivity extends AppCompatActivity {
     /**
      * Method that runs when toAdd button is clicked
      */
-    private void toAddClicked(){
+    private void toAddClicked() {
         String stringToAddText = toAddText.getText().toString();
-        if(stringToAddText.equals("")){
+        if (stringToAddText.equals("")) {
             Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             try {
                 cc.send(toAddText.getText().toString());
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Log.d("ExceptionSendMessage:", "Exception in Web Sockets");
             }
 
@@ -214,7 +214,7 @@ public class BulletinActivity extends AppCompatActivity {
     /**
      * Web socket that was created to be used with the backend
      */
-    private void webSocketWithBackend(){
+    private void webSocketWithBackend() {
         Draft[] drafts = {new Draft_6455()};
         String w = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         w = w + "/" + sessionManager.getName();
@@ -224,10 +224,10 @@ public class BulletinActivity extends AppCompatActivity {
                 @Override
                 public void onMessage(String message) {
                     Log.d("", "run() returned: " + message);
-                    String s=textView.getText().toString();
+                    String s = textView.getText().toString();
 
                     String messageTemp = message + "\n";
-                    String toSet = messageTemp+s;
+                    String toSet = messageTemp + s;
                     textView.setText(toSet);
                 }
 
@@ -242,13 +242,11 @@ public class BulletinActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onError(Exception e)
-                {
+                public void onError(Exception e) {
                     Log.d("Exception:", e.toString());
                 }
             };
-        }
-        catch (URISyntaxException e) {
+        } catch (URISyntaxException e) {
             Log.d("Exception:", "URISyntaxException");
             e.printStackTrace();
         }

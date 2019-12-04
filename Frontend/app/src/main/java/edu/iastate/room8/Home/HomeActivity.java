@@ -15,8 +15,10 @@ import edu.iastate.room8.Schedule.ScheduleActivity;
 import edu.iastate.room8.Settings.RoomSettingsActivity;
 import edu.iastate.room8.Settings.SettingsActivity;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity of home. Home has buttons to get to each feature or logout
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -32,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -52,9 +55,9 @@ public class HomeActivity extends AppCompatActivity {
         TextView roomNameTextView = findViewById(R.id.RoomNameTextView);
         buttonSettings = findViewById(R.id.buttonSettings);
         Button btnUserSettings = findViewById(R.id.btnUserSettings);
-        String tempRoomIdTextViewToSet = "Room ID: "+sessionManager.getRoomid();
+        String tempRoomIdTextViewToSet = "Room ID: " + sessionManager.getRoomid();
         roomIdTextView.setText(tempRoomIdTextViewToSet);
-        String tempRoomNameTextViewSet = "Room Name: "+sessionManager.getRoom();
+        String tempRoomNameTextViewSet = "Room Name: " + sessionManager.getRoom();
         roomNameTextView.setText(tempRoomNameTextViewSet);
 
         setButtonVisibility();
@@ -80,29 +83,29 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        tempButtonBulletin.setOnClickListener(new View.OnClickListener(){
+        tempButtonBulletin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent i = new Intent(HomeActivity.this, BulletinActivity.class);
                 startActivity(i);
             }
         });
-        tempButtonSchedule.setOnClickListener(new View.OnClickListener(){
+        tempButtonSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent i = new Intent(HomeActivity.this, ScheduleActivity.class);
                 startActivity(i);
             }
         });
-        btnLogout.setOnClickListener(new View.OnClickListener(){
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 sessionManager.logout();
             }
         });
-        btnLeaveRoom.setOnClickListener(new View.OnClickListener(){
+        btnLeaveRoom.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 sessionManager.leaveRoom();
             }
         });
@@ -110,38 +113,41 @@ public class HomeActivity extends AppCompatActivity {
 
     /**
      * Method that gets button visibility, used for testing mostly
+     *
      * @return button visibility
      */
-    public int getButtonVisibility(){
+    public int getButtonVisibility() {
         return buttonSettings.getVisibility();
     }
 
     /**
      * Method that gets permission for the home activity, used for testing mostly
+     *
      * @return permission
      */
-    public String getPermissionHome(){
+    public String getPermissionHome() {
         return sessionManager.getPermission();
     }
 
     /**
      * Method that sets permission for testing
+     *
      * @param permission1 permission to set
      */
-    public void setPermissionForTesting(String permission1){
+    public void setPermissionForTesting(String permission1) {
         sessionManager.setPermission(permission1);
     }
 
     /**
      * Method that sets the button visibility
      */
-    private void setButtonVisibility(){
-        if(sessionManager.getPermission()==null){
+    private void setButtonVisibility() {
+        if (sessionManager.getPermission() == null) {
             sessionManager.logout();
-        }else{
-            if(getPermissionHome().equals("Owner")){
+        } else {
+            if (getPermissionHome().equals("Owner")) {
                 buttonSettings.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 buttonSettings.setVisibility(View.INVISIBLE);
             }
         }

@@ -26,9 +26,11 @@ import java.util.ArrayList;
 
 import edu.iastate.room8.R;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity of the specific day chosen from the schedule.
  * Can see what is happening on the day for everyone in your room.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -61,8 +63,10 @@ public class DayActivity extends AppCompatActivity {
      * Session manager
      */
     private SessionManager sessionManager;
+
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -102,7 +106,7 @@ public class DayActivity extends AppCompatActivity {
     /**
      * Method that runs whenever buttonAddScheduleItem is clicked
      */
-    private void buttonAddScheduleItemClicked(){
+    private void buttonAddScheduleItemClicked() {
         Intent i = new Intent(DayActivity.this, NewScheduleActivity.class);
         i.putExtra("DATE", dateString);
         startActivity(i);
@@ -111,19 +115,20 @@ public class DayActivity extends AppCompatActivity {
     /**
      * Method that that sets button visibility based on permission of user
      */
-    private void setPermissions(){
-        if(sessionManager.getPermission().equals("Viewer")){
+    private void setPermissions() {
+        if (sessionManager.getPermission().equals("Viewer")) {
             buttonAddScheduleItem.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             buttonAddScheduleItem.setVisibility(View.VISIBLE);
         }
     }
 
     /**
      * Used for testing mockito like they do in the tutorial
+     *
      * @return JSONObject to be used
      */
-    public JSONObject jsonGetSchedule(){
+    public JSONObject jsonGetSchedule() {
         return null;
     }
 
@@ -143,7 +148,7 @@ public class DayActivity extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = response.getJSONArray("Schedule");
 
-                            for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 String start = List.getString("StartTime");
                                 String end = List.getString("EndTime");

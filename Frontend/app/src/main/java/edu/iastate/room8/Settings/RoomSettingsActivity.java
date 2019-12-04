@@ -72,11 +72,13 @@ public class RoomSettingsActivity extends AppCompatActivity {
      */
     private ArrayList<String> usersID;
     /**
-     *     These tags will be used to cancel the requests
+     * These tags will be used to cancel the requests
      */
     private String tag_json_obj = "jobj_req";
+
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -101,7 +103,7 @@ public class RoomSettingsActivity extends AppCompatActivity {
         deleteSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                switchOn=true;
+                switchOn = true;
             }
         });
 
@@ -120,7 +122,7 @@ public class RoomSettingsActivity extends AppCompatActivity {
     /**
      * Method that deletes the room when clicked
      */
-    private void deleteRoomClicked(){
+    private void deleteRoomClicked() {
         postRequestDelete();
         sessionManager.removeRoom(sessionManager.getRoom(), sessionManager.getID());
         sessionManager.leaveRoom();
@@ -131,17 +133,17 @@ public class RoomSettingsActivity extends AppCompatActivity {
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            if(!switchOn){
+            if (!switchOn) {
                 String toSend;
-                if(permissions.get(position).equals("Viewer")){
+                if (permissions.get(position).equals("Viewer")) {
                     toSend = "ADMIN";
-                }else{
+                } else {
                     toSend = "VIEWER";
                 }
                 postRequest(toSend, usersID.get(position));
                 changePermissionsInUI(position);
                 adapter.notifyDataSetChanged();
-            }else{
+            } else {
                 postRequestDeleteUserFromRoom(position);
                 items.remove(position);
                 users.remove(position);
@@ -154,17 +156,18 @@ public class RoomSettingsActivity extends AppCompatActivity {
 
     /**
      * Helper method for the adapter view on clicked listener because that method was too big
+     *
      * @param position position clicked
      */
-    private void changePermissionsInUI(int position){
-        if(permissions.get(position).equals("Viewer")){
+    private void changePermissionsInUI(int position) {
+        if (permissions.get(position).equals("Viewer")) {
             permissions.set(position, "Editor");
-            items.set(position, users.get(position)+": Editor");
-            Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to an Editor", Toast.LENGTH_SHORT).show();
-        }else if(permissions.get(position).equals("Editor")){
+            items.set(position, users.get(position) + ": Editor");
+            Toast.makeText(RoomSettingsActivity.this, users.get(position) + " has been changed to an Editor", Toast.LENGTH_SHORT).show();
+        } else if (permissions.get(position).equals("Editor")) {
             permissions.set(position, "Viewer");
-            items.set(position, users.get(position)+": Viewer");
-            Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to a Viewer", Toast.LENGTH_SHORT).show();
+            items.set(position, users.get(position) + ": Viewer");
+            Toast.makeText(RoomSettingsActivity.this, users.get(position) + " has been changed to a Viewer", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -183,7 +186,7 @@ public class RoomSettingsActivity extends AppCompatActivity {
                         try {
                             JSONArray jsonArray = response.getJSONArray("Users");
 
-                            for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Name") + ": " + List.getString("Role"));
                                 permissions.add(List.getString("Role"));
@@ -207,9 +210,10 @@ public class RoomSettingsActivity extends AppCompatActivity {
 
     /**
      * Method used for testing
+     *
      * @return null
      */
-    public JSONObject jsonGetRoomSettings(){
+    public JSONObject jsonGetRoomSettings() {
         return null;
     }
 
@@ -243,11 +247,12 @@ public class RoomSettingsActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("Title", "ye");
-                params.put("Description","if u see this i messed up");
+                params.put("Description", "if u see this i messed up");
                 return params;
             }
         };
@@ -284,11 +289,12 @@ public class RoomSettingsActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("Title", "ye");
-                params.put("Description","if u see this i messed up");
+                params.put("Description", "if u see this i messed up");
                 return params;
             }
         };
@@ -326,11 +332,12 @@ public class RoomSettingsActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("Title", "ye");
-                params.put("Description","if u see this i messed up");
+                params.put("Description", "if u see this i messed up");
                 return params;
             }
         };

@@ -24,9 +24,11 @@ import java.util.Map;
 import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
+
 /**
  * This class is used for the activity Register. You can register for the app here.
  * The server will check if the email or username is already in use. The password will be entered twice and has to be 8 characters at least.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -63,8 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
      * Tag with the current activity
      */
     private String TAG = NewListActivity.class.getSimpleName();
+
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -97,24 +101,23 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Method that runs when btnRegister is clicked
      */
-    private void btnRegisterClicked(){
+    private void btnRegisterClicked() {
         userEmailEditTextString = userEmailEditText.getText().toString();
         userNameEditTextString = userNameEditText.getText().toString();
         passwordEditTextString = passwordEditText.getText().toString();
         String passwordCheckTextString = passwordEditTextCheck.getText().toString();
 
-        if(userNameEditTextString.equals("")){
+        if (userNameEditTextString.equals("")) {
             Toast.makeText(RegisterActivity.this, "Must input a username!", Toast.LENGTH_SHORT).show();
-        }else if(userEmailEditTextString.equals("")){
+        } else if (userEmailEditTextString.equals("")) {
             Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
-        }else if(passwordEditTextString.equals("")){
+        } else if (passwordEditTextString.equals("")) {
             Toast.makeText(RegisterActivity.this, "Must input a password", Toast.LENGTH_SHORT).show();
-        }else if(passwordEditTextString.length()<8){
+        } else if (passwordEditTextString.length() < 8) {
             Toast.makeText(RegisterActivity.this, "Password must be more than 8 characters", Toast.LENGTH_SHORT).show();
-        }else if(!passwordEditTextString.equals(passwordCheckTextString)){
+        } else if (!passwordEditTextString.equals(passwordCheckTextString)) {
             Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             postRequest();
         }
     }
@@ -140,10 +143,10 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Response");
-                            if(success.equals("Success")){
+                            if (success.equals("Success")) {
                                 finish();
                                 Toast.makeText(RegisterActivity.this, "Successfully created account!", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 Toast.makeText(RegisterActivity.this, "Username/Email already in use.", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
@@ -163,6 +166,7 @@ public class RegisterActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

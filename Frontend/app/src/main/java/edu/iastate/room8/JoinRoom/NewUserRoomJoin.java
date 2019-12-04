@@ -32,9 +32,11 @@ import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity NewUserRoomJoin. You can create a new room which you can access in this.
  * You can join a new room too with the room ID. You can access any of the rooms you have already joined too.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -56,7 +58,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
      */
     private SessionManager sessionManager;
     /**
-     *     These tags will be used to cancel the requests
+     * These tags will be used to cancel the requests
      */
     private String tag_json_obj = "jobj_req";
 
@@ -79,6 +81,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
 
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -152,10 +155,10 @@ public class NewUserRoomJoin extends AppCompatActivity {
     /**
      * Method that runs when newRoomCreate button is clicked
      */
-    private void newRoomCreateClicked(){
-        if(newRoomCreateEditText.getText().toString().equals("")){
+    private void newRoomCreateClicked() {
+        if (newRoomCreateEditText.getText().toString().equals("")) {
             Toast.makeText(NewUserRoomJoin.this, "Must input a room name!", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             postRequestCreate();
             items.clear();
             ids.clear();
@@ -180,16 +183,16 @@ public class NewUserRoomJoin extends AppCompatActivity {
 
                             JSONArray jsonArray = response.getJSONArray("Rooms");
 
-                            for (int i = 0; i < jsonArray.length(); i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
                                 items.add(List.getString("Title"));
                                 ids.add(List.getString("Id"));
                                 String role = List.getString("Role");
-                                if(role.equals("OWNER")){
+                                if (role.equals("OWNER")) {
                                     permissions.add("Owner");
-                                }else if(role.equals("ROOMMATE")){
+                                } else if (role.equals("ROOMMATE")) {
                                     permissions.add("Editor");
-                                }else{
+                                } else {
                                     permissions.add("Viewer");
                                 }
                                 sessionManager.addRoom(List.getString("Title"), List.getString("Id"));
@@ -238,6 +241,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -268,11 +272,11 @@ public class NewUserRoomJoin extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Response");
-                            if(success.equals("Success")){
+                            if (success.equals("Success")) {
                                 items.clear();
                                 ids.clear();
                                 permissions.clear();
-                            }else{
+                            } else {
                                 Toast.makeText(NewUserRoomJoin.this, "Room does not exist!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
@@ -291,6 +295,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

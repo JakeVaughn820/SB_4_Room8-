@@ -13,9 +13,11 @@ import android.widget.Toast;
 import edu.iastate.room8.R;
 import edu.iastate.room8.utils.DateParser;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity Schedule. There is a calender and you can select a day on the calender
  * and see what events exist between you and your roommates and add more by clicking the button for adding new events.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -48,8 +50,10 @@ public class ScheduleActivity extends AppCompatActivity {
      * Session Manager
      */
     SessionManager sessionManager;
+
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -83,7 +87,7 @@ public class ScheduleActivity extends AppCompatActivity {
     /**
      * Method that runs whenever the calender date changes
      */
-    private void calenderChange(int i, int i1, int i2){
+    private void calenderChange(int i, int i1, int i2) {
         dateParser.setDay(i2);
         dateParser.setMonth(i1);
         dateParser.setYear(i);
@@ -97,10 +101,10 @@ public class ScheduleActivity extends AppCompatActivity {
     /**
      * Method that runs whenever goToScheduleDay is clicked
      */
-    private void goToScheduleDayClicked(){
-        if(!clicked){
+    private void goToScheduleDayClicked() {
+        if (!clicked) {
             Toast.makeText(ScheduleActivity.this, "Please select a date first", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Intent i = new Intent(ScheduleActivity.this, DayActivity.class);
             i.putExtra("EXTRA_INFORMATION", date);
             i.putExtra("Day", day);
@@ -112,9 +116,10 @@ public class ScheduleActivity extends AppCompatActivity {
 
     /**
      * Calls the date parser to parse the date that is to be used for the schedule.
+     *
      * @return returns the parsed date
      */
-    public String callDateParser(){
+    public String callDateParser() {
         return dateParser.parseDate();
     }
 

@@ -23,9 +23,11 @@ import java.util.Map;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity NewList. You can create a new list which you can access back in MainList.
  * You can add a description for the list but don't have to.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -54,8 +56,10 @@ public class NewListActivity extends AppCompatActivity {
      * Session Manager
      */
     private SessionManager sessionManager;
+
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -87,12 +91,12 @@ public class NewListActivity extends AppCompatActivity {
     /**
      * Method that runs when newList button is clicked
      */
-    private void newListClicked(){
+    private void newListClicked() {
         newListNameString = newListName.getText().toString();
         descriptionTextString = descriptionText.getText().toString();
-        if(newListNameString.equals("")){
+        if (newListNameString.equals("")) {
             Toast.makeText(NewListActivity.this, "Must put something in the 'enter name for new list' line!", Toast.LENGTH_LONG).show();
-        }else{
+        } else {
             postRequest();
             finish();
         }
@@ -104,7 +108,7 @@ public class NewListActivity extends AppCompatActivity {
      */
     private void postRequest() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addlist";
-        url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID()+ "/";
+        url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
         Map<String, String> params = new HashMap<>();
         params.put("Title", newListNameString);
@@ -129,6 +133,7 @@ public class NewListActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

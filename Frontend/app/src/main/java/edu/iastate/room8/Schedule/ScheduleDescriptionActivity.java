@@ -22,9 +22,11 @@ import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
+
 /**
  * This class is used for the activity of ScheduleDescription. You will be able to see the description of the created event.
  * This includes the time frame, description, event name, and who created the event.
+ *
  * @author Paul Degnan
  * @author Jake Vaughn
  */
@@ -53,8 +55,10 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
      * Session Manager
      */
     SessionManager sessionManager;
+
     /**
      * Method that runs on creation
+     *
      * @param savedInstanceState saved instance
      */
     @Override
@@ -112,6 +116,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
