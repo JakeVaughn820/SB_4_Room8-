@@ -54,7 +54,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
     /**
      *     These tags will be used to cancel the requests
      */
@@ -115,23 +115,14 @@ public class NewUserRoomJoin extends AppCompatActivity {
         newRoomCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(newRoomCreateEditText.getText().toString().equals("")){
-                    Toast.makeText(NewUserRoomJoin.this, "Must input a room name!", Toast.LENGTH_SHORT).show();
-                }else{
-                    postRequestCreate();
-                    items.clear();
-                    ids.clear();
-                    permissions.clear();
-                }
+                newRoomCreateClicked();
             }
         });
 
         joinRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 postRequestJoin();
-
             }
         });
 
@@ -157,6 +148,20 @@ public class NewUserRoomJoin extends AppCompatActivity {
             startActivity(i);
         }
     };
+
+    /**
+     * Method that runs when newRoomCreate button is clicked
+     */
+    private void newRoomCreateClicked(){
+        if(newRoomCreateEditText.getText().toString().equals("")){
+            Toast.makeText(NewUserRoomJoin.this, "Must input a room name!", Toast.LENGTH_SHORT).show();
+        }else{
+            postRequestCreate();
+            items.clear();
+            ids.clear();
+            permissions.clear();
+        }
+    }
 
     /**
      * Used to parse JSON Objects in NewUserRoomJoin

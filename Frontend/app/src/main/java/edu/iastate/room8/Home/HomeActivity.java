@@ -24,12 +24,16 @@ public class HomeActivity extends AppCompatActivity {
     /**
      * Session Manager variable
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
     /**
      * Button that takes you to the settings page
      */
     private Button buttonSettings;
 
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,19 +108,34 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method that gets button visibility, used for testing mostly
+     * @return button visibility
+     */
     public int getButtonVisibility(){
         return buttonSettings.getVisibility();
     }
 
+    /**
+     * Method that gets permission for the home activity, used for testing mostly
+     * @return permission
+     */
     public String getPermissionHome(){
         return sessionManager.getPermission();
     }
 
+    /**
+     * Method that sets permission for testing
+     * @param permission1 permission to set
+     */
     public void setPermissionForTesting(String permission1){
         sessionManager.setPermission(permission1);
     }
 
-    public void setButtonVisibility(){
+    /**
+     * Method that sets the button visibility
+     */
+    private void setButtonVisibility(){
         if(sessionManager.getPermission()==null){
             sessionManager.logout();
         }else{

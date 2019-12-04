@@ -53,6 +53,10 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
      * Session Manager
      */
     SessionManager sessionManager;
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

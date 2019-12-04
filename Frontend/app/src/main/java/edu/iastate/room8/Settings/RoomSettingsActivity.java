@@ -62,22 +62,29 @@ public class RoomSettingsActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
     /**
      * Holds whether or not the switch is on
      */
     private boolean switchOn;
+    /**
+     * Array list for usersIDs
+     */
     private ArrayList<String> usersID;
     /**
      *     These tags will be used to cancel the requests
      */
     private String tag_json_obj = "jobj_req";
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_settings);
         ListView itemsList = findViewById(R.id.userList);
-        Button deleteRoom = findViewById(R.id.deleteRoom);
+        final Button deleteRoom = findViewById(R.id.deleteRoom);
         Switch deleteSwitch = findViewById(R.id.switchDeleteFromRoom);
         sessionManager = new SessionManager(this);
 
@@ -97,20 +104,26 @@ public class RoomSettingsActivity extends AppCompatActivity {
                 switchOn=true;
             }
         });
+
         itemsList.setOnItemClickListener(messageClickedHandler);
 
         deleteRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                postRequestDelete();
-                sessionManager.removeRoom(sessionManager.getRoom(), sessionManager.getID());
-                sessionManager.leaveRoom();
+                deleteRoomClicked();
             }
         });
 
         jsonParse();
+    }
 
-
+    /**
+     * Method that deletes the room when clicked
+     */
+    private void deleteRoomClicked(){
+        postRequestDelete();
+        sessionManager.removeRoom(sessionManager.getRoom(), sessionManager.getID());
+        sessionManager.leaveRoom();
     }
 
     /**
@@ -126,15 +139,7 @@ public class RoomSettingsActivity extends AppCompatActivity {
                     toSend = "VIEWER";
                 }
                 postRequest(toSend, usersID.get(position));
-                if(permissions.get(position).equals("Viewer")){
-                    permissions.set(position, "Editor");
-                    items.set(position, users.get(position)+": Editor");
-                    Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to an Editor", Toast.LENGTH_SHORT).show();
-                }else if(permissions.get(position).equals("Editor")){
-                    permissions.set(position, "Viewer");
-                    items.set(position, users.get(position)+": Viewer");
-                    Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to a Viewer", Toast.LENGTH_SHORT).show();
-                }
+                changePermissionsInUI(position);
                 adapter.notifyDataSetChanged();
             }else{
                 postRequestDeleteUserFromRoom(position);
@@ -147,6 +152,25 @@ public class RoomSettingsActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Helper method for the adapter view on clicked listener because that method was too big
+     * @param position position clicked
+     */
+    private void changePermissionsInUI(int position){
+        if(permissions.get(position).equals("Viewer")){
+            permissions.set(position, "Editor");
+            items.set(position, users.get(position)+": Editor");
+            Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to an Editor", Toast.LENGTH_SHORT).show();
+        }else if(permissions.get(position).equals("Editor")){
+            permissions.set(position, "Viewer");
+            items.set(position, users.get(position)+": Viewer");
+            Toast.makeText(RoomSettingsActivity.this, users.get(position)+" has been changed to a Viewer", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * JSON Get method that gets the room members and their roles
+     */
     private void jsonParse() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/getroommembers";
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
@@ -181,6 +205,10 @@ public class RoomSettingsActivity extends AppCompatActivity {
         mQueue.add(request);
     }
 
+    /**
+     * Method used for testing
+     * @return null
+     */
     public JSONObject jsonGetRoomSettings(){
         return null;
     }

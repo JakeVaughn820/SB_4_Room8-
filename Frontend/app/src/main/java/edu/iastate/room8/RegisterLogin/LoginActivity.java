@@ -62,8 +62,11 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
-
+    private SessionManager sessionManager;
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //validate(userEmailEditText.getText().toString(), passwordEditText.getText().toString());
-                postRequest();
+                postRequest(); //can change to validate(userEmailEditText.getText().toString(), passwordEditText.getText().toString()); for testing
             }
         });
 

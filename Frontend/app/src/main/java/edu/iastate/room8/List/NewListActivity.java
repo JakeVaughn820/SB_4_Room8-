@@ -53,8 +53,11 @@ public class NewListActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
-
+    private SessionManager sessionManager;
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,14 +72,7 @@ public class NewListActivity extends AppCompatActivity {
         newList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newListNameString = newListName.getText().toString();
-                descriptionTextString = descriptionText.getText().toString();
-                if(newListNameString.equals("")){
-                    Toast.makeText(NewListActivity.this, "Must put something in the 'enter name for new list' line!", Toast.LENGTH_LONG).show();
-                }else{
-                    postRequest();
-                    finish();
-                }
+                newListClicked();
             }
         });
 
@@ -86,6 +82,20 @@ public class NewListActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    /**
+     * Method that runs when newList button is clicked
+     */
+    private void newListClicked(){
+        newListNameString = newListName.getText().toString();
+        descriptionTextString = descriptionText.getText().toString();
+        if(newListNameString.equals("")){
+            Toast.makeText(NewListActivity.this, "Must put something in the 'enter name for new list' line!", Toast.LENGTH_LONG).show();
+        }else{
+            postRequest();
+            finish();
+        }
     }
 
     /**

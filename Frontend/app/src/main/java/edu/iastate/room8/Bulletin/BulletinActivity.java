@@ -41,23 +41,28 @@ public class BulletinActivity extends AppCompatActivity {
 //     * ArrayList that holds all of bulletin entries
 //     */
 //    private ArrayList<String> arr;
-    /**
-     * String with the text to be added
-     */
-    private String stringToAddText;
     //KEEP IN CASE WE NEED
 //    /**
 //     * mWebSocketClient used for connecting websocket to server.
 //     */
 //    private WebSocketClient mWebSocketClient;
     /**
+     * Button that when clicked will send message
+     */
+    private Button toAddButton;
+    /**
      * session manager used for settings and information for the specific user
      */
-    SessionManager sessionManager;
+    private SessionManager sessionManager;
     /**
      * Another web socket client
      */
     private WebSocketClient cc;
+
+    /**
+     * Method that runs on creation
+     * @param savedInstanceState saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +71,26 @@ public class BulletinActivity extends AppCompatActivity {
         sessionManager = new SessionManager(this);
 
         textView = findViewById(R.id.textView);
-        Button toAddButton = findViewById(R.id.buttonForAdd);
+        toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
         //arr = new ArrayList<>();      KEEP IN CASE WE NEED
 
+        setVisibility();
+
+        toAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toAddClicked();
+            }
+        });
+
+        webSocketWithBackend();
+    }
+
+    /**
+     * Method that sets the visibility of buttons depending on the users permissions in this specific room
+     */
+    private void setVisibility(){
         if(sessionManager.getPermission().equals("Viewer")){
             toAddButton.setVisibility(View.INVISIBLE);
             toAddText.setVisibility(View.INVISIBLE);
@@ -77,28 +98,26 @@ public class BulletinActivity extends AppCompatActivity {
             toAddButton.setVisibility(View.VISIBLE);
             toAddText.setVisibility(View.VISIBLE);
         }
+    }
 
-        toAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                stringToAddText = toAddText.getText().toString();
-                if(stringToAddText.equals("")){
-                    Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
-                }else{
-                    try {
-                        cc.send(toAddText.getText().toString());
-                    }
-                    catch (Exception e)
-                    {
-                        Log.d("ExceptionSendMessage:", "Exception in Web Sockets");
-                    }
-
-                }
-                toAddText.setText("");
+    /**
+     * Method that runs when toAdd button is clicked
+     */
+    private void toAddClicked(){
+        String stringToAddText = toAddText.getText().toString();
+        if(stringToAddText.equals("")){
+            Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
+        }else{
+            try {
+                cc.send(toAddText.getText().toString());
             }
-        });
+            catch (Exception e)
+            {
+                Log.d("ExceptionSendMessage:", "Exception in Web Sockets");
+            }
 
-        webSocketWithBackend();
+        }
+        toAddText.setText("");
     }
 
 
