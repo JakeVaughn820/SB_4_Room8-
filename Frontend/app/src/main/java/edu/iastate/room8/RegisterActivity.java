@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.app.AppController;
 /**
  * This class is used for the activity Register. You can register for the app here.

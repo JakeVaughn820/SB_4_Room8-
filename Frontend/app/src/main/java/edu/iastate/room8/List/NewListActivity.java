@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;
 /**

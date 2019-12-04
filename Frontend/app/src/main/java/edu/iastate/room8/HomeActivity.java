@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import edu.iastate.room8.Bulletin.BulletinActivity;
+import edu.iastate.room8.List.MainListActivity;
+import edu.iastate.room8.Settings.RoomSettingsActivity;
+import edu.iastate.room8.Settings.SettingsActivity;
 import edu.iastate.room8.utils.SessionManager;
 /**
  * This class is used for the activity of home. Home has buttons to get to each feature or logout

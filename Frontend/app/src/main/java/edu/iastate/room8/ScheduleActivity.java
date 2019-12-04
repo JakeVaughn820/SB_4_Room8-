@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
+import edu.iastate.room8.Schedule.DayActivity;
 import edu.iastate.room8.utils.DateParser;
 import edu.iastate.room8.utils.SessionManager;
 /**

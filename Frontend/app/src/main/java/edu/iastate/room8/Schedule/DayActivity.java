@@ -1,4 +1,4 @@
-package edu.iastate.room8;
+package edu.iastate.room8.Schedule;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +24,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import edu.iastate.room8.NewScheduleActivity;
+import edu.iastate.room8.R;
+import edu.iastate.room8.ScheduleDescriptionActivity;
 import edu.iastate.room8.utils.SessionManager;
 /**
  * This class is used for the activity of the specific day chosen from the schedule.
