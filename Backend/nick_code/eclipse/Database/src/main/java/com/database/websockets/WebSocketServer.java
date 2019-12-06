@@ -3,6 +3,7 @@ package com.database.websockets;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -24,8 +25,10 @@ import org.springframework.stereotype.Component;
 @ServerEndpoint("/room/{username}")
 @Component
 public class WebSocketServer {
-	
-//	private BulletinService bulletinService; 
+
+	private BulletinService bulletinService;
+	private Stack<String> save_username;
+	private Stack<String> save_message;
 
 	// Store all socket session's and their corresponding username's.
 	private static Map<Session, String> sessionUsernameMap = new HashMap<>();
@@ -59,8 +62,8 @@ public class WebSocketServer {
 			sendMessageToPArticularUser(username, "[DM] " + username + ": " + message);
 		} else // Message goes to entire chat.
 		{
-//			Bulletin addPin = new Bulletin(username, message);
-//			bulletinService.addBulletin(addPin); 
+			save_username.push(username);
+			save_message.push(message);
 			broadcast(username + ": " + message);
 			Thread.sleep(500);
 		}
@@ -76,6 +79,14 @@ public class WebSocketServer {
 
 		String message = username + " disconnected";
 		broadcast(message);
+		while (!save_username.empty()) {
+			while (!save_message.empty()) {
+				Bulletin addPin = new Bulletin(save_username.pop(), save_message.pop());
+				bulletinService.addBulletin(addPin);
+			}
+		}
+//		Bulletin addPin = new Bulletin(username, message);
+//		bulletinService.addBulletin(addPin); 
 	}
 
 	@OnError
