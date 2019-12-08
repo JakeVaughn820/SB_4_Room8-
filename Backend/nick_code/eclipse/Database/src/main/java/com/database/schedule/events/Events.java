@@ -41,7 +41,13 @@ public class Events {
 	 */
 	@Column(name = "description")
 	private String description;
-
+	
+	/**
+	 * Date of the event
+	 */
+	@Column(name = "date")
+	private String date;
+	
 	/**
 	 * Time at which this event starts.
 	 */
@@ -82,10 +88,11 @@ public class Events {
 	 * @param contents
 	 * @param userId
 	 */
-	public Events(Rooms room, String title, String description, String start, String end, User user) {
+	public Events(Rooms room, String title, String description, String date, String start, String end, User user) {
 		this.room = room;
 		this.title = title;
 		this.description = description;
+		this.date = date;
 		this.starttime = start;
 		this.endtime = end;
 		this.user = user;
@@ -100,10 +107,11 @@ public class Events {
 	 * @param user
 	 * @param schedule
 	 */
-	public Events(Rooms room, String title, String description, User user) {
+	public Events(Rooms room, String title, String description, String date, User user) {
 		this.room = room;
 		this.title = title;
 		this.description = description;
+		this.date = date;
 		this.user = user;
 	}
 
@@ -131,6 +139,14 @@ public class Events {
 		this.description = description;
 	}
 
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
 	public String getStarttime() {
 		return starttime;
 	}

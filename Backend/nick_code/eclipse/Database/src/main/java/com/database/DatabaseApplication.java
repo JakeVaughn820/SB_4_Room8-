@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,8 +76,8 @@ public class DatabaseApplication {
 		 * @param user
 		 * @return
 		 */
-		@GetMapping("/getevent/{room}/{user}/")
-		public String getEvent(@PathVariable String room, @PathVariable String user) {
+		@GetMapping("/getevent/{room}/{user}/{date}/")
+		public String getEvent(@PathVariable String room, @PathVariable String user, @PathVariable String date) {
 			Long roomId = Long.valueOf(room);
 			Long userId = Long.valueOf(user);
 
@@ -93,9 +94,13 @@ public class DatabaseApplication {
 			if (events.isEmpty()) {
 				ret += " ";
 			}
+			
 			for (Events temp : events) {
-				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription()
-						+ "\",\"Id\":\"" + temp.getId() + "\"},";
+				if(temp.getDate().equals(date)) {
+					ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription()
+					+ "\",\"Start\":\"" + temp.getStarttime() + "\",\"End\":\"" + temp.getEndtime()
+					+ "\",\"User\":\"" + temp.getUser() + "\",\"Id\":\"" + temp.getId() + "\"},";
+				}
 			}
 			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;
@@ -126,8 +131,15 @@ public class DatabaseApplication {
 			JSONObject body = new JSONObject(item);
 			String Title = body.getString("Title");
 			String Description = body.getString("Description");
-			String StartTime = body.getString("StartTime");
-			String EndTime = body.getString("EndTime");
+			String Date = body.getString("Date");
+			String Start = null;
+			String End = null;
+			try {
+				Start = body.getString("Start");
+				End = body.getString("End");
+			} catch (JSONException e) {}
+			
+			
 			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
 			if (isAdmin == null) {
 				return "{\"Response\":\"No such RoomMembers object for given parameters\"}";
@@ -152,10 +164,10 @@ public class DatabaseApplication {
 				return "{\"Response\":\"No such user exists\"}";
 			}
 
-			if (StartTime.equals(null) && EndTime.equals(null))
-				eventService.addEvent(new Events(eventRoom, Title, Description, eventUser));
+			if (Start.equals(null) && End.equals(null))
+				eventService.addEvent(new Events(eventRoom, Title, Description, Date, eventUser));
 			else
-				eventService.addEvent(new Events(eventRoom, Title, Description, StartTime, EndTime, eventUser));
+				eventService.addEvent(new Events(eventRoom, Title, Description, Date, Start, End, eventUser));
 			return "{\"Response\":\"Success\"}";
 		}
 
@@ -175,7 +187,7 @@ public class DatabaseApplication {
 			JSONObject body = new JSONObject(item);
 			Long userId = Long.valueOf(user);
 			Long roomId = Long.valueOf(room);
-			Long listId = Long.valueOf(body.getString("listId"));
+			Long eventId = Long.valueOf(body.getString("eventId"));
 
 			RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
 			if (isAdmin == null)
@@ -183,15 +195,7 @@ public class DatabaseApplication {
 			if (isAdmin.getUserRole().equals("VIEWER"))
 				return "{\"Response\":\"User does not have permission to complete this action\"}";
 			else {
-				List<Tasks> temp = taskService.findTasksByListId(listId);
-				for (Tasks x : temp) {
-					List<SubTasks> temp2 = subTaskService.findSubTasksByTaskId(x.getId());
-					for (SubTasks y : temp2) {
-						subTaskService.deleteById(y.getId());
-					}
-					taskService.deleteById(x.getId());
-				}
-				roomListService.deleteById(listId);
+				eventService.deleteById(eventId);
 				return "{\"Response\":\"Success\"}";
 			}
 		}
