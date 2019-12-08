@@ -136,7 +136,7 @@ public class RoomSettingsActivity extends AppCompatActivity {
             if (!switchOn) {
                 String toSend;
                 if (permissions.get(position).equals("Viewer")) {
-                    toSend = "ADMIN";
+                    toSend = "ROOMMATE";
                 } else {
                     toSend = "VIEWER";
                 }
@@ -188,8 +188,16 @@ public class RoomSettingsActivity extends AppCompatActivity {
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
-                                items.add(List.getString("Name") + ": " + List.getString("Role"));
-                                permissions.add(List.getString("Role"));
+                                String temp = List.getString("Role");
+                                if(temp.equals("VIEWER")){
+                                    temp = "Viewer";
+                                }else if(temp.equals("ROOMMATE")){
+                                    temp = "Editor";
+                                } else{
+                                    temp = "Owner";
+                                }
+                                items.add(List.getString("Name") + ": " + temp);
+                                permissions.add(temp);
                                 users.add(List.getString("Name"));
                                 usersID.add(List.getString("UserId"));
                             }
@@ -222,11 +230,14 @@ public class RoomSettingsActivity extends AppCompatActivity {
      * Sends Keys:
      */
     private void postRequest(String permission, String userID) {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/roomsettings";
-        url = url + "/" + sessionManager.getRoomid() + "/" + userID;
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room/setrole";
+        url = url + "/" + sessionManager.getID() + "/";
 
         Map<String, String> params = new HashMap<>();
+        params.put("RoomId", sessionManager.getRoomid());
+        params.put("UserId", userID);
         params.put("Role", permission);
+        Toast.makeText(this, permission, Toast.LENGTH_LONG).show();
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,

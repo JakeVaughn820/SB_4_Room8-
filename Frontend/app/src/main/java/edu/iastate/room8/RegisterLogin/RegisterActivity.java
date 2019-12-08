@@ -75,7 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        //initializing variables
         userNameEditText = findViewById(R.id.userNameEditText);
         userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.userPasswordEditText);
@@ -107,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordEditTextString = passwordEditText.getText().toString();
         String passwordCheckTextString = passwordEditTextCheck.getText().toString();
 
-        if (userNameEditTextString.equals("")) {
+        if (userNameEditTextString.equals("")) { //goes through all possibilities of invalid registration
             Toast.makeText(RegisterActivity.this, "Must input a username!", Toast.LENGTH_SHORT).show();
         } else if (userEmailEditTextString.equals("")) {
             Toast.makeText(RegisterActivity.this, "Must input an email!", Toast.LENGTH_SHORT).show();
@@ -118,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
         } else if (!passwordEditTextString.equals(passwordCheckTextString)) {
             Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
         } else {
-            postRequest();
+            postRequest(); //posts to backend if valid registration
         }
     }
 
@@ -131,9 +131,9 @@ public class RegisterActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
 
         Map<String, String> params = new HashMap<>();
-        params.put("Name", userNameEditTextString);
-        params.put("Email", userEmailEditTextString);
-        params.put("Password", passwordEditTextString);
+        params.put("Name", userNameEditTextString); //name to register
+        params.put("Email", userEmailEditTextString); //email to register
+        params.put("Password", passwordEditTextString); //password to register
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -143,7 +143,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Response");
-                            if (success.equals("Success")) {
+                            if (success.equals("Success")) { //if success do this
                                 finish();
                                 Toast.makeText(RegisterActivity.this, "Successfully created account!", Toast.LENGTH_SHORT).show();
                             } else {
@@ -156,19 +156,19 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error) { //on error for json
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() {
+            public Map<String, String> getHeaders() { //header for json
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
 
             @Override
-            protected Map<String, String> getParams() {
+            protected Map<String, String> getParams() { //parameter for json
                 Map<String, String> params = new HashMap<>();
                 params.put("Name", userNameEditTextString);
                 params.put("Email", userEmailEditTextString);

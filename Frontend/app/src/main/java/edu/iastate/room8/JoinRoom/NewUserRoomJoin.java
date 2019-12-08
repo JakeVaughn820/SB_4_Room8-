@@ -88,6 +88,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_user_room_join);
+        //initialize variables on creation
         sessionManager = new SessionManager(this);
         sessionManager.checkLogin();
 
@@ -144,8 +145,8 @@ public class NewUserRoomJoin extends AppCompatActivity {
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            sessionManager.setRoom(items.get(position));
-            sessionManager.setRoomid(ids.get(position));
+            sessionManager.setRoom(items.get(position)); //based on what the position of the list is clicked, will get that item and will
+            sessionManager.setRoomid(ids.get(position)); //set it to the session manager to be used for the rest of the classes
             sessionManager.setPermission(permissions.get(position));
             Intent i = new Intent(NewUserRoomJoin.this, HomeActivity.class);
             startActivity(i);
@@ -156,11 +157,11 @@ public class NewUserRoomJoin extends AppCompatActivity {
      * Method that runs when newRoomCreate button is clicked
      */
     private void newRoomCreateClicked() {
-        if (newRoomCreateEditText.getText().toString().equals("")) {
+        if (newRoomCreateEditText.getText().toString().equals("")) { //makes sure user has to have a room name
             Toast.makeText(NewUserRoomJoin.this, "Must input a room name!", Toast.LENGTH_SHORT).show();
         } else {
-            postRequestCreate();
-            items.clear();
+            postRequestCreate(); //tells backend to create room
+            items.clear(); //the clears here are so it can be updated by the update button and not be shown twice
             ids.clear();
             permissions.clear();
         }
@@ -188,16 +189,16 @@ public class NewUserRoomJoin extends AppCompatActivity {
                                 items.add(List.getString("Title"));
                                 ids.add(List.getString("Id"));
                                 String role = List.getString("Role");
-                                if (role.equals("OWNER")) {
+                                if (role.equals("OWNER")) { //takes what the backend has permissions called and converts them to what we have them called
                                     permissions.add("Owner");
                                 } else if (role.equals("ROOMMATE")) {
                                     permissions.add("Editor");
                                 } else {
                                     permissions.add("Viewer");
                                 }
-                                sessionManager.addRoom(List.getString("Title"), List.getString("Id"));
+                                sessionManager.addRoom(List.getString("Title"), List.getString("Id")); //adds rooms to session manager
                             }
-                            adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged(); //notifies adapter to update list view
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -220,9 +221,9 @@ public class NewUserRoomJoin extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/room";
         url = url + "/" + sessionManager.getID();
         Map<String, String> params = new HashMap<>();
-        params.put("Title", newRoomCreateEditText.getText().toString());
+        params.put("Title", newRoomCreateEditText.getText().toString()); //this is sent to backend, whatever user input is
 
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, //this is the main line in post requests, posts to backend
                 url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -236,14 +237,14 @@ public class NewUserRoomJoin extends AppCompatActivity {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() {
+            public Map<String, String> getHeaders() { //not used but needed
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
 
             @Override
-            protected Map<String, String> getParams() {
+            protected Map<String, String> getParams() { //not used but needed
                 Map<String, String> params = new HashMap<>();
                 params.put("User", getIntent().getStringExtra("USER_ID"));
                 params.put("CreateRoom", "Yes");
@@ -262,9 +263,9 @@ public class NewUserRoomJoin extends AppCompatActivity {
         url = url + "/" + sessionManager.getID();
 
         Map<String, String> params = new HashMap<>();
-        params.put("RoomId", joinRoomEditText.getText().toString());
+        params.put("RoomId", joinRoomEditText.getText().toString()); //sends room id to backend
 
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, //posts to backend
                 url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -272,7 +273,7 @@ public class NewUserRoomJoin extends AppCompatActivity {
                         Log.d(TAG, response.toString());
                         try {
                             String success = response.getString("Response");
-                            if (success.equals("Success")) {
+                            if (success.equals("Success")) { //if it was a success then clear everything so it can be updated
                                 items.clear();
                                 ids.clear();
                                 permissions.clear();
@@ -285,19 +286,19 @@ public class NewUserRoomJoin extends AppCompatActivity {
                     }
                 }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error) { //used for errors on json object
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() {
+            public Map<String, String> getHeaders() { //used for headers for json object
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
 
             @Override
-            protected Map<String, String> getParams() {
+            protected Map<String, String> getParams() { //used for parameters for json object
                 Map<String, String> params = new HashMap<>();
                 params.put("User", getIntent().getStringExtra("USER_ID"));
                 params.put("CreateRoom", "Yes");
