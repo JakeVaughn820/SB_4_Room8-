@@ -803,8 +803,6 @@ public class DatabaseApplication {
 		 */
 		@PostMapping(path = "/login", consumes = "application/json", produces = "application/json")
 		public String attemptLogin(@RequestBody String item) {
-			// TODO Add login system, actually do something to Log in, instead of returning
-			// 'match' or 'no match'
 			JSONObject body = new JSONObject(item);
 			String Email = body.getString("Email");
 			String Password = body.getString("Password");
