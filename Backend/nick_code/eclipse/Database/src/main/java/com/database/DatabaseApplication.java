@@ -83,7 +83,13 @@ public class DatabaseApplication {
 
 			List<Events> events = new ArrayList<Events>();
 			String response = "";
-
+			for(Events temp : events) {
+				if(!temp.getDate().equals(date)) {
+					events.remove(temp);
+				}
+			}
+			
+			
 			if (roomMembersService.findRoomMemberByIds(userId, roomId) != null) {
 				events = eventService.findEventsByRoomId(roomId);
 				response = "\"Response\":\"Success\"";
@@ -96,11 +102,9 @@ public class DatabaseApplication {
 			}
 			
 			for (Events temp : events) {
-				if(temp.getDate().equals(date)) {
 					ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription()
 					+ "\",\"Start\":\"" + temp.getStarttime() + "\",\"End\":\"" + temp.getEndtime()
-					+ "\",\"User\":\"" + temp.getUser() + "\",\"Id\":\"" + temp.getId() + "\"},";
-				}
+					+ "\",\"User\":\"" + temp.getUser().getName() + "\",\"Id\":\"" + temp.getId() + "\"},";
 			}
 			ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 			return ret;

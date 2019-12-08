@@ -113,6 +113,8 @@ public class Events {
 		this.description = description;
 		this.date = date;
 		this.user = user;
+		starttime = null;
+		endtime = null;
 	}
 
 	public Long getId() {
