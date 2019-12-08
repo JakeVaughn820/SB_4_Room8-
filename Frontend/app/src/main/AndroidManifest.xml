@@ -24,7 +24,7 @@
         <activity android:name=".Schedule.ScheduleDescriptionActivity" />
         <activity android:name=".Schedule.NewScheduleActivity" />
         <activity android:name=".Schedule.DayActivity" />
-        <activity android:name=".Schedule.ScheduleActivity" />
+        <activity android:name=".Schedule.ScheduleMVP.ScheduleActivity" />
         <activity android:name=".List.ListActivity" />
         <activity android:name=".Bulletin.BulletinActivity" />
         <activity android:name=".List.MainListMVP.MainListActivity" />

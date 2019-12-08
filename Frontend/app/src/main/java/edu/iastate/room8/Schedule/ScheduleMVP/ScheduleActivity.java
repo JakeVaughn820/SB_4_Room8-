@@ -1,4 +1,4 @@
-package edu.iastate.room8.Schedule;
+package edu.iastate.room8.Schedule.ScheduleMVP;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,7 @@ import android.widget.CalendarView;
 import android.widget.Toast;
 
 import edu.iastate.room8.R;
-import edu.iastate.room8.utils.DateParser;
+import edu.iastate.room8.Schedule.DayActivity;
 import edu.iastate.room8.utils.SessionManager;
 
 /**
@@ -21,7 +21,7 @@ import edu.iastate.room8.utils.SessionManager;
  * @author Paul Degnan
  * @author Jake Vaughn
  */
-public class ScheduleActivity extends AppCompatActivity {
+public class ScheduleActivity extends AppCompatActivity implements IScheduleActivity {
     /**
      * String holding the date selected
      */
@@ -87,7 +87,7 @@ public class ScheduleActivity extends AppCompatActivity {
     /**
      * Method that runs whenever the calender date changes
      */
-    private void calenderChange(int i, int i1, int i2) {
+    public void calenderChange(int i, int i1, int i2) {
         dateParser.setDay(i2);
         dateParser.setMonth(i1);
         dateParser.setYear(i);
@@ -101,7 +101,7 @@ public class ScheduleActivity extends AppCompatActivity {
     /**
      * Method that runs whenever goToScheduleDay is clicked
      */
-    private void goToScheduleDayClicked() {
+    public void goToScheduleDayClicked() {
         if (!clicked) {
             Toast.makeText(ScheduleActivity.this, "Please select a date first", Toast.LENGTH_SHORT).show();
         } else {

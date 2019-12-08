@@ -1,4 +1,4 @@
-package edu.iastate.room8.utils;
+package edu.iastate.room8.Schedule.ScheduleMVP;
 
 /**
  * Class that is used to parse the date for the ScheduleActivity
