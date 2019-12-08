@@ -70,15 +70,16 @@ public class BulletinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bulletin);
 
-        sessionManager = new SessionManager(this);
+        sessionManager = new SessionManager(this); //session manager used to save this sessions information
 
         textView = findViewById(R.id.textView);
         toAddButton = findViewById(R.id.buttonForAdd);
         toAddText = findViewById(R.id.messageToAdd);
         //arr = new ArrayList<>();      KEEP IN CASE WE NEED
 
-        setVisibility();
+        setVisibility(); //sets visibility of the buttons
 
+        //when the add button is clicked it will call the to add clicked method
         toAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,18 +87,18 @@ public class BulletinActivity extends AppCompatActivity {
             }
         });
 
-        webSocketWithBackend();
+        webSocketWithBackend();  //does the websocket stuff
     }
 
     /**
      * Method that sets the visibility of buttons depending on the users permissions in this specific room
      */
     private void setVisibility() {
-        if (sessionManager.getPermission().equals("Viewer")) {
-            toAddButton.setVisibility(View.INVISIBLE);
+        if (sessionManager.getPermission().equals("Viewer")) { //session manager has permission of the user in this specific room
+            toAddButton.setVisibility(View.INVISIBLE); //sets stuff to invisible for viewers
             toAddText.setVisibility(View.INVISIBLE);
         } else {
-            toAddButton.setVisibility(View.VISIBLE);
+            toAddButton.setVisibility(View.VISIBLE); //sets stuff to visible for non-viewers
             toAddText.setVisibility(View.VISIBLE);
         }
     }
@@ -107,17 +108,17 @@ public class BulletinActivity extends AppCompatActivity {
      */
     private void toAddClicked() {
         String stringToAddText = toAddText.getText().toString();
-        if (stringToAddText.equals("")) {
+        if (stringToAddText.equals("")) { //needs this here so users can't add nothing to the database
             Toast.makeText(BulletinActivity.this, "Must input a message to display on the bulletin board", Toast.LENGTH_LONG).show();
         } else {
             try {
-                cc.send(toAddText.getText().toString());
+                cc.send(toAddText.getText().toString()); //sends message to websocket
             } catch (Exception e) {
                 Log.d("ExceptionSendMessage:", "Exception in Web Sockets");
             }
 
         }
-        toAddText.setText("");
+        toAddText.setText(""); //sets input of viewer to nothing so they can type a new message
     }
 
 
@@ -220,36 +221,36 @@ public class BulletinActivity extends AppCompatActivity {
         w = w + "/" + sessionManager.getName();
         try {
             Log.d("Socket:", "Trying socket");
-            cc = new WebSocketClient(new URI(w), drafts[0]) {
+            cc = new WebSocketClient(new URI(w), drafts[0]) { //this will connect it to the backend
                 @Override
-                public void onMessage(String message) {
+                public void onMessage(String message) { //every time a message is received from backend something happens
                     Log.d("", "run() returned: " + message);
                     String s = textView.getText().toString();
 
                     String messageTemp = message + "\n";
-                    String toSet = messageTemp + s;
-                    textView.setText(toSet);
+                    String toSet = messageTemp + s; //message is added to beginning of text view
+                    textView.setText(toSet); //message is set
                 }
 
                 @Override
                 public void onOpen(ServerHandshake handshake) {
-                    Log.d("OPEN", "run() returned: " + "is connecting");
+                    Log.d("OPEN", "run() returned: " + "is connecting"); //runs on open, tells us in the log it is opened
                 }
 
                 @Override
-                public void onClose(int code, String reason, boolean remote) {
+                public void onClose(int code, String reason, boolean remote) { //runs on closed, tells us in the log it is closed
                     Log.d("CLOSE", "onClose() returned: " + reason);
                 }
 
                 @Override
                 public void onError(Exception e) {
                     Log.d("Exception:", e.toString());
-                }
+                } //sends error to log
             };
         } catch (URISyntaxException e) {
-            Log.d("Exception:", "URISyntaxException");
+            Log.d("Exception:", "URISyntaxException"); //catches exception for bad url
             e.printStackTrace();
         }
-        cc.connect();
+        cc.connect(); //connects to backend
     }
 }

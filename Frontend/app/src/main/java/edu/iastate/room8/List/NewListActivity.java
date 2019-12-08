@@ -67,7 +67,7 @@ public class NewListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_list);
         sessionManager = new SessionManager(this);
-
+        //initializing variables
         Button newList = findViewById(R.id.newList);
         newListName = findViewById(R.id.newListName);
         Button btn_back = findViewById(R.id.btn_back);
@@ -97,7 +97,7 @@ public class NewListActivity extends AppCompatActivity {
         if (newListNameString.equals("")) {
             Toast.makeText(NewListActivity.this, "Must put something in the 'enter name for new list' line!", Toast.LENGTH_LONG).show();
         } else {
-            postRequest();
+            postRequest(); //will only post if user input
             finish();
         }
     }
@@ -111,31 +111,31 @@ public class NewListActivity extends AppCompatActivity {
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
         Map<String, String> params = new HashMap<>();
-        params.put("Title", newListNameString);
-        params.put("Description", descriptionTextString);
+        params.put("Title", newListNameString); //sends title to backend
+        params.put("Description", descriptionTextString); //sends description for new list to backend
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, toPost,
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONObject response) { //response of json
                         Log.d(TAG, response.toString());
                     }
                 }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error) { //error response
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() {
+            public Map<String, String> getHeaders() { //headers for json
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
 
             @Override
-            protected Map<String, String> getParams() {
+            protected Map<String, String> getParams() { //parameter for json
                 Map<String, String> params = new HashMap<>();
                 params.put("Title", newListNameString);
                 params.put("Description", descriptionTextString);

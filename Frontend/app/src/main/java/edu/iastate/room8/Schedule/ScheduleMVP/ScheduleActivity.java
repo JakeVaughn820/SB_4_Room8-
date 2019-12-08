@@ -60,7 +60,7 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
-
+        //initialize variable
         sessionManager = new SessionManager(this);
 
         final Button goToScheduleDay = findViewById(R.id.goToScheduleDay);
@@ -88,7 +88,7 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
      * Method that runs whenever the calender date changes
      */
     public void calenderChange(int i, int i1, int i2) {
-        dateParser.setDay(i2);
+        dateParser.setDay(i2); //uses date parser to parse date
         dateParser.setMonth(i1);
         dateParser.setYear(i);
         day = dateParser.parseDay();
@@ -106,7 +106,7 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
             Toast.makeText(ScheduleActivity.this, "Please select a date first", Toast.LENGTH_SHORT).show();
         } else {
             Intent i = new Intent(ScheduleActivity.this, DayActivity.class);
-            i.putExtra("EXTRA_INFORMATION", date);
+            i.putExtra("EXTRA_INFORMATION", date); //sets extra info for next class
             i.putExtra("Day", day);
             i.putExtra("Month", month);
             i.putExtra("Year", year);
@@ -120,7 +120,7 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
      * @return returns the parsed date
      */
     public String callDateParser() {
-        SchedulePresenter presenter = new SchedulePresenter(dateParser);
+        SchedulePresenter presenter = new SchedulePresenter(dateParser); //calls the date parser to present data
         return presenter.callDataParser();
     }
 

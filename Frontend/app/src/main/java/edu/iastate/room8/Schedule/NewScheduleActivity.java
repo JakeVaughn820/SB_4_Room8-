@@ -86,7 +86,7 @@ public class NewScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_schedule);
-
+        //initialize all variables
         sessionManager = new SessionManager(this);
 
         final Button addNewEventButton = findViewById(R.id.addNewEventButton);
@@ -95,7 +95,7 @@ public class NewScheduleActivity extends AppCompatActivity {
         eventName = findViewById(R.id.eventName);
         eventDescription = findViewById(R.id.eventDescription);
 
-        date = getIntent().getStringExtra("DATE");
+        date = getIntent().getStringExtra("DATE"); //get stuff from last activity
 
         addNewEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +109,7 @@ public class NewScheduleActivity extends AppCompatActivity {
      * Method that runs whenever addNewEventButton is clicked
      */
     private void addNewEventButtonClicked() {
-        startTimeString = startTime.getText().toString();
+        startTimeString = startTime.getText().toString(); //when new event button is clicked is settings strings and then going to post
         endTimeString = endTime.getText().toString();
         eventNameString = eventName.getText().toString();
         eventDescriptionString = eventDescription.getText().toString();
@@ -125,7 +125,7 @@ public class NewScheduleActivity extends AppCompatActivity {
 
         Map<String, String> params = new HashMap<>();
         params.put("EventName", eventNameString);
-        params.put("StartTime", startTimeString);
+        params.put("StartTime", startTimeString); //post takes strings and sends to backend for new event
         params.put("EndTime", endTimeString);
         params.put("EventDescription", eventDescriptionString);
         params.put("Date", date);
@@ -135,24 +135,24 @@ public class NewScheduleActivity extends AppCompatActivity {
                 url, toPost,
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONObject response) { //runs on response
                         Log.d(TAG, response.toString());
                     }
                 }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error) { //runs on error
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() {
+            public Map<String, String> getHeaders() { //used for json headers
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
 
             @Override
-            protected Map<String, String> getParams() {
+            protected Map<String, String> getParams() { //used for json parameters
                 Map<String, String> params = new HashMap<>();
                 params.put("EventName", eventNameString);
                 params.put("StartTime", startTimeString);
