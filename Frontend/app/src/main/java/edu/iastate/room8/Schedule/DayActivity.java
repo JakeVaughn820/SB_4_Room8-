@@ -138,7 +138,7 @@ public class DayActivity extends AppCompatActivity {
      * Receives: Header: Schedule. Keys: StartTime. EndTime. EventName. User.
      */
     private void jsonParse() {
-//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
+//        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/schedule";
         String url = "https://api.myjson.com/bins/xf1fk";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
