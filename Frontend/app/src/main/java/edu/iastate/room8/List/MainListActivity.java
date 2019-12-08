@@ -1,4 +1,4 @@
-package edu.iastate.room8.List.MainListMVP;
+package edu.iastate.room8.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,8 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.iastate.room8.List.ListActivity;
-import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.SessionManager;

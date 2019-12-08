@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import edu.iastate.room8.Bulletin.BulletinActivity;
-import edu.iastate.room8.List.MainListMVP.MainListActivity;
+import edu.iastate.room8.List.MainListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.Schedule.ScheduleMVP.ScheduleActivity;
 import edu.iastate.room8.Settings.RoomSettingsActivity;
