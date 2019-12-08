@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 @ServerEndpoint("/room/{username}")
 @Component
 public class WebSocketServer {
-
 	private BulletinService bulletinService;
 	private Stack<String> save_username;
 	private Stack<String> save_message;

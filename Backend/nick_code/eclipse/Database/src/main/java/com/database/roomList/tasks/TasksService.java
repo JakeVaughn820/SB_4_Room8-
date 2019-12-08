@@ -7,12 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.database.roomList.RoomList;
 import com.database.rooms.RoomsService;
-
-import com.database.roomList.RoomList;
-
 
 /**
  * This class implements the task repository.
