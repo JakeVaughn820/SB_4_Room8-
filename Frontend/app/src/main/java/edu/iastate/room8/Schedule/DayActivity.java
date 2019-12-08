@@ -73,7 +73,7 @@ public class DayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
-
+        //initializes variables
         sessionManager = new SessionManager(this);
 
         TextView date = findViewById(R.id.date);
@@ -84,7 +84,7 @@ public class DayActivity extends AppCompatActivity {
 
         setPermissions();
 
-        date.setText(getIntent().getStringExtra("EXTRA_INFORMATION"));
+        date.setText(getIntent().getStringExtra("EXTRA_INFORMATION")); //gets extra info from last activity
         dateString = date.getText().toString();
         eventNames = new ArrayList<>();
         items = new ArrayList<>();
@@ -108,7 +108,7 @@ public class DayActivity extends AppCompatActivity {
      */
     private void buttonAddScheduleItemClicked() {
         Intent i = new Intent(DayActivity.this, NewScheduleActivity.class);
-        i.putExtra("DATE", dateString);
+        i.putExtra("DATE", dateString); //date info for next class
         startActivity(i);
     }
 
@@ -116,7 +116,7 @@ public class DayActivity extends AppCompatActivity {
      * Method that that sets button visibility based on permission of user
      */
     private void setPermissions() {
-        if (sessionManager.getPermission().equals("Viewer")) {
+        if (sessionManager.getPermission().equals("Viewer")) { //sets button visibility
             buttonAddScheduleItem.setVisibility(View.INVISIBLE);
         } else {
             buttonAddScheduleItem.setVisibility(View.VISIBLE);
@@ -130,7 +130,7 @@ public class DayActivity extends AppCompatActivity {
      */
     public JSONObject jsonGetSchedule() {
         return null;
-    }
+    } //testing use
 
     /**
      * Used to parse JSON Objects in DayActivity
@@ -150,7 +150,7 @@ public class DayActivity extends AppCompatActivity {
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
-                                String start = List.getString("StartTime");
+                                String start = List.getString("StartTime"); //gets all info for all events for room
                                 String end = List.getString("EndTime");
                                 String eventName = List.getString("EventName");
                                 String user = List.getString("User");
@@ -178,7 +178,7 @@ public class DayActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
             Intent i = new Intent(DayActivity.this, ScheduleDescriptionActivity.class);
-            i.putExtra("EXTRA_INFORMATION", eventNames.get(position));
+            i.putExtra("EXTRA_INFORMATION", eventNames.get(position)); //sets extra info for next activity
             i.putExtra("DATE", dateString);
             startActivity(i);
         }

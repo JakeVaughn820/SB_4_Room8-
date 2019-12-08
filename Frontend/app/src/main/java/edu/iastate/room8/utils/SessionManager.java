@@ -21,19 +21,15 @@ public class SessionManager {
     /**
      * Shared Preferences
      */
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     /**
      * Editor for shared preferences
      */
-    public SharedPreferences.Editor editor;
+    private SharedPreferences.Editor editor;
     /**
      * Context, class that session manager is being used in
      */
     public Context context;
-    /**
-     * Int for private mode
-     */
-    int PRIVATE_MODE = 0;
     /**
      * Constant preference name
      */
@@ -90,6 +86,7 @@ public class SessionManager {
      * @param context what activity it was constructed in
      */
     public SessionManager(Context context) {
+        int PRIVATE_MODE = 0;
         this.context = context;
         sharedPreferences = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = sharedPreferences.edit();
@@ -147,11 +144,11 @@ public class SessionManager {
 
 
         RoomsSet = (sharedPreferences.getStringSet(ROOMS, null));
-        RoomsSet.add(room);
+        RoomsSet.add(room); //unfortunately there is no easy way to fix this.
         editor.putStringSet(ROOMS, RoomsSet);
 
         RoomsIDSet = (sharedPreferences.getStringSet(ROOMSID, null));
-        RoomsIDSet.add(id);
+        RoomsIDSet.add(id); //unfortunately there is no easy way to fix this.
         editor.putStringSet(ROOMSID, RoomsIDSet);
         editor.apply();
     }
@@ -165,7 +162,7 @@ public class SessionManager {
     public boolean isRoom(String room) {
         Set<String> set;
         set = (sharedPreferences.getStringSet(ROOMS, null));
-        return set.contains(room);
+        return set.contains(room); //unfortunately there is no easy way to fix this.
     }
 
     /**

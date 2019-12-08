@@ -65,7 +65,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_description);
-
+        //initialized variables
         sessionManager = new SessionManager(this);
         eventName = findViewById(R.id.eventNameDescription);
         person = findViewById(R.id.personTextView);

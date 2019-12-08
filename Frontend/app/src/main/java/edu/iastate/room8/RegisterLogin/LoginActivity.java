@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
 
         } else {
-            Toast.makeText(this, "Invalid Login", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid Login", Toast.LENGTH_SHORT).show(); //can only make 5 errors otherwise locks you out
             loginAttemps--;
             String toSetText = "Incorrect User Name or Password" + "\n" +
                     "Login Attemps Left: " + loginAttemps
@@ -175,8 +175,8 @@ public class LoginActivity extends AppCompatActivity {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/login";
 
         Map<String, String> params = new HashMap<>();
-        params.put("Email", userEmailEditText.getText().toString());
-        params.put("Password", passwordEditText.getText().toString());
+        params.put("Email", userEmailEditText.getText().toString()); //email to send to backend
+        params.put("Password", passwordEditText.getText().toString()); //password to send to backend
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -185,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, response.toString());
                         try {
-                            String success = response.getString("Response");
+                            String success = response.getString("Response"); //response from the login to show if logged in successful
                             String userID = response.getString("UserId");
                             String userEmail = userEmailEditText.getText().toString();
                             String userName = response.getString("Username");
