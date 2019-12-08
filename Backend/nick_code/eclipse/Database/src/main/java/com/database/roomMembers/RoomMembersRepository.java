@@ -2,6 +2,8 @@ package com.database.roomMembers;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -43,7 +45,8 @@ public interface RoomMembersRepository extends JpaRepository<RoomMembers, Long>
 	 * @param userId
 	 * @return
 	 */
+	@Transactional
 	@Modifying
-	@Query(value = "update room_members rm set rm.user_role = ?1 where u.id = ?2", nativeQuery = true)
-	User updateUserRole(@Param("user_role") String userRole, @Param("user_id") Long userId);
+	@Query(value = "update room_members rm set rm.user_role = ?1 where rm.user_id = ?2", nativeQuery = true)
+	void updateUserRole(@Param("user_role") String userRole, @Param("user_id") Long userId);
 }

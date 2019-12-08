@@ -695,7 +695,7 @@ public class DatabaseApplication {
 				return "{\"Response\":\"Current user is not in the same room as the user being set\"}";
 			else if (isOwner.getUserRole().equals("OWNER")) {
 				if (role.equals("VIEWER") || role.equals("ROOMMATE")) {
-					toSet.setUserRole(role);
+					roomMembersService.updateUserRole(role, Long.valueOf(setUser));
 					return "{\"Response\":\"Success\"}";
 				} else
 					return "{\"Response\":\"Invalid Role\"}";

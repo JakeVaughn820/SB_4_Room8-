@@ -89,9 +89,9 @@ public class RoomMembersService {
 	 * @param userId
 	 * @return
 	 */
-	User updateUserRole(String userRole, Long userId)
+	public void updateUserRole(String userRole, Long userId)
 	{
-		return roomMembersRepository.updateUserRole(userRole, userId);
+		roomMembersRepository.updateUserRole(userRole, userId);
 	}
 
 	/**
