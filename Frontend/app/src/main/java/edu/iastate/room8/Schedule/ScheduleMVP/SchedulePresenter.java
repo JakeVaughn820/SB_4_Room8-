@@ -1,12 +1,30 @@
 package edu.iastate.room8.Schedule.ScheduleMVP;
 
-public class SchedulePresenter {
-    private static final SchedulePresenter ourInstance = new SchedulePresenter();
+/**
+ * Class for the schedule presenter that implements the interface ISchedulePresenter
+ */
+public class SchedulePresenter implements ISchedulePresenter {
+    /**
+     * Date parser for the SchedulePresenter class
+     */
+    private DateParser dateParser;
 
-    public static SchedulePresenter getInstance() {
-        return ourInstance;
+    /**
+     * Constructor for schedule presenter
+     *
+     * @param dateParser The dateparser being used in ScheduleActivity
+     */
+    SchedulePresenter(DateParser dateParser) {
+        this.dateParser = dateParser;
     }
 
-    private SchedulePresenter() {
+    /**
+     * Calls the date parser to parse the date that is to be used for the schedule.
+     *
+     * @return returns the parsed date
+     */
+    @Override
+    public String callDataParser() {
+        return dateParser.parseDate();
     }
 }

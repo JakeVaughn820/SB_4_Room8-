@@ -120,7 +120,8 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
      * @return returns the parsed date
      */
     public String callDateParser() {
-        return dateParser.parseDate();
+        SchedulePresenter presenter = new SchedulePresenter(dateParser);
+        return presenter.callDataParser();
     }
 
 }

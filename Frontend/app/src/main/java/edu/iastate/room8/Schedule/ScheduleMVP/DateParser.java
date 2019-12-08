@@ -37,7 +37,7 @@ public class DateParser {
      *
      * @param i number of day
      */
-    public void setDay(int i) {
+    void setDay(int i) {
         day = i;
     }
 
@@ -46,7 +46,7 @@ public class DateParser {
      *
      * @param i number of month
      */
-    public void setMonth(int i) {
+    void setMonth(int i) {
         month = i;
     }
 
@@ -55,7 +55,7 @@ public class DateParser {
      *
      * @param i number of year
      */
-    public void setYear(int i) {
+    void setYear(int i) {
         year = i;
     }
 
@@ -74,7 +74,7 @@ public class DateParser {
      *
      * @return the day parsed
      */
-    public String parseDay() {
+    String parseDay() {
         return day + "";
     }
 
@@ -83,7 +83,7 @@ public class DateParser {
      *
      * @return the month parsed
      */
-    public String parseMonth() {
+    String parseMonth() {
         return (month + 1) + "";
 
     }
@@ -93,7 +93,7 @@ public class DateParser {
      *
      * @return the year parsed
      */
-    public String parseYear() {
+    String parseYear() {
         return year + "";
 
     }
