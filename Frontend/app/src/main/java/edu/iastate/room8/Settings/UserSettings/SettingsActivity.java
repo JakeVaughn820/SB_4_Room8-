@@ -50,15 +50,12 @@ public class SettingsActivity extends AppCompatActivity {
 //            actionBar.setDisplayHomeAsUpEnabled(true);
 //        }
 
-
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-
-
 
             newName = findPreference("userName");
             newEmail = findPreference("userEmail");
@@ -71,6 +68,20 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public void onBindEditText(@NonNull EditText editText) {
 
+                }
+            });
+
+            newEmail.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
+                @Override
+                public void onBindEditText(@NonNull EditText editText) {
+                    sessionManager.setEmail(editText.getText().toString());
+                }
+            });
+
+            newEmail.setOnBindEditTextListener(new EditTextPreference.OnBindEditTextListener() {
+                @Override
+                public void onBindEditText(@NonNull EditText editText) {
+                    sessionManager.setEmail(editText.getText().toString());
                 }
             });
 

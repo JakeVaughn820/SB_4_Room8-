@@ -14,9 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Settings.UserSettings.UserSettingsActivity"></activity>
         <activity
             android:name=".Settings.UserSettings.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
         <activity android:name=".Settings.RoomSettings.RoomSettingsActivity" />
         <activity android:name=".List.SubtaskActivity" />
         <activity android:name=".NewRoomActivity" />
