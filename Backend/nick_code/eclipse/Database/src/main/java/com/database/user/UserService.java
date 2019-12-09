@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,5 +82,38 @@ public class UserService {
 	public void deleteById(Long userId) {
 		logger.info("Deleted " + findById(userId) + " from the database");
 		userRepository.deleteById(userId);
+	}
+	
+	/**
+	 * Updates username given the userId. 
+	 * 
+	 * @param username
+	 * @param userId
+	 */
+	void updateUsername(@Param("username") String username, @Param("id") Long userId)
+	{
+		updateUsername(username, userId); 
+	}
+	
+	/**
+	 * Updates user email given the userId. 
+	 * 
+	 * @param email
+	 * @param userId
+	 */
+	void updateUserEmail(@Param("email") String email, @Param("id") Long userId)
+	{
+		updateUserEmail(email, userId); 	
+	}
+	
+	/**
+	 * Updates user password given the userId. 
+	 * 
+	 * @param password
+	 * @param userId
+	 */
+	void updateUserPassword(@Param("password") String password, @Param("id") Long userId)
+	{
+		updateUserPassword(password, userId); 
 	}
 }
