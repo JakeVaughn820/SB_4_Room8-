@@ -41,7 +41,7 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
     /**
      * DateParser that will parse the date based on the onClickListener of the calender
      */
-    private DateParser dateParser;
+    private IDateParserInversionPattern dateParser;
     /**
      * Boolean with whether or not the user has selected anything yet
      */

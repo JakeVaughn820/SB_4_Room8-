@@ -5,7 +5,7 @@ package edu.iastate.room8.Schedule.ScheduleMVP;
  *
  * @author Paul Degnan
  */
-public class DateParser {
+public class DateParser implements IDateParserInversionPattern {
     /**
      * integer that holds the day
      */
@@ -37,7 +37,7 @@ public class DateParser {
      *
      * @param i number of day
      */
-    void setDay(int i) {
+    public void setDay(int i) {
         day = i;
     }
 
@@ -46,7 +46,7 @@ public class DateParser {
      *
      * @param i number of month
      */
-    void setMonth(int i) {
+    public void setMonth(int i) {
         month = i;
     }
 
@@ -55,7 +55,7 @@ public class DateParser {
      *
      * @param i number of year
      */
-    void setYear(int i) {
+    public void setYear(int i) {
         year = i;
     }
 
@@ -74,7 +74,7 @@ public class DateParser {
      *
      * @return the day parsed
      */
-    String parseDay() {
+    public String parseDay() {
         return day + "";
     }
 
@@ -83,7 +83,7 @@ public class DateParser {
      *
      * @return the month parsed
      */
-    String parseMonth() {
+    public String parseMonth() {
         return (month + 1) + "";
 
     }
@@ -93,7 +93,7 @@ public class DateParser {
      *
      * @return the year parsed
      */
-    String parseYear() {
+    public String parseYear() {
         return year + "";
 
     }

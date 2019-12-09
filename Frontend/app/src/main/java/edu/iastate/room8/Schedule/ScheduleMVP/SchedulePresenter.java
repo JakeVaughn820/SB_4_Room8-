@@ -7,14 +7,14 @@ public class SchedulePresenter implements ISchedulePresenter {
     /**
      * Date parser for the SchedulePresenter class
      */
-    private DateParser dateParser;
+    private IDateParserInversionPattern dateParser;
 
     /**
      * Constructor for schedule presenter
      *
      * @param dateParser The dateparser being used in ScheduleActivity
      */
-    SchedulePresenter(DateParser dateParser) {
+    SchedulePresenter(IDateParserInversionPattern dateParser) {
         this.dateParser = dateParser;
     }
 
