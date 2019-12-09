@@ -262,7 +262,7 @@ public class DayActivity extends AppCompatActivity {
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
         Map<String, String> params = new HashMap<>();
-        params.put("Id", eventId);
+        params.put("eventId", eventId);
 
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
