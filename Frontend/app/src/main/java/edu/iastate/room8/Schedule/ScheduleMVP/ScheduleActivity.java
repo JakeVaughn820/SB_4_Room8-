@@ -10,8 +10,6 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
-import java.util.Observable;
-
 import edu.iastate.room8.R;
 import edu.iastate.room8.Schedule.DayActivity;
 import edu.iastate.room8.utils.SessionManager;
@@ -84,7 +82,6 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
                 calenderChange(i, i1, i2);
             }
         });
-        Observable observer = new Observable();
     }
 
     /**
