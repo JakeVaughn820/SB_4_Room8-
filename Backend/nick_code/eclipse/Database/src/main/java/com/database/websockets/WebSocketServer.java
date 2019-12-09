@@ -75,15 +75,12 @@ public class WebSocketServer {
 		String username = sessionUsernameMap.get(session);
 		sessionUsernameMap.remove(session);
 		usernameSessionMap.remove(username);
-
 		String message = username + " disconnected";
 		broadcast(message);
-		while (!save_username.empty()) {
-			while (!save_message.empty()) {
-				Bulletin addPin = new Bulletin(save_username.pop(), save_message.pop());
-				bulletinService.addBulletin(addPin); //THIS BREAKS IT
-			}
-		} 
+		logger.info("Before adding messages to bulletin");
+		updateBulletin();
+		logger.info("Before adding messages to bulletin");
+
 	}
 
 	@OnError
@@ -111,5 +108,14 @@ public class WebSocketServer {
 				}
 			}
 		});
+	}
+
+	private void updateBulletin() {
+		while (!save_username.empty()) {
+			while (!save_message.empty()) {
+				Bulletin addPin = new Bulletin(save_username.pop(), save_message.pop());
+				bulletinService.addBulletin(addPin); // THIS BREAKS IT
+			}
+		}
 	}
 }
