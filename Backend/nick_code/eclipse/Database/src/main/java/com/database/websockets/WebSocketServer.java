@@ -26,8 +26,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class WebSocketServer {
 	private BulletinService bulletinService;
-	private Stack<String> save_username;
-	private Stack<String> save_message;
+	private Stack<String> save_username = new Stack<String>();
+	private Stack<String> save_message = new Stack<String>();
 
 	// Store all socket session's and their corresponding username's.
 	private static Map<Session, String> sessionUsernameMap = new HashMap<>();
