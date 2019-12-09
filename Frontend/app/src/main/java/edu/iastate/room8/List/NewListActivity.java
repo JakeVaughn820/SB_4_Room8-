@@ -98,7 +98,7 @@ public class NewListActivity extends AppCompatActivity {
             Toast.makeText(NewListActivity.this, "Must put something in the 'enter name for new list' line!", Toast.LENGTH_LONG).show();
         } else {
             postRequest(); //will only post if user input
-            finish();
+//            finish();
         }
     }
 
