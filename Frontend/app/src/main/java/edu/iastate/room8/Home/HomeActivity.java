@@ -13,7 +13,7 @@ import edu.iastate.room8.List.MainListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.Schedule.ScheduleMVP.ScheduleActivity;
 import edu.iastate.room8.Settings.RoomSettings.RoomSettingsActivity;
-import edu.iastate.room8.Settings.UserSettings.SettingsActivity;
+import edu.iastate.room8.Settings.UserSettings.UserSettingsActivity;
 import edu.iastate.room8.utils.SessionManager;
 
 /**
@@ -74,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         btnUserSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, SettingsActivity.class);
+                Intent i = new Intent(HomeActivity.this, UserSettingsActivity.class);
                 startActivity(i);
             }
         });
