@@ -30,8 +30,8 @@ public class WebSocketServer {
 	private Stack<String> save_message = new Stack<String>();
 
 	// Store all socket session's and their corresponding username's.
-	private static Map<Session, String> sessionUsernameMap = new HashMap<>();
-	private static Map<String, Session> usernameSessionMap = new HashMap<>();
+	private static Map<Session, String> sessionUsernameMap = new HashMap<Session, String>();
+	private static Map<String, Session> usernameSessionMap = new HashMap<String, Session>();
 
 	private final Logger logger = LoggerFactory.getLogger(WebSocketServer.class);
 
@@ -81,11 +81,9 @@ public class WebSocketServer {
 		while (!save_username.empty()) {
 			while (!save_message.empty()) {
 				Bulletin addPin = new Bulletin(save_username.pop(), save_message.pop());
-				bulletinService.addBulletin(addPin);
+				bulletinService.addBulletin(addPin); //THIS BREAKS IT
 			}
-		}
-//		Bulletin addPin = new Bulletin(username, message);
-//		bulletinService.addBulletin(addPin); 
+		} 
 	}
 
 	@OnError
