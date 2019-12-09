@@ -115,6 +115,7 @@ public class UserSettingsActivity extends AppCompatActivity {
                 UserEmail = sessionManager.getEmail();
                 userNameEditTextString = userNameEditText.getText().toString();
                 sessionManager.setName(userEmailEditTextString);
+                postRequestName();
             }
         });
 
@@ -126,6 +127,7 @@ public class UserSettingsActivity extends AppCompatActivity {
                 UserEmail = sessionManager.getEmail();
                 userEmailEditTextString = userEmailEditText.getText().toString();
                 sessionManager.setEmail(userEmailEditText.getText().toString());
+                postRequestEmail();
             }
         }));
 
@@ -136,17 +138,83 @@ public class UserSettingsActivity extends AppCompatActivity {
                 UserName = sessionManager.getName();
                 UserEmail = sessionManager.getEmail();
                 passwordEditTextString = passwordEditText.getText().toString();
-
+                postRequestPass();
             }
         }));
     }
 
-    private void postRequest() {
+    private void postRequestName() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
 
         Map<String, String> params = new HashMap<>();
+        params.put("ID", UserID); //email to register
         params.put("Name", userNameEditTextString); //name to register
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        try {
+                            String success = response.getString("Response");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) { //on error for json
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+
+        };
+        //These tags will be used to cancel the requests
+        String tag_json_obj = "jobj_req";
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+
+    private void postRequestEmail() {
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
+
+        Map<String, String> params = new HashMap<>();
+        params.put("ID", UserID); //password to register
         params.put("Email", userEmailEditTextString); //email to register
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+                        try {
+                            String success = response.getString("Response");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) { //on error for json
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        }) {
+
+        };
+        //These tags will be used to cancel the requests
+        String tag_json_obj = "jobj_req";
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+    }
+    private void postRequestPass() {
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
+
+        Map<String, String> params = new HashMap<>();
+        params.put("ID", UserID); //name to register
         params.put("Password", passwordEditTextString); //password to register
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -169,24 +237,11 @@ public class UserSettingsActivity extends AppCompatActivity {
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         }) {
-            @Override
-            public Map<String, String> getHeaders() { //header for json
-                HashMap<String, String> headers = new HashMap<>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
 
-            @Override
-            protected Map<String, String> getParams() { //parameter for json
-                Map<String, String> params = new HashMap<>();
-                params.put("Name", userNameEditTextString);
-                params.put("Email", userEmailEditTextString);
-                params.put("Password", passwordEditTextString);
-                return params;
-            }
         };
         //These tags will be used to cancel the requests
         String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
+
 }
