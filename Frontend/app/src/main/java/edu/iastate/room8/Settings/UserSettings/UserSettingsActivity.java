@@ -144,7 +144,8 @@ public class UserSettingsActivity extends AppCompatActivity {
     }
 
     private void postRequestName() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/ChangeName";
+        url = url + "/" + sessionManager.getID();
 
         Map<String, String> params = new HashMap<>();
         params.put("ID", UserID); //email to register
@@ -178,7 +179,8 @@ public class UserSettingsActivity extends AppCompatActivity {
     }
 
     private void postRequestEmail() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/ChangeEmail";
+        url = url + "/" + sessionManager.getID();
 
         Map<String, String> params = new HashMap<>();
         params.put("ID", UserID); //password to register
@@ -211,7 +213,8 @@ public class UserSettingsActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
     private void postRequestPass() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/register";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/ChangePass";
+        url = url + "/" + sessionManager.getID();
 
         Map<String, String> params = new HashMap<>();
         params.put("ID", UserID); //name to register
