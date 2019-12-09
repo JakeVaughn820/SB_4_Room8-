@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -73,6 +76,14 @@ public class NewScheduleActivity extends AppCompatActivity {
      */
     SessionManager sessionManager;
     /**
+     * Holds if switch is on for start
+     */
+    private boolean switchOnStart;
+    /**
+     * Holds if switch is on for end
+     */
+    private boolean switchOnEnd;
+    /**
      * Tag with the current activity
      */
     private String TAG = NewListActivity.class.getSimpleName();
@@ -94,6 +105,30 @@ public class NewScheduleActivity extends AppCompatActivity {
         endTime = findViewById(R.id.endTime);
         eventName = findViewById(R.id.eventName);
         eventDescription = findViewById(R.id.eventDescription);
+        Switch switchStart = findViewById(R.id.switchAmPmStart);
+        Switch switchEnd = findViewById(R.id.switchAmPmEnd);
+        final Button finish = findViewById(R.id.finishFromNewSchedule);
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        switchStart.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                switchOnStart = b;
+            }
+        });
+
+        switchEnd.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                switchOnEnd = b;
+            }
+        });
 
         date = getIntent().getStringExtra("DATE"); //get stuff from last activity
 
@@ -113,7 +148,29 @@ public class NewScheduleActivity extends AppCompatActivity {
         endTimeString = endTime.getText().toString();
         eventNameString = eventName.getText().toString();
         eventDescriptionString = eventDescription.getText().toString();
-        postRequest();
+
+        if(startTimeString.contains(":") && endTimeString.contains(":")){
+            addAmPm();
+            postRequest();
+        }else{
+            Toast.makeText(this, "Please input the correct format", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Method that adds am or pm depending on the switch state
+     */
+    private void addAmPm(){
+        if(switchOnStart){
+            startTimeString = startTimeString + "pm";
+        }else{
+            startTimeString = startTimeString + "am";
+        }
+        if(switchOnEnd){
+            endTimeString = endTimeString + "pm";
+        }else{
+            endTimeString = endTimeString + "am";
+        }
     }
 
     /**
@@ -121,14 +178,16 @@ public class NewScheduleActivity extends AppCompatActivity {
      * Sends Keys: EventName, StartTime, EndTime, EventDescription, date.
      */
     private void postRequest() {
-        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/list";
+        String url = "http://coms-309-sb-4.misc.iastate.edu:8080/addevent";
+        url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
         Map<String, String> params = new HashMap<>();
-        params.put("EventName", eventNameString);
-        params.put("StartTime", startTimeString); //post takes strings and sends to backend for new event
-        params.put("EndTime", endTimeString);
-        params.put("EventDescription", eventDescriptionString);
-        params.put("Date", date);
+        params.put("Title", eventNameString);
+        params.put("Start", startTimeString); //post takes strings and sends to backend for new event
+        params.put("End", endTimeString);
+        params.put("Description", eventDescriptionString);
+        String tempDate = date.replaceAll("/", ":");
+        params.put("Date", tempDate);
 
         JSONObject toPost = new JSONObject(params);
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
