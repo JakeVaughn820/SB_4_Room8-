@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Settings.RoomSettingsActivity">
+    tools:context=".Settings.RoomSettings.RoomSettingsActivity">
 
     <TextView
         android:id="@+id/RoomSettingsTextView"

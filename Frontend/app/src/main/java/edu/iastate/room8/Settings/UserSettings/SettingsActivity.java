@@ -1,4 +1,4 @@
-package edu.iastate.room8.Settings;
+package edu.iastate.room8.Settings.UserSettings;
 
 import android.os.Bundle;
 import android.util.Log;

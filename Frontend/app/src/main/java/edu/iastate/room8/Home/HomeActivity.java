@@ -12,8 +12,8 @@ import edu.iastate.room8.Bulletin.BulletinActivity;
 import edu.iastate.room8.List.MainListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.Schedule.ScheduleMVP.ScheduleActivity;
-import edu.iastate.room8.Settings.RoomSettingsActivity;
-import edu.iastate.room8.Settings.SettingsActivity;
+import edu.iastate.room8.Settings.RoomSettings.RoomSettingsActivity;
+import edu.iastate.room8.Settings.UserSettings.SettingsActivity;
 import edu.iastate.room8.utils.SessionManager;
 
 /**

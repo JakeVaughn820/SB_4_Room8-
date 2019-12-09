@@ -45,5 +45,15 @@
         android:textSize="40sp"
         android:layout_margin="10dp"
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/dateDescriptionActivity"
         android:text="event name" />
+
+    <TextView
+        android:id="@+id/dateDescriptionActivity"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="Date" />
 </RelativeLayout>

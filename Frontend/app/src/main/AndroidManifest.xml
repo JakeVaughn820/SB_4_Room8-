@@ -15,9 +15,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Settings.SettingsActivity"
+            android:name=".Settings.UserSettings.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>
-        <activity android:name=".Settings.RoomSettingsActivity" />
+        <activity android:name=".Settings.RoomSettings.RoomSettingsActivity" />
         <activity android:name=".List.SubtaskActivity" />
         <activity android:name=".NewRoomActivity" />
         <activity android:name=".JoinRoom.NewUserRoomJoin" />
