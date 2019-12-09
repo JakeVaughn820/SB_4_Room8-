@@ -94,7 +94,7 @@ public class MainListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_list);
 
         sessionManager = new SessionManager(this);
-
+        //
         btn_new_list = findViewById(R.id.btn_create_new_list);
         mQueue = Volley.newRequestQueue(this);
         ListView itemsList = findViewById(R.id.itemsList);

@@ -105,7 +105,8 @@ public class SubtaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_subtask);
-        title = getIntent().getStringExtra("EXTRA_INFORMATION");
+        //everything initialized here
+        title = getIntent().getStringExtra("EXTRA_INFORMATION"); //extra info from last activity
         TextView titleForSubTask = findViewById(R.id.TitleForSubTask);
         itemsSubTask = findViewById(R.id.SubTaskActivityList);
         newSubTaskItem = findViewById(R.id.AddNewSubTaskItem);
@@ -120,9 +121,9 @@ public class SubtaskActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
         itemsSubTask.setAdapter(adapter);
 
-        jsonParse();
+        jsonParse(); //parses information to show
 
-        setPermissions();
+        setPermissions(); //sets visibility of buttons
         newSubTaskItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,9 +136,9 @@ public class SubtaskActivity extends AppCompatActivity {
      * Method that will be run when newSubtaskItem is clicked.
      */
     private void newSubTaskItemClicked() {
-        newSubTaskItemNameString = newSubTaskItemName.getText().toString();
-        postRequest();
-        newSubTaskItemName.setText("");
+        newSubTaskItemNameString = newSubTaskItemName.getText().toString(); //name from user input
+        postRequest(); //sends user input to backend
+        newSubTaskItemName.setText(""); //sets edit lines to nothing
         completed.setText("");
     }
 
@@ -145,7 +146,7 @@ public class SubtaskActivity extends AppCompatActivity {
      * Method that sets button visibility based on the users permission
      */
     private void setPermissions() {
-        if (sessionManager.getPermission().equals("Viewer")) {
+        if (sessionManager.getPermission().equals("Viewer")) { //sets visibility of buttons
             newSubTaskItem.setVisibility(View.INVISIBLE);
             newSubTaskItemName.setVisibility(View.INVISIBLE);
         } else {
@@ -175,8 +176,8 @@ public class SubtaskActivity extends AppCompatActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject List = jsonArray.getJSONObject(i);
 
-                                items.add(List.getString("Contents"));
-                                subtaskId.add(List.getString("Id"));
+                                items.add(List.getString("Contents")); //contents from backend for subtask
+                                subtaskId.add(List.getString("Id")); //id from backend for subtask
                             }
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
@@ -197,12 +198,12 @@ public class SubtaskActivity extends AppCompatActivity {
      */
     private AdapterView.OnItemClickListener messageClickedHandler = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView parent, View v, int position, long id) {
-            String toToast = items.get(position);
+            String toToast = items.get(position); //to toast
             postRequestDelete(subtaskId.get(position));
             items.remove(position);
             subtaskId.remove(position);
             adapter.notifyDataSetChanged();
-            if (items.size() == 0) {
+            if (items.size() == 0) { //if no subtasks left will congratulate you
                 Toast.makeText(SubtaskActivity.this, "Congratulations you've completed all the subtasks!", Toast.LENGTH_LONG).show();
                 String tempCompleted = "You have completed all subtasks!";
                 completed.setText(tempCompleted);
@@ -219,7 +220,7 @@ public class SubtaskActivity extends AppCompatActivity {
      */
     public JSONObject jsonGetSubtask() {
         return null;
-    }
+    } //used for testing
 
 
     /**
@@ -231,7 +232,7 @@ public class SubtaskActivity extends AppCompatActivity {
         url = url + "/" + sessionManager.getRoomid() + "/" + getIntent().getStringExtra("TASKID") + "/" + sessionManager.getID() + "/";
 
         Map<String, String> params = new HashMap<>();
-        params.put("Contents", newSubTaskItemNameString);
+        params.put("Contents", newSubTaskItemNameString); //name of subtask to send to backend
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),
@@ -242,19 +243,19 @@ public class SubtaskActivity extends AppCompatActivity {
                     }
                 }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error) { //error response
                 VolleyLog.d(TAG, "Error: " + error.getMessage());
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() {
+            public Map<String, String> getHeaders() { //json headers
                 HashMap<String, String> headers = new HashMap<>();
                 headers.put("Content-Type", "application/json");
                 return headers;
             }
 
             @Override
-            protected Map<String, String> getParams() {
+            protected Map<String, String> getParams() { //json parameters
                 Map<String, String> params = new HashMap<>();
                 params.put("ListName", title);
                 params.put("Task", newSubTaskItemNameString);
@@ -273,7 +274,7 @@ public class SubtaskActivity extends AppCompatActivity {
         url = url + "/" + sessionManager.getRoomid() + "/" + sessionManager.getID() + "/";
 
         Map<String, String> params = new HashMap<>();
-        params.put("subTaskId", subtaskId);
+        params.put("subTaskId", subtaskId); //subtask to delete
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                 url, new JSONObject(params),

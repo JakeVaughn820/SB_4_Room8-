@@ -12,8 +12,8 @@ import edu.iastate.room8.Bulletin.BulletinActivity;
 import edu.iastate.room8.List.MainListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.Schedule.ScheduleMVP.ScheduleActivity;
-import edu.iastate.room8.Settings.RoomSettingsActivity;
-import edu.iastate.room8.Settings.SettingsActivity;
+import edu.iastate.room8.Settings.RoomSettings.RoomSettingsActivity;
+import edu.iastate.room8.Settings.UserSettings.SettingsActivity;
 import edu.iastate.room8.utils.SessionManager;
 
 /**
@@ -46,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         sessionManager.checkLogin();
         sessionManager.checkRoom();
 
+        //everything in here being initialized
         Button tempButton = findViewById(R.id.tempButton);
         Button tempButtonBulletin = findViewById(R.id.tempButtonBulletin);
         Button tempButtonSchedule = findViewById(R.id.tempButtonSchedule);
@@ -60,8 +61,9 @@ public class HomeActivity extends AppCompatActivity {
         String tempRoomNameTextViewSet = "Room Name: " + sessionManager.getRoom();
         roomNameTextView.setText(tempRoomNameTextViewSet);
 
-        setButtonVisibility();
+        setButtonVisibility(); //sets button visibility
 
+        //all of these go to a new activity when clicked on
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,7 +137,7 @@ public class HomeActivity extends AppCompatActivity {
      * @param permission1 permission to set
      */
     public void setPermissionForTesting(String permission1) {
-        sessionManager.setPermission(permission1);
+        sessionManager.setPermission(permission1); //sets permissions but used for testing
     }
 
     /**
@@ -145,7 +147,7 @@ public class HomeActivity extends AppCompatActivity {
         if (sessionManager.getPermission() == null) {
             sessionManager.logout();
         } else {
-            if (getPermissionHome().equals("Owner")) {
+            if (getPermissionHome().equals("Owner")) { //if the user is an owner they will be able to see the room settings
                 buttonSettings.setVisibility(View.VISIBLE);
             } else {
                 buttonSettings.setVisibility(View.INVISIBLE);
