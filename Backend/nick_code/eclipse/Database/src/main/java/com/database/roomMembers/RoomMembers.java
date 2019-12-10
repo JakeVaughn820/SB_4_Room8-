@@ -74,7 +74,7 @@ public class RoomMembers {
 	 * 
 	 * @param id
 	 */
-	public void setId(Long id) {
+	protected void setId(Long id) {
 		this.id = id;
 	}
 
@@ -101,7 +101,7 @@ public class RoomMembers {
 	 * 
 	 * @param userRole
 	 */
-	public void setUserRole(String userRole) {
+	protected void setUserRole(String userRole) {
 		if (!userRole.equals("Owner") || !userRole.equals("Roommate"))
 			this.userRole = "Viewer";
 		else
@@ -113,7 +113,7 @@ public class RoomMembers {
 	 * 
 	 * @return
 	 */
-	public User getUser() {
+	protected User getUser() {
 		return user;
 	}
 
@@ -122,7 +122,7 @@ public class RoomMembers {
 	 * 
 	 * @param user
 	 */
-	public void setUser(User user) {
+	protected void setUser(User user) {
 		this.user = user;
 	}
 
@@ -131,7 +131,7 @@ public class RoomMembers {
 	 * 
 	 * @return
 	 */
-	public Rooms getRoom() {
+	protected Rooms getRoom() {
 		return room;
 	}
 
@@ -140,7 +140,7 @@ public class RoomMembers {
 	 * 
 	 * @param room
 	 */
-	public void setRoom(Rooms room) {
+	protected void setRoom(Rooms room) {
 		this.room = room;
 	}
 
@@ -156,9 +156,7 @@ public class RoomMembers {
 		if (!(o instanceof RoomMembers))
 			return false;
 		RoomMembers RoomMembers = (RoomMembers) o;
-		return this.id == RoomMembers.id
-				&& this.userRole.equals(RoomMembers.userRole)
-				&& this.user.equals(RoomMembers.user)
-				&& this.room.equals(RoomMembers.room);
+		return this.id == RoomMembers.id && this.userRole.equals(RoomMembers.userRole)
+				&& this.user.equals(RoomMembers.user) && this.room.equals(RoomMembers.room);
 	}
 }

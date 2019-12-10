@@ -56,6 +56,12 @@ public class EventsService {
 		return true;
 	}
 
+	/**
+	 * Returns all events associated with the roomId.
+	 * 
+	 * @param roomId
+	 * @return
+	 */
 	public List<Events> findEventsByRoomId(Long roomId) {
 		return eventsRepository.findEventsByRoomId(roomId);
 	}

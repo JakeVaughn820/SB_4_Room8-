@@ -132,5 +132,5 @@ public class RoomsController {
 		} else
 			return "{\"Response\":\"User is not an OWNER\"}";
 	}
-	
+
 }

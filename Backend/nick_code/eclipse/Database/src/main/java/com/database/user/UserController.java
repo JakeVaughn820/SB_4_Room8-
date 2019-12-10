@@ -1,9 +1,13 @@
 package com.database.user;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +22,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	
 	/**
 	 * Login.
 	 * 
@@ -76,5 +79,63 @@ public class UserController {
 		}
 		userService.addUser(new User(Name, Email, Password));
 		return "{\"Response\":\"Success\"}";
+	}
+	
+	@PostMapping(path = "/updateuser/{user}", consumes = "application/json", produces = "application/json")
+	public String updateUser(@RequestBody String item, @PathVariable String user) {
+		JSONObject body = new JSONObject(item);
+		String Name = null;
+		String Email = null;
+		String CurrentPassword = null;
+		String Password = null;
+		Long userId = Long.valueOf(user);
+		String ret = "";
+		
+		try {
+			Name = body.getString("Name");
+		} catch(JSONException e) {}
+		try {
+			Email = body.getString("Email");
+		} catch(JSONException e) {}
+		try {
+			CurrentPassword = body.getString("CurrentPassword");
+			Password = body.getString("Password");
+		} catch(JSONException e) {}
+
+		Optional<User> toChange = userService.findById(userId);
+		User changeTemp = null;
+		try {
+			changeTemp = toChange.get();
+		} catch (NoSuchElementException e) {
+			return "{\"Response\":\"No such user exists\"}";
+		}
+		
+		
+		
+		if(Name!=null) {
+			userService.updateUsername(Name, userId);
+			ret += "Name has been updated.";
+		}
+		else
+			ret += "Name was left null.";
+		if(Email!=null) {
+			userService.updateUserEmail(Email, userId);
+			ret += "Email has been updated.";
+		}
+		else
+			ret += "Email was left null.";
+		if(CurrentPassword!=null && Password!=null) {
+			if(CurrentPassword.equals(changeTemp.getPassword())) {
+				userService.updateUserPassword(Password, userId);
+				ret += "Password has been updated.";
+			}
+			else
+				ret += "Current password was incorrect, Passward was left unchanged.";
+		}
+		else
+			ret += "Must provide both Current Password and Password.";
+		
+		return "{\"Response\":\"Success\", \"Details\":\"" + ret + "\"}";
+		
 	}
 }

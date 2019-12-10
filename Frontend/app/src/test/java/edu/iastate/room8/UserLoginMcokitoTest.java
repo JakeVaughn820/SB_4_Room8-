@@ -69,11 +69,6 @@ public class UserLoginMcokitoTest {
         assertEquals(null, sessionManager2.getUserDetail().get("PERMMISION"));
     }
 
-    @Test
-    public void getroomTest(){
-        assertEquals("TestRoom", sessionManager3.getRoom());
-        assertEquals("5", sessionManager3.getRoomid());
-    }
 
     @Test
     public void isRoom(){
@@ -83,7 +78,22 @@ public class UserLoginMcokitoTest {
 
 
     }
-
+    @Test
+    public void getRoomSID() {
+        Set<String> set = new HashSet<>();
+        set.add("5");
+        set.add("6");
+        set.add("7");
+        assertEquals(set, sessionManager3.getRoomsId());
+    }
+    @Test
+    public void RemoveRoomTest() {
+        sessionManager3.removeRoom("TestRoom3", "7");
+        Set<String> set = new HashSet<>();
+        set.add("TestRoom");
+        set.add("TestRoom2");
+        assertEquals(set, sessionManager3.getRooms());
+    }
     @Test
     public void checkRoom() {
         assertEquals(true, sessionManager3.isInRoom());
@@ -102,23 +112,11 @@ public class UserLoginMcokitoTest {
         set.add("TestRoom3");
         assertEquals(set, sessionManager3.getRooms());
     }
-
     @Test
-    public void getRoomSID() {
-        Set<String> set = new HashSet<>();
-        set.add("5");
-        set.add("6");
-        set.add("7");
-        assertEquals(set, sessionManager3.getRoomsId());
+    public void getroomTest(){
+        assertEquals("TestRoom", sessionManager3.getRoom());
+        assertEquals("5", sessionManager3.getRoomid());
     }
 
-    @Test
-    public void RemoveRoomTest() {
-        sessionManager3.removeRoom("TestRoom3", "7");
-        Set<String> set = new HashSet<>();
-        set.add("TestRoom");
-        set.add("TestRoom2");
-        assertEquals(set, sessionManager3.getRooms());
-    }
 }
 

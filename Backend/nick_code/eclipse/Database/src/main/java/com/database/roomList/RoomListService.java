@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-//import com.database.rooms.Rooms;
 import com.database.rooms.RoomsService;
 
 /**
@@ -79,6 +78,12 @@ public class RoomListService {
 		return true;
 	}
 
+	/**
+	 * Returns all rooms_lists associated with the given roomId.
+	 * 
+	 * @param roomId
+	 * @return
+	 */
 	public List<RoomList> findListsByRoomId(Long roomId) {
 		return roomListRepository.findListByRoomId(roomId);
 	}

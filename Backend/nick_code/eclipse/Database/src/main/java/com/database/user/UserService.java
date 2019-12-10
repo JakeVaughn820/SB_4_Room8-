@@ -83,37 +83,37 @@ public class UserService {
 		logger.info("Deleted " + findById(userId) + " from the database");
 		userRepository.deleteById(userId);
 	}
-	
+
 	/**
-	 * Updates username given the userId. 
+	 * Updates username given the userId.
 	 * 
 	 * @param username
 	 * @param userId
 	 */
 	void updateUsername(@Param("username") String username, @Param("id") Long userId)
 	{
-		updateUsername(username, userId); 
+		userRepository.updateUsername(username, userId); 
 	}
-	
+
 	/**
-	 * Updates user email given the userId. 
+	 * Updates user email given the userId.
 	 * 
 	 * @param email
 	 * @param userId
 	 */
 	void updateUserEmail(@Param("email") String email, @Param("id") Long userId)
 	{
-		updateUserEmail(email, userId); 	
+		userRepository.updateUserEmail(email, userId); 	
 	}
-	
+
 	/**
-	 * Updates user password given the userId. 
+	 * Updates user password given the userId.
 	 * 
 	 * @param password
 	 * @param userId
 	 */
 	void updateUserPassword(@Param("password") String password, @Param("id") Long userId)
 	{
-		updateUserPassword(password, userId); 
+		userRepository.updateUserPassword(password, userId); 
 	}
 }

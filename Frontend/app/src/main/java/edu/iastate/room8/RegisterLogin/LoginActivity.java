@@ -222,4 +222,7 @@ public class LoginActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 
+    public JSONObject jsonNameRequest() {
+        return null;
+    } //testing use
 }

@@ -26,6 +26,8 @@ import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.Sessions.SessionManager;
 
 public class UserSettingsActivity extends AppCompatActivity {
+    public JSONObject JSONRequest;
+
     /**
      * Edit Text with the user input for the new registered users username
      */
@@ -61,7 +63,8 @@ public class UserSettingsActivity extends AppCompatActivity {
     /**
      * Session Manager variable
      */
-    private SessionManager sessionManager;
+    public SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +123,7 @@ public class UserSettingsActivity extends AppCompatActivity {
             }
         });
     }
-
+    
     private void postRequestName() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/updateuser";
         url = url + "/" + sessionManager.getID() + "/";
@@ -156,7 +159,10 @@ public class UserSettingsActivity extends AppCompatActivity {
         String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
-
+    public JSONObject jsonNameRequest() {
+        return null;
+    } //testing use
+    
     private void postRequestEmail() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/updateuser";
         url = url + "/" + sessionManager.getID() + "/";
@@ -193,6 +199,10 @@ public class UserSettingsActivity extends AppCompatActivity {
         String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
+    public JSONObject jsonEmailRequest() {
+        return null;
+    } //testing use
+    
     private void postRequestPass() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/updateuser";
         url = url + "/" + sessionManager.getID() + "/";
@@ -278,5 +288,7 @@ public class UserSettingsActivity extends AppCompatActivity {
         String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
-
+    public JSONObject jsonPasswordRequest() {
+        return null;
+    } //testing use
 }

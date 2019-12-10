@@ -9,38 +9,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * This class implements the rooms repository. 
+ * This class implements the rooms repository.
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Service
-public class RoomsService 
-{
+public class RoomsService {
 	@Autowired
-	private RoomsRepository roomsRepository; 
-	
+	private RoomsRepository roomsRepository;
+
 	private final Logger logger = LoggerFactory.getLogger(RoomsService.class);
 
-	
 	/**
-	 * Returns all of the rooms within the database. 
+	 * Returns all of the rooms within the database.
 	 * 
 	 * @return
 	 */
-	public List<Rooms> getRooms()
-	{
+	public List<Rooms> getRooms() {
 		return roomsRepository.findAll();
 	}
-	
+
 	/**
-	 * Returns a room given its Id. Returns null if 
-	 * room doesn't exist. 
+	 * Returns a room given its Id. Returns null if room doesn't exist.
 	 * 
 	 * @param roomId
 	 * @return
 	 */
-	public Optional<Rooms> findById(Long roomId)
-	{
+	public Optional<Rooms> findById(Long roomId) {
 		Optional<Rooms> room = null;
 		try {
 			room = roomsRepository.findById(roomId);
@@ -51,38 +46,36 @@ public class RoomsService
 		}
 		return room;
 	}
-	
+
 	/**
-	 * Adds a room to the database. 
+	 * Adds a room to the database.
 	 * 
 	 * @param room
 	 * @return
 	 */
-	public Rooms addRoom(Rooms room)
-	{
+	public Rooms addRoom(Rooms room) {
 		roomsRepository.save(room);
-		return room; 
-	} 
-	
+		return room;
+	}
+
 	/**
-	 * Returns the number of rooms within the database. 
+	 * Returns the number of rooms within the database.
 	 * 
 	 * @return
 	 */
-    public Long count() {
+	public Long count() {
 
-        return roomsRepository.count();
-    }
-	
-    /**
-     * Deletes room from database. 
-     * 
-     * @param roomId
-     * @return
-     * @throws IllegalArgumentException
-     */
-	public void deleteById(Long roomId)
-	{
+		return roomsRepository.count();
+	}
+
+	/**
+	 * Deletes room from database.
+	 * 
+	 * @param roomId
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public void deleteById(Long roomId) {
 		roomsRepository.deleteById(roomId);
 	}
 
