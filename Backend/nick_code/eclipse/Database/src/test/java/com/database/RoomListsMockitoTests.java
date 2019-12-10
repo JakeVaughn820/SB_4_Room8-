@@ -44,5 +44,4 @@ public class RoomListsMockitoTests {
 		when(roomListRepository.save(newRoomList)).thenReturn(newRoomList);
 		assertEquals(newRoomList, roomListService.addRoomList(newRoomList));
 	}
-
 }
