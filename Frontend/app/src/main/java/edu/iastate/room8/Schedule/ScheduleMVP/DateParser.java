@@ -103,6 +103,8 @@ public class DateParser implements IDateParserInversionPattern, Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-
+        if(observable instanceof SchedulePresenter){
+            parseDate();
+        }
     }
 }
