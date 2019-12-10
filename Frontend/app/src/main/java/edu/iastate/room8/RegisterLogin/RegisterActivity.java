@@ -21,7 +21,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 
@@ -64,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
     /**
      * Tag with the current activity
      */
-    private String TAG = NewListActivity.class.getSimpleName();
+    private String TAG = RegisterActivity.class.getSimpleName();
 
     /**
      * Method that runs on creation

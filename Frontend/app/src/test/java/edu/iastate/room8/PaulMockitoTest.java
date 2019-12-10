@@ -49,10 +49,9 @@ public class PaulMockitoTest {
      * Used to test schedule, specifically this one tests if the callDateParser method is working
      * If callDateParser is not working it will not be true. Simple to make sure the method
      * works and specifically that mocking works.
-     * @throws JSONException
      */
     @Test
-    public void scheduleTest() throws JSONException {
+    public void scheduleTest()  {
         //This creates a Mock Object of the class that we have not fully implemented
         ScheduleActivity test = mock(ScheduleActivity.class);
 
@@ -70,10 +69,9 @@ public class PaulMockitoTest {
      * Used to test schedule, specifically this one tests if the callDateParser method is working
      * If callDateParser is not working it will not be true. Simple to make sure the method
      * works and specifically that mocking works.
-     * @throws JSONException
      */
     @Test
-    public void scheduleTest2() throws JSONException {
+    public void scheduleTest2() {
         //This creates a Mock Object of the class that we have not fully implemented
         ScheduleActivity test = mock(ScheduleActivity.class);
         DateParser dateParser = new DateParser(14, 12, 1998); //day month year
@@ -106,6 +104,7 @@ public class PaulMockitoTest {
         response.put("EndTime", "3:00pm");
         response.put("EventName", "Demo");
         response.put("User", "Paul");
+        response.put("Date", date);
 
         when(test.jsonGetSchedule()).thenReturn(response);
 
@@ -113,6 +112,7 @@ public class PaulMockitoTest {
         Assert.assertEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("EndTime"));
         Assert.assertEquals(response.getString("EventName"), test.jsonGetSchedule().getString("EventName"));
         Assert.assertEquals(response.getString("User"), test.jsonGetSchedule().getString("User"));
+        Assert.assertEquals(response.getString("Date"), test.jsonGetSchedule().getString(date));
     }
 
     /**
@@ -133,6 +133,8 @@ public class PaulMockitoTest {
         response.put("EndTime", "3:00pm");
         response.put("EventName", "Demo");
         response.put("User", "Paul");
+        response.put("Date", date);
+
 
         when(test.jsonGetSchedule()).thenReturn(response);
 
@@ -140,13 +142,15 @@ public class PaulMockitoTest {
         Assert.assertNotEquals(response.getString("EndTime"), test.jsonGetSchedule().getString("StartTime"));
         Assert.assertNotEquals(response.getString("EventName"), test.jsonGetSchedule().getString("User"));
         Assert.assertNotEquals(response.getString("User"), test.jsonGetSchedule().getString("EventName"));
+        Assert.assertEquals(response.getString("Date"), test.jsonGetSchedule().getString(date));
+
     }
 
     /**
      * Testing with permissions between users
      */
     @Test
-    public void PermissionTest1() throws JSONException{
+    public void PermissionTest1(){
         HomeActivity test = mock(HomeActivity.class);
 //        SessionManager sessionManager = new SessionManager(test);
 //        sessionManager.setPermission("Owner");
@@ -167,7 +171,7 @@ public class PaulMockitoTest {
      * Testing with permissions between users
      */
     @Test
-    public void PermissionTest2() throws JSONException{
+    public void PermissionTest2() {
         HomeActivity test = mock(HomeActivity.class);
 //        SessionManager sessionManager = new SessionManager(test);
 //        sessionManager.setPermission("Owner");
@@ -188,7 +192,7 @@ public class PaulMockitoTest {
      * Testing with permissions between users
      */
     @Test
-    public void PermissionTest3() throws JSONException{
+    public void PermissionTest3() {
         HomeActivity test = mock(HomeActivity.class);
 //        SessionManager sessionManager = new SessionManager(test);
 //        sessionManager.setPermission("Owner");

@@ -28,10 +28,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.iastate.room8.Home.HomeActivity;
-import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity NewUserRoomJoin. You can create a new room which you can access in this.
@@ -52,11 +52,11 @@ public class NewUserRoomJoin extends AppCompatActivity {
     /**
      * Tag with the activity currently in
      */
-    private String TAG = NewListActivity.class.getSimpleName();
+    private String TAG = NewUserRoomJoin.class.getSimpleName();
     /**
      * Session Manager
      */
-    private SessionManager sessionManager;
+    private ISessionManagerInversionPattern sessionManager;
     /**
      * These tags will be used to cancel the requests
      */

@@ -22,7 +22,7 @@
 //import java.util.Map;
 //
 //import edu.iastate.room8.app.AppController;
-//import edu.iastate.room8.utils.SessionManager;
+//import edu.iastate.room8.utils.Sessions.SessionManager;
 //
 //public class NewRoomActivity extends AppCompatActivity {
 //

@@ -22,7 +22,8 @@ import java.util.Map;
 
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity NewList. You can create a new list which you can access back in MainList.
@@ -55,7 +56,7 @@ public class NewListActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    private SessionManager sessionManager;
+    private ISessionManagerInversionPattern sessionManager;
 
     /**
      * Method that runs on creation

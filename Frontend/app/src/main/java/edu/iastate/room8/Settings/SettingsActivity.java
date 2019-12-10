@@ -21,21 +21,19 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 public class SettingsActivity extends AppCompatActivity {
-    static SessionManager sessionManager;
+    static ISessionManagerInversionPattern sessionManager;
     static EditTextPreference newName, newEmail, newPass;
     /**
      * Tag with current activity name
      */
-    private static String TAG = NewListActivity.class.getSimpleName();
+    private static String TAG = SettingsActivity.class.getSimpleName();
 
-    // These tags will be used to cancel the requests
-    private static String tag_json_obj = "jobj_req", tag_json_arry = "jarray_req";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +131,8 @@ public class SettingsActivity extends AppCompatActivity {
                 return new HashMap<>();
             }
         };
+        // These tags will be used to cancel the requests
+        String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
 }

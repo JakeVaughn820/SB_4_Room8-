@@ -31,7 +31,8 @@ import java.util.Map;
 
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity SubTask. You will be able to see and create subtasks in this class.
@@ -76,7 +77,7 @@ public class SubtaskActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    private SessionManager sessionManager;
+    private ISessionManagerInversionPattern sessionManager;
 
     /**
      * Text View that shows if the subtasks have all been completed or not

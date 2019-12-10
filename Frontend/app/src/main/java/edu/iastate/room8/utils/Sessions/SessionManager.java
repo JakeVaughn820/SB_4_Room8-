@@ -1,9 +1,10 @@
-package edu.iastate.room8.utils;
+package edu.iastate.room8.utils.Sessions;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,7 +18,7 @@ import edu.iastate.room8.JoinRoom.NewUserRoomJoin;
  *
  * @author Jake Vaughn
  */
-public class SessionManager {
+public class SessionManager implements ISessionManagerInversionPattern {
     /**
      * Shared Preferences
      */
@@ -30,46 +31,6 @@ public class SessionManager {
      * Context, class that session manager is being used in
      */
     public Context context;
-    /**
-     * Constant preference name
-     */
-    private static final String PREF_NAME = "LOGIN";
-    /**
-     * Constant login string
-     */
-    private static final String LOGIN = "IS_LOGIN";
-    /**
-     * Constant room string
-     */
-    private static final String ROOM = "ROOM";
-    /**
-     * Constant roomid string
-     */
-    private static final String ROOMID = "ROOMID";
-    /**
-     * Constant rooms string
-     */
-    private static final String ROOMS = "ROOMS";
-    /**
-     * Contains the ID of the ROOMS
-     */
-    private static final String ROOMSID = "ROOMSID";
-    /**
-     * Constant name string
-     */
-    private static final String NAME = "NAME";
-    /**
-     * Constant email string
-     */
-    private static final String EMAIL = "EMAIL";
-    /**
-     * Constant ID string
-     */
-    private static final String ID = "ID";
-    /**
-     * Constant Permissions String
-     */
-    private static final String PERMISSION = "PERMISSION";
     /**
      * Constant RoomsSet Set<String>
      */
@@ -144,11 +105,15 @@ public class SessionManager {
 
 
         RoomsSet = (sharedPreferences.getStringSet(ROOMS, null));
-        RoomsSet.add(room); //unfortunately there is no easy way to fix this.
+        if(RoomsSet!=null){
+            RoomsSet.add(room);
+        }
         editor.putStringSet(ROOMS, RoomsSet);
 
         RoomsIDSet = (sharedPreferences.getStringSet(ROOMSID, null));
-        RoomsIDSet.add(id); //unfortunately there is no easy way to fix this.
+        if(RoomsIDSet != null){
+            RoomsIDSet.add(id);
+        }
         editor.putStringSet(ROOMSID, RoomsIDSet);
         editor.apply();
     }
@@ -162,7 +127,11 @@ public class SessionManager {
     public boolean isRoom(String room) {
         Set<String> set;
         set = (sharedPreferences.getStringSet(ROOMS, null));
-        return set.contains(room); //unfortunately there is no easy way to fix this.
+        if(set!=null){
+            return set.contains(room);
+        }else{
+            return false;
+        }
     }
 
     /**
