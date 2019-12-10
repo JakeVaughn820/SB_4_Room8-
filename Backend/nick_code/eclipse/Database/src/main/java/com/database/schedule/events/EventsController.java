@@ -36,8 +36,7 @@ public class EventsController {
 	private RoomsService roomService;
 	@Autowired
 	private UserService userService;
-	
-	
+
 	/**
 	 * Get Events.
 	 * 
@@ -54,13 +53,12 @@ public class EventsController {
 
 		List<Events> events = new ArrayList<Events>();
 		String response = "";
-		for(Events temp : events) {
-			if(!temp.getDate().equals(date)) {
+		for (Events temp : events) {
+			if (!temp.getDate().equals(date)) {
 				events.remove(temp);
 			}
 		}
-		
-		
+
 		if (roomMembersService.findRoomMemberByIds(userId, roomId) != null) {
 			events = eventService.findEventsByRoomId(roomId);
 			response = "\"Response\":\"Success\"";
@@ -71,11 +69,11 @@ public class EventsController {
 		if (events.isEmpty()) {
 			ret += " ";
 		}
-		
+
 		for (Events temp : events) {
-				ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription()
-				+ "\",\"Start\":\"" + temp.getStarttime() + "\",\"End\":\"" + temp.getEndtime()
-				+ "\",\"User\":\"" + temp.getUser().getName() + "\",\"Id\":\"" + temp.getId() + "\"},";
+			ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription()
+					+ "\",\"Start\":\"" + temp.getStarttime() + "\",\"End\":\"" + temp.getEndtime() + "\",\"User\":\""
+					+ temp.getUser().getName() + "\",\"Id\":\"" + temp.getId() + "\"},";
 		}
 		ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 		return ret;
@@ -112,9 +110,9 @@ public class EventsController {
 		try {
 			Start = body.getString("Start");
 			End = body.getString("End");
-		} catch (JSONException e) {}
-		
-		
+		} catch (JSONException e) {
+		}
+
 		RoomMembers isAdmin = roomMembersService.findRoomMemberByIds(userId, roomId);
 		if (isAdmin == null) {
 			return "{\"Response\":\"No such RoomMembers object for given parameters\"}";

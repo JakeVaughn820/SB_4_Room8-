@@ -41,13 +41,13 @@ public class Events {
 	 */
 	@Column(name = "description")
 	private String description;
-	
+
 	/**
 	 * Date of the event
 	 */
 	@Column(name = "date")
 	private String date;
-	
+
 	/**
 	 * Time at which this event starts.
 	 */
@@ -117,67 +117,147 @@ public class Events {
 		endtime = null;
 	}
 
-	public Long getId() {
+	/**
+	 * Returns event id.
+	 * 
+	 * @return
+	 */
+	protected Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	/**
+	 * Sets event id.
+	 * 
+	 * @param id
+	 */
+	protected void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getTitle() {
+	/**
+	 * Returns event title.
+	 * 
+	 * @return
+	 */
+	protected String getTitle() {
 		return title;
 	}
 
-	public void setTitle(String title) {
+	/**
+	 * Sets event title.
+	 * 
+	 * @param title
+	 */
+	protected void setTitle(String title) {
 		this.title = title;
 	}
 
-	public String getDescription() {
+	/**
+	 * Returns event description.
+	 * 
+	 * @return
+	 */
+	protected String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	/**
+	 * Sets event description.
+	 * 
+	 * @param description
+	 */
+	protected void setDescription(String description) {
 		this.description = description;
 	}
 
-	public String getDate() {
+	/**
+	 * Returns event date.
+	 * 
+	 * @return
+	 */
+	protected String getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	/**
+	 * Sets event date.
+	 * 
+	 * @param date
+	 */
+	protected void setDate(String date) {
 		this.date = date;
 	}
-	
-	public String getStarttime() {
+
+	/**
+	 * Returns event start time.
+	 * 
+	 * @return
+	 */
+	protected String getStarttime() {
 		return starttime;
 	}
 
-	public void setStarttime(String starttime) {
+	/**
+	 * Sets events start time.
+	 * 
+	 * @param starttime
+	 */
+	protected void setStarttime(String starttime) {
 		this.starttime = starttime;
 	}
 
-	public String getEndtime() {
+	/**
+	 * Returns event end time.
+	 * 
+	 * @return
+	 */
+	protected String getEndtime() {
 		return endtime;
 	}
 
-	public void setEndtime(String endtime) {
+	/**
+	 * Sets events end time.
+	 * 
+	 * @param endtime
+	 */
+	protected void setEndtime(String endtime) {
 		this.endtime = endtime;
 	}
 
-	public User getUser() {
+	/**
+	 * Returns user associated with this event.
+	 * 
+	 * @return
+	 */
+	protected User getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	/**
+	 * Sets user associated with this event.
+	 * 
+	 * @param user
+	 */
+	protected void setUser(User user) {
 		this.user = user;
 	}
 
-	public Rooms getRoom() {
+	/**
+	 * Returns room this event is associated with.
+	 * 
+	 * @return
+	 */
+	protected Rooms getRoom() {
 		return room;
 	}
 
-	public void setRoom(Rooms room) {
+	/**
+	 * Sets room this event is associated with.
+	 * 
+	 * @param room
+	 */
+	protected void setRoom(Rooms room) {
 		this.room = room;
 	}
 

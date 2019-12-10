@@ -79,7 +79,7 @@ public class Tasks {
 	 * 
 	 * @return
 	 */
-	public String getContents() {
+	protected String getContents() {
 		return contents;
 	}
 
@@ -88,7 +88,7 @@ public class Tasks {
 	 * 
 	 * @return
 	 */
-	public RoomList getRoomList() {
+	protected RoomList getRoomList() {
 		return list;
 	}
 
@@ -97,7 +97,7 @@ public class Tasks {
 	 * 
 	 * @param id
 	 */
-	public void setId(Long id) {
+	protected void setId(Long id) {
 		this.id = id;
 	}
 
@@ -106,7 +106,7 @@ public class Tasks {
 	 * 
 	 * @param contents
 	 */
-	public void setContents(String contents) {
+	protected void setContents(String contents) {
 		this.contents = contents;
 	}
 
@@ -115,16 +115,16 @@ public class Tasks {
 	 * 
 	 * @param listId
 	 */
-	public void setList(RoomList list) {
+	protected void setList(RoomList list) {
 		this.list = list;
 	}
 
 	/**
-	 * Gets completed. 
+	 * Gets completed.
 	 * 
 	 * @return
 	 */
-	public boolean getCompleted() {
+	protected boolean getCompleted() {
 		return completed;
 	}
 
@@ -133,7 +133,7 @@ public class Tasks {
 	 * 
 	 * @param completed
 	 */
-	public void setCompleted(boolean completed) {
+	protected void setCompleted(boolean completed) {
 		this.completed = completed;
 	}
 
