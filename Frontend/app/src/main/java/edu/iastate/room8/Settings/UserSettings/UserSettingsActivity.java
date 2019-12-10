@@ -25,9 +25,10 @@ import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
 import edu.iastate.room8.utils.Sessions.SessionManager;
 
+/**
+ * Class for users settings
+ */
 public class UserSettingsActivity extends AppCompatActivity {
-    public JSONObject JSONRequest;
-
     /**
      * Edit Text with the user input for the new registered users username
      */
@@ -199,9 +200,6 @@ public class UserSettingsActivity extends AppCompatActivity {
         String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
-    public JSONObject jsonEmailRequest() {
-        return null;
-    } //testing use
     
     private void postRequestPass() {
         String url = "http://coms-309-sb-4.misc.iastate.edu:8080/updateuser";
@@ -288,7 +286,5 @@ public class UserSettingsActivity extends AppCompatActivity {
         String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
-    public JSONObject jsonPasswordRequest() {
-        return null;
-    } //testing use
+
 }
