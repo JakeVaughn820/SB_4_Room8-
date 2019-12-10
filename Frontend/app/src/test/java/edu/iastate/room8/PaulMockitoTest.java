@@ -14,7 +14,6 @@ import static org.junit.Assert.assertEquals;
 
 import static org.mockito.Mockito.*;
 
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -23,7 +22,9 @@ import edu.iastate.room8.Home.HomeActivity;
 import edu.iastate.room8.List.SubtaskActivity;
 import edu.iastate.room8.Schedule.DayActivity;
 import edu.iastate.room8.Schedule.ScheduleMVP.IDateParserInversionPattern;
+import edu.iastate.room8.Schedule.ScheduleMVP.ISchedulePresenter;
 import edu.iastate.room8.Schedule.ScheduleMVP.ScheduleActivity;
+import edu.iastate.room8.Schedule.ScheduleMVP.SchedulePresenter;
 import edu.iastate.room8.Settings.RoomSettings.RoomSettingsActivity;
 import edu.iastate.room8.Schedule.ScheduleMVP.DateParser;
 import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
@@ -258,7 +259,7 @@ public class PaulMockitoTest {
     }
 
     /**
-     * Testing for room settings
+     * Testing for inversion pattern on any session manager class
      */
     @Test
     public void TestInversionSession(){
@@ -274,10 +275,12 @@ public class PaulMockitoTest {
 
         ISessionManagerInversionPattern test2 = new SessionManager(mockContext); //mock for actual to test
 
-        when(test.getRoomid()).thenReturn("1");
-        when(test.getEmail()).thenReturn("testemail");
-        when(test.getID()).thenReturn("1");
+        when(mockPrefs.getString("NAME", null)).thenReturn("1");
         when(test.getName()).thenReturn("testname");
+        when(test.getEmail()).thenReturn("testemail"); //says never used but used below"?
+        test.getEmail();
+        when(test.getID()).thenReturn("1");
+        when(test.getRoomid()).thenReturn("1");
         when(test.getPermission()).thenReturn("Owner");
         when(test.getRoom()).thenReturn("room");
         when(test.isInRoom()).thenReturn(true);
@@ -291,6 +294,9 @@ public class PaulMockitoTest {
         test2.setName("testname");
         test2.setEmail("testemail");
 
+        mockEditor.apply();
+        mockEditor.commit();
+
         Assert.assertEquals("1", test.getRoomid());
         Assert.assertEquals("testemail", test.getEmail());
         Assert.assertEquals("1", test.getID());
@@ -300,118 +306,70 @@ public class PaulMockitoTest {
         Assert.assertTrue(test.isInRoom());
         Assert.assertTrue( test.isLoggin());
         Assert.assertTrue(test.isRoom("room"));
+        Assert.assertEquals("1",mockPrefs.getString("NAME", null));
     }
 
-//    /**
-//     * Testing for room settings
-//     */
-//    @Test
-//    public void TestMVPSession() throws JSONException{
-//        ISessionManagerInversionPattern test = mock(ISessionManagerInversionPattern.class);
-//
-//        String user = "Paul";
-//        String permission = "Owner";
-//
-//        JSONObject response = new JSONObject();
-//
-//        response.put("User", user);
-//        response.put("Permission", permission);
-//
-//        when(test.jsonGetRoomSettings()).thenReturn(response);
-//
-//        Assert.assertEquals(response.getString("User"), test.jsonGetRoomSettings().getString("User"));
-//        Assert.assertEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("User"));
-//    }
-//
-//    /**
-//     * Testing for room settings
-//     */
-//    @Test
-//    public void TestObserverSession() throws JSONException{
-//        ISessionManagerInversionPattern test = mock(ISessionManagerInversionPattern.class);
-//
-//        String user = "Paul";
-//        String permission = "Owner";
-//
-//        JSONObject response = new JSONObject();
-//
-//        response.put("User", user);
-//        response.put("Permission", permission);
-//
-//        when(test.jsonGetRoomSettings()).thenReturn(response);
-//
-//        Assert.assertEquals(response.getString("User"), test.jsonGetRoomSettings().getString("User"));
-//        Assert.assertEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("User"));
-//    }
-//
-//    /**
-//     * Testing for room settings
-//     */
-//    @Test
-//    public void TestInversionDate() throws JSONException{
-//        IDateParserInversionPattern test = mock(IDateParserInversionPattern.class);
-//
-//        when(test.parseDate()).thenReturn();
-//        when(test.parseDay()).thenReturn();
-//        when(test.parseMonth()).thenReturn();
-//        when(test.parseYear()).thenReturn();
-//
-//        String user = "Paul";
-//        String permission = "Owner";
-//
-//        JSONObject response = new JSONObject();
-//
-//        response.put("User", user);
-//        response.put("Permission", permission);
-//
-//        when(test.jsonGetRoomSettings()).thenReturn(response);
-//
-//        Assert.assertEquals(response.getString("User"), test.jsonGetRoomSettings().getString("User"));
-//        Assert.assertEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("User"));
-//    }
-//
-//    /**
-//     * Testing for room settings
-//     */
-//    @Test
-//    public void TestMVPDate() throws JSONException{
-//        IDateParserInversionPattern test = mock(IDateParserInversionPattern.class);
-//
-//        String user = "Paul";
-//        String permission = "Owner";
-//
-//        Assert.assertEquals(response.getString("User"), test.jsonGetRoomSettings().getString("User"));
-//        Assert.assertEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("User"));
-//    }
-//
-//    /**
-//     * Testing for room settings
-//     */
-//    @Test
-//    public void TestObserverDate() throws JSONException{
-//        IDateParserInversionPattern test = mock(IDateParserInversionPattern.class);
-//
-//        String user = "Paul";
-//        String permission = "Owner";
-//
-//        JSONObject response = new JSONObject();
-//
-//        response.put("User", user);
-//        response.put("Permission", permission);
-//
-//        when(test.jsonGetRoomSettings()).thenReturn(response);
-//
-//        Assert.assertEquals(response.getString("User"), test.jsonGetRoomSettings().getString("User"));
-//        Assert.assertEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("User"), test.jsonGetRoomSettings().getString("Permission"));
-//        Assert.assertNotEquals(response.getString("Permission"), test.jsonGetRoomSettings().getString("User"));
-//    }
+    /**
+     * Testing for inversion for date class
+     */
+    @Test
+    public void TestInversionDate(){
+        IDateParserInversionPattern test = mock(DateParser.class); //mock for expected
+
+        ScheduleActivity schedule = mock(ScheduleActivity.class);
+
+        IDateParserInversionPattern test2 = new DateParser(14, 12, 1998); //mock for actual to test
+
+        when(test.parseYear()).thenReturn("1998");
+        when(test.parseMonth()).thenReturn("12");
+        when(test.parseDay()).thenReturn("14");
+        when(test.parseDate()).thenReturn("12/14/1998");
+
+        when(schedule.callDateParser()).thenReturn("12/14/1998");
+        schedule.calenderChange(14, 12, 1998);
+
+        test2.setDay(14);
+        test2.setMonth(11); //which is actually 12 because of the way calender change works it has to work like this<<<<---dont forget, important
+                            //knowledge to find out while testing
+        test2.setYear(1998);
+
+        Assert.assertEquals(test.parseYear(), test2.parseYear());
+        Assert.assertEquals(test.parseMonth(), test2.parseMonth());
+        Assert.assertEquals(test.parseDay(), test2.parseDay());
+        Assert.assertEquals(test.parseDate(), test2.parseDate());
+        Assert.assertEquals(test.parseDate(), schedule.callDateParser());
+    }
+
+    /**
+     * Testing the MVP Pattern stuff
+     */
+    @Test
+    public void TestMVPPattern(){
+        //IScheduleActivity test = mock(ScheduleActivity.class); //this isnt actually used because of the way MVP pattern works
+                                                               //explanation below
+        ISchedulePresenter presenter = mock(SchedulePresenter.class);
+        IDateParserInversionPattern dateParser = mock(DateParser.class);
+
+        IDateParserInversionPattern test2 = new DateParser(14, 12, 1998); //mock for actual to test
+
+
+        when(presenter.callDataParser()).thenReturn("12/14/1998");
+        when(dateParser.parseDate()).thenReturn("12/14/1998");
+        when(dateParser.parseDay()).thenReturn("14");
+        when(dateParser.parseMonth()).thenReturn("12");
+        when(dateParser.parseYear()).thenReturn("1998");
+        ///test class has nothing to test because it is all in the
+        //other classes which is exactly how it should be. This means
+        //that everything is much easier to test. ScheduleActivity does
+        //not need to rely on anything to test. Using the presenter and data
+        //classes I can test it, which is what makes it MVP Pattern
+
+
+
+        Assert.assertEquals(presenter.callDataParser(), test2.parseDate());
+        Assert.assertEquals(dateParser.parseDay(), test2.parseDay());
+        Assert.assertEquals(dateParser.parseDate(), test2.parseDate());
+        Assert.assertEquals(dateParser.parseMonth(), test2.parseMonth());
+        Assert.assertEquals(dateParser.parseYear(), test2.parseYear());
+    }
 }
