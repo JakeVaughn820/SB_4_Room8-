@@ -92,7 +92,7 @@ public class UserService {
 	 */
 	void updateUsername(@Param("username") String username, @Param("id") Long userId)
 	{
-		updateUsername(username, userId); 
+		userRepository.updateUsername(username, userId); 
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class UserService {
 	 */
 	void updateUserEmail(@Param("email") String email, @Param("id") Long userId)
 	{
-		updateUserEmail(email, userId); 	
+		userRepository.updateUserEmail(email, userId); 	
 	}
 	
 	/**
@@ -114,6 +114,6 @@ public class UserService {
 	 */
 	void updateUserPassword(@Param("password") String password, @Param("id") Long userId)
 	{
-		updateUserPassword(password, userId); 
+		userRepository.updateUserPassword(password, userId); 
 	}
 }
