@@ -31,7 +31,6 @@ public class RoomMembersController {
 	private RoomsService roomService;
 	@Autowired
 	private UserService userService;
-	
 
 	/**
 	 * Get RoomMembers.

@@ -30,9 +30,6 @@ import com.database.rooms.RoomsService;
  */
 @RestController
 public class RoomListController {
-
-	@Autowired
-	private RoomListRepository roomListRepository;
 	@Autowired
 	private RoomListService roomListService;
 	@Autowired
@@ -43,8 +40,6 @@ public class RoomListController {
 	private TasksService taskService;
 	@Autowired
 	private RoomsService roomService;
-	
-
 
 	/**
 	 * Get Lists.
@@ -74,8 +69,8 @@ public class RoomListController {
 			ret += " ";
 		}
 		for (RoomList temp : lists) {
-			ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription()
-					+ "\",\"Id\":\"" + temp.getId() + "\"},";
+			ret += "{\"Title\":\"" + temp.getTitle() + "\",\"Description\":\"" + temp.getDescription() + "\",\"Id\":\""
+					+ temp.getId() + "\"},";
 		}
 		ret = ret.substring(0, ret.length() - 1) + "]," + response + "}";
 		return ret;
@@ -163,5 +158,4 @@ public class RoomListController {
 		}
 	}
 
-	
 }

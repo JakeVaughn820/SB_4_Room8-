@@ -22,9 +22,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	 */
 	@Query("select i from User i where i.id = ?1")
 	Optional<User> findById(Long userId);
-	
+
 	/**
-	 * Query which updates the username of a provided user. 
+	 * Query which updates the username of a provided user.
 	 * 
 	 * @param userName
 	 * @param userId
@@ -34,9 +34,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Modifying
 	@Query(value = "update User u set u.name = ?1 where u.id = ?2", nativeQuery = true)
 	void updateUsername(@Param("username") String username, @Param("id") Long userId);
-	
+
 	/**
-	 * Query which updates the username of a provided user. 
+	 * Query which updates the username of a provided user.
 	 * 
 	 * @param email
 	 * @param userId
@@ -46,9 +46,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Modifying
 	@Query(value = "update User u set u.email = ?1 where u.id = ?2", nativeQuery = true)
 	void updateUserEmail(@Param("email") String email, @Param("id") Long userId);
-	
+
 	/**
-	 * Query which updates the username of a provided user. 
+	 * Query which updates the username of a provided user.
 	 * 
 	 * @param password
 	 * @param userId

@@ -37,7 +37,7 @@ public class Rooms {
 	public String title;
 
 	/**
-	 * Bidirectional Many to Many relationship with users. 
+	 * Bidirectional Many to Many relationship with users.
 	 */
 	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
 	private Set<RoomMembers> roomMembers = new HashSet<>();
@@ -72,7 +72,7 @@ public class Rooms {
 	 * 
 	 * @param roomName
 	 */
-	public void setRoomName(String roomName) {
+	protected void setRoomName(String roomName) {
 		this.title = roomName;
 	}
 
@@ -90,16 +90,16 @@ public class Rooms {
 	 * 
 	 * @return
 	 */
-	public String getTitle() {
+	protected String getTitle() {
 		return this.title;
 	}
 
 	/**
-	 * Returns all roomMembers. 
+	 * Returns all roomMembers.
 	 * 
 	 * @return
 	 */
-	public Set<RoomMembers> getRoomMembers() {
+	protected Set<RoomMembers> getRoomMembers() {
 		return roomMembers;
 	}
 
@@ -108,7 +108,7 @@ public class Rooms {
 	 * 
 	 * @param roomMembers
 	 */
-	public void setRoomMembers(Set<RoomMembers> roomMembers) {
+	protected void setRoomMembers(Set<RoomMembers> roomMembers) {
 		this.roomMembers = roomMembers;
 	}
 

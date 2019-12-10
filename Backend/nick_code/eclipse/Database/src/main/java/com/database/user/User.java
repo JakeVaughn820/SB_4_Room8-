@@ -49,7 +49,7 @@ public class User {
 	private String Password;
 
 	/**
-	 * Bidirectional Many to Many relationship with rooms. 
+	 * Bidirectional Many to Many relationship with rooms.
 	 */
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<RoomMembers> roomMembers;
@@ -87,7 +87,7 @@ public class User {
 	 * 
 	 * @param Id
 	 */
-	public void setId(Long Id) {
+	protected void setId(Long Id) {
 		this.id = Id;
 	}
 
@@ -105,7 +105,7 @@ public class User {
 	 * 
 	 * @param name
 	 */
-	public void setName(String name) {
+	protected void setName(String name) {
 		this.Name = name;
 	}
 
@@ -123,7 +123,7 @@ public class User {
 	 * 
 	 * @param email
 	 */
-	public void setEmail(String email) {
+	protected void setEmail(String email) {
 		this.Email = email;
 	}
 
@@ -132,7 +132,7 @@ public class User {
 	 * 
 	 * @return
 	 */
-	public String getPassword() {
+	protected String getPassword() {
 		return Password;
 	}
 
@@ -141,7 +141,7 @@ public class User {
 	 * 
 	 * @param pswd
 	 */
-	public void setPassword(String pswd) {
+	protected void setPassword(String pswd) {
 		this.Password = pswd;
 	}
 
@@ -150,7 +150,7 @@ public class User {
 	 * 
 	 * @return
 	 */
-	public Set<RoomMembers> getRoomMembers() {
+	protected Set<RoomMembers> getRoomMembers() {
 		return roomMembers;
 	}
 
@@ -159,7 +159,7 @@ public class User {
 	 * 
 	 * @param roomMembers
 	 */
-	public void setRoomMembers(Set<RoomMembers> roomMembers) {
+	protected void setRoomMembers(Set<RoomMembers> roomMembers) {
 		this.roomMembers = roomMembers;
 	}
 
