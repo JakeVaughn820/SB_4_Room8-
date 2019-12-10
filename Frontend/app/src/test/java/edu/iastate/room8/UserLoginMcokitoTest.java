@@ -118,7 +118,5 @@ public class UserLoginMcokitoTest {
         assertEquals("5", sessionManager3.getRoomid());
     }
 
-
-
 }
 
