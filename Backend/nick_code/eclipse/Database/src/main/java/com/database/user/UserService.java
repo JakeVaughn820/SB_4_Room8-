@@ -90,8 +90,9 @@ public class UserService {
 	 * @param username
 	 * @param userId
 	 */
-	void updateUsername(@Param("username") String username, @Param("id") Long userId) {
-		updateUsername(username, userId);
+	void updateUsername(@Param("username") String username, @Param("id") Long userId)
+	{
+		userRepository.updateUsername(username, userId); 
 	}
 
 	/**
@@ -100,8 +101,9 @@ public class UserService {
 	 * @param email
 	 * @param userId
 	 */
-	void updateUserEmail(@Param("email") String email, @Param("id") Long userId) {
-		updateUserEmail(email, userId);
+	void updateUserEmail(@Param("email") String email, @Param("id") Long userId)
+	{
+		userRepository.updateUserEmail(email, userId); 	
 	}
 
 	/**
@@ -110,7 +112,8 @@ public class UserService {
 	 * @param password
 	 * @param userId
 	 */
-	void updateUserPassword(@Param("password") String password, @Param("id") Long userId) {
-		updateUserPassword(password, userId);
+	void updateUserPassword(@Param("password") String password, @Param("id") Long userId)
+	{
+		userRepository.updateUserPassword(password, userId); 
 	}
 }

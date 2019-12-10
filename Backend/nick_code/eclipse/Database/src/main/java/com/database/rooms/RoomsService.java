@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * This class implements the rooms repository.
  * 
- * @author Nickolas Mitchell
+ * @author Thane Storley, Nickolas Mitchell
  */
 @Service
 public class RoomsService {
