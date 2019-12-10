@@ -80,7 +80,7 @@ public class SubTasks {
 	 * 
 	 * @return
 	 */
-	public String getContents() {
+	protected String getContents() {
 		return contents;
 	}
 
@@ -89,7 +89,7 @@ public class SubTasks {
 	 * 
 	 * @return
 	 */
-	public Tasks getTask() {
+	protected Tasks getTask() {
 		return task;
 	}
 
@@ -98,7 +98,7 @@ public class SubTasks {
 	 * 
 	 * @param id
 	 */
-	public void setId(Long id) {
+	protected void setId(Long id) {
 		this.id = id;
 	}
 
@@ -107,7 +107,7 @@ public class SubTasks {
 	 * 
 	 * @param contents
 	 */
-	public void setContents(String contents) {
+	protected void setContents(String contents) {
 		this.contents = contents;
 	}
 
@@ -116,7 +116,7 @@ public class SubTasks {
 	 * 
 	 * @param task
 	 */
-	public void setListId(Tasks task) {
+	protected void setListId(Tasks task) {
 		this.task = task;
 	}
 
@@ -125,7 +125,7 @@ public class SubTasks {
 	 * 
 	 * @return
 	 */
-	public boolean getCompleted() {
+	protected boolean getCompleted() {
 		return completed;
 	}
 
@@ -134,7 +134,7 @@ public class SubTasks {
 	 * 
 	 * @param completed
 	 */
-	public void setCompleted(boolean completed) {
+	protected void setCompleted(boolean completed) {
 		this.completed = completed;
 	}
 

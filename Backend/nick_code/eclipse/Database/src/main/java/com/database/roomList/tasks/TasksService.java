@@ -20,10 +20,9 @@ public class TasksService {
 	 * Holds the task repository object.
 	 */
 	@Autowired
-	private TasksRepository taskRepository; 
-	
+	private TasksRepository taskRepository;
+
 	private final Logger logger = LoggerFactory.getLogger(RoomsService.class);
-	
 
 	/**
 	 * Gets all tasks in the database.
@@ -33,9 +32,8 @@ public class TasksService {
 	public List<Tasks> getTask() {
 		return taskRepository.findAll();
 	}
-	
-	public Optional<Tasks> findById(Long taskId)
-	{
+
+	public Optional<Tasks> findById(Long taskId) {
 		Optional<Tasks> task = null;
 		try {
 			task = taskRepository.findById(taskId);
@@ -46,7 +44,7 @@ public class TasksService {
 		}
 		return task;
 	}
-	
+
 	/**
 	 * Adds a task to the database.
 	 * 

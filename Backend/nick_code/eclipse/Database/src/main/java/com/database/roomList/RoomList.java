@@ -31,7 +31,7 @@ public class RoomList {
 	private Long id;
 
 	/**
-	 * Many to One relationship with Rooms. 
+	 * Many to One relationship with Rooms.
 	 */
 	@ManyToOne(targetEntity = com.database.rooms.Rooms.class)
 	@JoinColumn(name = "room_id", foreignKey = @ForeignKey(name = "fk_roomlist_room"))
@@ -72,7 +72,7 @@ public class RoomList {
 	 * 
 	 * @return
 	 */
-	public Long getId() {
+	protected Long getId() {
 		return id;
 	}
 
@@ -81,7 +81,7 @@ public class RoomList {
 	 * 
 	 * @return
 	 */
-	public Rooms getRoom() {
+	protected Rooms getRoom() {
 		return room;
 	}
 
@@ -90,7 +90,7 @@ public class RoomList {
 	 * 
 	 * @return
 	 */
-	public String getTitle() {
+	protected String getTitle() {
 		return title;
 	}
 
@@ -99,7 +99,7 @@ public class RoomList {
 	 * 
 	 * @return
 	 */
-	public String getDescription() {
+	protected String getDescription() {
 		return description;
 	}
 
@@ -108,7 +108,7 @@ public class RoomList {
 	 * 
 	 * @param id
 	 */
-	public void setId(Long id) {
+	protected void setId(Long id) {
 		this.id = id;
 	}
 
@@ -117,7 +117,7 @@ public class RoomList {
 	 * 
 	 * @param roomId
 	 */
-	public void setRoom(Rooms room) {
+	protected void setRoom(Rooms room) {
 		this.room = room;
 	}
 
@@ -126,7 +126,7 @@ public class RoomList {
 	 * 
 	 * @param title
 	 */
-	public void setTitle(String title) {
+	protected void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -135,7 +135,7 @@ public class RoomList {
 	 * 
 	 * @param description
 	 */
-	public void setDescription(String description) {
+	protected void setDescription(String description) {
 		this.description = description;
 	}
 
@@ -152,7 +152,7 @@ public class RoomList {
 
 		return this.id == roomList.id && this.title.equals(roomList.title) && this.room == roomList.room
 				&& this.description.equals(roomList.description);
-				
+
 	}
 
 }

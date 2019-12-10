@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.database.rooms.Rooms;
-import com.database.user.User;
 
 /**
  * This class implements the roomMembers repository.
@@ -40,7 +39,7 @@ public class RoomMembersService {
 	}
 
 	/**
-	 * Returns all rooms all user is a member of. 
+	 * Returns all rooms all user is a member of.
 	 * 
 	 * @param userId
 	 * @return
@@ -56,7 +55,7 @@ public class RoomMembersService {
 	}
 
 	/**
-	 * Returns all roomMembers with a given roomId. 
+	 * Returns all roomMembers with a given roomId.
 	 * 
 	 * @param roomId
 	 * @return
@@ -66,7 +65,7 @@ public class RoomMembersService {
 	}
 
 	/**
-	 * Returns one RoomMember with a given userId and roomId. 
+	 * Returns one RoomMember with a given userId and roomId.
 	 * 
 	 * @param userId
 	 * @param roomId
@@ -80,17 +79,15 @@ public class RoomMembersService {
 		}
 		return null;
 	}
-	
-	
+
 	/**
-	 * Updates the users role. 
+	 * Updates the users role.
 	 * 
 	 * @param userRole
 	 * @param userId
 	 * @return
 	 */
-	public void updateUserRole(String userRole, Long userId)
-	{
+	public void updateUserRole(String userRole, Long userId) {
 		roomMembersRepository.updateUserRole(userRole, userId);
 	}
 

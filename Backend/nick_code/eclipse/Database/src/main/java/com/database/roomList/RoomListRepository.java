@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoomListRepository extends JpaRepository<RoomList, Long> {
 	/**
-	 * Query which returns all roomlists for a given room. 
+	 * Query which returns all roomlists for a given room.
 	 * 
 	 * @param roomId
 	 * @return
