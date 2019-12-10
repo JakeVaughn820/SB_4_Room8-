@@ -47,19 +47,6 @@ public class SessionsTest {
         sessionManager2 = new SessionManager(mockContext2);
     }
 
-    @Test
-    public void getUserDetailTest() {
-        Mockito.when(mockPrefs.getString("NAME", null)).thenReturn("Joe");
-        Mockito.when(mockPrefs.getString("EMAIL", null)).thenReturn("Joe@email.com");
-        Mockito.when(mockPrefs.getString("ID", null)).thenReturn("34");
-        Mockito.when(mockPrefs.getString("ROOM", null)).thenReturn("8");
-
-        assertEquals("Joe", sessionManager1.getUserDetail().get("NAME"));
-        assertEquals("Joe@email.com", sessionManager1.getUserDetail().get("EMAIL"));
-        assertEquals("34", sessionManager1.getUserDetail().get("ID"));
-        assertEquals("8", sessionManager1.getUserDetail().get("ROOM"));
-
-    }
 
     @Test
     public void createSessionTest() {
@@ -80,6 +67,20 @@ public class SessionsTest {
 //
 //        assertEquals("8", sessionManager2.getUserDetail().get("ROOM"));
 //    }
+
+    @Test
+    public void getUserDetailTest() {
+        Mockito.when(mockPrefs.getString("NAME", null)).thenReturn("Joe");
+        Mockito.when(mockPrefs.getString("EMAIL", null)).thenReturn("Joe@email.com");
+        Mockito.when(mockPrefs.getString("ID", null)).thenReturn("34");
+        Mockito.when(mockPrefs.getString("ROOM", null)).thenReturn("8");
+
+        assertEquals("Joe", sessionManager1.getUserDetail().get("NAME"));
+        assertEquals("Joe@email.com", sessionManager1.getUserDetail().get("EMAIL"));
+        assertEquals("34", sessionManager1.getUserDetail().get("ID"));
+        assertEquals("8", sessionManager1.getUserDetail().get("ROOM"));
+
+    }
 
     @Test
     public void isInRoomTest(){
