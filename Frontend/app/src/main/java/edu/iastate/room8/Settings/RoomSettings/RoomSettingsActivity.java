@@ -1,4 +1,4 @@
-package edu.iastate.room8.Settings;
+package edu.iastate.room8.Settings.RoomSettings;
 
 import androidx.appcompat.app.AppCompatActivity;
 

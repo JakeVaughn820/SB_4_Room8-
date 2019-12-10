@@ -12,9 +12,9 @@ import edu.iastate.room8.Bulletin.BulletinActivity;
 import edu.iastate.room8.List.MainListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.Schedule.ScheduleMVP.ScheduleActivity;
-import edu.iastate.room8.Settings.RoomSettingsActivity;
-import edu.iastate.room8.Settings.SettingsActivity;
 import edu.iastate.room8.utils.Sessions.SessionManager;
+import edu.iastate.room8.Settings.RoomSettings.RoomSettingsActivity;
+import edu.iastate.room8.Settings.UserSettings.UserSettingsActivity;
 
 /**
  * This class is used for the activity of home. Home has buttons to get to each feature or logout
@@ -74,7 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         btnUserSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(HomeActivity.this, SettingsActivity.class);
+                Intent i = new Intent(HomeActivity.this, UserSettingsActivity.class);
                 startActivity(i);
             }
         });

@@ -20,7 +20,7 @@ public interface RoomListRepository extends JpaRepository<RoomList, Long> {
 	 * @param roomId
 	 * @return
 	 */
-	@Query(value = "SELECT * FROM room_lists WHERE room_id = ?1", nativeQuery = true)
-	List<RoomList> findListByRoomId(@Param("room_id") Long roomId);
+	@Query(value = "SELECT * FROM room_lists WHERE id = ?1", nativeQuery = true)
+	List<RoomList> findListByRoomId(@Param("id") Long roomId);
 
 }
