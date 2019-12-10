@@ -29,6 +29,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
@@ -297,5 +299,4 @@ public class DayActivity extends AppCompatActivity {
         String tag_json_obj = "jobj_req";
         AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
     }
-
 }

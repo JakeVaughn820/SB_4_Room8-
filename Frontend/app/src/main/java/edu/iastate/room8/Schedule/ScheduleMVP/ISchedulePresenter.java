@@ -1,5 +1,7 @@
 package edu.iastate.room8.Schedule.ScheduleMVP;
 
+import java.util.Observable;
+
 /**
  * Interface for the schedule presenter
  */

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -42,22 +41,6 @@ public class UserSettingsActivity extends AppCompatActivity {
      */
     private EditText passwordEditText;
     /**
-     * Button to change User Name
-     */
-    private Button btnChangeName;
-    /**
-     * Button to change User Email
-     */
-    private Button btnChangeEamil;
-    /**
-     * Button to change User Pass
-     */
-    private Button btnChangePass;
-    /**
-     * Button to change Logout
-     */
-    private Button btnlogout;
-    /**
      * String with the user input for the new registered users username
      */
     private String userNameEditTextString;
@@ -76,7 +59,7 @@ public class UserSettingsActivity extends AppCompatActivity {
     /**
      * String with the user's Name
      */
-    private String UserName;
+    private String UserName; //TODO fix warnings
     /**
      * String with the user's email
      */
@@ -104,10 +87,10 @@ public class UserSettingsActivity extends AppCompatActivity {
         userNameEditText = findViewById(R.id.userNameEditText);
         userEmailEditText = findViewById(R.id.userEmailEditText);
         passwordEditText = findViewById(R.id.userPasswordEditText);
-        btnChangeName = findViewById(R.id.btnChangeName);
-        btnChangeEamil = findViewById(R.id.btnChangeEmail);
-        btnChangePass = findViewById(R.id.btnChangePass);
-        btnlogout = findViewById(R.id.btnLogout);
+        Button btnChangeName = findViewById(R.id.btnChangeName);
+        Button btnChangeEamil = findViewById(R.id.btnChangeEmail);
+        Button btnChangePass = findViewById(R.id.btnChangePass);
+        Button btnlogout = findViewById(R.id.btnLogout);
 
         btnChangeName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +126,13 @@ public class UserSettingsActivity extends AppCompatActivity {
                 postRequestPass();
             }
         }));
+
+        btnlogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO
+            }
+        });
     }
     
     private void postRequestName() {
