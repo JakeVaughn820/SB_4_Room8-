@@ -1,9 +1,11 @@
 package edu.iastate.room8.Schedule.ScheduleMVP;
 
+import java.util.Observable;
+
 /**
  * Class for the schedule presenter that implements the interface ISchedulePresenter
  */
-public class SchedulePresenter implements ISchedulePresenter {
+public class SchedulePresenter extends Observable implements ISchedulePresenter {
     /**
      * Date parser for the SchedulePresenter class
      */

@@ -29,10 +29,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 public class RoomSettingsActivity extends AppCompatActivity {
     /**
@@ -58,11 +58,11 @@ public class RoomSettingsActivity extends AppCompatActivity {
     /**
      * Tag with class
      */
-    private String TAG = NewListActivity.class.getSimpleName();
+    private String TAG = RoomSettingsActivity.class.getSimpleName();
     /**
      * Session Manager
      */
-    private SessionManager sessionManager;
+    private ISessionManagerInversionPattern sessionManager;
     /**
      * Holds whether or not the switch is on
      */

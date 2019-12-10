@@ -34,7 +34,8 @@ import java.util.Map;
 
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity of the list you chose. The list you chose will have tasks and subtasks
@@ -75,7 +76,7 @@ public class ListActivity extends AppCompatActivity {
     /**
      * Tag with class
      */
-    private String TAG = NewListActivity.class.getSimpleName();
+    private String TAG = ListActivity.class.getSimpleName();
     /**
      * Used to stop json request
      */
@@ -83,7 +84,7 @@ public class ListActivity extends AppCompatActivity {
     /**
      * session manager
      */
-    private SessionManager sessionManager;
+    private ISessionManagerInversionPattern sessionManager;
     /**
      * Task ID array list
      */

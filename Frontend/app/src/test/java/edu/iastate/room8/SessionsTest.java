@@ -9,8 +9,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -24,19 +27,19 @@ public class SessionsTest {
     @Mock
     SharedPreferences.Editor mockEditor;
 
-    MockSharedPreference mockSharedPrefs;
-    MockSharedPreference.Editor mockPrefsEditor;
-
-    SessionManager sessionManager1;
-    SessionManager sessionManager2;
+    private SessionManager sessionManager1;
+    private SessionManager sessionManager2;
 
     @Before
     public void before() {
+        MockSharedPreference mockSharedPrefs;
+        //MockSharedPreference.Editor mockPrefsEditor;
+
         Mockito.when(mockContext1.getSharedPreferences(anyString(), anyInt())).thenReturn(mockPrefs);
         Mockito.when(mockContext1.getSharedPreferences(anyString(), anyInt()).edit()).thenReturn(mockEditor);
 
         mockSharedPrefs = new MockSharedPreference();
-        mockPrefsEditor = mockSharedPrefs.edit();
+        //mockPrefsEditor = mockSharedPrefs.edit();
 
         Mockito.when(mockContext2.getSharedPreferences(anyString(), anyInt())).thenReturn(mockSharedPrefs);
 
@@ -66,7 +69,7 @@ public class SessionsTest {
         assertEquals("Jack", sessionManager2.getUserDetail().get("NAME"));
         assertEquals("Jack@email.com", sessionManager2.getUserDetail().get("EMAIL"));
         assertEquals("35", sessionManager2.getUserDetail().get("ID"));
-        assertEquals(null, sessionManager2.getUserDetail().get("ROOM"));
+        assertNull(sessionManager2.getUserDetail().get("ROOM"));
     }
 
 //    @Test
@@ -80,19 +83,19 @@ public class SessionsTest {
 
     @Test
     public void isInRoomTest(){
-        assertEquals(false, sessionManager1.isInRoom());
+        assertFalse(sessionManager1.isInRoom());
 
         Mockito.when(mockPrefs.getString("ROOM", null)).thenReturn("8");
-        assertEquals(true, sessionManager1.isInRoom());
+        assertTrue(sessionManager1.isInRoom());
     }
 
     @Test
     public void isLoggin(){
-        assertEquals(false, sessionManager1.isLoggin());
+        assertFalse(sessionManager1.isLoggin());
 
         Mockito.when(mockPrefs.getBoolean("IS_LOGIN", false)).thenReturn(true);
 
-        assertEquals(true, sessionManager1.isLoggin());
+        assertTrue(sessionManager1.isLoggin());
     }
 }
 

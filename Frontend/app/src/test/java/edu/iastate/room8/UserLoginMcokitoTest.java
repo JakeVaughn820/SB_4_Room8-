@@ -12,7 +12,7 @@ import android.content.SharedPreferences;
 import java.util.HashSet;
 import java.util.Set;
 
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 

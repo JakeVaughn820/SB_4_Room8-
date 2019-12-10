@@ -12,7 +12,8 @@ import android.widget.Toast;
 
 import edu.iastate.room8.R;
 import edu.iastate.room8.Schedule.DayActivity;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity Schedule. There is a calender and you can select a day on the calender
@@ -49,7 +50,7 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    ISessionManagerInversionPattern sessionManager;
 
     /**
      * Method that runs on creation
@@ -96,6 +97,8 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
         year = dateParser.parseYear();
         date = callDateParser();
         clicked = true;
+        //setChanged();
+        //notifyObservers();
     }
 
     /**
@@ -123,5 +126,7 @@ public class ScheduleActivity extends AppCompatActivity implements IScheduleActi
         SchedulePresenter presenter = new SchedulePresenter(dateParser); //calls the date parser to present data
         return presenter.callDataParser();
     }
+
+
 
 }

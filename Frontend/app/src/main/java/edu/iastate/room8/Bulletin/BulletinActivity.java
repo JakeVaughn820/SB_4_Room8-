@@ -20,7 +20,7 @@ import org.java_websocket.drafts.Draft;
 import org.java_websocket.drafts.Draft_6455;
 
 import edu.iastate.room8.R;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity of the bulletin feature. Send important messages to your roommates.

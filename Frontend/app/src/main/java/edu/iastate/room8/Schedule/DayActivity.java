@@ -32,7 +32,8 @@ import java.util.Map;
 
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity of the specific day chosen from the schedule.
@@ -69,7 +70,7 @@ public class DayActivity extends AppCompatActivity {
     /**
      * Session manager
      */
-    private SessionManager sessionManager;
+    private ISessionManagerInversionPattern sessionManager;
     /**
      * Event id arraylist
      */

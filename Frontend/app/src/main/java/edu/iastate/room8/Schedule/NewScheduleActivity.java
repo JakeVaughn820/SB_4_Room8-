@@ -22,10 +22,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity NewSchedule. You can create a new event in the schedule for the day on your rooms events page.
@@ -74,7 +74,7 @@ public class NewScheduleActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    private ISessionManagerInversionPattern sessionManager;
     /**
      * Holds if switch is on for start
      */
@@ -86,7 +86,7 @@ public class NewScheduleActivity extends AppCompatActivity {
     /**
      * Tag with the current activity
      */
-    private String TAG = NewListActivity.class.getSimpleName();
+    private String TAG = NewScheduleActivity.class.getSimpleName();
 
     /**
      * Method that runs on creation

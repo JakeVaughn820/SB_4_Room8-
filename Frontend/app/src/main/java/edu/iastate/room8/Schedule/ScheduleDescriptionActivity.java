@@ -6,7 +6,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import edu.iastate.room8.R;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity of ScheduleDescription. You will be able to see the description of the created event.
@@ -39,7 +40,7 @@ public class ScheduleDescriptionActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    SessionManager sessionManager;
+    ISessionManagerInversionPattern sessionManager;
 
     /**
      * Method that runs on creation

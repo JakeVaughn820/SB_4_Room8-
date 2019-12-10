@@ -32,7 +32,8 @@ import java.util.Map;
 
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity of MainList. List of lists that you can chose from. For example,
@@ -61,7 +62,7 @@ public class MainListActivity extends AppCompatActivity {
     /**
      * Session Manager
      */
-    private SessionManager sessionManager;
+    private ISessionManagerInversionPattern sessionManager;
     /**
      * Arraylist for list id's
      */
@@ -73,7 +74,7 @@ public class MainListActivity extends AppCompatActivity {
     /**
      * Tag with class
      */
-    private String TAG = NewListActivity.class.getSimpleName();
+    private String TAG = MainListActivity.class.getSimpleName();
     /**
      * Button for new list item
      */

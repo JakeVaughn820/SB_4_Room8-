@@ -12,9 +12,9 @@ import edu.iastate.room8.Bulletin.BulletinActivity;
 import edu.iastate.room8.List.MainListActivity;
 import edu.iastate.room8.R;
 import edu.iastate.room8.Schedule.ScheduleMVP.ScheduleActivity;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 import edu.iastate.room8.Settings.RoomSettings.RoomSettingsActivity;
 import edu.iastate.room8.Settings.UserSettings.UserSettingsActivity;
-import edu.iastate.room8.utils.SessionManager;
 
 /**
  * This class is used for the activity of home. Home has buttons to get to each feature or logout

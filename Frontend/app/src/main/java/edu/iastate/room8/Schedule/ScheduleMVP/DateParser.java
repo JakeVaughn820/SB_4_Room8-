@@ -1,11 +1,14 @@
 package edu.iastate.room8.Schedule.ScheduleMVP;
 
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Class that is used to parse the date for the ScheduleActivity
  *
  * @author Paul Degnan
  */
-public class DateParser implements IDateParserInversionPattern {
+public class DateParser implements IDateParserInversionPattern, Observer {
     /**
      * integer that holds the day
      */
@@ -95,6 +98,11 @@ public class DateParser implements IDateParserInversionPattern {
      */
     public String parseYear() {
         return year + "";
+
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
 
     }
 }

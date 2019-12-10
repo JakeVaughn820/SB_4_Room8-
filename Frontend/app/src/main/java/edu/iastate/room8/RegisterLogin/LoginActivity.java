@@ -23,11 +23,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.iastate.room8.List.NewListActivity;
 import edu.iastate.room8.JoinRoom.NewUserRoomJoin;
 import edu.iastate.room8.R;
 import edu.iastate.room8.app.AppController;
-import edu.iastate.room8.utils.SessionManager;
+import edu.iastate.room8.utils.Sessions.ISessionManagerInversionPattern;
+import edu.iastate.room8.utils.Sessions.SessionManager;
 
 /**
  * This class is used for the activity of login. If you don't have a login you can press the register button.
@@ -60,11 +60,11 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Tag with current activity name
      */
-    private String TAG = NewListActivity.class.getSimpleName();
+    private String TAG = LoginActivity.class.getSimpleName();
     /**
      * Session Manager
      */
-    private SessionManager sessionManager;
+    private ISessionManagerInversionPattern sessionManager;
 
     /**
      * Method that runs on creation

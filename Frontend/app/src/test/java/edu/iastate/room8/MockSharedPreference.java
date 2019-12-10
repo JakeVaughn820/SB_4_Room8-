@@ -12,10 +12,10 @@ import java.util.Set;
  */
 public class MockSharedPreference implements SharedPreferences {
 
-    public final HashMap<String, Object> preferenceMap;
+    private final HashMap<String, Object> preferenceMap;
     private final MockSharedPreferenceEditor preferenceEditor;
 
-    public MockSharedPreference() {
+    MockSharedPreference() {
         preferenceMap = new HashMap<>();
         preferenceEditor = new MockSharedPreferenceEditor(preferenceMap);
     }
@@ -81,7 +81,7 @@ public class MockSharedPreference implements SharedPreferences {
 
         private final HashMap<String, Object> preferenceMap;
 
-        public MockSharedPreferenceEditor(final HashMap<String, Object> preferenceMap) {
+        MockSharedPreferenceEditor(final HashMap<String, Object> preferenceMap) {
             this.preferenceMap = preferenceMap;
         }
 
