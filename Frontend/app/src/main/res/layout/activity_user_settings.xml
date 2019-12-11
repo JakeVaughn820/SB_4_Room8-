@@ -61,7 +61,7 @@
         android:id="@+id/btnChangePass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/userPasswordEditText"
+        android:layout_below="@+id/editTextCurrentPassword"
         android:layout_centerInParent="true"
         android:layout_marginTop="10dp"
         android:text="Change Password" />
@@ -74,4 +74,24 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Logout" />
+
+    <EditText
+        android:id="@+id/editTextCurrentPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Current Password"
+        android:layout_below="@id/userPasswordEditText"
+        android:layout_centerHorizontal="true"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/changeAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/btnLogout"
+        android:text="Submit All" />
 </RelativeLayout>
