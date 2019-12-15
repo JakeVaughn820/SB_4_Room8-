@@ -28,7 +28,7 @@ public class RoomMembers {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
-	public Long id;
+	private Long id;
 
 	/**
 	 * Bidirectional Many to Many relationship with users.
@@ -48,7 +48,7 @@ public class RoomMembers {
 	 * Holds the user role. A user can be an "OWNER" "ROOMMATE" or "VIEWER"
 	 */
 	@Column(name = "user_role")
-	public String userRole;
+	private String userRole;
 
 	/**
 	 * Default Constructor.
